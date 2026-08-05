@@ -12,7 +12,10 @@ This repo turns the dashboard into a GitHub Pages friendly build.
 ## Required secrets
 
 - `CLICKUP_TOKEN`
-- `CLICKUP_LIST_ID`
+
+## Optional override
+
+- `CLICKUP_TEAM_ID` — defaults to `14341097` from your ClickUp workspace URL
 
 ## Local build
 
@@ -28,4 +31,4 @@ Open `http://localhost:8000`.
 
 ## GitHub Actions
 
-This repo includes a workflow that builds on every push to `main`. It reads the secrets, generates the ClickUp JSON, and publishes the `dist` folder as a Pages artifact.
+This repo includes a workflow that builds on every push to `main`. It reads the token, pulls workspace tasks from the team ID source, generates the ClickUp JSON, and publishes the `dist` folder as a Pages artifact.
