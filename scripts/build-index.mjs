@@ -6,11 +6,16 @@ const TEAM_ID = process.env.CLICKUP_TEAM_ID || '14341097';
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
 const PAGE_SIZE = 100;
 const API_BASE = 'https://api.clickup.com/api/v2';
+const START_DATE = process.env.CLICKUP_START_DATE || '2026-01-01';
+const END_DATE = process.env.CLICKUP_END_DATE || '';
 
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
   process.exit(1);
 }
+
+const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
+const END_CUTOFF = END_DATE ? new Date(`${END_DATE}T23:59:59.999Z`) : new Date();
 
 function pickCustomField(task, names) {
   const wanted = names.map((n) => String(n || '').trim().toLowerCase()).filter(Boolean);
@@ -89,6 +94,17 @@ function guessWorkstream(task) {
     task?.space?.name ||
     'ClickUp'
   );
+}
+
+function isWithinRange(task) {
+  const candidates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
+  if (!candidates.length) return false;
+
+  return candidates.some((value) => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return false;
+    return date >= START_CUTOFF && date <= END_CUTOFF;
+  });
 }
 
 function normalizeTask(task) {
@@ -190,7 +206,7 @@ async function fetchAllTasks() {
     page += 1;
   }
 
-  return results.map(normalizeTask);
+  return results.map(normalizeTask).filter(isWithinRange);
 }
 
 async function main() {
