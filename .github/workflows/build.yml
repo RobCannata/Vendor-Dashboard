@@ -34,6 +34,7 @@ jobs:
       - name: Build dashboard
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+          CLICKUP_VIEW_ID: ${{ secrets.CLICKUP_VIEW_ID }}
           CLICKUP_LIST_ID: ${{ secrets.CLICKUP_LIST_ID }}
         run: npm run build
 
