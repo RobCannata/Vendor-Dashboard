@@ -2,21 +2,19 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
-const VIEW_ID = process.env.CLICKUP_VIEW_ID;
-const LIST_ID = process.env.CLICKUP_LIST_ID;
+const TEAM_ID = process.env.CLICKUP_TEAM_ID || '14341097';
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
 const PAGE_SIZE = 100;
 const API_BASE = 'https://api.clickup.com/api/v2';
 
-if (!TOKEN || (!VIEW_ID && !LIST_ID)) {
-  console.error('Missing CLICKUP_TOKEN and either CLICKUP_VIEW_ID or CLICKUP_LIST_ID.');
+if (!TOKEN) {
+  console.error('Missing CLICKUP_TOKEN.');
   process.exit(1);
 }
 
 function pickCustomField(task, names) {
   const wanted = names.map((n) => String(n || '').trim().toLowerCase()).filter(Boolean);
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
-
   for (const field of fields) {
     const label = String(field?.name || field?.label || '').trim().toLowerCase();
     if (!wanted.includes(label)) continue;
@@ -30,7 +28,6 @@ function pickCustomField(task, names) {
     }
     return value;
   }
-
   return null;
 }
 
@@ -44,7 +41,7 @@ function toIso(value) {
 function prettyStatusGroup(statusName, statusType) {
   const s = String(statusName || '').toLowerCase();
   const t = String(statusType || '').toLowerCase();
-  if (t === 'closed' || s.includes('complete') || s.includes('done')) return 'Complete';
+  if (t === 'closed' || s.includes('complete') || s.includes('done') || s.includes('survey completed')) return 'Complete';
   if (s.includes('cancel')) return 'Cancelled';
   if (s.includes('hold')) return 'On Hold';
   if (s.includes('sched')) return 'Scheduled';
@@ -105,11 +102,6 @@ function normalizeTask(task) {
   const statusGroup = prettyStatusGroup(statusName, statusType);
   const priority = task?.priority?.priority || task?.priority?.name || task?.priority || 'NONE';
   const invoice = Number(pickCustomField(task, ['Vendor invoice', 'Vendor Invoice', 'Invoice', 'Cost', 'Vendor Cost']) || 0) || null;
-  const address = pickCustomField(task, ['Address', 'Store Address', 'Location']) || '';
-  const storeManager = pickCustomField(task, ['Store Manager', 'Manager']) || '';
-  const storeSqft = pickCustomField(task, ['Store Sqft', 'SQFT', 'Square Feet']) || null;
-  const tier = pickCustomField(task, ['Tier']) || '';
-  const content = task?.description || task?.text_content || '';
 
   const acc = {
     id: task?.id || '',
@@ -131,12 +123,12 @@ function normalizeTask(task) {
     invoice,
     invoiceRecorded: Number.isFinite(invoice),
     timeInStatusHours: 0,
-    address,
-    storeManager,
-    storeSqft,
-    tier,
-    latestComment: content,
-    content,
+    address: pickCustomField(task, ['Address', 'Store Address', 'Location']) || '',
+    storeManager: pickCustomField(task, ['Store Manager', 'Manager']) || '',
+    storeSqft: pickCustomField(task, ['Store Sqft', 'SQFT', 'Square Feet']) || null,
+    tier: pickCustomField(task, ['Tier']) || '',
+    latestComment: task?.description || task?.text_content || '',
+    content: task?.description || task?.text_content || '',
     commentCount: Number(task?.comment_count || task?.comments_count || 0),
     createdBy: creatorName(task),
     activityDates: [],
@@ -158,31 +150,13 @@ function normalizeTask(task) {
 
 async function fetchJson(url) {
   const res = await fetch(url, {
-    headers: {
-      Authorization: TOKEN,
-      Accept: 'application/json',
-    },
+    headers: { Authorization: TOKEN, Accept: 'application/json' },
   });
-
   if (!res.ok) {
     const body = await res.text().catch(() => '');
     throw new Error(`ClickUp request failed (${res.status} ${res.statusText}): ${body.slice(0, 300)}`);
   }
-
   return res.json();
-}
-
-function buildEndpoint(page) {
-  const endpoint = VIEW_ID
-    ? `${API_BASE}/view/${VIEW_ID}/task`
-    : `${API_BASE}/list/${LIST_ID}/task`;
-  const url = new URL(endpoint);
-  url.searchParams.set('page', String(page));
-  if (!VIEW_ID) {
-    url.searchParams.set('include_closed', 'true');
-    url.searchParams.set('subtasks', 'true');
-  }
-  return url;
 }
 
 async function fetchAllTasks() {
@@ -191,9 +165,16 @@ async function fetchAllTasks() {
   let useZeroBased = true;
 
   while (true) {
+    const url = new URL(`${API_BASE}/team/${TEAM_ID}/task`);
+    url.searchParams.set('page', String(page));
+    url.searchParams.set('subtasks', 'true');
+    url.searchParams.set('include_closed', 'true');
+    url.searchParams.set('order_by', 'updated');
+    url.searchParams.set('reverse', 'true');
+
     let data;
     try {
-      data = await fetchJson(buildEndpoint(page));
+      data = await fetchJson(url);
     } catch (err) {
       if (page === 0 && useZeroBased) {
         useZeroBased = false;
