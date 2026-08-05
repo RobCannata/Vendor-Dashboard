@@ -8,6 +8,7 @@ const PAGE_SIZE = 100;
 const API_BASE = 'https://api.clickup.com/api/v2';
 const START_DATE = process.env.CLICKUP_START_DATE || '2026-01-01';
 const END_DATE = process.env.CLICKUP_END_DATE || '';
+const ACTIVE_STAGE_CARD_RE = /<article class="card"><div class="card-head"><div><h3>Active projects by delivery stage<\/h3><p>Open project records grouped by their current operational status\.<\/p><\/div><span class="badge" id="activeBadge">0 active projects<\/span><\/div><div class="card-body"><div class="bar-list" id="activeBars"><\/div><\/div><\/article>/;
 
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
@@ -215,9 +216,10 @@ async function main() {
   const outDir = path.join(root, OUTPUT_DIR);
   await fs.mkdir(outDir, { recursive: true });
 
+  const strippedIndexHtml = indexHtml.replace(ACTIVE_STAGE_CARD_RE, '');
   const tasks = await fetchAllTasks();
   await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(tasks, null, 2), 'utf8');
-  await fs.writeFile(path.join(outDir, 'index.html'), indexHtml, 'utf8');
+  await fs.writeFile(path.join(outDir, 'index.html'), strippedIndexHtml, 'utf8');
 
   console.log(`Built ${tasks.length} ClickUp task records.`);
 }
