@@ -1,9 +1,8 @@
 {
-  "name": "clickup-dashboard-github",
+  "name": "vendor-dashboard",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-index.mjs",
-    "dev": "python -m http.server 8000 -d dist"
+    "build": "node scripts/build-index.mjs"
   }
 }
