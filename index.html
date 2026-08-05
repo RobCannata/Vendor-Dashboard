@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Vusion Field Services | 2026 Project Portfolio Dashboard</title>
+<style>
+:root{
+  --bg:#07101d;--bg2:#0a1525;--panel:#0d1b2e;--panel2:#102039;--line:rgba(255,255,255,.085);
+  --text:#f4f7fb;--muted:#91a0b7;--soft:#cbd5e1;--accent:#9de05f;--accent2:#4fc3f7;
+  --purple:#9b8cff;--amber:#f6c85f;--red:#ff6b79;--green:#5dd39e;--blue:#5ea8ff;
+  --shadow:0 22px 65px rgba(0,0,0,.28);--radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:
+ radial-gradient(circle at 82% 3%,rgba(79,195,247,.12),transparent 28%),
+ radial-gradient(circle at 12% 0%,rgba(157,224,95,.09),transparent 25%),
+ linear-gradient(180deg,var(--bg),#060d18 70%);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
+button,select,input{font:inherit}
+button{cursor:pointer}
+.app{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;padding:26px 18px;border-right:1px solid var(--line);background:rgba(5,12,22,.82);backdrop-filter:blur(18px);z-index:20}
+.brand{display:flex;align-items:center;gap:12px;padding:0 7px 26px}
+.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,var(--accent),#55b956);color:#06100b;display:grid;place-items:center;font-weight:900;box-shadow:0 12px 30px rgba(157,224,95,.2)}
+.brand strong{display:block;font-size:15px;letter-spacing:.08em}.brand span{display:block;font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:.11em}
+.nav-label{font-size:10px;color:#66758c;text-transform:uppercase;letter-spacing:.15em;padding:10px 12px 8px}
+.nav a{display:flex;align-items:center;gap:11px;color:#a9b6c8;text-decoration:none;padding:11px 12px;border-radius:12px;margin:3px 0;font-size:13px;transition:.2s}
+.nav a:hover,.nav a.active{color:#fff;background:rgba(255,255,255,.055)}
+.nav svg{width:17px;height:17px;opacity:.9}
+.side-card{position:absolute;left:18px;right:18px;bottom:20px;border:1px solid var(--line);border-radius:15px;padding:14px;background:linear-gradient(145deg,rgba(157,224,95,.08),rgba(79,195,247,.04))}
+.side-card .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent)}
+.side-card b{font-size:21px;display:block;margin:7px 0 3px}.side-card p{font-size:11px;line-height:1.5;color:var(--muted);margin:0}
+.main{min-width:0;padding:24px 30px 50px;max-width:1720px;width:100%;margin:0 auto}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:17px}
+.title-wrap .eyebrow{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.17em;font-weight:700}
+h1{font-size:28px;line-height:1.16;margin:8px 0 6px;letter-spacing:-.035em}.subtitle{font-size:13px;color:var(--muted)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border:1px solid var(--line);color:var(--soft);background:rgba(255,255,255,.035);border-radius:11px;padding:9px 13px;font-size:12px;display:inline-flex;align-items:center;gap:8px;transition:.18s}
+.btn:hover{background:rgba(255,255,255,.07);color:#fff;border-color:rgba(255,255,255,.16)}.btn.primary{background:var(--accent);color:#07100b;border-color:transparent;font-weight:750}.btn.primary:hover{filter:brightness(1.06)}
+.notice{display:flex;align-items:center;gap:12px;border:1px solid rgba(79,195,247,.16);background:linear-gradient(90deg,rgba(79,195,247,.065),rgba(157,224,95,.03));padding:12px 15px;border-radius:14px;margin-bottom:16px;color:#c9d7e7;font-size:12px;line-height:1.5}
+.notice b{color:#fff}.notice .info{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:rgba(79,195,247,.16);color:var(--accent2);font-weight:800}
+.filters{display:grid;grid-template-columns:1.25fr repeat(4,minmax(130px,.62fr)) auto;gap:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(13,27,46,.67);backdrop-filter:blur(12px);margin-bottom:18px;box-shadow:0 12px 35px rgba(0,0,0,.1)}
+.control{position:relative}.control label{display:block;font-size:9px;color:#708096;text-transform:uppercase;letter-spacing:.13em;margin:0 0 5px 2px}.control input,.control select{width:100%;height:38px;border:1px solid rgba(255,255,255,.08);background:#0a1627;color:#e9eef6;border-radius:10px;padding:0 11px;outline:none;font-size:12px}.control input:focus,.control select:focus{border-color:rgba(157,224,95,.5);box-shadow:0 0 0 3px rgba(157,224,95,.08)}
+.reset-wrap{display:flex;align-items:flex-end}.reset-wrap .btn{height:38px}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:24px 0 11px}.section-head h2{font-size:16px;margin:0;letter-spacing:-.01em}.section-head p{font-size:11px;color:var(--muted);margin:0}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{position:relative;overflow:hidden;min-height:126px;padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(17,34,57,.96),rgba(10,22,39,.94));box-shadow:var(--shadow)}
+.kpi:before{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:var(--glow,rgba(79,195,247,.12));filter:blur(2px)}
+.kpi-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:#7f8fa6}.kpi-icon{width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.05);display:grid;place-items:center;color:var(--kcolor,var(--accent2))}.kpi-icon svg{width:15px;height:15px}
+.kpi-value{font-size:27px;line-height:1;font-weight:760;letter-spacing:-.045em;margin:17px 0 9px}.kpi-meta{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:6px}.dot{width:6px;height:6px;border-radius:50%;background:var(--kcolor,var(--accent2));box-shadow:0 0 11px var(--kcolor,var(--accent2))}
+.grid{display:grid;grid-template-columns:1.05fr 1.25fr .95fr;gap:12px}.grid.two{grid-template-columns:1.25fr .75fr}.grid.equal{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.95),rgba(9,20,35,.96));box-shadow:var(--shadow);min-width:0;overflow:hidden}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 17px 6px}.card-head h3{font-size:13px;margin:0 0 4px}.card-head p{font-size:10px;color:var(--muted);margin:0;line-height:1.45}.card-body{padding:10px 17px 17px}.badge{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);background:rgba(157,224,95,.08);border:1px solid rgba(157,224,95,.14);padding:5px 7px;border-radius:8px;white-space:nowrap}
+.donut-wrap{display:grid;grid-template-columns:155px minmax(0,1fr);align-items:center;gap:14px;min-height:210px}.donut{width:142px;height:142px;border-radius:50%;position:relative;margin:auto}.donut:after{content:"";position:absolute;inset:23px;border-radius:50%;background:#0c1a2d;border:1px solid var(--line)}.donut-center{position:absolute;inset:0;z-index:2;display:grid;place-content:center;text-align:center}.donut-center b{font-size:25px;letter-spacing:-.04em}.donut-center span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-top:4px}
+.legend{display:grid;gap:8px}.legend-row{display:grid;grid-template-columns:9px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:10px;color:#b6c2d1}.legend-row i{width:8px;height:8px;border-radius:3px}.legend-row b{font-size:10px;color:#fff;font-variant-numeric:tabular-nums}
+.bar-list{display:grid;gap:10px}.bar-row{display:grid;grid-template-columns:minmax(115px,.9fr) minmax(120px,1.5fr) auto;gap:10px;align-items:center}.bar-label{font-size:10px;color:#bcc7d5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar-track{height:8px;border-radius:99px;background:rgba(255,255,255,.055);overflow:hidden}.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bar-color,var(--accent2)),color-mix(in srgb,var(--bar-color,var(--accent2)) 65%,white));transform-origin:left;animation:grow .5s ease both}.bar-value{font-size:10px;color:#fff;min-width:51px;text-align:right;font-variant-numeric:tabular-nums}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.chart-box{height:310px;position:relative}.chart-box svg{width:100%;height:100%;overflow:visible}.axis-label{fill:#718096;font-size:9px}.grid-line{stroke:rgba(255,255,255,.065);stroke-width:1}.line-path{fill:none;stroke:var(--accent2);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 5px 10px rgba(79,195,247,.22))}.area-path{fill:url(#areaGradient)}.point{fill:#0c1a2d;stroke:var(--accent2);stroke-width:2}.chart-empty{height:100%;display:grid;place-items:center;color:var(--muted);font-size:11px}
+.risk-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}.risk-mini{border:1px solid var(--line);border-radius:13px;padding:12px;background:rgba(255,255,255,.025)}.risk-mini b{font-size:21px;display:block;margin-bottom:5px}.risk-mini span{font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted)}
+.action-list{display:grid;gap:8px}.action-item{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.022);padding:9px;border-radius:12px;transition:.18s;cursor:pointer}.action-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}.risk-score{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:10px;font-weight:800;background:rgba(255,107,121,.1);color:var(--red)}.action-main{min-width:0}.action-main b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.action-main span{display:block;font-size:9px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chips{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap}.chip{font-size:8px;padding:4px 6px;border-radius:7px;background:rgba(246,200,95,.09);color:var(--amber);border:1px solid rgba(246,200,95,.13);white-space:nowrap}
+.upcoming{display:grid;gap:9px}.upcoming-item{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:11px;align-items:center;border-bottom:1px solid rgba(255,255,255,.055);padding:5px 0 11px}.upcoming-item:last-child{border-bottom:0}.date-tile{border:1px solid rgba(79,195,247,.16);background:rgba(79,195,247,.07);border-radius:10px;text-align:center;padding:6px 3px}.date-tile b{font-size:16px;display:block;color:#fff}.date-tile span{font-size:8px;text-transform:uppercase;color:var(--accent2);letter-spacing:.1em}.upcoming-main{min-width:0}.upcoming-main b{font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.upcoming-main span{font-size:9px;color:var(--muted);display:block;margin-top:4px}.stage-pill{font-size:8px;border-radius:8px;padding:5px 7px;background:rgba(157,224,95,.08);color:var(--accent);white-space:nowrap}
+.table-card{overflow:visible}.table-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 17px 11px}.table-toolbar span{font-size:10px;color:var(--muted)}.table-wrap{overflow:auto;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:1020px}th{position:sticky;top:0;background:#0c192b;z-index:2;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:#718096;font-weight:650;padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer}th:hover{color:#dfe7f1}td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.045);font-size:10px;color:#aebbd0;vertical-align:middle}tbody tr{transition:.15s;cursor:pointer}tbody tr:hover{background:rgba(255,255,255,.035)}td.project{max-width:310px;color:#edf2f8;font-weight:620}td.project small{display:block;color:#65758d;font-weight:400;margin-top:4px}.status{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:5px 7px;font-size:8px;text-transform:uppercase;letter-spacing:.06em;background:rgba(255,255,255,.045);white-space:nowrap}.status i{width:6px;height:6px;border-radius:50%}.money{font-variant-numeric:tabular-nums;color:#e5edf7}.muted{color:#617189}.pagination{display:flex;justify-content:space-between;align-items:center;padding:12px 17px}.pagination span{font-size:10px;color:var(--muted)}.page-buttons{display:flex;gap:6px}.page-buttons button{width:31px;height:29px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:#c9d3df}.page-buttons button:disabled{opacity:.35;cursor:not-allowed}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.22s;z-index:70}.drawer-overlay.open{opacity:1;pointer-events:auto}.drawer{position:absolute;right:0;top:0;height:100%;width:min(520px,94vw);background:#091524;border-left:1px solid var(--line);padding:24px;overflow:auto;transform:translateX(100%);transition:.26s ease;box-shadow:-25px 0 70px rgba(0,0,0,.35)}.drawer-overlay.open .drawer{transform:translateX(0)}.drawer-close{float:right;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#fff}.drawer .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-top:25px}.drawer h2{font-size:24px;line-height:1.25;margin:8px 45px 8px 0}.drawer-sub{font-size:11px;color:var(--muted)}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:20px 0}.detail{border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(255,255,255,.025)}.detail span{display:block;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:#6f7f96;margin-bottom:7px}.detail b{font-size:11px;line-height:1.35}.drawer-section{margin-top:18px}.drawer-section h4{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:#718096;margin:0 0 8px}.drawer-section p{font-size:11px;color:#c2ccda;line-height:1.6;white-space:pre-wrap;margin:0;border:1px solid var(--line);background:rgba(255,255,255,.02);padding:12px;border-radius:12px}.empty-text{color:#66758b;font-style:italic}
+.tooltip{position:fixed;z-index:100;pointer-events:none;background:#030913;border:1px solid rgba(255,255,255,.13);border-radius:9px;padding:7px 9px;font-size:9px;color:#eaf0f7;box-shadow:0 12px 35px rgba(0,0,0,.4);opacity:0;transform:translate(-50%,-110%);transition:opacity .1s}
+.footer{margin-top:16px;color:#5f6f85;font-size:9px;text-align:right}.mobile-menu{display:none}
+@media(max-width:1350px){.kpis{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid .card:last-child{grid-column:1/-1}.filters{grid-template-columns:repeat(3,1fr)}.reset-wrap{align-items:end}}
+@media(max-width:920px){.app{display:block}.sidebar{display:none}.main{padding:18px}.topbar{display:block}.actions{justify-content:flex-start;margin-top:14px}.grid,.grid.two,.grid.equal{grid-template-columns:1fr}.grid .card:last-child{grid-column:auto}.filters{grid-template-columns:repeat(2,1fr)}.donut-wrap{grid-template-columns:145px 1fr}.mobile-menu{display:inline-flex}}
+@media(max-width:620px){.main{padding:14px}.kpis{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:1fr}.topbar h1{font-size:23px}.risk-strip{grid-template-columns:repeat(2,1fr)}.donut-wrap{grid-template-columns:1fr}.legend{grid-template-columns:repeat(2,1fr)}.bar-row{grid-template-columns:95px 1fr auto}.notice{align-items:flex-start}.detail-grid{grid-template-columns:1fr}}
+@media print{body{background:#fff;color:#111}.sidebar,.filters,.actions,.notice,.pagination,.footer{display:none!important}.app{display:block}.main{max-width:none;padding:0}.card,.kpi{box-shadow:none;break-inside:avoid;background:#fff;color:#111;border-color:#ddd}.subtitle,.card-head p,.kpi-meta,.kpi-label{color:#555}.section-head{margin-top:18px}.table-wrap{overflow:visible}table{min-width:0}th{position:static;background:#eee;color:#333}td{color:#333}.chart-box{height:190px}}
+
+.brand{padding:0 0 22px;justify-content:center}.brand-logo{display:block;width:188px;max-width:100%;height:auto;border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.22)}
+.scorecard-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(290px,.65fr);gap:12px}
+.vendor-score-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vendor-score-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.97),rgba(9,20,35,.98));box-shadow:var(--shadow);padding:17px;min-height:210px}
+.vendor-score-card:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-52px;top:-52px;background:radial-gradient(circle,rgba(255,205,71,.17),transparent 68%)}
+.vendor-score-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;position:relative;z-index:1}.vendor-score-top h3{font-size:15px;margin:0 0 5px}.vendor-score-top p{font-size:10px;color:var(--muted);margin:0}
+.vendor-score-count{width:54px;height:54px;border-radius:16px;border:1px solid rgba(255,205,71,.24);background:rgba(255,205,71,.08);display:grid;place-content:center;text-align:center;flex:0 0 auto}.vendor-score-count b{font-size:22px;line-height:1;color:#ffd047}.vendor-score-count span{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:#c9a83b;margin-top:3px}
+.vendor-score-meta{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0 12px}.vendor-score-meta span{font-size:9px;color:#c4cedc;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.035);border-radius:8px;padding:5px 7px}
+.vendor-projects{display:flex;flex-wrap:wrap;gap:6px}.vendor-projects span{font-size:9px;color:#aebbd0;background:#0a1627;border:1px solid rgba(255,255,255,.06);padding:5px 7px;border-radius:7px}
+.vendor-score-footer{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-top:14px}.vendor-score-footer p{font-size:9px;line-height:1.45;color:var(--muted);margin:0;max-width:73%}.vendor-score-link{font-size:9px;color:#ffd047;text-decoration:none;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}.vendor-score-link:hover{text-decoration:underline}
+.score-framework-card{height:100%}.score-weight-list{display:grid;gap:10px}.score-weight-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(90px,.75fr) 34px;gap:9px;align-items:center}.score-weight-row span{font-size:10px;color:#bec9d8}.score-weight-track{height:8px;background:rgba(255,255,255,.055);border-radius:99px;overflow:hidden}.score-weight-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#ffd047,#f2b735)}.score-weight-row b{font-size:10px;text-align:right;color:#fff}.score-source-note{margin-top:16px;padding:11px;border-radius:12px;border:1px solid rgba(255,205,71,.12);background:rgba(255,205,71,.045);font-size:9px;line-height:1.55;color:#aebbd0}
+.trend-legend{height:24px;display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:0 10px;font-size:9px;color:var(--muted)}.trend-legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}.trend-legend .created i{background:#5ea8ff}.trend-legend .completed i{background:#5dd39e}.month-bars{height:calc(100% - 24px);display:grid;grid-template-columns:repeat(8,minmax(58px,1fr));gap:10px;align-items:end;padding:10px 6px 20px;overflow-x:auto}.month-group{height:100%;display:flex;flex-direction:column;justify-content:flex-end;min-width:58px}.month-columns{height:215px;display:flex;align-items:end;justify-content:center;gap:5px;border-bottom:1px solid rgba(255,255,255,.08);position:relative}.month-col{width:min(30px,38%);border-radius:8px 8px 3px 3px;min-height:3px;position:relative;transition:.25s}.month-col.created{background:linear-gradient(180deg,#5ea8ff,#356eb8)}.month-col.completed{background:linear-gradient(180deg,#5dd39e,#2e8c68)}.month-col b{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font-size:9px}.month-name{text-align:center;font-size:9px;font-weight:700;margin-top:8px}
+@media(max-width:1180px){.scorecard-layout{grid-template-columns:1fr}.vendor-score-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.vendor-score-grid{grid-template-columns:1fr}.month-bars{gap:8px;padding-left:4px;padding-right:4px}.brand-logo{width:160px}}
+
+
+/* Executive delivery status, vendor score, and financial model enhancements */
+.status-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.status-overview-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.96),rgba(9,20,35,.97));box-shadow:var(--shadow);padding:16px;min-height:255px}
+.status-overview-card:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-54px;top:-54px;background:radial-gradient(circle,var(--status-glow),transparent 68%)}
+.status-overview-head{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.status-overview-title{display:flex;align-items:center;gap:9px}.status-overview-title i{width:10px;height:10px;border-radius:4px;background:var(--status-color);box-shadow:0 0 16px var(--status-color)}
+.status-overview-title span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#94a3b8}.status-overview-title b{display:block;font-size:20px;margin-top:5px}
+.status-overview-count{font-size:29px;font-weight:800;letter-spacing:-.04em;color:var(--status-color)}
+.status-project-list{display:grid;gap:7px;margin-top:12px}.status-project-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:center;padding:8px 9px;border-radius:10px;border:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.025);cursor:pointer;transition:.16s}
+.status-project-item:hover{background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.11)}.status-project-item b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.status-project-item span{display:block;font-size:8px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.status-project-item em{font-style:normal;font-size:8px;color:#cbd5e1;border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:4px 6px;background:#0a1627;white-space:nowrap}
+.status-more{font-size:9px;color:var(--muted);text-align:right;margin-top:8px}
+.finance-card{overflow:visible}.finance-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:18px;padding:18px}.finance-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.finance-metric{border:1px solid rgba(255,255,255,.065);background:rgba(255,255,255,.025);border-radius:14px;padding:14px;min-height:104px}.finance-metric span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:#74849a}.finance-metric b{display:block;font-size:23px;letter-spacing:-.035em;margin:13px 0 6px}.finance-metric small{font-size:9px;color:var(--muted);line-height:1.4}.finance-metric.profit b{color:var(--green)}.finance-metric.cost b{color:var(--amber)}
+.finance-model{border:1px solid rgba(157,224,95,.1);background:linear-gradient(145deg,rgba(157,224,95,.055),rgba(79,195,247,.025));border-radius:15px;padding:15px}.finance-control{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:16px}.finance-control label{font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:#7f8fa6}.finance-input-wrap{display:flex;align-items:center;gap:6px;margin-top:7px}.finance-input-wrap input{width:85px;height:36px;border:1px solid rgba(255,255,255,.1);background:#081423;color:#fff;border-radius:9px;padding:0 10px;outline:none;font-weight:750}.finance-input-wrap input:focus{border-color:rgba(157,224,95,.55);box-shadow:0 0 0 3px rgba(157,224,95,.08)}.finance-input-wrap span{font-size:12px;color:var(--muted)}
+.chart-definition{font-size:8px;line-height:1.5;color:#8291a7;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}.chart-definition strong{color:#b8c5d8}.finance-stack-labels{display:flex;justify-content:space-between;gap:10px;font-size:9px;color:var(--muted);margin-bottom:7px}.finance-stack{height:24px;display:flex;border-radius:9px;overflow:hidden;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06)}.finance-stack-cost{height:100%;background:linear-gradient(90deg,#dcae42,#f6c85f);transition:.25s}.finance-stack-profit{height:100%;background:linear-gradient(90deg,#2b9f73,#5dd39e);transition:.25s}.finance-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.finance-legend div{display:flex;justify-content:space-between;gap:8px;font-size:9px;color:var(--muted)}.finance-legend b{color:#fff}.finance-note{font-size:9px;line-height:1.5;color:#8291a7;margin-top:13px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
+.vendor-score-card{min-height:405px}.vendor-score-top{align-items:center}.vendor-score-ring{--score:0;--score-color:#718096;width:82px;height:82px;border-radius:50%;background:conic-gradient(var(--score-color) calc(var(--score)*1%),rgba(255,255,255,.075) 0);display:grid;place-items:center;position:relative;flex:0 0 auto;box-shadow:0 12px 28px rgba(0,0,0,.2)}.vendor-score-ring:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#0b182a;border:1px solid rgba(255,255,255,.07)}.vendor-score-ring div{position:relative;z-index:1;text-align:center}.vendor-score-ring b{display:block;font-size:21px;line-height:1;letter-spacing:-.04em}.vendor-score-ring span{display:block;font-size:7px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:4px}.vendor-score-source{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 7px;border-radius:8px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);font-size:8px;color:#9fb0c6}.vendor-score-source i{width:6px;height:6px;border-radius:50%;background:var(--score-dot,#718096);box-shadow:0 0 10px var(--score-dot,#718096)}
+.vendor-status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:13px 0}.vendor-status-mini{border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:9px;background:rgba(255,255,255,.025)}.vendor-status-mini b{display:block;font-size:18px}.vendor-status-mini span{display:block;font-size:7px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:4px}.vendor-status-mini.complete b{color:var(--green)}.vendor-status-mini.scheduled b{color:var(--blue)}.vendor-status-mini.hold b{color:var(--red)}
+.vendor-stage-list{display:grid;gap:6px;margin:12px 0}.vendor-stage-row{display:grid;grid-template-columns:68px minmax(0,1fr);gap:8px;align-items:start;font-size:8px}.vendor-stage-row strong{text-transform:uppercase;letter-spacing:.08em;color:var(--stage-color);padding-top:2px}.vendor-stage-row span{color:#aebbd0;line-height:1.4}.vendor-stage-row .none{color:#5e6d82}.vendor-finance{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:13px}.vendor-finance div{border:1px solid rgba(255,255,255,.06);background:#091625;border-radius:10px;padding:9px}.vendor-finance span{display:block;font-size:7px;text-transform:uppercase;letter-spacing:.09em;color:#718096}.vendor-finance b{display:block;font-size:13px;margin-top:6px}.vendor-finance .profit b{color:var(--green)}.vendor-finance-bar{height:7px;display:flex;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.05);margin-top:8px}.vendor-finance-bar .cost{background:linear-gradient(90deg,#dcae42,#f6c85f)}.vendor-finance-bar .profit{background:linear-gradient(90deg,#2b9f73,#5dd39e)}.vendor-finance-caption{display:flex;justify-content:space-between;gap:8px;margin-top:5px;font-size:7px;color:#687890}.vendor-finance-caption b{color:#9babc0;font-weight:600}.score-method-note{font-size:8px;color:#718096;line-height:1.45;margin-top:9px}.score-source-note strong{color:#fff}
+@media(max-width:1180px){.status-board{grid-template-columns:1fr 1fr}.status-overview-card:last-child{grid-column:1/-1}.finance-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.status-board{grid-template-columns:1fr}.status-overview-card:last-child{grid-column:auto}.finance-metrics{grid-template-columns:1fr 1fr}.finance-grid{padding:14px}.vendor-score-card{min-height:auto}}
+@media(max-width:520px){.finance-metrics{grid-template-columns:1fr}.vendor-status-grid{grid-template-columns:repeat(3,1fr)}.vendor-score-ring{width:72px;height:72px}}
+@media print{.status-overview-card,.finance-card,.vendor-score-card{box-shadow:none!important;background:#fff!important;color:#111!important}.finance-model,.finance-metric,.vendor-status-mini,.vendor-finance div,.status-project-item{background:#fff!important;border-color:#ddd!important}.vendor-score-ring:after{background:#fff}.vendor-score-edit,.finance-control{display:none!important}}
+
+
+/* Primary Field Services KPI hierarchy */
+.main-kpi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.main-kpi-card{--main-kpi-color:#ffd047;position:relative;overflow:hidden;min-height:286px;padding:18px;border:1px solid var(--line);border-top:3px solid var(--main-kpi-color);border-radius:var(--radius);background:linear-gradient(155deg,rgba(17,34,57,.98),rgba(9,20,35,.98));box-shadow:var(--shadow)}
+.main-kpi-card:after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;right:-78px;top:-76px;background:radial-gradient(circle,color-mix(in srgb,var(--main-kpi-color) 22%,transparent),transparent 69%)}
+.main-kpi-head{position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.main-kpi-title{display:flex;gap:10px;align-items:flex-start}.main-kpi-index{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;background:color-mix(in srgb,var(--main-kpi-color) 13%,transparent);border:1px solid color-mix(in srgb,var(--main-kpi-color) 26%,transparent);color:var(--main-kpi-color);font-size:12px;font-weight:850}
+.main-kpi-title h3{font-size:14px;margin:1px 0 5px}.main-kpi-title p{font-size:9px;line-height:1.45;color:var(--muted);margin:0;max-width:310px}
+.main-kpi-icon{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,.04);color:var(--main-kpi-color);border:1px solid rgba(255,255,255,.06);flex:0 0 auto}.main-kpi-icon svg{width:18px;height:18px}
+.main-kpi-value{position:relative;z-index:1;font-size:42px;line-height:1;font-weight:830;letter-spacing:-.055em;margin:24px 0 5px}.main-kpi-value small{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--main-kpi-color);font-weight:760;margin-left:6px}
+.main-kpi-sub{position:relative;z-index:1;font-size:10px;color:#b9c5d5;line-height:1.45}
+.main-kpi-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:17px}
+.main-kpi-stat{padding:10px 9px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.025);border-radius:11px;min-width:0}.main-kpi-stat span{display:block;font-size:7px;text-transform:uppercase;letter-spacing:.09em;color:#74849a;line-height:1.35}.main-kpi-stat b{display:block;font-size:14px;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.main-kpi-foot{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding-top:13px;margin-top:13px;border-top:1px solid rgba(255,255,255,.055);font-size:8px;line-height:1.45;color:#728198}.main-kpi-foot a{color:var(--main-kpi-color);text-decoration:none;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}.main-kpi-foot a:hover{text-decoration:underline}
+.kpi-data-gap{display:inline-flex;align-items:center;gap:5px;color:var(--amber)}.kpi-data-gap i{width:6px;height:6px;border-radius:50%;background:var(--amber)}
+.kpi-governance-card{margin-top:12px}.kpi-governance-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.kpi-governance-row{border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.022);border-radius:12px;padding:12px}.kpi-governance-row strong{display:block;font-size:10px;margin-bottom:8px}.kpi-governance-row span{display:block;font-size:8px;color:#8291a7;line-height:1.55}.kpi-governance-row b{color:#c8d2df;font-weight:650}
+.scorecard-project-section{border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.018);padding:10px;margin:13px 0}
+.scorecard-project-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:8px;margin-bottom:7px;border-bottom:1px solid rgba(255,255,255,.055)}.scorecard-project-header span{font-size:8px;text-transform:uppercase;letter-spacing:.11em;color:#8493a8}.scorecard-project-header b{font-size:9px;color:#d6deea}
+.scorecard-project-list{display:grid;gap:5px}.scorecard-project-row{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:7px;padding:6px 7px;border-radius:8px;background:#091625;border:1px solid rgba(255,255,255,.045)}.scorecard-project-row .project-num{width:20px;height:20px;border-radius:7px;display:grid;place-items:center;background:rgba(255,255,255,.04);font-size:7px;color:#728198}.scorecard-project-row .project-name{min-width:0}.scorecard-project-row .project-name b{display:block;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.scorecard-project-row .project-name small{display:block;font-size:7px;color:#66768c;margin-top:3px;line-height:1.25}.project-score-badge{min-width:52px;text-align:center;padding:5px 6px;border-radius:7px;border:1px solid color-mix(in srgb,var(--project-score-color,#718096) 28%,transparent);background:color-mix(in srgb,var(--project-score-color,#718096) 10%,transparent);color:var(--project-score-color,#718096);font-size:8px;font-weight:800;white-space:nowrap}.project-score-badge.unpublished{min-width:64px;color:#8291a7;border-color:rgba(255,255,255,.07);background:rgba(255,255,255,.025);font-weight:650}
+.vendor-tracker-label{font-size:8px;text-transform:uppercase;letter-spacing:.11em;color:#8493a8;margin:13px 0 7px}
+.vendor-score-card{min-height:560px}
+@media(max-width:1180px){.main-kpi-grid{grid-template-columns:1fr 1fr}.main-kpi-card:last-child{grid-column:1/-1}.kpi-governance-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.main-kpi-grid{grid-template-columns:1fr}.main-kpi-card:last-child{grid-column:auto}.main-kpi-stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.main-kpi-stats{grid-template-columns:1fr}.main-kpi-value{font-size:36px}}
+@media print{.main-kpi-card,.kpi-governance-card{box-shadow:none!important;background:#fff!important;color:#111!important}.main-kpi-stat,.kpi-governance-row,.scorecard-project-row,.scorecard-project-section{background:#fff!important;border-color:#ddd!important}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><img class="brand-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAACUCAMAAACNzMQlAAAAllBMVEUMICb9zTgAACT/0zn/0TkAGCYAFCXyyjjeuDb8zzkAGiaojjGkiDAqMicAECXkvDb/3TrEpTNkVSq5mTFZTSkAHCYSIiahizD/2DpwYCsACCXuwzcADSU+PCjSsDSzlTGJdC0aISZQSCnKrDQmLSd1ZisvKicRHSYlJyYeKycvNidgWCsMFSVEQimRfy+AbS01MSdJPihlDSQ5AAAEO0lEQVR4nO2bW3eqOhRGISEg3hAxu1wUqRZba6v2//+5Q02wKD4c0VMPa3/zhVFwdDDJbWUlMQwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8d0h5eid199DvfAzllcjG+lgFjrbcf2tF82fGuJfWzFyYf/fI3MZ34icmtq+Hc6WRCPPr1b4DliWU2xHLnK/vRAo2xc6exeQEPVm0tdzF2uOk0xjXDp9d2tnf55oeWt1kPmvE+5ybftLPYxcYyrc4kFo2wRa9Q9z8ebdGIjyD8Vm/cVRXqpvvSyhr/6lk3q482w3u+0i8hX4pXv1U97LN7vtMv0R2MblfnAdRbBdShXvBHc/HXsv6Yjrq9eVJEF8Yr8bk9POtlFNWnkRPygpFv1MOUODs8DMPg57vQUZfrVE1GLzX/aU9N8ZJdfLxHR91ggasmo1l8/lsxW/LDZ/FmP5+FkHqcO2oa3q+V+nTsqVL3K1+FkLpYJ0p9+XU+FWXbQ6GbblYxJaRuMF9V+OS8j+/ufaWeLCpPSKnvVK3m27MufljW97QqSkldrFU/x/39qfuw/CY9quoGU4VreYuTxi7ferqpb6aV27TUt6Ea2vOTpRXx1dGj+smqAyl18T5SFfvpufpLMdbJZ//Ek5S6wXRj76xOGrse2sLoJNYhph4oSXNSaexytdTqp5q01KcbVePDrHJXznSo41FWl390q04r+XU7V51fuKWsbnzosI1X8uvlvXBwGt8SU7czVcKj6DiCy1e1Gmt1zlZaiKmLSRnQHZXsha7vvbPInpi63Kc6Zj0qsZ5Sry0tElM3np90jT/mJJiu797sbFJDTV3kqtSPK0rS1uPd/I26+pdXxuvqBtMdH9+dJyupqct9GdC9q6bNUvW3MzlP3VBTN0SmSt1SNV6KcuqyJ68+HKuwVWdk4rzM3NT+ATl1MSvzcIcazwK9xyqqpWnJqRuirxv3rrCSXU8H9Yu/QD3eqXS8OWffCXidm5+va6tR9NTtSUcVe7ruGqyvAltrW1uRIahuCD28JVEshV6H88b15VeC6myrKrzbZ/anCnC4P6jvASeoXi448GURyjnVQf4UgupyvdQT9AkLlHmS15s6RfWib1PCTrZSUayVzi7shaWoHuu94nyut8tz/9IuYIrq3fc0+cYJeodr4tU3Gxg01Q1jHB0Y62u0v3TGh6a6sBXl9eL2Z5rq/wqo3/Odfom/WF3eRX3eSvW1eYejAFkb1Y2P9PYDIOFnK0/52dubj/1Y3nMrj/2IhWNZnQVryhM3+baVhW4Yr31uJkG/Ib3U5N6spUe5xfcmSLcxpuVG7TzcWGB/6aWVRnB318ZDbprhW+A2PMtsWV4+bWUfpxF2vkxck1+JZTqd+ayVQ/oPMhbjfuBfS383YK1t50fksMnIFrdfHAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA/5B/AIPdZjRhGaL2AAAAAElFTkSuQmCC" alt="Vusion logo"></div>
+  <div class="nav-label">Dashboard</div>
+  <nav class="nav">
+    <a href="#overview" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z" stroke-width="1.7"/></svg>Executive overview</a>
+    <a href="#main-kpis"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" stroke-width="1.7"/></svg>Main KPIs</a>
+    <a href="#delivery-status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h10M4 17h7" stroke-width="1.7"/><circle cx="18" cy="16" r="3" stroke-width="1.7"/></svg>Project status</a>
+    <a href="#portfolio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2" stroke-width="1.7"/></svg>Project analytics</a>
+    <a href="#financials"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 18h16M6 15l4-4 3 2 5-7M18 6h-4" stroke-width="1.7"/></svg>Service revenue</a>
+    <a href="#scorecards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" stroke-width="1.7"/></svg>Vendor scorecards</a>
+    <a href="#actions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4m0 4h.01M10.3 4.6 2.7 18a2 2 0 0 0 1.7 3h15.2a2 2 0 0 0 1.7-3L13.7 4.6a2 2 0 0 0-3.4 0Z" stroke-width="1.7"/></svg>Action center</a>
+    <a href="#data"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16v14H4zM4 10h16M9 5v14" stroke-width="1.7"/></svg>Project detail</a>
+  </nav>
+  <div class="side-card"><div class="eyebrow">Project data snapshot</div><b id="sideCount">98</b><p>Project and site records with a qualifying 2026 date embedded directly in this file.<br><span id="sideSnapshot"></span></p></div>
+</aside>
+<main class="main">
+  <header class="topbar" id="overview">
+    <div class="title-wrap"><div class="eyebrow">2026 project portfolio view</div><h1>Field Services Executive Dashboard</h1><div class="subtitle">Installation, survey, AP, hypercare, and rollout project records with a qualifying date from January 1 through August 3, 2026 • <span id="snapshotText"></span></div></div>
+    <div class="actions"><button class="btn mobile-menu" onclick="document.querySelector('.filters').scrollIntoView()">Filters</button><button class="btn" id="printBtn">Print / PDF</button><button class="btn primary" id="exportBtn">Export filtered CSV</button></div>
+  </header>
+  <div class="notice"><div class="info">i</div><div><b>Reporting window:</b> Includes unique project and site records with a Start, Due, Date Created, or Date Done value from January 1 through August 3, 2026. Vendor scores use current project scorecards where available, with July 20 vendor averages retained only where no newer direct scorecard result is connected. Vendor invoice is treated as recorded cost. Profit is modeled from the editable target gross margin because customer revenue is not included in the source export.</div></div>
+  <section class="filters" aria-label="Dashboard filters">
+    <div class="control"><label for="searchInput">Search project, scope, comment, or address</label><input id="searchInput" type="search" placeholder="Search project name, scope, comment, or address…"></div>
+    <div class="control"><label for="viewSelect">Project portfolio view</label><select id="viewSelect"><option value="all">All project records</option><option value="active">Active projects</option><option value="complete">Completed projects</option><option value="cancelled">Cancelled projects</option><option value="costed">Projects with vendor cost</option></select></div>
+    <div class="control"><label for="statusSelect">Stage group</label><select id="statusSelect"><option value="all">All stages</option></select></div>
+    <div class="control"><label for="workstreamSelect">Workstream</label><select id="workstreamSelect"><option value="all">All workstreams</option></select></div>
+    <div class="control"><label for="ownerSelect">Owner</label><select id="ownerSelect"><option value="all">All owners</option></select></div>
+    <div class="control"><label for="monthSelect">Project date month</label><select id="monthSelect"><option value="all">Jan 1–Aug 3, 2026</option><option value="January">January 2026</option><option value="February">February 2026</option><option value="March">March 2026</option><option value="April">April 2026</option><option value="May">May 2026</option><option value="June">June 2026</option><option value="July">July 2026</option><option value="August">August 1–3, 2026</option></select></div>
+    <div class="reset-wrap"><button class="btn" id="resetBtn">Reset</button></div>
+  </section>
+
+  <div class="section-head" id="main-kpis"><div><h2>KPIs &amp; metrics — Field Services</h2><p>The three primary management measures: installation quality, vendor performance, and service revenue generation.</p></div><p>Quality and vendor scores use current project scorecards where available • Revenue responds to filters and margin.</p></div>
+  <section class="main-kpi-grid" id="mainKpiGrid"></section>
+  <section class="card kpi-governance-card">
+    <div class="card-head"><div><h3>KPI ownership and refresh cadence</h3><p>Execution model for keeping the three measures current and auditable.</p></div><span class="badge">Governance</span></div>
+    <div class="card-body"><div class="kpi-governance-grid">
+      <div class="kpi-governance-row"><strong>Installation Quality Scores</strong><span><b>Owner:</b> Field Services Manager<br><b>Refresh:</b> At project closeout and monthly rollup<br><b>Source:</b> Project-level vendor scorecards and installation sign-off.</span></div>
+      <div class="kpi-governance-row"><strong>Vendor Performance Scorecards</strong><span><b>Owner:</b> Field Services / Vendor Coordination<br><b>Refresh:</b> After each scored project and monthly vendor review<br><b>Source:</b> Vendor parent scorecards and published project scores.</span></div>
+      <div class="kpi-governance-row"><strong>Service Revenue Generation</strong><span><b>Owner:</b> Field Services + Finance<br><b>Refresh:</b> Weekly invoice reconciliation and monthly financial close<br><b>Source:</b> Customer service revenue, vendor invoices, credits, and internal delivery cost.</span></div>
+    </div></div>
+  </section>
+
+  <div class="section-head" id="supporting-metrics"><div><h2>Project portfolio metrics</h2><p>Project volume, active pipeline, scheduled delivery, completed delivery, holds, and recorded vendor cost.</p></div><p>All values respond to the dashboard filters.</p></div>
+  <section class="kpis" id="kpiGrid"></section>
+
+
+  <div class="section-head" id="delivery-status"><div><h2>Project delivery status</h2><p>Projects currently scheduled for delivery, completed, or placed on hold in the selected view.</p></div><p>Click any project to open its tracker detail.</p></div>
+  <section class="status-board">
+    <article class="status-overview-card" style="--status-color:#5ea8ff;--status-glow:rgba(94,168,255,.16)"><div class="status-overview-head"><div class="status-overview-title"><i></i><div><span>Project status</span><b>Scheduled projects</b></div></div><div class="status-overview-count" id="scheduledStatusCount">0</div></div><div class="status-project-list" id="scheduledStatusList"></div></article>
+    <article class="status-overview-card" style="--status-color:#5dd39e;--status-glow:rgba(93,211,158,.16)"><div class="status-overview-head"><div class="status-overview-title"><i></i><div><span>Project status</span><b>Completed projects</b></div></div><div class="status-overview-count" id="completedStatusCount">0</div></div><div class="status-project-list" id="completedStatusList"></div></article>
+    <article class="status-overview-card" style="--status-color:#ff6b79;--status-glow:rgba(255,107,121,.16)"><div class="status-overview-head"><div class="status-overview-title"><i></i><div><span>Project status</span><b>Projects on hold</b></div></div><div class="status-overview-count" id="onHoldStatusCount">0</div></div><div class="status-project-list" id="onHoldStatusList"></div></article>
+  </section>
+
+  <div class="section-head" id="portfolio"><div><h2>Project portfolio analytics</h2><p>Project counts, current delivery stage, vendor cost exposure, and monthly project intake versus completion.</p></div><p id="filterSummary"></p></div>
+  <section class="grid">
+    <article class="card"><div class="card-head"><div><h3>Project status distribution</h3><p>Current delivery-stage mix for the filtered project records.</p></div><span class="badge">Portfolio</span></div><div class="card-body"><div class="donut-wrap"><div class="donut" id="statusDonut"><div class="donut-center"><b id="donutTotal">0</b><span>project records</span></div></div><div class="legend" id="statusLegend"></div></div></div></article>
+    <article class="card"><div class="card-head"><div><h3>Active projects by delivery stage</h3><p>Open project records grouped by their current operational status.</p></div><span class="badge" id="activeBadge">0 active projects</span></div><div class="card-body"><div class="bar-list" id="activeBars"></div></div></article>
+    <article class="card"><div class="card-head"><div><h3>Recorded vendor cost by project workstream</h3><p>Vendor invoice amounts grouped by project workstream.</p></div><span class="badge" id="costBadge">$0</span></div><div class="card-body"><div class="bar-list" id="workstreamBars"></div></div></article>
+  </section>
+
+  <section class="grid two" style="margin-top:12px">
+    <article class="card"><div class="card-head"><div><h3>Monthly projects added vs. completed</h3><p>Counts project records by Date Created and Date Done for each month from January 1 through August 3, 2026.</p></div><span class="badge">Jan–Aug 3</span></div><div class="card-body"><div class="chart-box" id="completionChart"></div><div class="chart-definition"><strong>Metric definition:</strong> Projects Added uses the tracker Date Created field. Projects Completed uses Date Done. This is a project-flow metric; it does not represent installed locations, labor hours, or revenue.</div></div></article>
+    <article class="card"><div class="card-head"><div><h3>Highest-cost projects</h3><p>Project records with the largest recorded vendor invoice values in the current filter.</p></div><span class="badge">Cost concentration</span></div><div class="card-body"><div class="bar-list" id="topCostBars"></div></div></article>
+  </section>
+
+
+
+  <div class="section-head" id="financials"><div><h2>Service revenue generation</h2><p>Recorded vendor cost compared with modeled service revenue and gross profit.</p></div><p>Target gross margin is editable • Actual customer revenue is still a data gap.</p></div>
+  <section class="card finance-card">
+    <div class="finance-grid">
+      <div class="finance-metrics">
+        <div class="finance-metric cost"><span>Recorded vendor cost</span><b id="financeCost">$0</b><small id="financeCostMeta">0 costed records</small></div>
+        <div class="finance-metric"><span>Modeled service revenue</span><b id="financeRevenue">$0</b><small>Calculated from cost and target margin</small></div>
+        <div class="finance-metric profit"><span>Modeled gross profit</span><b id="financeProfit">$0</b><small id="financeProfitMeta">Modeled, not booked revenue</small></div>
+        <div class="finance-metric"><span>Target gross margin</span><b id="financeMargin">25%</b><small>Change the assumption in the model</small></div>
+      </div>
+      <div class="finance-model">
+        <div class="finance-control"><div><label for="targetMarginInput">Target gross margin</label><div class="finance-input-wrap"><input id="targetMarginInput" type="number" min="0" max="80" step="1" value="25" inputmode="decimal"><span>%</span></div></div><span class="badge" id="financeScopeBadge">Filtered view</span></div>
+        <div class="finance-stack-labels"><span>Cost vs profit composition</span><span id="financeRevenueLabel">Revenue $0</span></div>
+        <div class="finance-stack"><div class="finance-stack-cost" id="financeCostBar"></div><div class="finance-stack-profit" id="financeProfitBar"></div></div>
+        <div class="finance-legend"><div><span>Vendor cost</span><b id="financeLegendCost">$0</b></div><div><span>Gross profit</span><b id="financeLegendProfit">$0</b></div></div>
+        <div class="finance-note">Vendor cost comes directly from the “Vendor invoice” field. Profit and revenue are planning values calculated from the selected target margin; they are not presented as actual booked financial results.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-head" id="scorecards"><div><h2>Vendor performance scorecards</h2><p>Each vendor block lists its scorecard projects, available project scores, delivery status, and cost exposure.</p></div><p>SASR project scores current through August 3, 2026 • Other vendor summary scores dated July 20, 2026.</p></div>
+  <section class="scorecard-layout">
+    <div class="vendor-score-grid" id="vendorScoreGrid"></div>
+    <article class="card score-framework-card"><div class="card-head"><div><h3>Vendor scorecard weighting</h3><p>Approved five-dimension weighting from the Vendor Scorecard list.</p></div><span class="badge">100% total</span></div><div class="card-body"><div class="score-weight-list" id="scoreWeightList"></div><div class="score-source-note"><strong>Weight source:</strong> Vendor Scorecard list. Only the five approved dimensions are used: Execution 25%, Quality 30%, Communication 20%, Compliance &amp; Safety 15%, and Reliability 10%. For 1–5 category ratings, the weighted score is calculated as the sum of each rating divided by 5 and multiplied by its assigned weight. Project and vendor percentages displayed in the dashboard remain the recorded final scorecard values where available; the dashboard does not substitute unsupported category ratings. Tracker status and vendor cost are calculated from the filtered January–August 3 records. Revenue and profit remain modeled until customer billing data is added.</div></div></article>
+  </section>
+
+  <div class="section-head" id="actions"><div><h2>Operational action center</h2><p>Pipeline control gaps and schedule visibility requiring follow-up.</p></div><p>Risk logic uses owner, schedule, age, stage, and overdue indicators.</p></div>
+  <section class="grid equal">
+    <article class="card"><div class="card-head"><div><h3>Pipeline control signals</h3><p>Calculated from active items in the current filter.</p></div><span class="badge">Execution risk</span></div><div class="card-body"><div class="risk-strip" id="riskStrip"></div><div class="action-list" id="actionList"></div></div></article>
+    <article class="card"><div class="card-head"><div><h3>Upcoming project start and due dates</h3><p>Next scheduled start or due date for active projects in the current filter.</p></div><span class="badge">Project schedule</span></div><div class="card-body"><div class="upcoming" id="upcomingList"></div></div></article>
+  </section>
+
+  <div class="section-head" id="data"><div><h2>Project detail</h2><p>Click any row to open the full tracker detail panel.</p></div><p>Column headers are sortable.</p></div>
+  <section class="card table-card">
+    <div class="card-head"><div><h3>2026 project register</h3><p>Project and site records from the ClickUp Installations Main Tracker that meet the reporting-window date criteria.</p></div><span class="badge" id="tableBadge">0 project records</span></div>
+    <div class="table-toolbar"><span id="tableMeta"></span><button class="btn" id="clearSearchBtn">Clear search</button></div>
+    <div class="table-wrap"><table><thead><tr>
+      <th data-sort="name">Project / task</th><th data-sort="activityLabel">Project month(s)</th><th data-sort="statusGroup">Stage</th><th data-sort="workstream">Workstream</th><th data-sort="owner">Owner</th><th data-sort="start">Start</th><th data-sort="due">Due</th><th data-sort="timeInStatusHours">Age</th><th data-sort="invoice">Vendor invoice</th>
+    </tr></thead><tbody id="tableBody"></tbody></table></div>
+    <div class="pagination"><span id="pageMeta"></span><div class="page-buttons"><button id="prevPage">‹</button><button id="nextPage">›</button></div></div>
+  </section>
+  <div class="footer">Generated from: Installations Main Tracker CSV and ClickUp Vendor Scorecards inventory • Reporting window: January 1–August 3, 2026 • Vendor scorecard weights: Execution 25%, Quality 30%, Communication 20%, Compliance &amp; Safety 15%, Reliability 10% • Primary KPIs: Installation Quality Scores, Vendor Performance Scorecards, and Service Revenue Generation • Revenue and profit are modeled until customer billing data is connected.</div>
+</main>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"><aside class="drawer" id="drawer"><button class="drawer-close" id="drawerClose">×</button><div id="drawerContent"></div></aside></div>
+<div class="tooltip" id="tooltip"></div>
+<script>
+let DATA = [];
+const VENDOR_SCORECARDS = [{"vendor":"Anderson Merchandising","short":"Anderson","taskId":"869dmepg4","url":"https://app.clickup.com/t/869dmepg4","projectCount":5,"updated":"2026-08-03T14:03:01Z","fields":28,"projects":["Academy Sports","Hucks Stores Pilot","WMUS Top Stock","WMUS Audits","Natural Grocers"],"note":"Project-level scorecards are maintained under the Anderson parent scorecard, including Natural Grocers.","aliases":["academy sports","huck","topstock","top stock","wmus audit","walmart audit","natural grocers","fresh market"],"score":85,"scoreBasis":"Published vendor average • Jul 20, 2026"},{"vendor":"Channel Partners","short":"Channel Partners","taskId":"869d1ete9","url":"https://app.clickup.com/t/869d1ete9","projectCount":5,"updated":"2026-08-03T14:00:36Z","fields":28,"projects":["Miniso","Ace Elgin","Fuel Maxx","Dufry","Ace Elgin follow-up"],"note":"Project-level scorecards are maintained under the Channel Partners parent scorecard.","aliases":["miniso","ace elgin","fuel maxx","dufry"],"score":93,"scoreBasis":"Published vendor average • Jul 20, 2026"},{"vendor":"Impulso","short":"Impulso","taskId":"869duw9kp","url":"https://app.clickup.com/t/869duw9kp","projectCount":1,"updated":"2026-08-03T14:04:13Z","fields":28,"projects":["OXXO Revisits"],"note":"Current scorecard coverage is focused on the OXXO revisit program.","aliases":["oxxo"],"score":68,"scoreBasis":"Published vendor average • Jul 20, 2026"},{"vendor":"SASR","short":"SASR","taskId":"869ed6zn3","url":"https://app.clickup.com/t/869ed6zn3","projectCount":2,"updated":"2026-08-03T14:01:48Z","fields":28,"projects":["DHI","Dollar General Pilot"],"note":"Current SASR scorecards include DHI at 87% and Dollar General Pilot at 96%.","aliases":["diamond home improvement","dhi","dollar general"],"score":92,"scoreBasis":"91.5% average • DHI 87% + Dollar General 96%"}];
+const PROJECT_SCORE_DETAIL = {
+  "Anderson Merchandising": {
+    "Academy Sports": {final:100,quality:5},
+    "Hucks Stores Pilot": {final:80,quality:3},
+    "Natural Grocers": {final:76,quality:4}
+  },
+  "Channel Partners": {
+    "Dufry": {final:100,quality:5},
+    "Fuel Maxx": {final:96,quality:5},
+    "Ace Elgin": {final:76,quality:4}
+  },
+  "Impulso": {
+    "OXXO Revisits": {final:68,quality:4}
+  },
+  "SASR": {
+    "DHI": {final:87,quality:3.8333333333},
+    "Dollar General Pilot": {final:96}
+  }
+};
+const SCORECARD_WEIGHTS = [{"name":"Execution","weight":25},{"name":"Quality","weight":30},{"name":"Communication","weight":20},{"name":"Compliance & Safety","weight":15},{"name":"Reliability","weight":10}];
+const SNAPSHOT_LABEL = "August 3, 2026 at 3:35 PM CDT";
+const AS_OF = new Date('2026-08-04T00:00:00');
+const STATUS_COLORS = {'Complete':'#5dd39e','Scheduled':'#5ea8ff','Commercial / Prep':'#f6c85f','Prospective':'#9b8cff','On Hold':'#ff6b79','Cancelled':'#58667a','Other':'#b0bec5'};
+async function boot(){
+  try{
+    const response = await fetch('./clickup-data.json', { cache: 'no-store' });
+    if (response.ok) {
+      const json = await response.json();
+      if (Array.isArray(json)) {
+        DATA = json;
+      } else if (json && Array.isArray(json.tasks)) {
+        DATA = json.tasks;
+      }
+    } else {
+      console.warn('ClickUp data load failed:', response.status, response.statusText);
+    }
+  } catch (err) {
+    console.warn('ClickUp data load failed:', err);
+  }
+  init();
+}
+let targetMargin=25;
+const WORKSTREAM_COLORS = ['#4fc3f7','#9de05f','#9b8cff','#f6c85f','#ff7a90','#5dd39e'];
+const ICONS = {
+  portfolio:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16v14H4zM8 5V3h8v2M4 10h16" stroke-width="1.7"/></svg>',
+  active:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v4m0 10v4M4.2 7.5l3.5 2m8.6 5 3.5 2M4.2 16.5l3.5-2m8.6-5 3.5-2" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke-width="1.7"/></svg>',
+  complete:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m5 12 4 4L19 6" stroke-width="1.9"/></svg>',
+  cost:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20m5-16H9a3 3 0 0 0 0 6h6a3 3 0 1 1 0 6H6" stroke-width="1.7"/></svg>',
+  schedule:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 4h14v16H5zM8 2v4m8-4v4M5 9h14" stroke-width="1.7"/></svg>',
+  coverage:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2" stroke-width="1.7"/></svg>',
+  hold:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9" stroke-width="1.7"/><path d="M9.5 8v8M14.5 8v8" stroke-width="1.9"/></svg>'
+};
+const state={view:'all',status:'all',workstream:'all',owner:'all',month:'all',search:'',page:1,pageSize:20,sort:'name',dir:1};
+let filtered=[...DATA];
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const fmtInt=n=>new Intl.NumberFormat('en-US').format(n||0);
+const fmtMoney=(n,compact=false)=>{if(n==null||Number.isNaN(+n))return '—';if(compact){const a=Math.abs(n);if(a>=1e6)return '$'+(n/1e6).toFixed(a>=1e7?0:2).replace(/\.00$/,'')+'M';if(a>=1e3)return '$'+(n/1e3).toFixed(a>=1e5?0:1).replace(/\.0$/,'')+'K'}return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n)};
+const dateObj=v=>v?new Date(v):null;
+const fmtDate=v=>{const d=dateObj(v);return d&&!isNaN(d)?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric'}).format(d):'—'};
+const fmtShort=v=>{const d=dateObj(v);return d&&!isNaN(d)?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric'}).format(d):'—'};
+const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const sum=(arr,fn)=>arr.reduce((t,x)=>t+(fn(x)||0),0);
+const groupCount=(arr,fn)=>arr.reduce((m,x)=>{const k=fn(x);m[k]=(m[k]||0)+1;return m},{});
+const groupSum=(arr,keyFn,valFn)=>arr.reduce((m,x)=>{const k=keyFn(x);m[k]=(m[k]||0)+(valFn(x)||0);return m},{});
+function setOptions(selector,values){const el=$(selector);values.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;el.appendChild(o)})}
+function init(){
+  try{const savedMargin=parseFloat(localStorage.getItem('vusionTargetMargin'));if(Number.isFinite(savedMargin))targetMargin=Math.max(0,Math.min(80,savedMargin))}catch(e){}
+  $('#targetMarginInput').value=targetMargin;
+  $('#targetMarginInput').addEventListener('input',e=>{const n=parseFloat(e.target.value);targetMargin=Number.isFinite(n)?Math.max(0,Math.min(80,n)):0;try{localStorage.setItem('vusionTargetMargin',String(targetMargin))}catch(err){}renderMainKPIs();renderFinance();renderVendorScorecards()});
+  setOptions('#statusSelect',[...new Set(DATA.map(d=>d.statusGroup))].sort());
+  setOptions('#workstreamSelect',[...new Set(DATA.map(d=>d.workstream))].sort());
+  setOptions('#ownerSelect',[...new Set(DATA.map(d=>d.owner))].sort((a,b)=>a==='Unassigned'?-1:b==='Unassigned'?1:a.localeCompare(b)));
+  $('#snapshotText').textContent='Source updated '+SNAPSHOT_LABEL;
+  $('#sideSnapshot').textContent=SNAPSHOT_LABEL;
+  $('#sideCount').textContent=fmtInt(DATA.length);
+  [['#viewSelect','view'],['#statusSelect','status'],['#workstreamSelect','workstream'],['#ownerSelect','owner'],['#monthSelect','month']].forEach(([s,k])=>$(s).addEventListener('change',e=>{state[k]=e.target.value;state.page=1;render()}));
+  $('#searchInput').addEventListener('input',e=>{state.search=e.target.value.trim().toLowerCase();state.page=1;render()});
+  $('#resetBtn').onclick=resetFilters;$('#clearSearchBtn').onclick=()=>{$('#searchInput').value='';state.search='';state.page=1;render()};
+  $('#printBtn').onclick=()=>window.print();$('#exportBtn').onclick=exportCSV;
+  $('#prevPage').onclick=()=>{if(state.page>1){state.page--;renderTable()}};$('#nextPage').onclick=()=>{const pages=Math.ceil(filtered.length/state.pageSize);if(state.page<pages){state.page++;renderTable()}};
+  $$('th[data-sort]').forEach(th=>th.onclick=()=>{const k=th.dataset.sort;if(state.sort===k)state.dir*=-1;else{state.sort=k;state.dir=1}state.page=1;renderTable()});
+  $('#drawerClose').onclick=closeDrawer;$('#drawerOverlay').addEventListener('click',e=>{if(e.target.id==='drawerOverlay')closeDrawer()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+  let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(renderTrend,120)});
+  render();
+}
+function resetFilters(){Object.assign(state,{view:'all',status:'all',workstream:'all',owner:'all',month:'all',search:'',page:1});['#viewSelect','#statusSelect','#workstreamSelect','#ownerSelect','#monthSelect'].forEach(s=>$(s).value='all');$('#searchInput').value='';render()}
+function applyFilters(){
+  filtered=DATA.filter(d=>{
+    if(state.view==='active'&&!d.active)return false;if(state.view==='complete'&&d.statusGroup!=='Complete')return false;if(state.view==='cancelled'&&d.statusGroup!=='Cancelled')return false;if(state.view==='costed'&&!d.invoiceRecorded)return false;
+    if(state.status!=='all'&&d.statusGroup!==state.status)return false;if(state.workstream!=='all'&&d.workstream!==state.workstream)return false;if(state.owner!=='all'&&d.owner!==state.owner)return false;if(state.month!=='all'&&!(d.activityMonths||[]).includes(state.month))return false;
+    if(state.search){const hay=[d.name,d.status,d.statusGroup,d.workstream,d.owner,d.address,d.latestComment,d.content,d.id].join(' ').toLowerCase();if(!hay.includes(state.search))return false}
+    return true
+  });
+}
+function render(){applyFilters();renderMainKPIs();renderKPIs();renderDeliveryStatus();renderStatus();renderActiveBars();renderWorkstreamCost();renderTrend();renderTopCosts();renderFinance();renderVendorScorecards();renderActions();renderUpcoming();renderTable();$('#filterSummary').textContent=fmtInt(filtered.length)+' of '+fmtInt(DATA.length)+' project records shown'}
+function kpi(label,value,meta,color,icon,glow){return `<article class="kpi" style="--kcolor:${color};--glow:${glow}"><div class="kpi-top"><span class="kpi-label">${label}</span><span class="kpi-icon">${ICONS[icon]}</span></div><div class="kpi-value">${value}</div><div class="kpi-meta"><i class="dot"></i>${meta}</div></article>`}
+function renderMainKPIs(){
+  const projectDetails=Object.values(PROJECT_SCORE_DETAIL).flatMap(projects=>Object.values(projects));
+  const qualityRows=projectDetails.filter(x=>Number.isFinite(x.quality));
+  const qualityAverage=qualityRows.length?sum(qualityRows,x=>x.quality)/(qualityRows.length*5)*100:0;
+  const perfectQuality=qualityRows.filter(x=>x.quality===5).length;
+  const belowFour=qualityRows.filter(x=>x.quality<4).length;
+  const scoredVendors=VENDOR_SCORECARDS.filter(v=>Number.isFinite(v.score));
+  const vendorAverage=scoredVendors.length?sum(scoredVendors,v=>v.score)/scoredVendors.length:0;
+  const scorecardProjects=sum(VENDOR_SCORECARDS,v=>v.projectCount);
+  const unscoredVendors=VENDOR_SCORECARDS.length-scoredVendors.length;
+  const cost=sum(filtered,d=>d.invoice),invoiceCount=filtered.filter(d=>d.invoiceRecorded).length,finance=targetFinancials(cost);
+  $('#mainKpiGrid').innerHTML=`
+    <article class="main-kpi-card" style="--main-kpi-color:#ffd047">
+      <div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">1</span><div><h3>Installation Quality Scores</h3><p>Average installation-quality dimension across project-level scorecards with verified quality detail.</p></div></div><span class="main-kpi-icon">${ICONS.complete}</span></div>
+      <div class="main-kpi-value">${Math.round(qualityAverage)}%<small>quality</small></div>
+      <div class="main-kpi-sub">${(qualityAverage/20).toFixed(1)} / 5 average across ${fmtInt(qualityRows.length)} scored projects.</div>
+      <div class="main-kpi-stats"><div class="main-kpi-stat"><span>Projects scored</span><b>${fmtInt(qualityRows.length)}</b></div><div class="main-kpi-stat"><span>Quality 5 / 5</span><b>${fmtInt(perfectQuality)}</b></div><div class="main-kpi-stat"><span>Below 4 / 5</span><b>${fmtInt(belowFour)}</b></div></div>
+      <div class="main-kpi-foot"><span>Verified project scorecard quality data • through Aug 3, 2026</span><a href="#scorecards">Review projects</a></div>
+    </article>
+    <article class="main-kpi-card" style="--main-kpi-color:#5dd39e">
+      <div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">2</span><div><h3>Vendor Performance Scorecards</h3><p>Average final vendor score with project-level scorecard coverage listed by vendor.</p></div></div><span class="main-kpi-icon">${ICONS.coverage}</span></div>
+      <div class="main-kpi-value">${Math.round(vendorAverage)}%<small>vendor avg</small></div>
+      <div class="main-kpi-sub">Channel Partners 93% • Anderson 85% • Impulso 68% • SASR 92%.</div>
+      <div class="main-kpi-stats"><div class="main-kpi-stat"><span>Scored vendors</span><b>${fmtInt(scoredVendors.length)}</b></div><div class="main-kpi-stat"><span>Scorecard projects</span><b>${fmtInt(scorecardProjects)}</b></div><div class="main-kpi-stat"><span>Not scored</span><b>${fmtInt(unscoredVendors)}</b></div></div>
+      <div class="main-kpi-foot"><span>Vendor averages • SASR refreshed Aug 3, 2026</span><a href="#scorecards">Open scorecards</a></div>
+    </article>
+    <article class="main-kpi-card" style="--main-kpi-color:#4fc3f7">
+      <div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>Service Revenue Generation</h3><p>Modeled service revenue derived from recorded vendor cost and the selected target margin.</p></div></div><span class="main-kpi-icon">${ICONS.cost}</span></div>
+      <div class="main-kpi-value">${fmtMoney(finance.revenue,true)}<small>modeled</small></div>
+      <div class="main-kpi-sub">Current filtered view at a ${Math.round(targetMargin)}% target gross margin.</div>
+      <div class="main-kpi-stats"><div class="main-kpi-stat"><span>Vendor cost</span><b>${fmtMoney(finance.cost,true)}</b></div><div class="main-kpi-stat"><span>Modeled GP</span><b>${fmtMoney(finance.profit,true)}</b></div><div class="main-kpi-stat"><span>Projects with cost</span><b>${fmtInt(invoiceCount)}</b></div></div>
+      <div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>Actual customer revenue not in tracker</span><a href="#financials">Open model</a></div>
+    </article>`;
+}
+function renderKPIs(){
+  const n=filtered.length, active=filtered.filter(d=>d.active).length, complete=filtered.filter(d=>d.statusGroup==='Complete').length, scheduled=filtered.filter(d=>d.statusGroup==='Scheduled').length, onHold=filtered.filter(d=>d.statusGroup==='On Hold').length;
+  const cost=sum(filtered,d=>d.invoice), invoiceCount=filtered.filter(d=>d.invoiceRecorded).length;
+  $('#kpiGrid').innerHTML=[
+    kpi('Projects in reporting window',fmtInt(n),`${pct(n,DATA.length)}% of all qualifying project records`,'#4fc3f7','portfolio','rgba(79,195,247,.14)'),
+    kpi('Active projects',fmtInt(active),`${pct(active,n)}% of filtered project records`,'#f6c85f','active','rgba(246,200,95,.13)'),
+    kpi('Scheduled projects',fmtInt(scheduled),`${pct(scheduled,n)}% scheduled for delivery or execution`,'#5ea8ff','schedule','rgba(94,168,255,.13)'),
+    kpi('Completed projects',fmtInt(complete),`${pct(complete,n)}% of filtered project records completed`,'#5dd39e','complete','rgba(93,211,158,.13)'),
+    kpi('Projects on hold',fmtInt(onHold),onHold?`${pct(onHold,n)}% of filtered projects blocked or paused`:'No projects on hold in this view','#ff6b79','hold','rgba(255,107,121,.13)'),
+    kpi('Recorded vendor cost',fmtMoney(cost,true),`${fmtInt(invoiceCount)} project records with cost`,'#9de05f','cost','rgba(157,224,95,.13)')
+  ].join('')
+}
+function renderDeliveryStatus(){
+  const configs=[
+    {group:'Scheduled',count:'#scheduledStatusCount',list:'#scheduledStatusList',label:'scheduled projects'},
+    {group:'Complete',count:'#completedStatusCount',list:'#completedStatusList',label:'completed projects'},
+    {group:'On Hold',count:'#onHoldStatusCount',list:'#onHoldStatusList',label:'projects on hold'}
+  ];
+  configs.forEach(c=>{
+    const items=filtered.filter(d=>d.statusGroup===c.group).sort((a,b)=>{
+      const ad=dateObj(a.start||a.due||a.done||a.updated),bd=dateObj(b.start||b.due||b.done||b.updated);return (bd?.getTime()||0)-(ad?.getTime()||0)
+    });
+    $(c.count).textContent=fmtInt(items.length);
+    const shown=items.slice(0,7);
+    $(c.list).innerHTML=shown.length?shown.map(d=>`<div class="status-project-item" data-id="${esc(d.id)}"><div><b>${esc(d.name)}</b><span>${esc(d.workstream)} • Project month(s): ${esc(d.activityLabel||'—')}</span></div><em>${c.group==='Complete'?fmtDate(d.done||d.updated):fmtDate(d.start||d.due)}</em></div>`).join('')+(items.length>shown.length?`<div class="status-more">+${fmtInt(items.length-shown.length)} additional ${c.label}</div>`:''):`<div class="chart-empty" style="height:145px">No ${c.label} in the current filter</div>`;
+    $$(c.list+' .status-project-item').forEach(el=>el.onclick=()=>openDrawer(DATA.find(d=>d.id===el.dataset.id)));
+  });
+}
+
+function renderStatus(){
+  const counts=groupCount(filtered,d=>d.statusGroup), order=['Complete','Scheduled','Commercial / Prep','Prospective','On Hold','Cancelled','Other'].filter(k=>counts[k]);const total=filtered.length||1;let deg=0;const stops=[];
+  order.forEach(k=>{const start=deg;deg+=counts[k]/total*360;stops.push(`${STATUS_COLORS[k]} ${start}deg ${deg}deg`)});$('#statusDonut').style.background=order.length?`conic-gradient(${stops.join(',')})`:'rgba(255,255,255,.05)';$('#donutTotal').textContent=fmtInt(filtered.length);
+  $('#statusLegend').innerHTML=order.map(k=>`<div class="legend-row"><i style="background:${STATUS_COLORS[k]}"></i><span>${esc(k)}</span><b>${fmtInt(counts[k])} · ${pct(counts[k],filtered.length)}%</b></div>`).join('')||'<div class="chart-empty">No project records</div>'
+}
+function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const max=Math.max(...items.map(valueFn),0);$(target).innerHTML=items.length?items.map((x,i)=>`<div class="bar-row" title="${esc(labelFn(x))}"><div class="bar-label">${esc(labelFn(x))}</div><div class="bar-track"><div class="bar-fill" style="width:${max?Math.max(2,valueFn(x)/max*100):0}%;--bar-color:${colors[i%colors.length]}"></div></div><div class="bar-value">${formatFn(valueFn(x))}</div></div>`).join(''):'<div class="chart-empty" style="height:170px">No data in current filter</div>'}
+function renderActiveBars(){const active=filtered.filter(d=>d.active),counts=groupCount(active,d=>d.statusLabel),items=Object.entries(counts).map(([name,value])=>({name,value})).sort((a,b)=>b.value-a.value);renderBars('#activeBars',items,x=>x.value,x=>x.name,fmtInt,['#5ea8ff','#f6c85f','#9b8cff','#ff6b79','#5dd39e']);$('#activeBadge').textContent=fmtInt(active.length)+' active projects'}
+function renderWorkstreamCost(){const costs=groupSum(filtered,d=>d.workstream,d=>d.invoice),items=Object.entries(costs).filter(x=>x[1]>0).map(([name,value])=>({name,value})).sort((a,b)=>b.value-a.value);renderBars('#workstreamBars',items,x=>x.value,x=>x.name,n=>fmtMoney(n,true));$('#costBadge').textContent=fmtMoney(sum(filtered,d=>d.invoice),true)}
+function renderTopCosts(){const items=filtered.filter(d=>d.invoiceRecorded&&d.invoice>0).sort((a,b)=>b.invoice-a.invoice).slice(0,7);renderBars('#topCostBars',items,x=>x.invoice,x=>x.name,n=>fmtMoney(n,true),['#9de05f','#4fc3f7','#9b8cff','#f6c85f','#5dd39e','#ff7a90','#5ea8ff'])}
+function monthKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function renderTrend(){
+  const months=[{name:'Jan',key:'2026-01'},{name:'Feb',key:'2026-02'},{name:'Mar',key:'2026-03'},{name:'Apr',key:'2026-04'},{name:'May',key:'2026-05'},{name:'Jun',key:'2026-06'},{name:'Jul',key:'2026-07'},{name:'Aug',key:'2026-08'}];
+  const values=months.map(m=>({name:m.name,created:filtered.filter(d=>String(d.created||'').startsWith(m.key)).length,completed:filtered.filter(d=>String(d.done||'').startsWith(m.key)).length}));
+  const max=Math.max(1,...values.flatMap(x=>[x.created,x.completed]));
+  $('#completionChart').innerHTML=`<div class="trend-legend"><span class="created"><i></i>Projects Added</span><span class="completed"><i></i>Projects Completed</span></div><div class="month-bars">${values.map(x=>`<div class="month-group"><div class="month-columns"><div class="month-col created" style="height:${Math.max(3,x.created/max*100)}%"><b>${fmtInt(x.created)}</b></div><div class="month-col completed" style="height:${Math.max(3,x.completed/max*100)}%"><b>${fmtInt(x.completed)}</b></div></div><div class="month-name">${x.name}</div></div>`).join('')}</div>`;
+}
+function targetFinancials(cost){
+  const m=Math.max(0,Math.min(.8,targetMargin/100));
+  const revenue=cost>0&&m<1?cost/(1-m):cost;
+  return {cost,revenue,profit:Math.max(0,revenue-cost),margin:m};
+}
+function renderFinance(){
+  const cost=sum(filtered,d=>d.invoice),f=targetFinancials(cost),invoiceCount=filtered.filter(d=>d.invoiceRecorded).length;
+  $('#financeCost').textContent=fmtMoney(f.cost,true);$('#financeRevenue').textContent=fmtMoney(f.revenue,true);$('#financeProfit').textContent=fmtMoney(f.profit,true);$('#financeMargin').textContent=Math.round(f.margin*100)+'%';
+  $('#financeCostMeta').textContent=fmtInt(invoiceCount)+' project records with cost in current filter';$('#financeProfitMeta').textContent='Modeled at '+Math.round(f.margin*100)+'% target margin';$('#financeScopeBadge').textContent=fmtInt(filtered.length)+' filtered project records';$('#financeRevenueLabel').textContent='Revenue '+fmtMoney(f.revenue,true);$('#financeLegendCost').textContent=fmtMoney(f.cost,true);$('#financeLegendProfit').textContent=fmtMoney(f.profit,true);
+  const costPct=f.revenue?f.cost/f.revenue*100:0,profitPct=f.revenue?f.profit/f.revenue*100:0;$('#financeCostBar').style.width=costPct+'%';$('#financeProfitBar').style.width=profitPct+'%';
+}
+function normalizeMatch(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function vendorRows(v){const aliases=(v.aliases||[]).map(normalizeMatch).filter(Boolean);return filtered.filter(d=>{const name=normalizeMatch(d.name);return aliases.some(a=>name.includes(a))})}
+function vendorScoreColor(score){if(score==null)return '#718096';if(score>=90)return '#5dd39e';if(score>=80)return '#ffd047';if(score>=70)return '#f6a85f';return '#ff6b79'}
+function compactStageNames(items){const grouped=items.reduce((m,d)=>{m[d.name]=(m[d.name]||0)+1;return m},{});const entries=Object.entries(grouped);const shown=entries.slice(0,3).map(([name,count])=>`${esc(name)}${count>1?` <span style="color:#65758d">(${count} records)</span>`:''}`);return shown.join(' • ')+(entries.length>3?` • +${entries.length-3} more`:"")}
+function stageLine(rows,group,label,color){const items=rows.filter(d=>d.statusGroup===group);return `<div class="vendor-stage-row" style="--stage-color:${color}"><strong>${label}</strong><span class="${items.length?'':'none'}">${items.length?compactStageNames(items):'None'}</span></div>`}
+function renderVendorScorecards(){
+  $('#vendorScoreGrid').innerHTML=VENDOR_SCORECARDS.map(v=>{
+    const rows=vendorRows(v),counts=groupCount(rows,d=>d.statusGroup),score=v.score,cost=sum(rows,d=>d.invoice),finance=targetFinancials(cost),other=rows.filter(d=>!['Complete','Scheduled','On Hold'].includes(d.statusGroup));
+    const costPct=finance.revenue?Math.max(0,Math.min(100,finance.cost/finance.revenue*100)):0,profitPct=finance.revenue?Math.max(0,Math.min(100,finance.profit/finance.revenue*100)):0;
+    const scoreText=score==null?'—':score+'%',scoreLabel=score==null?'not scored':'avg score',scoreNote=score==null?'No verified vendor average is available in the connected score sources.':`${score}% vendor score from the source listed above.`;
+    const detailMap=PROJECT_SCORE_DETAIL[v.vendor]||{};
+    const projectList=(v.projects||[]).map((project,index)=>{
+      const detail=detailMap[project],finalScore=detail&&Number.isFinite(detail.final)?detail.final:null;
+      const scoreBadge=finalScore==null?'<em class="project-score-badge unpublished">Not published</em>':`<em class="project-score-badge" style="--project-score-color:${vendorScoreColor(finalScore)}">${finalScore}%</em>`;
+      const projectMeta=finalScore==null?'Scorecard project; no verified final score in connected summary':`Verified final project score${detail&&Number.isFinite(detail.quality)?` • Quality ${Number.isInteger(detail.quality)?detail.quality:detail.quality.toFixed(1)}/5`:''}`;
+      return `<div class="scorecard-project-row"><span class="project-num">${String(index+1).padStart(2,'0')}</span><span class="project-name"><b>${esc(project)}</b><small>${esc(projectMeta)}</small></span>${scoreBadge}</div>`;
+    }).join('');
+    return `<article class="vendor-score-card"><div class="vendor-score-top"><div><h3>${esc(v.vendor)}</h3><p>${fmtInt(v.projectCount)} scorecard projects • ${fmtInt(rows.length)} matched tracker records in current view</p><div class="vendor-score-source" style="--score-dot:${vendorScoreColor(score)}"><i></i>${esc(v.scoreBasis)}</div></div><div class="vendor-score-ring" style="--score:${score??0};--score-color:${vendorScoreColor(score)}"><div><b>${scoreText}</b><span>${scoreLabel}</span></div></div></div><div class="scorecard-project-section"><div class="scorecard-project-header"><span>Projects under this vendor scorecard</span><b>${fmtInt((v.projects||[]).length)} projects</b></div><div class="scorecard-project-list">${projectList||'<div class="score-method-note">No scorecard projects listed.</div>'}</div></div><div class="vendor-tracker-label">Matched tracker delivery status</div><div class="vendor-status-grid"><div class="vendor-status-mini complete"><b>${fmtInt(counts['Complete']||0)}</b><span>Completed</span></div><div class="vendor-status-mini scheduled"><b>${fmtInt(counts['Scheduled']||0)}</b><span>Scheduled</span></div><div class="vendor-status-mini hold"><b>${fmtInt(counts['On Hold']||0)}</b><span>On hold</span></div></div><div class="vendor-stage-list">${stageLine(rows,'Complete','Complete','#5dd39e')}${stageLine(rows,'Scheduled','Scheduled','#5ea8ff')}${stageLine(rows,'On Hold','On hold','#ff6b79')}${other.length?`<div class="vendor-stage-row" style="--stage-color:#f6c85f"><strong>Other</strong><span>${compactStageNames(other)}</span></div>`:''}</div><div class="vendor-finance"><div><span>Recorded vendor cost</span><b>${cost?fmtMoney(cost,true):'—'}</b></div><div class="profit"><span>Modeled profit @ ${Math.round(targetMargin)}%</span><b>${cost?fmtMoney(finance.profit,true):'—'}</b></div></div>${cost?`<div class="vendor-finance-bar" aria-label="Cost versus modeled profit"><div class="cost" style="width:${costPct}%"></div><div class="profit" style="width:${profitPct}%"></div></div><div class="vendor-finance-caption"><span><b>${Math.round(costPct)}%</b> cost</span><span><b>${Math.round(profitPct)}%</b> modeled profit</span></div>`:'<div class="vendor-finance-caption"><span>No vendor invoice recorded in this filtered view</span><span>Profit unavailable</span></div>'}<div class="vendor-score-footer"><p>${esc(v.note)}</p><a class="vendor-score-link" href="${esc(v.url)}" target="_blank" rel="noopener">Open scorecard ↗</a></div><div class="score-method-note">${esc(scoreNote)} Project inventory is shown above. Tracker status, matched project names, and cost update with the dashboard filters. Profit is modeled and not booked revenue.</div></article>`;
+  }).join('');
+  const totalWeight=sum(SCORECARD_WEIGHTS,x=>x.weight);
+  $('#scoreWeightList').innerHTML=SCORECARD_WEIGHTS.map(x=>`<div class="score-weight-row"><span>${esc(x.name)}</span><div class="score-weight-track"><div class="score-weight-fill" style="width:${Math.max(0,Math.min(100,x.weight))}%"></div></div><b>${x.weight}%</b></div>`).join('')+`<div class="score-source-note" style="margin-top:4px"><strong>Total weighting:</strong> ${totalWeight}%</div>`;
+}
+function riskReasons(d){const r=[];if(d.statusGroup==='On Hold')r.push('On hold');if(d.owner==='Unassigned')r.push('No owner');if(!d.start&&!d.due)r.push('No schedule');if(d.timeInStatusHours>=1440)r.push('Aging 60d+');else if(d.timeInStatusHours>=720)r.push('Aging 30d+');if(d.due&&dateObj(d.due)<AS_OF)r.push('Overdue');if(d.statusGroup==='Scheduled'&&!d.start&&!d.due)r.push('Scheduled / no date');if(!d.invoiceRecorded)r.push('Cost open');if(d.priority==='URGENT')r.push('Urgent');return r}
+function riskScore(d){const r=riskReasons(d);return r.reduce((s,x)=>s+({'On hold':6,'No owner':3,'No schedule':2,'Aging 60d+':4,'Aging 30d+':2,'Overdue':5,'Scheduled / no date':3,'Cost open':1,'Urgent':6}[x]||1),0)}
+function renderActions(){const active=filtered.filter(d=>d.active),unassigned=active.filter(d=>d.owner==='Unassigned').length,noSchedule=active.filter(d=>!d.start&&!d.due).length,aged=active.filter(d=>d.timeInStatusHours>=720).length,costOpen=active.filter(d=>!d.invoiceRecorded).length;$('#riskStrip').innerHTML=[[unassigned,'Unassigned'],[noSchedule,'No schedule'],[aged,'Aging 30d+'],[costOpen,'Cost not recorded']].map(([n,l])=>`<div class="risk-mini"><b>${fmtInt(n)}</b><span>${l}</span></div>`).join('');
+  const list=active.map(d=>({d,score:riskScore(d),reasons:riskReasons(d)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||(b.d.timeInStatusHours||0)-(a.d.timeInStatusHours||0)).slice(0,8);$('#actionList').innerHTML=list.length?list.map(x=>`<div class="action-item" data-id="${esc(x.d.id)}"><div class="risk-score">${x.score}</div><div class="action-main"><b>${esc(x.d.name)}</b><span>${esc(x.d.statusLabel)} • ${esc(x.d.owner)} • ${ageLabel(x.d.timeInStatusHours)}</span></div><div class="chips">${x.reasons.slice(0,2).map(r=>`<i class="chip">${esc(r)}</i>`).join('')}</div></div>`).join(''):'<div class="chart-empty" style="height:180px">No active control gaps in current filter</div>';$$('#actionList .action-item').forEach(el=>el.onclick=()=>openDrawer(DATA.find(d=>d.id===el.dataset.id)))
+}
+function renderUpcoming(){const items=filtered.filter(d=>d.active).map(d=>{const s=dateObj(d.start),due=dateObj(d.due);let date=null,type='';if(s&&s>=AS_OF){date=s;type='Starts'}else if(due&&due>=AS_OF){date=due;type='Due'}return date?{d,date,type}:null}).filter(Boolean).sort((a,b)=>a.date-b.date).slice(0,8);$('#upcomingList').innerHTML=items.length?items.map(x=>`<div class="upcoming-item"><div class="date-tile"><b>${x.date.getDate()}</b><span>${x.date.toLocaleString('en-US',{month:'short'})}</span></div><div class="upcoming-main"><b>${esc(x.d.name)}</b><span>${x.type} • ${esc(x.d.workstream)} • ${esc(x.d.owner)}</span></div><span class="stage-pill">${esc(x.d.statusGroup)}</span></div>`).join(''):'<div class="chart-empty" style="height:245px">No future project start or due dates in the current filter</div>'}
+function ageLabel(h){if(h==null)return '—';if(h<24)return h<1?'&lt;1h':Math.round(h)+'h';const d=Math.floor(h/24);return d+'d'}
+function sortValue(d,k){let v=d[k];if(k==='invoice'||k==='timeInStatusHours')return v==null?-Infinity:+v;if(k==='start'||k==='due')return v?dateObj(v).getTime():-Infinity;return String(v??'').toLowerCase()}
+function renderTable(){const arr=[...filtered].sort((a,b)=>{const av=sortValue(a,state.sort),bv=sortValue(b,state.sort);return (av>bv?1:av<bv?-1:0)*state.dir});const pages=Math.max(1,Math.ceil(arr.length/state.pageSize));if(state.page>pages)state.page=pages;const start=(state.page-1)*state.pageSize,rows=arr.slice(start,start+state.pageSize);$('#tableBody').innerHTML=rows.length?rows.map(d=>`<tr data-id="${esc(d.id)}"><td class="project">${esc(d.name)}<small>${esc(d.id||'No task ID')}</small></td><td>${esc(d.activityLabel||'—')}</td><td><span class="status"><i style="background:${STATUS_COLORS[d.statusGroup]||'#b0bec5'}"></i>${esc(d.statusGroup)}</span></td><td>${esc(d.workstream)}</td><td>${esc(d.owner)}</td><td>${fmtDate(d.start)}</td><td>${fmtDate(d.due)}</td><td>${ageLabel(d.timeInStatusHours)}</td><td class="money">${fmtMoney(d.invoice)}</td></tr>`).join(''):`<tr><td colspan="9"><div class="chart-empty" style="height:130px">No project records match the selected filters</div></td></tr>`;$$('#tableBody tr[data-id]').forEach(tr=>tr.onclick=()=>openDrawer(DATA.find(d=>d.id===tr.dataset.id)));$('#tableBadge').textContent=fmtInt(filtered.length)+' project records';$('#tableMeta').textContent=filtered.length?`Showing ${start+1}–${Math.min(start+state.pageSize,arr.length)} of ${fmtInt(arr.length)}`:'No results';$('#pageMeta').textContent=`Page ${state.page} of ${pages}`;$('#prevPage').disabled=state.page<=1;$('#nextPage').disabled=state.page>=pages}
+function openDrawer(d){if(!d)return;const risk=riskReasons(d);$('#drawerContent').innerHTML=`<div class="eyebrow">${esc(d.workstream)}</div><h2>${esc(d.name)}</h2><div class="drawer-sub">Task ID ${esc(d.id||'—')} • Updated ${fmtDate(d.updated)}</div><div class="detail-grid"><div class="detail"><span>Project month(s)</span><b>${esc(d.activityLabel||'—')}</b></div><div class="detail"><span>Status</span><b>${esc(d.statusLabel)}</b></div><div class="detail"><span>Owner</span><b>${esc(d.owner)}</b></div><div class="detail"><span>Start</span><b>${fmtDate(d.start)}</b></div><div class="detail"><span>Due</span><b>${fmtDate(d.due)}</b></div><div class="detail"><span>Vendor invoice</span><b>${fmtMoney(d.invoice)}</b></div><div class="detail"><span>Target profit @ ${Math.round(targetMargin)}%</span><b>${d.invoice?fmtMoney(targetFinancials(d.invoice).profit):'—'}</b></div><div class="detail"><span>Time in status</span><b>${ageLabel(d.timeInStatusHours)}</b></div><div class="detail"><span>Tier</span><b>${esc(d.tier||'—')}</b></div><div class="detail"><span>Risk flags</span><b>${risk.length?esc(risk.join(', ')):'None calculated'}</b></div></div>${d.address?`<div class="drawer-section"><h4>Store address</h4><p>${esc(d.address)}</p></div>`:''}<div class="drawer-section"><h4>Latest comment</h4><p class="${d.latestComment?'':'empty-text'}">${esc(d.latestComment||'No latest comment in the source export.')}</p></div><div class="drawer-section"><h4>Task content / scope</h4><p class="${d.content?'':'empty-text'}">${esc(d.content||'No task content in the source export.')}</p></div>`;$('#drawerOverlay').classList.add('open');document.body.style.overflow='hidden'}
+function closeDrawer(){$('#drawerOverlay').classList.remove('open');document.body.style.overflow=''}
+function bindTips(root){root.querySelectorAll('[data-tip]').forEach(el=>{el.addEventListener('mousemove',e=>{const t=$('#tooltip');t.textContent=el.dataset.tip;t.style.left=e.clientX+'px';t.style.top=e.clientY+'px';t.style.opacity=1});el.addEventListener('mouseleave',()=>$('#tooltip').style.opacity=0)})}
+function exportCSV(){const cols=[['Task ID','id'],['Task Name','name'],['Project Month(s)','activityLabel'],['Status','statusLabel'],['Stage Group','statusGroup'],['Workstream','workstream'],['Owner','owner'],['Start Date','start'],['Due Date','due'],['Vendor Invoice','invoice'],['Target Revenue','__targetRevenue'],['Target Profit','__targetProfit'],['Target Margin %','__targetMargin'],['Time In Status Hours','timeInStatusHours'],['Address','address'],['Latest Comment','latestComment']];const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const lines=[cols.map(c=>quote(c[0])).join(',')].concat(filtered.map(d=>{const f=targetFinancials(d.invoice||0),x={...d,__targetRevenue:d.invoiceRecorded?f.revenue:'',__targetProfit:d.invoiceRecorded?f.profit:'',__targetMargin:d.invoiceRecorded?targetMargin:''};return cols.map(c=>quote(x[c[1]])).join(',')}));const blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Vusion_Field_Services_2026_Project_Portfolio_Filtered.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+boot();
+</script>
+</body>
+</html>
