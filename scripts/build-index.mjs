@@ -12,7 +12,8 @@ const END_DATE = process.env.CLICKUP_END_DATE || '';
 const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
 const END_CUTOFF = END_DATE ? new Date(`${END_DATE}T23:59:59.999Z`) : new Date();
 
-const ACTIVE_STAGE_CARD_RE = /<article class="card"><div class="card-head"><div><h3>Active projects by delivery stage<\/h3><p>Open project records grouped by their current operational status\.<\/p><\/div><span class="badge" id="activeBadge">0 active projects<\/span><\/div><div class="card-body"><div class="bar-list" id="activeBars"><\/div><\/div><\/article>/;
+const ACTIVE_STAGE_CARD_RE = /<article\b[\s\S]*?<h3>\s*Active projects by delivery stage\s*<\/h3>[\s\S]*?<\/article>/i;
+const ACTIVE_STAGE_SECTION_RE = /<div class="section-head" id="portfolio">[\s\S]*?<article\b[\s\S]*?<h3>\s*Active projects by delivery stage\s*<\/h3>[\s\S]*?<\/article>/i;
 const MONTHLY_COST_SECTION_RE = /<section class="grid two" style="margin-top:12px">[\s\S]*?<div class="section-head" id="financials">/;
 const SCORECARD_CONST_RE = /const VENDOR_SCORECARDS = \[[\s\S]*?const SCORECARD_WEIGHTS = \[[\s\S]*?\];/;
 
@@ -336,6 +337,7 @@ async function main() {
   }
 
   html = html
+    .replace(ACTIVE_STAGE_SECTION_RE, '<div class="section-head" id="portfolio">')
     .replace(ACTIVE_STAGE_CARD_RE, '')
     .replace(MONTHLY_COST_SECTION_RE, '<div class="section-head" id="financials">');
 
