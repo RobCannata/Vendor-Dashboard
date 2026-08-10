@@ -421,11 +421,11 @@ function renderStatus(){
 function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const max=Math.max(...items.map(valueFn),0);$(target).innerHTML=items.length?items.map((x,i)=>`<div class="bar-row" title="${esc(labelFn(x))}"><div class="bar-label">${esc(labelFn(x))}</div><div class="bar-track"><div class="bar-fill" style="width:${max?Math.max(2,valueFn(x)/max*100):0}%;--bar-color:${colors[i%colors.length]}"></div></div><div class="bar-value">${formatFn(valueFn(x))}</div></div>`).join(''):'<div class="chart-empty" style="height:170px">No data in current filter</div>'}
 function renderActiveBars(){const active=filtered.filter(d=>d.active),counts=groupCount(active,d=>d.statusLabel),items=Object.entries(counts).map(([name,value])=>({name,value})).sort((a,b)=>b.value-a.value);renderBars('#activeBars',items,x=>x.value,x=>x.name,fmtInt,['#5ea8ff','#f6c85f','#9b8cff','#ff6b79','#5dd39e']);$('#activeBadge').textContent=fmtInt(active.length)+' active projects'}
 function renderWorkstreamCost(){const costs=groupSum(filtered,d=>d.workstream,d=>d.invoice),items=Object.entries(costs).filter(x=>x[1]>0).map(([name,value])=>({name,value})).sort((a,b)=>b.value-a.value);renderBars('#workstreamBars',items,x=>x.value,x=>x.name,n=>fmtMoney(n,true));$('#costBadge').textContent=fmtMoney(sum(filtered,d=>d.invoice),true)}
-function renderTopCosts(){const items=filtered.filter(d=>d.invoiceRecorded&&d.invoice>0).sort((a,b)=>b.invoice-a.invoice).slice(0,7);renderBars('#topCostBars',items,x=>x.invoice,x=>x.name,n=>fmtMoney(n,true),['#9de05f','#4fc3f7','#9b8cff','#f6c85f','#5dd39e','#ff7a90','#5ea8ff'])}
+function renderTopCosts(){const items=DATA.filter(d=>d.invoiceRecorded&&d.invoice>0).sort((a,b)=>b.invoice-a.invoice).slice(0,7);renderBars('#topCostBars',items,x=>x.invoice,x=>x.name,n=>fmtMoney(n,true),['#9de05f','#4fc3f7','#9b8cff','#f6c85f','#5dd39e','#ff7a90','#5ea8ff'])}
 function monthKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function renderTrend(){
   const months=[{name:'Jan',key:'2026-01'},{name:'Feb',key:'2026-02'},{name:'Mar',key:'2026-03'},{name:'Apr',key:'2026-04'},{name:'May',key:'2026-05'},{name:'Jun',key:'2026-06'},{name:'Jul',key:'2026-07'},{name:'Aug',key:'2026-08'}];
-  const values=months.map(m=>({name:m.name,created:filtered.filter(d=>String(d.created||'').startsWith(m.key)).length,completed:filtered.filter(d=>String(d.done||'').startsWith(m.key)).length}));
+  const values=months.map(m=>({name:m.name,created:DATA.filter(d=>String(d.created||'').startsWith(m.key)).length,completed:DATA.filter(d=>String(d.done||'').startsWith(m.key)).length}));
   const max=Math.max(1,...values.flatMap(x=>[x.created,x.completed]));
   $('#completionChart').innerHTML=`<div class="trend-legend"><span class="created"><i></i>Projects Added</span><span class="completed"><i></i>Projects Completed</span></div><div class="month-bars">${values.map(x=>`<div class="month-group"><div class="month-columns"><div class="month-col created" style="height:${Math.max(3,x.created/max*100)}%"><b>${fmtInt(x.created)}</b></div><div class="month-col completed" style="height:${Math.max(3,x.completed/max*100)}%"><b>${fmtInt(x.completed)}</b></div></div><div class="month-name">${x.name}</div></div>`).join('')}</div>`;
 }
@@ -522,6 +522,79 @@ boot();
       var task = data[i] || {};
       revenue += getNumber(task, ["Customer invoice", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerInvoice", "customerRevenue"]);
       cost += getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);
+    }
+
+    var profit = revenue - cost;
+    var margin = revenue ? Math.round((profit / revenue) * 100) : null;
+    var title = "P&L";
+    var subtitle = revenue > 0 ? "Customer invoice less vendor invoice." : "Customer invoice is not captured yet; vendor invoice is still tracked.";
+    var note = revenue > 0 ? "Customer invoice = revenue • Vendor invoice = direct cost" : "Add a customer invoice field in ClickUp to show live revenue.";
+
+    card.innerHTML =
+      '<div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>' + title + '</h3><p>' + subtitle + '</p></div></div><span class="main-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20m5-16H9a3 3 0 0 0 0 6h6a3 3 0 1 1 0 6H6" stroke-width="1.7"/></svg></span></div>' +
+      '<div class="main-kpi-value">' + money(revenue, true) + '<small>revenue</small></div>' +
+      '<div class="main-kpi-sub">Gross profit ' + money(profit, true) + ' • margin ' + (margin == null ? "—" : margin + "%") + '</div>' +
+      '<div class="main-kpi-stats"><div class="main-kpi-stat"><span>Customer invoice</span><b>' + money(revenue, true) + '</b></div><div class="main-kpi-stat"><span>Vendor invoice</span><b>' + money(cost, true) + '</b></div><div class="main-kpi-stat"><span>Gross profit</span><b>' + money(profit, true) + '</b></div></div>' +
+      '<div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>' + note + '</span><a href="#financials">Open model</a></div>';
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", renderPnL, { once: true });
+  } else {
+    renderPnL();
+  }
+})();
+</script><script>
+(function(){
+  function money(value, compact) {
+    var n = Number(value);
+    if (!Number.isFinite(n)) return "—";
+    if (compact) {
+      var abs = Math.abs(n);
+      if (abs >= 1e6) return "$" + (n / 1e6).toFixed(abs >= 1e7 ? 0 : 2).replace(/\.00$/, "") + "M";
+      if (abs >= 1e3) return "$" + (n / 1e3).toFixed(abs >= 1e5 ? 0 : 1).replace(/\.0$/, "") + "K";
+    }
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+  }
+
+  function getNumber(task, keys) {
+    var list = Array.isArray(keys) ? keys : [];
+    for (var i = 0; i < list.length; i++) {
+      var key = String(list[i] || "").trim().toLowerCase();
+      if (!key) continue;
+      for (var j = 0; j < (task.custom_fields || []).length; j++) {
+        var field = task.custom_fields[j] || {};
+        var name = String(field.name || field.label || "").trim().toLowerCase();
+        if (name !== key) continue;
+        var raw = field.value;
+        var num = Number(raw);
+        if (Number.isFinite(num)) return num;
+      }
+      var fallback = Number(task[key]);
+      if (Number.isFinite(fallback)) return fallback;
+    }
+    return 0;
+  }
+
+  function renderPnL() {
+    var cards = document.querySelectorAll(".main-kpi-card");
+    var card = cards[2];
+    var data = window.DATA || [];
+    if (!card || !Array.isArray(data)) return;
+
+    var revenue = 0;
+    var cost = 0;
+    var revenueCount = 0;
+    var costCount = 0;
+
+    for (var i = 0; i < data.length; i++) {
+      var task = data[i] || {};
+      var r = getNumber(task, ["Customer invoice", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerInvoice", "customerRevenue"]);
+      var c = getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);
+      revenue += r;
+      cost += c;
+      if (r > 0) revenueCount++;
+      if (c > 0) costCount++;
     }
 
     var profit = revenue - cost;
