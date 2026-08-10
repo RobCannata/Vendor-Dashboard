@@ -31,9 +31,7 @@ function removeSectionByTitle(html, title) {
     new RegExp(`<section class="card">[\\s\\S]*?<h2>${escaped}<\\/h2>[\\s\\S]*?<\\/section>`, 'i'),
   ];
   let out = html;
-  for (const pattern of patterns) {
-    out = out.replace(pattern, '');
-  }
+  for (const pattern of patterns) out = out.replace(pattern, '');
   return out;
 }
 
@@ -261,22 +259,16 @@ function buildPnLScript() {
     '',
     '    var revenue = 0;',
     '    var cost = 0;',
-    '    var revenueCount = 0;',
-    '    var costCount = 0;',
     '',
     '    for (var i = 0; i < data.length; i++) {',
     '      var task = data[i] || {};',
-    '      var r = getNumber(task, ["Customer charge", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerCharge", "customerRevenue"]);',
-    '      var c = getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);',
-    '      revenue += r;',
-    '      cost += c;',
-    '      if (r > 0) revenueCount++;',
-    '      if (c > 0) costCount++;',
+    '      revenue += getNumber(task, ["Customer charge", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerCharge", "customerRevenue"]);',
+    '      cost += getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);',
     '    }',
     '',
     '    var profit = revenue - cost;',
     '    var margin = revenue ? Math.round((profit / revenue) * 100) : null;',
-    '    var title = "Customer P&L";',
+    '    var title = "P&L";',
     '    var subtitle = revenue > 0 ? "Customer charge less vendor invoice." : "Customer charge is not captured yet; vendor invoice is still tracked.";',
     '    var note = revenue > 0 ? "Customer charge = revenue • Vendor invoice = direct cost" : "Add a customer charge field in ClickUp to show live revenue.";',
     '',
