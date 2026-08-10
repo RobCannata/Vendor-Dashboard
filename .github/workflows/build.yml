@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths-ignore:
       - 'clickup-data.json'
+      - 'index.html'
   workflow_dispatch:
   schedule:
     - cron: '17 * * * *'
@@ -38,17 +39,18 @@ jobs:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
         run: npm run build
 
-      - name: Publish ClickUp data to repo root
+      - name: Publish built dashboard to repo root
         run: |
           cp dist/clickup-data.json clickup-data.json
+          cp dist/index.html index.html
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add clickup-data.json
+          git add clickup-data.json index.html
           if ! git diff --cached --quiet; then
-            git commit -m "Update ClickUp data"
+            git commit -m "Update ClickUp data and built dashboard"
             git push
           else
-            echo "No ClickUp data changes to commit."
+            echo "No dashboard changes to commit."
           fi
 
       - name: Upload Pages artifact
