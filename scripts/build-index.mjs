@@ -13,37 +13,35 @@ const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
 const END_CUTOFF = END_DATE ? new Date(`${END_DATE}T23:59:59.999Z`) : new Date();
 
 const SCORECARD_CONST_RE = /const VENDOR_SCORECARDS = \[[\s\S]*?const SCORECARD_WEIGHTS = \[[\s\S]*?\];/;
-const HIDE_UNWANTED_SECTIONS_SCRIPT = `
-<script>
-(() => {
-  const HIDE_TITLES = new Set([
-    'Active projects by delivery stage',
-    'Monthly projects added vs. completed',
-    'Highest-cost projects',
-  ]);
-
-  const removeMatchedSections = () => {
-    const nodes = Array.from(document.querySelectorAll('article.card, section.card, .card, section'));
-    for (const node of nodes) {
-      const heading = node.querySelector('h1, h2, h3, h4, h5, h6');
-      if (!heading) continue;
-      const title = heading.textContent.trim();
-      if (!HIDE_TITLES.has(title)) continue;
-      node.remove();
-    }
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', removeMatchedSections, { once: true });
-  } else {
-    removeMatchedSections();
-  }
-})();
-</script>`;
+const REMOVE_TITLES = [
+  'Active projects by delivery stage',
+  'Monthly projects added vs. completed',
+  'Highest-cost projects',
+];
 
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
   process.exit(1);
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function removeSectionByTitle(html, title) {
+  const escaped = escapeRegExp(title);
+  const patterns = [
+    new RegExp(`<article class="card">[\\s\\S]*?<h3>${escaped}<\\/h3>[\\s\\S]*?<\\/article>`, 'i'),
+    new RegExp(`<section class="card">[\\s\\S]*?<h3>${escaped}<\\/h3>[\\s\\S]*?<\\/section>`, 'i'),
+    new RegExp(`<article class="card">[\\s\\S]*?<h2>${escaped}<\\/h2>[\\s\\S]*?<\\/article>`, 'i'),
+    new RegExp(`<section class="card">[\\s\\S]*?<h2>${escaped}<\\/h2>[\\s\\S]*?<\\/section>`, 'i'),
+  ];
+
+  let out = html;
+  for (const pattern of patterns) {
+    out = out.replace(pattern, '');
+  }
+  return out;
 }
 
 function pickCustomField(task, names) {
@@ -86,9 +84,9 @@ function prettyStatusGroup(statusName, statusType) {
 
 function fmtMonth(iso) {
   if (!iso) return null;
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return null;
-  return d.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
 }
 
 function addDateActivity(acc, field, iso) {
@@ -369,10 +367,8 @@ async function main() {
     console.warn('Scorecard refresh failed; keeping bundled scorecard data:', err?.message || err);
   }
 
-  if (html.includes('</body>')) {
-    html = html.replace('</body>', `${HIDE_UNWANTED_SECTIONS_SCRIPT}</body>`);
-  } else {
-    html += HIDE_UNWANTED_SECTIONS_SCRIPT;
+  for (const title of REMOVE_TITLES) {
+    html = removeSectionByTitle(html, title);
   }
 
   await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
