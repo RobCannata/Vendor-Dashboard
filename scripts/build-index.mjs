@@ -3,7 +3,6 @@ import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
 const TEAM_ID = process.env.CLICKUP_TEAM_ID || '14341097';
-const SCORECARD_LIST_ID = process.env.CLICKUP_SCORECARD_LIST_ID || '901217460327';
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
 const PAGE_SIZE = 100;
 const API_BASE = 'https://api.clickup.com/api/v2';
@@ -13,59 +12,6 @@ const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
 const END_CUTOFF = END_DATE ? new Date(`${END_DATE}T23:59:59.999Z`) : new Date();
 
 const ACTIVE_STAGE_CARD_RE = /<article class="card"><div class="card-head"><div><h3>Active projects by delivery stage<\/h3><p>Open project records grouped by their current operational status\.<\/p><\/div><span class="badge" id="activeBadge">0 active projects<\/span><\/div><div class="card-body"><div class="bar-list" id="activeBars"><\/div><\/div><\/article>/;
-const SCORECARD_CONST_RE = /const VENDOR_SCORECARDS = \[[\s\S]*?const SCORECARD_WEIGHTS = \[[\s\S]*?\];/;
-
-const PNL_CARD_SCRIPT = `
-<script>
-(() => {
-  const money = (n, compact = false) => {
-    const value = Number(n);
-    if (!Number.isFinite(value)) return '—';
-    if (compact) {
-      const abs = Math.abs(value);
-      if (abs >= 1e6) return '$' + (value / 1e6).toFixed(abs >= 1e7 ? 0 : 2).replace(/\.00$/, '') + 'M';
-      if (abs >= 1e3) return '$' + (value / 1e3).toFixed(abs >= 1e5 ? 0 : 1).replace(/\.0$/, '') + 'K';
-    }
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
-  };
-
-  const sum = (arr, key) => arr.reduce((total, item) => total + (Number(item?.[key]) || 0), 0);
-
-  const renderPnL = () => {
-    const cards = document.querySelectorAll('.main-kpi-card');
-    const card = cards[2];
-    if (!card || !Array.isArray(DATA)) return;
-
-    const revenue = sum(DATA, 'revenue');
-    const cost = sum(DATA, 'invoice');
-    const profit = revenue - cost;
-    const margin = revenue ? Math.round((profit / revenue) * 100) : null;
-    const revenueCount = DATA.filter((d) => Number(d?.revenue) > 0).length;
-    const costCount = DATA.filter((d) => Number(d?.invoice) > 0).length;
-    const title = 'Customer P&L';
-    const subtitle = revenue > 0
-      ? 'Customer charge less vendor invoice.'
-      : 'Customer charge is not captured yet; vendor invoice is still tracked.';
-    const note = revenue > 0
-      ? 'Customer charge = revenue • Vendor invoice = direct cost'
-      : 'Add a customer charge field in ClickUp to show live revenue.';
-
-    card.innerHTML = `
-      <div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>${title}</h3><p>${subtitle}</p></div></div><span class="main-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20m5-16H9a3 3 0 0 0 0 6h6a3 3 0 1 1 0 6H6" stroke-width="1.7"/></svg></span></div>
-      <div class="main-kpi-value">${money(revenue, true)}<small>revenue</small></div>
-      <div class="main-kpi-sub">Gross profit ${money(profit, true)} • margin ${margin == null ? '—' : `${margin}%`}.</div>
-      <div class="main-kpi-stats"><div class="main-kpi-stat"><span>Customer charge</span><b>${money(revenue, true)}</b></div><div class="main-kpi-stat"><span>Vendor invoice</span><b>${money(cost, true)}</b></div><div class="main-kpi-stat"><span>Gross profit</span><b>${money(profit, true)}</b></div></div>
-      <div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>${note}</span><a href="#financials">Open model</a></div>
-    `;
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', renderPnL, { once: true });
-  } else {
-    renderPnL();
-  }
-})();
-</script>`;
 
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
@@ -85,8 +31,17 @@ function removeSectionByTitle(html, title) {
     new RegExp(`<section class="card">[\\s\\S]*?<h2>${escaped}<\\/h2>[\\s\\S]*?<\\/section>`, 'i'),
   ];
   let out = html;
-  for (const pattern of patterns) out = out.replace(pattern, '');
+  for (const pattern of patterns) {
+    out = out.replace(pattern, '');
+  }
   return out;
+}
+
+function removeActiveProjectsCard(html) {
+  if (ACTIVE_STAGE_CARD_RE.test(html)) {
+    return html.replace(ACTIVE_STAGE_CARD_RE, '');
+  }
+  return removeSectionByTitle(html, 'Active projects by delivery stage');
 }
 
 function pickCustomField(task, names) {
@@ -127,25 +82,6 @@ function prettyStatusGroup(statusName, statusType) {
   return 'Other';
 }
 
-function fmtMonth(iso) {
-  if (!iso) return null;
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return null;
-  return d.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
-}
-
-function addDateActivity(acc, field, iso) {
-  if (!iso) return;
-  const month = fmtMonth(iso);
-  if (!month) return;
-  acc.activityDates.push({ field, date: iso, month });
-  if (!acc.activityMonths.includes(month)) acc.activityMonths.push(month);
-  const year = new Date(iso).getUTCFullYear();
-  if (!acc.years.includes(year)) acc.years.push(year);
-  if (!acc.activityLabel) acc.activityLabel = month;
-  else if (!acc.activityLabel.includes(month)) acc.activityLabel += ` / ${month}`;
-}
-
 function firstAssignee(task) {
   const assignees = Array.isArray(task?.assignees) ? task.assignees : [];
   const first = assignees[0];
@@ -159,7 +95,13 @@ function creatorName(task) {
 }
 
 function guessWorkstream(task) {
-  return pickCustomField(task, ['Workstream', 'Work Stream', 'Program', 'Project Type']) || task?.folder?.name || task?.list?.name || task?.space?.name || 'ClickUp';
+  return (
+    pickCustomField(task, ['Workstream', 'Work Stream', 'Program', 'Project Type']) ||
+    task?.folder?.name ||
+    task?.list?.name ||
+    task?.space?.name ||
+    'ClickUp'
+  );
 }
 
 function normalizeTask(task) {
@@ -173,7 +115,7 @@ function normalizeTask(task) {
   const statusGroup = prettyStatusGroup(statusName, statusType);
   const priority = task?.priority?.priority || task?.priority?.name || task?.priority || 'NONE';
   const invoice = Number(pickCustomField(task, ['Vendor invoice', 'Vendor Invoice', 'Invoice', 'Cost', 'Vendor Cost']) || 0) || null;
-  const revenue = Number(pickCustomField(task, ['Customer Charge', 'Customer Invoice', 'Customer Revenue', 'Billable', 'Revenue', 'Price', 'Install Charge', 'Sell Price']) || 0) || null;
+  const revenue = Number(pickCustomField(task, ['Customer charge', 'Customer Charge', 'Charge', 'Billable', 'Revenue', 'Customer Revenue']) || 0) || null;
 
   const acc = {
     id: task?.id || '',
@@ -205,15 +147,18 @@ function normalizeTask(task) {
     content: task?.description || task?.text_content || '',
     commentCount: Number(task?.comment_count || task?.comments_count || 0),
     createdBy: creatorName(task),
-    activityDates: [],
     activityMonths: [],
     activityLabel: '',
   };
 
-  addDateActivity(acc, 'start', start);
-  addDateActivity(acc, 'due', due);
-  addDateActivity(acc, 'created', created);
-  addDateActivity(acc, 'done', done);
+  const activityDates = [start, due, created, done].filter(Boolean);
+  for (const iso of activityDates) {
+    const date = new Date(iso);
+    if (Number.isNaN(date.getTime())) continue;
+    const month = date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
+    if (!acc.activityMonths.includes(month)) acc.activityMonths.push(month);
+    if (!acc.activityLabel) acc.activityLabel = month;
+  }
 
   const ref = done || updated || created;
   if (ref) {
@@ -227,7 +172,9 @@ function normalizeTask(task) {
 }
 
 async function fetchJson(url) {
-  const res = await fetch(url, { headers: { Authorization: TOKEN, Accept: 'application/json' } });
+  const res = await fetch(url, {
+    headers: { Authorization: TOKEN, Accept: 'application/json' },
+  });
   if (!res.ok) {
     const body = await res.text().catch(() => '');
     throw new Error(`ClickUp request failed (${res.status} ${res.statusText}): ${body.slice(0, 300)}`);
@@ -239,110 +186,116 @@ async function fetchPagedTasks(urlBuilder) {
   const results = [];
   let page = 0;
   let useZeroBased = true;
+
   while (true) {
     const url = urlBuilder(page);
     let data;
     try {
       data = await fetchJson(url);
     } catch (err) {
-      if (page === 0 && useZeroBased) { useZeroBased = false; page = 1; continue; }
+      if (page === 0 && useZeroBased) {
+        useZeroBased = false;
+        page = 1;
+        continue;
+      }
       throw err;
     }
+
     const tasks = Array.isArray(data?.tasks) ? data.tasks : Array.isArray(data) ? data : [];
     results.push(...tasks);
     if (tasks.length < PAGE_SIZE) break;
     page += 1;
   }
+
   return results.map(normalizeTask);
 }
 
 function isWithinRange(task) {
   const candidates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
+  if (!candidates.length) return false;
   return candidates.some((value) => {
     const date = new Date(value);
     return !Number.isNaN(date.getTime()) && date >= START_CUTOFF && date <= END_CUTOFF;
   });
 }
 
-function numberField(task, names) {
-  const value = pickCustomField(task, names);
-  if (value == null || value === '') return null;
-  const n = Number(value);
-  return Number.isFinite(n) ? n : null;
-}
-
-function scoreFromTask(task) {
-  const direct = numberField(task, ['Final Score', 'Final', 'Vendor Score', 'Score', 'Overall', 'Total']);
-  const quality = numberField(task, ['Quality', 'Quality Score']);
-  if (Number.isFinite(direct)) return { final: direct <= 5 ? Math.round(direct * 20) : direct, quality };
-
-  const dims = {
-    execution: numberField(task, ['Execution', 'Execution Score']),
-    quality,
-    communication: numberField(task, ['Communication', 'Communication Score']),
-    compliance: numberField(task, ['Compliance & Safety', 'Compliance', 'Safety']),
-    reliability: numberField(task, ['Reliability', 'Reliability Score']),
-  };
-  const weights = { execution: 25, quality: 30, communication: 20, compliance: 15, reliability: 10 };
-  const present = Object.values(dims).some((v) => Number.isFinite(v));
-  if (!present) return { final: null, quality };
-
-  let weighted = 0;
-  let used = 0;
-  for (const [key, v] of Object.entries(dims)) {
-    if (!Number.isFinite(v)) continue;
-    used += weights[key];
-    weighted += (v <= 5 ? v / 5 : v / 100) * weights[key];
-  }
-  return { final: used ? Math.round(weighted * 10) / 10 : null, quality };
-}
-
-function deriveVendorShort(name) {
-  return String(name || '').replace(/\bscorecards?\b/ig, '').replace(/\bscorecard\b/ig, '').replace(/\brevisits\b/ig, 'Revisits').replace(/\s+/g, ' ').trim() || String(name || '').trim();
-}
-
-function buildScorecardData(rawTasks) {
-  const parents = rawTasks.filter((t) => !t.parent);
-  const liveChildren = rawTasks.filter((t) => t.parent);
-  if (!parents.length) return null;
-
-  const childrenByParent = new Map();
-  for (const child of liveChildren) {
-    if (!childrenByParent.has(child.parent)) childrenByParent.set(child.parent, []);
-    childrenByParent.get(child.parent).push(child);
-  }
-
-  const order = ['Channel Partners', 'Anderson', 'Impulso', 'SASR'];
-  const vendors = [];
-  const projectDetail = {};
-  for (const parent of parents) {
-    const short = deriveVendorShort(parent.name);
-    const children = (childrenByParent.get(parent.id) || []).slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
-    const childScores = children.map((c) => ({ task: c, ...scoreFromTask(c) }));
-    const parentScore = scoreFromTask(parent);
-    const scoreValues = [parentScore.final, ...childScores.map((x) => x.final)].filter((v) => Number.isFinite(v));
-    const score = scoreValues.length ? Math.round((scoreValues.reduce((a, b) => a + b, 0) / scoreValues.length) * 10) / 10 : null;
-    const updated = [parent.updated, ...children.map((c) => c.updated)].filter(Boolean).sort().at(-1) || parent.updated || null;
-    const projects = children.map((c) => c.name).filter(Boolean);
-    vendors.push({
-      vendor: short,
-      short,
-      taskId: parent.id,
-      url: parent.url,
-      projectCount: projects.length,
-      updated,
-      fields: Number(parent.custom_fields_count || 0),
-      projects,
-      note: projects.length ? `Live ClickUp vendor scorecard with ${projects.length} linked project${projects.length === 1 ? '' : 's'}.` : 'Live ClickUp vendor scorecard.',
-      aliases: [...new Set([short, parent.name, ...projects].map((s) => String(s || '').trim().toLowerCase()).filter(Boolean))],
-      score,
-      scoreBasis: score != null ? 'Live ClickUp task data' : 'Live ClickUp task data (score not published)',
-    });
-    projectDetail[short] = {};
-    for (const x of childScores) projectDetail[short][x.task.name] = { final: x.final, quality: x.quality };
-  }
-  vendors.sort((a, b) => order.indexOf(a.short) - order.indexOf(b.short));
-  return { vendors, projectDetail };
+function buildPnLScript() {
+  return [
+    '<script>',
+    '(function(){',
+    '  function money(value, compact) {',
+    '    var n = Number(value);',
+    '    if (!Number.isFinite(n)) return "—";',
+    '    if (compact) {',
+    '      var abs = Math.abs(n);',
+    '      if (abs >= 1e6) return "$" + (n / 1e6).toFixed(abs >= 1e7 ? 0 : 2).replace(/\\.00$/, "") + "M";',
+    '      if (abs >= 1e3) return "$" + (n / 1e3).toFixed(abs >= 1e5 ? 0 : 1).replace(/\\.0$/, "") + "K";',
+    '    }',
+    '    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);',
+    '  }',
+    '',
+    '  function getNumber(task, keys) {',
+    '    var list = Array.isArray(keys) ? keys : [];',
+    '    for (var i = 0; i < list.length; i++) {',
+    '      var key = String(list[i] || "").trim().toLowerCase();',
+    '      if (!key) continue;',
+    '      for (var j = 0; j < (task.custom_fields || []).length; j++) {',
+    '        var field = task.custom_fields[j] || {};',
+    '        var name = String(field.name || field.label || "").trim().toLowerCase();',
+    '        if (name !== key) continue;',
+    '        var raw = field.value;',
+    '        var num = Number(raw);',
+    '        if (Number.isFinite(num)) return num;',
+    '      }',
+    '      var fallback = Number(task[key]);',
+    '      if (Number.isFinite(fallback)) return fallback;',
+    '    }',
+    '    return 0;',
+    '  }',
+    '',
+    '  function renderPnL() {',
+    '    var cards = document.querySelectorAll(".main-kpi-card");',
+    '    var card = cards[2];',
+    '    var data = window.DATA || [];',
+    '    if (!card || !Array.isArray(data)) return;',
+    '',
+    '    var revenue = 0;',
+    '    var cost = 0;',
+    '    var revenueCount = 0;',
+    '    var costCount = 0;',
+    '',
+    '    for (var i = 0; i < data.length; i++) {',
+    '      var task = data[i] || {};',
+    '      var r = getNumber(task, ["Customer charge", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerCharge", "customerRevenue"]);',
+    '      var c = getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);',
+    '      revenue += r;',
+    '      cost += c;',
+    '      if (r > 0) revenueCount++;',
+    '      if (c > 0) costCount++;',
+    '    }',
+    '',
+    '    var profit = revenue - cost;',
+    '    var margin = revenue ? Math.round((profit / revenue) * 100) : null;',
+    '    var title = "Customer P&L";',
+    '    var subtitle = revenue > 0 ? "Customer charge less vendor invoice." : "Customer charge is not captured yet; vendor invoice is still tracked.";',
+    '    var note = revenue > 0 ? "Customer charge = revenue • Vendor invoice = direct cost" : "Add a customer charge field in ClickUp to show live revenue.";',
+    '',
+    '    card.innerHTML =',
+    '      \'<div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>\' + title + \'</h3><p>\' + subtitle + \'</p></div></div><span class="main-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20m5-16H9a3 3 0 0 0 0 6h6a3 3 0 1 1 0 6H6" stroke-width="1.7"/></svg></span></div>\' +',
+    '      \'<div class="main-kpi-value">\' + money(revenue, true) + \'<small>revenue</small></div>\' +',
+    '      \'<div class="main-kpi-sub">Gross profit \' + money(profit, true) + \' • margin \' + (margin == null ? "—" : margin + "%") + \'</div>\' +',
+    '      \'<div class="main-kpi-stats"><div class="main-kpi-stat"><span>Customer charge</span><b>\' + money(revenue, true) + \'</b></div><div class="main-kpi-stat"><span>Vendor invoice</span><b>\' + money(cost, true) + \'</b></div><div class="main-kpi-stat"><span>Gross profit</span><b>\' + money(profit, true) + \'</b></div></div>\' +',
+    '      \'<div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>\' + note + \'</span><a href="#financials">Open model</a></div>\';',
+    '  }',
+    '',
+    '  if (document.readyState === "loading") {',
+    '    document.addEventListener("DOMContentLoaded", renderPnL, { once: true });',
+    '  } else {',
+    '    renderPnL();',
+    '  }',
+    '})();',
+    '</script>',
+  ].join('\n');
 }
 
 async function main() {
@@ -365,29 +318,12 @@ async function main() {
   await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(filtered, null, 2), 'utf8');
 
   let html = indexHtml;
-  try {
-    const scoreTasks = await fetchPagedTasks((page) => {
-      const url = new URL(`${API_BASE}/list/${SCORECARD_LIST_ID}/task`);
-      url.searchParams.set('page', String(page));
-      url.searchParams.set('subtasks', 'true');
-      url.searchParams.set('include_closed', 'true');
-      return url;
-    });
-    const liveScorecards = buildScorecardData(scoreTasks);
-    if (liveScorecards?.vendors?.length) {
-      const replacement = `const VENDOR_SCORECARDS = ${JSON.stringify(liveScorecards.vendors, null, 2)};\nconst PROJECT_SCORE_DETAIL = ${JSON.stringify(liveScorecards.projectDetail, null, 2)};\nconst SCORECARD_WEIGHTS = [{"name":"Execution","weight":25},{"name":"Quality","weight":30},{"name":"Communication","weight":20},{"name":"Compliance & Safety","weight":15},{"name":"Reliability","weight":10}];`;
-      html = html.replace(SCORECARD_CONST_RE, replacement);
-    }
-  } catch (err) {
-    console.warn('Scorecard refresh failed; keeping bundled scorecard data:', err?.message || err);
+  html = removeActiveProjectsCard(html);
+  if (html.includes('</body>')) {
+    html = html.replace('</body>', `${buildPnLScript()}</body>`);
+  } else {
+    html += buildPnLScript();
   }
-
-  for (const title of ['Active projects by delivery stage']) {
-    html = removeSectionByTitle(html, title);
-  }
-
-  if (html.includes('</body>')) html = html.replace('</body>', `${PNL_CARD_SCRIPT}</body>`);
-  else html += PNL_CARD_SCRIPT;
 
   await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
   console.log(`Built ${filtered.length} ClickUp task records.`);
