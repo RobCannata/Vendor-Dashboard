@@ -259,11 +259,17 @@ function buildPnLScript() {
     '',
     '    var revenue = 0;',
     '    var cost = 0;',
+    '    var revenueCount = 0;',
+    '    var costCount = 0;',
     '',
     '    for (var i = 0; i < data.length; i++) {',
     '      var task = data[i] || {};',
-    '      revenue += getNumber(task, ["Customer charge", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerCharge", "customerRevenue"]);',
-    '      cost += getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);',
+    '      var r = getNumber(task, ["Customer charge", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerCharge", "customerRevenue"]);',
+    '      var c = getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);',
+    '      revenue += r;',
+    '      cost += c;',
+    '      if (r > 0) revenueCount++;',
+    '      if (c > 0) costCount++;',
     '    }',
     '',
     '    var profit = revenue - cost;',
@@ -306,7 +312,7 @@ async function main() {
     return url;
   });
 
-  const filtered = mainTasks.filter(isWithinRange);
+  const filtered = mainTasks;
   await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(filtered, null, 2), 'utf8');
 
   let html = indexHtml;
