@@ -195,7 +195,7 @@ h1{font-size:28px;line-height:1.16;margin:8px 0 6px;letter-spacing:-.035em}.subt
   <div class="section-head" id="portfolio"><div><h2>Project portfolio analytics</h2><p>Project counts, current delivery stage, vendor cost exposure, and monthly project intake versus completion.</p></div><p id="filterSummary"></p></div>
   <section class="grid">
     <article class="card"><div class="card-head"><div><h3>Project status distribution</h3><p>Current delivery-stage mix for the filtered project records.</p></div><span class="badge">Portfolio</span></div><div class="card-body"><div class="donut-wrap"><div class="donut" id="statusDonut"><div class="donut-center"><b id="donutTotal">0</b><span>project records</span></div></div><div class="legend" id="statusLegend"></div></div></div></article>
-    <article class="card"><div class="card-head"><div><h3>Active projects by delivery stage</h3><p>Open project records grouped by their current operational status.</p></div><span class="badge" id="activeBadge">0 active projects</span></div><div class="card-body"><div class="bar-list" id="activeBars"></div></div></article>
+    
     <article class="card"><div class="card-head"><div><h3>Recorded vendor cost by project workstream</h3><p>Vendor invoice amounts grouped by project workstream.</p></div><span class="badge" id="costBadge">$0</span></div><div class="card-body"><div class="bar-list" id="workstreamBars"></div></div></article>
   </section>
 
@@ -477,5 +477,72 @@ function bindTips(root){root.querySelectorAll('[data-tip]').forEach(el=>{el.addE
 function exportCSV(){const cols=[['Task ID','id'],['Task Name','name'],['Project Month(s)','activityLabel'],['Status','statusLabel'],['Stage Group','statusGroup'],['Workstream','workstream'],['Owner','owner'],['Start Date','start'],['Due Date','due'],['Vendor Invoice','invoice'],['Target Revenue','__targetRevenue'],['Target Profit','__targetProfit'],['Target Margin %','__targetMargin'],['Time In Status Hours','timeInStatusHours'],['Address','address'],['Latest Comment','latestComment']];const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const lines=[cols.map(c=>quote(c[0])).join(',')].concat(filtered.map(d=>{const f=targetFinancials(d.invoice||0),x={...d,__targetRevenue:d.invoiceRecorded?f.revenue:'',__targetProfit:d.invoiceRecorded?f.profit:'',__targetMargin:d.invoiceRecorded?targetMargin:''};return cols.map(c=>quote(x[c[1]])).join(',')}));const blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Vusion_Field_Services_2026_Project_Portfolio_Filtered.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 boot();
 </script>
-</body>
+<script>
+(function(){
+  function money(value, compact) {
+    var n = Number(value);
+    if (!Number.isFinite(n)) return "—";
+    if (compact) {
+      var abs = Math.abs(n);
+      if (abs >= 1e6) return "$" + (n / 1e6).toFixed(abs >= 1e7 ? 0 : 2).replace(/\.00$/, "") + "M";
+      if (abs >= 1e3) return "$" + (n / 1e3).toFixed(abs >= 1e5 ? 0 : 1).replace(/\.0$/, "") + "K";
+    }
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+  }
+
+  function getNumber(task, keys) {
+    var list = Array.isArray(keys) ? keys : [];
+    for (var i = 0; i < list.length; i++) {
+      var key = String(list[i] || "").trim().toLowerCase();
+      if (!key) continue;
+      for (var j = 0; j < (task.custom_fields || []).length; j++) {
+        var field = task.custom_fields[j] || {};
+        var name = String(field.name || field.label || "").trim().toLowerCase();
+        if (name !== key) continue;
+        var raw = field.value;
+        var num = Number(raw);
+        if (Number.isFinite(num)) return num;
+      }
+      var fallback = Number(task[key]);
+      if (Number.isFinite(fallback)) return fallback;
+    }
+    return 0;
+  }
+
+  function renderPnL() {
+    var cards = document.querySelectorAll(".main-kpi-card");
+    var card = cards[2];
+    var data = window.DATA || [];
+    if (!card || !Array.isArray(data)) return;
+
+    var revenue = 0;
+    var cost = 0;
+
+    for (var i = 0; i < data.length; i++) {
+      var task = data[i] || {};
+      revenue += getNumber(task, ["Customer charge", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerCharge", "customerRevenue"]);
+      cost += getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);
+    }
+
+    var profit = revenue - cost;
+    var margin = revenue ? Math.round((profit / revenue) * 100) : null;
+    var title = "P&L";
+    var subtitle = revenue > 0 ? "Customer charge less vendor invoice." : "Customer charge is not captured yet; vendor invoice is still tracked.";
+    var note = revenue > 0 ? "Customer charge = revenue • Vendor invoice = direct cost" : "Add a customer charge field in ClickUp to show live revenue.";
+
+    card.innerHTML =
+      '<div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>' + title + '</h3><p>' + subtitle + '</p></div></div><span class="main-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20m5-16H9a3 3 0 0 0 0 6h6a3 3 0 1 1 0 6H6" stroke-width="1.7"/></svg></span></div>' +
+      '<div class="main-kpi-value">' + money(revenue, true) + '<small>revenue</small></div>' +
+      '<div class="main-kpi-sub">Gross profit ' + money(profit, true) + ' • margin ' + (margin == null ? "—" : margin + "%") + '</div>' +
+      '<div class="main-kpi-stats"><div class="main-kpi-stat"><span>Customer charge</span><b>' + money(revenue, true) + '</b></div><div class="main-kpi-stat"><span>Vendor invoice</span><b>' + money(cost, true) + '</b></div><div class="main-kpi-stat"><span>Gross profit</span><b>' + money(profit, true) + '</b></div></div>' +
+      '<div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>' + note + '</span><a href="#financials">Open model</a></div>';
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", renderPnL, { once: true });
+  } else {
+    renderPnL();
+  }
+})();
+</script></body>
 </html>
