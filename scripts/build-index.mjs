@@ -12,10 +12,34 @@ const END_DATE = process.env.CLICKUP_END_DATE || '';
 const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
 const END_CUTOFF = END_DATE ? new Date(`${END_DATE}T23:59:59.999Z`) : new Date();
 
-const ACTIVE_STAGE_CARD_RE = /<article\b[\s\S]*?<h3>\s*Active projects by delivery stage\s*<\/h3>[\s\S]*?<\/article>/i;
-const ACTIVE_STAGE_SECTION_RE = /<div class="section-head" id="portfolio">[\s\S]*?<article\b[\s\S]*?<h3>\s*Active projects by delivery stage\s*<\/h3>[\s\S]*?<\/article>/i;
-const MONTHLY_COST_SECTION_RE = /<section class="grid two" style="margin-top:12px">[\s\S]*?<div class="section-head" id="financials">/;
 const SCORECARD_CONST_RE = /const VENDOR_SCORECARDS = \[[\s\S]*?const SCORECARD_WEIGHTS = \[[\s\S]*?\];/;
+const HIDE_UNWANTED_SECTIONS_SCRIPT = `
+<script>
+(() => {
+  const HIDE_TITLES = new Set([
+    'Active projects by delivery stage',
+    'Monthly projects added vs. completed',
+    'Highest-cost projects',
+  ]);
+
+  const removeMatchedSections = () => {
+    const nodes = Array.from(document.querySelectorAll('article.card, section.card, .card, section'));
+    for (const node of nodes) {
+      const heading = node.querySelector('h1, h2, h3, h4, h5, h6');
+      if (!heading) continue;
+      const title = heading.textContent.trim();
+      if (!HIDE_TITLES.has(title)) continue;
+      node.remove();
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', removeMatchedSections, { once: true });
+  } else {
+    removeMatchedSections();
+  }
+})();
+</script>`;
 
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
@@ -177,6 +201,7 @@ async function fetchPagedTasks(urlBuilder) {
   const results = [];
   let page = 0;
   let useZeroBased = true;
+
   while (true) {
     const url = urlBuilder(page);
     let data;
@@ -190,12 +215,23 @@ async function fetchPagedTasks(urlBuilder) {
       }
       throw err;
     }
+
     const tasks = Array.isArray(data?.tasks) ? data.tasks : Array.isArray(data) ? data : [];
     results.push(...tasks);
     if (tasks.length < PAGE_SIZE) break;
     page += 1;
   }
+
   return results.map(normalizeTask);
+}
+
+function isWithinRange(task) {
+  const candidates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
+  if (!candidates.length) return false;
+  return candidates.some((value) => {
+    const date = new Date(value);
+    return !Number.isNaN(date.getTime()) && date >= START_CUTOFF && date <= END_CUTOFF;
+  });
 }
 
 function numberField(task, names) {
@@ -208,9 +244,11 @@ function numberField(task, names) {
 function scoreFromTask(task) {
   const direct = numberField(task, ['Final Score', 'Final', 'Vendor Score', 'Score', 'Overall', 'Total']);
   const quality = numberField(task, ['Quality', 'Quality Score']);
+
   if (Number.isFinite(direct)) {
     return { final: direct <= 5 ? Math.round(direct * 20) : direct, quality };
   }
+
   const dims = {
     execution: numberField(task, ['Execution', 'Execution Score']),
     quality,
@@ -221,6 +259,7 @@ function scoreFromTask(task) {
   const weights = { execution: 25, quality: 30, communication: 20, compliance: 15, reliability: 10 };
   const present = Object.values(dims).some((v) => Number.isFinite(v));
   if (!present) return { final: null, quality };
+
   let weighted = 0;
   let used = 0;
   for (const [key, v] of Object.entries(dims)) {
@@ -308,14 +347,7 @@ async function main() {
     return url;
   });
 
-  const filtered = mainTasks.filter((task) => {
-    const candidates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
-    return candidates.some((value) => {
-      const date = new Date(value);
-      return !Number.isNaN(date.getTime()) && date >= START_CUTOFF && date <= END_CUTOFF;
-    });
-  });
-
+  const filtered = mainTasks.filter(isWithinRange);
   await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(filtered, null, 2), 'utf8');
 
   let html = indexHtml;
@@ -327,6 +359,7 @@ async function main() {
       url.searchParams.set('include_closed', 'true');
       return url;
     });
+
     const liveScorecards = buildScorecardData(scoreTasks);
     if (liveScorecards?.vendors?.length) {
       const replacement = `const VENDOR_SCORECARDS = ${JSON.stringify(liveScorecards.vendors, null, 2)};\nconst PROJECT_SCORE_DETAIL = ${JSON.stringify(liveScorecards.projectDetail, null, 2)};\nconst SCORECARD_WEIGHTS = [{"name":"Execution","weight":25},{"name":"Quality","weight":30},{"name":"Communication","weight":20},{"name":"Compliance & Safety","weight":15},{"name":"Reliability","weight":10}];`;
@@ -336,10 +369,11 @@ async function main() {
     console.warn('Scorecard refresh failed; keeping bundled scorecard data:', err?.message || err);
   }
 
-  html = html
-    .replace(ACTIVE_STAGE_SECTION_RE, '<div class="section-head" id="portfolio">')
-    .replace(ACTIVE_STAGE_CARD_RE, '')
-    .replace(MONTHLY_COST_SECTION_RE, '<div class="section-head" id="financials">');
+  if (html.includes('</body>')) {
+    html = html.replace('</body>', `${HIDE_UNWANTED_SECTIONS_SCRIPT}</body>`);
+  } else {
+    html += HIDE_UNWANTED_SECTIONS_SCRIPT;
+  }
 
   await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
   console.log(`Built ${filtered.length} ClickUp task records.`);
