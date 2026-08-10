@@ -3,21 +3,23 @@ import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
 const TEAM_ID = process.env.CLICKUP_TEAM_ID || '14341097';
+const SCORECARD_LIST_ID = process.env.CLICKUP_SCORECARD_LIST_ID || '901217460327';
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
 const PAGE_SIZE = 100;
 const API_BASE = 'https://api.clickup.com/api/v2';
 const START_DATE = process.env.CLICKUP_START_DATE || '2026-01-01';
 const END_DATE = process.env.CLICKUP_END_DATE || '';
+const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
+const END_CUTOFF = END_DATE ? new Date(`${END_DATE}T23:59:59.999Z`) : new Date();
+
 const ACTIVE_STAGE_CARD_RE = /<article class="card"><div class="card-head"><div><h3>Active projects by delivery stage<\/h3><p>Open project records grouped by their current operational status\.<\/p><\/div><span class="badge" id="activeBadge">0 active projects<\/span><\/div><div class="card-body"><div class="bar-list" id="activeBars"><\/div><\/div><\/article>/;
 const MONTHLY_COST_SECTION_RE = /<section class="grid two" style="margin-top:12px">[\s\S]*?<div class="section-head" id="financials">/;
+const SCORECARD_CONST_RE = /const VENDOR_SCORECARDS = \[[\s\S]*?const SCORECARD_WEIGHTS = \[[\s\S]*?\];/;
 
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
   process.exit(1);
 }
-
-const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
-const END_CUTOFF = END_DATE ? new Date(`${END_DATE}T23:59:59.999Z`) : new Date();
 
 function pickCustomField(task, names) {
   const wanted = names.map((n) => String(n || '').trim().toLowerCase()).filter(Boolean);
@@ -59,12 +61,12 @@ function prettyStatusGroup(statusName, statusType) {
 
 function fmtMonth(iso) {
   if (!iso) return null;
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
 }
 
-function addActivity(acc, field, iso) {
+function addDateActivity(acc, field, iso) {
   if (!iso) return;
   const month = fmtMonth(iso);
   if (!month) return;
@@ -84,8 +86,8 @@ function firstAssignee(task) {
 }
 
 function creatorName(task) {
-  const creator = task?.creator || task?.user || {};
-  return creator.username || creator.email || creator.name || '';
+  const c = task?.creator || task?.user || {};
+  return c.username || c.email || c.name || '';
 }
 
 function guessWorkstream(task) {
@@ -96,17 +98,6 @@ function guessWorkstream(task) {
     task?.space?.name ||
     'ClickUp'
   );
-}
-
-function isWithinRange(task) {
-  const candidates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
-  if (!candidates.length) return false;
-
-  return candidates.some((value) => {
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return false;
-    return date >= START_CUTOFF && date <= END_CUTOFF;
-  });
 }
 
 function normalizeTask(task) {
@@ -154,13 +145,17 @@ function normalizeTask(task) {
     activityLabel: '',
   };
 
-  addActivity(acc, 'start', start);
-  addActivity(acc, 'due', due);
-  addActivity(acc, 'created', created);
-  addActivity(acc, 'done', done);
+  addDateActivity(acc, 'start', start);
+  addDateActivity(acc, 'due', due);
+  addDateActivity(acc, 'created', created);
+  addDateActivity(acc, 'done', done);
 
   const ref = done || updated || created;
-  if (ref) acc.timeInStatusHours = Math.max(0, Math.round(((Date.now() - new Date(ref).getTime()) / 36e5) * 10) / 10);
+  if (ref) {
+    const diff = Date.now() - new Date(ref).getTime();
+    acc.timeInStatusHours = Math.max(0, Math.round((diff / 36e5) * 10) / 10);
+  }
+
   if (!acc.activityLabel) acc.activityLabel = '—';
   if (!acc.years.length) acc.years = [new Date().getFullYear()];
   return acc;
@@ -177,19 +172,12 @@ async function fetchJson(url) {
   return res.json();
 }
 
-async function fetchAllTasks() {
+async function fetchPagedTasks(urlBuilder) {
   const results = [];
   let page = 0;
   let useZeroBased = true;
-
   while (true) {
-    const url = new URL(`${API_BASE}/team/${TEAM_ID}/task`);
-    url.searchParams.set('page', String(page));
-    url.searchParams.set('subtasks', 'true');
-    url.searchParams.set('include_closed', 'true');
-    url.searchParams.set('order_by', 'updated');
-    url.searchParams.set('reverse', 'true');
-
+    const url = urlBuilder(page);
     let data;
     try {
       data = await fetchJson(url);
@@ -201,14 +189,106 @@ async function fetchAllTasks() {
       }
       throw err;
     }
-
     const tasks = Array.isArray(data?.tasks) ? data.tasks : Array.isArray(data) ? data : [];
     results.push(...tasks);
     if (tasks.length < PAGE_SIZE) break;
     page += 1;
   }
+  return results.map(normalizeTask);
+}
 
-  return results.map(normalizeTask).filter(isWithinRange);
+function numberField(task, names) {
+  const value = pickCustomField(task, names);
+  if (value == null || value === '') return null;
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+function scoreFromTask(task) {
+  const direct = numberField(task, ['Final Score', 'Final', 'Vendor Score', 'Score', 'Overall', 'Total']);
+  const quality = numberField(task, ['Quality', 'Quality Score']);
+  if (Number.isFinite(direct)) {
+    return { final: direct <= 5 ? Math.round(direct * 20) : direct, quality };
+  }
+  const dims = {
+    execution: numberField(task, ['Execution', 'Execution Score']),
+    quality,
+    communication: numberField(task, ['Communication', 'Communication Score']),
+    compliance: numberField(task, ['Compliance & Safety', 'Compliance', 'Safety']),
+    reliability: numberField(task, ['Reliability', 'Reliability Score']),
+  };
+  const weights = { execution: 25, quality: 30, communication: 20, compliance: 15, reliability: 10 };
+  const present = Object.values(dims).some((v) => Number.isFinite(v));
+  if (!present) return { final: null, quality };
+  let weighted = 0;
+  let used = 0;
+  for (const [key, v] of Object.entries(dims)) {
+    if (!Number.isFinite(v)) continue;
+    used += weights[key];
+    weighted += (v <= 5 ? v / 5 : v / 100) * weights[key];
+  }
+  return { final: used ? Math.round(weighted * 10) / 10 : null, quality };
+}
+
+function deriveVendorShort(name) {
+  return String(name || '')
+    .replace(/\bscorecards?\b/ig, '')
+    .replace(/\bscorecard\b/ig, '')
+    .replace(/\brevisits\b/ig, 'Revisits')
+    .replace(/\s+/g, ' ')
+    .trim() || String(name || '').trim();
+}
+
+function buildScorecardData(rawTasks) {
+  const parents = rawTasks.filter((t) => !t.parent);
+  const liveChildren = rawTasks.filter((t) => t.parent);
+  if (!parents.length) return null;
+
+  const childrenByParent = new Map();
+  for (const child of liveChildren) {
+    if (!childrenByParent.has(child.parent)) childrenByParent.set(child.parent, []);
+    childrenByParent.get(child.parent).push(child);
+  }
+
+  const order = ['Channel Partners', 'Anderson', 'Impulso', 'SASR'];
+  const vendors = [];
+  const projectDetail = {};
+
+  for (const parent of parents) {
+    const short = deriveVendorShort(parent.name);
+    const children = (childrenByParent.get(parent.id) || []).slice().sort((a, b) => String(a.name).localeCompare(String(b.name)));
+    const childScores = children.map((c) => ({ task: c, ...scoreFromTask(c) }));
+    const parentScore = scoreFromTask(parent);
+    const scoreValues = [parentScore.final, ...childScores.map((x) => x.final)].filter((v) => Number.isFinite(v));
+    const score = scoreValues.length ? Math.round((scoreValues.reduce((a, b) => a + b, 0) / scoreValues.length) * 10) / 10 : null;
+    const updated = [parent.updated, ...children.map((c) => c.updated)].filter(Boolean).sort().at(-1) || parent.updated || null;
+    const projects = children.map((c) => c.name).filter(Boolean);
+
+    vendors.push({
+      vendor: short,
+      short,
+      taskId: parent.id,
+      url: parent.url,
+      projectCount: projects.length,
+      updated,
+      fields: Number(parent.custom_fields_count || 0),
+      projects,
+      note: projects.length
+        ? `Live ClickUp vendor scorecard with ${projects.length} linked project${projects.length === 1 ? '' : 's'}.`
+        : 'Live ClickUp vendor scorecard.',
+      aliases: [...new Set([short, parent.name, ...projects].map((s) => String(s || '').trim().toLowerCase()).filter(Boolean))],
+      score,
+      scoreBasis: score != null ? 'Live ClickUp task data' : 'Live ClickUp task data (score not published)',
+    });
+
+    projectDetail[short] = {};
+    for (const x of childScores) {
+      projectDetail[short][x.task.name] = { final: x.final, quality: x.quality };
+    }
+  }
+
+  vendors.sort((a, b) => order.indexOf(a.short) - order.indexOf(b.short));
+  return { vendors, projectDetail };
 }
 
 async function main() {
@@ -217,15 +297,50 @@ async function main() {
   const outDir = path.join(root, OUTPUT_DIR);
   await fs.mkdir(outDir, { recursive: true });
 
-  const strippedIndexHtml = indexHtml
+  const mainTasks = await fetchPagedTasks((page) => {
+    const url = new URL(`${API_BASE}/team/${TEAM_ID}/task`);
+    url.searchParams.set('page', String(page));
+    url.searchParams.set('subtasks', 'true');
+    url.searchParams.set('include_closed', 'true');
+    url.searchParams.set('order_by', 'updated');
+    url.searchParams.set('reverse', 'true');
+    return url;
+  });
+
+  const filtered = mainTasks.filter((task) => {
+    const candidates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
+    return candidates.some((value) => {
+      const date = new Date(value);
+      return !Number.isNaN(date.getTime()) && date >= START_CUTOFF && date <= END_CUTOFF;
+    });
+  });
+
+  await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(filtered, null, 2), 'utf8');
+
+  let html = indexHtml;
+  try {
+    const scoreTasks = await fetchPagedTasks((page) => {
+      const url = new URL(`${API_BASE}/list/${SCORECARD_LIST_ID}/task`);
+      url.searchParams.set('page', String(page));
+      url.searchParams.set('subtasks', 'true');
+      url.searchParams.set('include_closed', 'true');
+      return url;
+    });
+    const liveScorecards = buildScorecardData(scoreTasks);
+    if (liveScorecards?.vendors?.length) {
+      const replacement = `const VENDOR_SCORECARDS = ${JSON.stringify(liveScorecards.vendors, null, 2)};\nconst PROJECT_SCORE_DETAIL = ${JSON.stringify(liveScorecards.projectDetail, null, 2)};\nconst SCORECARD_WEIGHTS = [{"name":"Execution","weight":25},{"name":"Quality","weight":30},{"name":"Communication","weight":20},{"name":"Compliance & Safety","weight":15},{"name":"Reliability","weight":10}];`;
+      html = html.replace(SCORECARD_CONST_RE, replacement);
+    }
+  } catch (err) {
+    console.warn('Scorecard refresh failed; keeping bundled scorecard data:', err?.message || err);
+  }
+
+  html = html
     .replace(ACTIVE_STAGE_CARD_RE, '')
     .replace(MONTHLY_COST_SECTION_RE, '<div class="section-head" id="financials">');
 
-  const tasks = await fetchAllTasks();
-  await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(tasks, null, 2), 'utf8');
-  await fs.writeFile(path.join(outDir, 'index.html'), strippedIndexHtml, 'utf8');
-
-  console.log(`Built ${tasks.length} ClickUp task records.`);
+  await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
+  console.log(`Built ${filtered.length} ClickUp task records.`);
 }
 
 main().catch((err) => {
