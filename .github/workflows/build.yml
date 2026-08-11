@@ -1,4 +1,5 @@
 name: Build dashboard
+# Triggered to rebuild the dashboard with the latest ClickUp data.
 
 on:
   push:
