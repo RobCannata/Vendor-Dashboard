@@ -3,8 +3,8 @@ import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
 const TEAM_ID = process.env.CLICKUP_TEAM_ID || '14341097';
+const LIST_ID = process.env.CLICKUP_LIST_ID || '901210415855';
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
-const PAGE_SIZE = 100;
 const API_BASE = 'https://api.clickup.com/api/v2';
 const START_DATE = process.env.CLICKUP_START_DATE || '2026-01-01';
 const END_DATE = process.env.CLICKUP_END_DATE || '';
@@ -16,6 +16,26 @@ const ACTIVE_STAGE_CARD_RE = /<article class="card"><div class="card-head"><div>
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
   process.exit(1);
+}
+
+const root = process.cwd();
+const indexPath = path.join(root, 'index.html');
+const outDir = path.join(root, OUTPUT_DIR);
+const dataPath = path.join(outDir, 'clickup-data.json');
+const outIndexPath = path.join(outDir, 'index.html');
+
+function cleanNumber(value) {
+  if (value == null || value === '') return null;
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  if (typeof value === 'object') {
+    if (Array.isArray(value)) return cleanNumber(value[0]);
+    if ('value' in value) return cleanNumber(value.value);
+    if ('text' in value) return cleanNumber(value.text);
+  }
+  const text = String(value).replace(/[$,\s]/g, '').trim();
+  if (!text) return null;
+  const num = Number(text);
+  return Number.isFinite(num) ? num : null;
 }
 
 function escapeRegExp(value) {
@@ -36,9 +56,7 @@ function removeSectionByTitle(html, title) {
 }
 
 function removeActiveProjectsCard(html) {
-  if (ACTIVE_STAGE_CARD_RE.test(html)) {
-    return html.replace(ACTIVE_STAGE_CARD_RE, '');
-  }
+  if (ACTIVE_STAGE_CARD_RE.test(html)) return html.replace(ACTIVE_STAGE_CARD_RE, '');
   return removeSectionByTitle(html, 'Active projects by delivery stage');
 }
 
@@ -48,15 +66,16 @@ function pickCustomField(task, names) {
   for (const field of fields) {
     const label = String(field?.name || field?.label || '').trim().toLowerCase();
     if (!wanted.includes(label)) continue;
-    const value = field?.value;
-    if (value == null || value === '') continue;
-    if (typeof value === 'object') {
-      if (Array.isArray(value)) return value.join(', ');
-      if ('value' in value && value.value != null) return value.value;
-      if ('text' in value && value.text != null) return value.text;
-      return JSON.stringify(value);
+    const raw = field?.value;
+    const cleaned = cleanNumber(raw);
+    if (cleaned != null) return cleaned;
+    if (raw == null || raw === '') continue;
+    if (typeof raw === 'object') {
+      if (Array.isArray(raw)) return raw.join(', ');
+      if ('text' in raw && raw.text != null) return raw.text;
+      return JSON.stringify(raw);
     }
-    return value;
+    return raw;
   }
   return null;
 }
@@ -68,7 +87,7 @@ function toIso(value) {
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
-function prettyStatusGroup(statusName, statusType) {
+function statusGroup(statusName, statusType) {
   const s = String(statusName || '').toLowerCase();
   const t = String(statusType || '').toLowerCase();
   if (t === 'closed' || s.includes('complete') || s.includes('done') || s.includes('survey completed')) return 'Complete';
@@ -81,25 +100,18 @@ function prettyStatusGroup(statusName, statusType) {
 }
 
 function firstAssignee(task) {
-  const assignees = Array.isArray(task?.assignees) ? task.assignees : [];
-  const first = assignees[0];
+  const first = Array.isArray(task?.assignees) ? task.assignees[0] : null;
   if (!first) return 'Unassigned';
   return first.username || first.email || first.initials || first.id || 'Unassigned';
 }
 
-function creatorName(task) {
-  const c = task?.creator || task?.user || {};
-  return c.username || c.email || c.name || '';
-}
-
-function guessWorkstream(task) {
-  return (
-    pickCustomField(task, ['Workstream', 'Work Stream', 'Program', 'Project Type']) ||
-    task?.folder?.name ||
-    task?.list?.name ||
-    task?.space?.name ||
-    'ClickUp'
-  );
+function workstream(task) {
+  const fields = ['Workstream', 'Work Stream', 'Program', 'Project Type'];
+  for (const name of fields) {
+    const found = pickCustomField(task, [name]);
+    if (found) return String(found);
+  }
+  return task?.folder?.name || task?.list?.name || task?.space?.name || 'ClickUp';
 }
 
 function normalizeTask(task) {
@@ -110,32 +122,31 @@ function normalizeTask(task) {
   const due = toIso(task?.due_date || task?.due);
   const statusName = task?.status?.status || task?.status?.name || task?.status || '';
   const statusType = task?.status?.type || '';
-  const statusGroup = prettyStatusGroup(statusName, statusType);
-  const priority = task?.priority?.priority || task?.priority?.name || task?.priority || 'NONE';
-  const invoice = Number(pickCustomField(task, ['Vendor invoice', 'Vendor Invoice', 'Invoice', 'Cost', 'Vendor Cost']) || 0) || null;
-  const revenue = Number(pickCustomField(task, ['Customer charge', 'Customer Charge', 'Charge', 'Billable', 'Revenue', 'Customer Revenue']) || 0) || null;
+  const sg = statusGroup(statusName, statusType);
+  const vendorInvoice = pickCustomField(task, ['Vendor invoice', 'Vendor Invoice']);
+  const customerInvoice = pickCustomField(task, ['Customer invoice', 'Customer Invoice']);
 
-  const acc = {
+  const row = {
     id: task?.id || '',
     name: task?.name || '',
     status: String(statusName || '').toLowerCase(),
     statusLabel: String(statusName || ''),
-    statusGroup,
-    active: statusGroup !== 'Complete' && statusGroup !== 'Cancelled' && statusType !== 'closed',
-    workstream: guessWorkstream(task),
+    statusGroup: sg,
+    active: sg !== 'Complete' && sg !== 'Cancelled' && statusType !== 'closed',
+    workstream: workstream(task),
     folder: task?.folder?.name || task?.list?.name || '',
     owner: firstAssignee(task),
-    priority: String(priority || 'NONE').toUpperCase(),
+    priority: String(task?.priority?.priority || task?.priority?.name || task?.priority || 'NONE').toUpperCase(),
     start,
     due,
     created,
     updated,
     done,
-    years: [],
-    invoice,
-    invoiceRecorded: Number.isFinite(invoice),
-    revenue,
-    revenueRecorded: Number.isFinite(revenue),
+    years: [new Date().getFullYear()],
+    invoice: cleanNumber(vendorInvoice),
+    invoiceRecorded: cleanNumber(vendorInvoice) != null,
+    revenue: cleanNumber(customerInvoice),
+    revenueRecorded: cleanNumber(customerInvoice) != null,
     timeInStatusHours: 0,
     address: pickCustomField(task, ['Address', 'Store Address', 'Location']) || '',
     storeManager: pickCustomField(task, ['Store Manager', 'Manager']) || '',
@@ -144,35 +155,26 @@ function normalizeTask(task) {
     latestComment: task?.description || task?.text_content || '',
     content: task?.description || task?.text_content || '',
     commentCount: Number(task?.comment_count || task?.comments_count || 0),
-    createdBy: creatorName(task),
+    createdBy: task?.creator?.username || task?.creator?.email || task?.creator?.name || '',
     activityMonths: [],
     activityLabel: '',
   };
 
-  const activityDates = [start, due, created, done].filter(Boolean);
-  for (const iso of activityDates) {
+  for (const iso of [start, due, created, done].filter(Boolean)) {
     const date = new Date(iso);
     if (Number.isNaN(date.getTime())) continue;
     const month = date.toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
-    if (!acc.activityMonths.includes(month)) acc.activityMonths.push(month);
-    if (!acc.activityLabel) acc.activityLabel = month;
+    if (!row.activityMonths.includes(month)) row.activityMonths.push(month);
+    if (!row.activityLabel) row.activityLabel = month;
   }
-
   const ref = done || updated || created;
-  if (ref) {
-    const diff = Date.now() - new Date(ref).getTime();
-    acc.timeInStatusHours = Math.max(0, Math.round((diff / 36e5) * 10) / 10);
-  }
-
-  if (!acc.activityLabel) acc.activityLabel = '—';
-  if (!acc.years.length) acc.years = [new Date().getFullYear()];
-  return acc;
+  if (ref) row.timeInStatusHours = Math.max(0, Math.round(((Date.now() - new Date(ref).getTime()) / 36e5) * 10) / 10);
+  if (!row.activityLabel) row.activityLabel = '—';
+  return row;
 }
 
 async function fetchJson(url) {
-  const res = await fetch(url, {
-    headers: { Authorization: TOKEN, Accept: 'application/json' },
-  });
+  const res = await fetch(url, { headers: { Authorization: TOKEN, Accept: 'application/json' } });
   if (!res.ok) {
     const body = await res.text().catch(() => '');
     throw new Error(`ClickUp request failed (${res.status} ${res.statusText}): ${body.slice(0, 300)}`);
@@ -180,151 +182,67 @@ async function fetchJson(url) {
   return res.json();
 }
 
-async function fetchPagedTasks(urlBuilder) {
+async function fetchAllTasks() {
   const results = [];
   let page = 0;
-  let useZeroBased = true;
-
+  let zeroBased = true;
   while (true) {
-    const url = urlBuilder(page);
+    const makeUrl = (p) => `${API_BASE}/list/${LIST_ID}/task?page=${p}&subtasks=true&include_closed=true&order_by=updated&reverse=true`;
     let data;
     try {
-      data = await fetchJson(url);
+      data = await fetchJson(makeUrl(page));
     } catch (err) {
-      if (page === 0 && useZeroBased) {
-        useZeroBased = false;
+      if (page === 0 && zeroBased) {
+        zeroBased = false;
         page = 1;
         continue;
       }
       throw err;
     }
-
     const tasks = Array.isArray(data?.tasks) ? data.tasks : Array.isArray(data) ? data : [];
     results.push(...tasks);
-    if (tasks.length < PAGE_SIZE) break;
+    if (tasks.length < 100) break;
     page += 1;
   }
-
   return results.map(normalizeTask);
 }
 
-function isWithinRange(task) {
-  const candidates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
-  if (!candidates.length) return false;
-  return candidates.some((value) => {
+function inWindow(task) {
+  const dates = [task.created, task.start, task.due, task.done, task.updated].filter(Boolean);
+  return dates.some((value) => {
     const date = new Date(value);
     return !Number.isNaN(date.getTime()) && date >= START_CUTOFF && date <= END_CUTOFF;
   });
 }
 
-function buildPnLScript() {
-  return [
-    '<script>',
-    '(function(){',
-    '  function money(value, compact) {',
-    '    var n = Number(value);',
-    '    if (!Number.isFinite(n)) return "—";',
-    '    if (compact) {',
-    '      var abs = Math.abs(n);',
-    '      if (abs >= 1e6) return "$" + (n / 1e6).toFixed(abs >= 1e7 ? 0 : 2).replace(/\\.00$/, "") + "M";',
-    '      if (abs >= 1e3) return "$" + (n / 1e3).toFixed(abs >= 1e5 ? 0 : 1).replace(/\\.0$/, "") + "K";',
-    '    }',
-    '    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);',
-    '  }',
-    '',
-    '  function getNumber(task, keys) {',
-    '    var list = Array.isArray(keys) ? keys : [];',
-    '    for (var i = 0; i < list.length; i++) {',
-    '      var key = String(list[i] || "").trim().toLowerCase();',
-    '      if (!key) continue;',
-    '      for (var j = 0; j < (task.custom_fields || []).length; j++) {',
-    '        var field = task.custom_fields[j] || {};',
-    '        var name = String(field.name || field.label || "").trim().toLowerCase();',
-    '        if (name !== key) continue;',
-    '        var raw = field.value;',
-    '        var num = Number(raw);',
-    '        if (Number.isFinite(num)) return num;',
-    '      }',
-    '      var fallback = Number(task[key]);',
-    '      if (Number.isFinite(fallback)) return fallback;',
-    '    }',
-    '    return 0;',
-    '  }',
-    '',
-    '  function renderPnL() {',
-    '    var cards = document.querySelectorAll(".main-kpi-card");',
-    '    var card = cards[2];',
-    '    var data = window.DATA || [];',
-    '    if (!card || !Array.isArray(data)) return;',
-    '',
-    '    var revenue = 0;',
-    '    var cost = 0;',
-    '    var revenueCount = 0;',
-    '    var costCount = 0;',
-    '',
-    '    for (var i = 0; i < data.length; i++) {',
-    '      var task = data[i] || {};',
-    '      var r = getNumber(task, ["Customer charge", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerCharge", "customerRevenue"]);',
-    '      var c = getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);',
-    '      revenue += r;',
-    '      cost += c;',
-    '      if (r > 0) revenueCount++;',
-    '      if (c > 0) costCount++;',
-    '    }',
-    '',
-    '    var profit = revenue - cost;',
-    '    var margin = revenue ? Math.round((profit / revenue) * 100) : null;',
-    '    var title = "P&L";',
-    '    var subtitle = revenue > 0 ? "Customer charge less vendor invoice." : "Customer charge is not captured yet; vendor invoice is still tracked.";',
-    '    var note = revenue > 0 ? "Customer charge = revenue • Vendor invoice = direct cost" : "Add a customer charge field in ClickUp to show live revenue.";',
-    '',
-    '    card.innerHTML =',
-    '      \'<div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>\' + title + \'</h3><p>\' + subtitle + \'</p></div></div><span class="main-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20m5-16H9a3 3 0 0 0 0 6h6a3 3 0 1 1 0 6H6" stroke-width="1.7"/></svg></span></div>\' +',
-    '      \'<div class="main-kpi-value">\' + money(revenue, true) + \'<small>revenue</small></div>\' +',
-    '      \'<div class="main-kpi-sub">Gross profit \' + money(profit, true) + \' • margin \' + (margin == null ? "—" : margin + "%") + \'</div>\' +',
-    '      \'<div class="main-kpi-stats"><div class="main-kpi-stat"><span>Customer charge</span><b>\' + money(revenue, true) + \'</b></div><div class="main-kpi-stat"><span>Vendor invoice</span><b>\' + money(cost, true) + \'</b></div><div class="main-kpi-stat"><span>Gross profit</span><b>\' + money(profit, true) + \'</b></div></div>\' +',
-    '      \'<div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>\' + note + \'</span><a href="#financials">Open model</a></div>\';',
-    '  }',
-    '',
-    '  if (document.readyState === "loading") {',
-    '    document.addEventListener("DOMContentLoaded", renderPnL, { once: true });',
-    '  } else {',
-    '    renderPnL();',
-    '  }',
-    '})();',
-    '</script>',
-  ].join('\n');
+function patchHtml(html) {
+  let out = html;
+  out = removeActiveProjectsCard(out);
+  out = out.replaceAll('<h3>P&L</h3>', '<h3>Installation Margin</h3>');
+  out = out.replaceAll('<h2>P&L</h2>', '<h2>Installation Margin</h2>');
+  out = out.replaceAll('Service Revenue Generation', 'Installation Margin');
+  out = out.replaceAll('Customer charge', 'Customer invoice');
+  out = out.replaceAll('customerCharge', 'customerInvoice');
+  out = out.replaceAll('Customer charge less vendor invoice.', 'Customer invoice less vendor invoice.');
+  out = out.replaceAll('Customer charge = revenue • Vendor invoice = direct cost', 'Customer invoice = revenue • Vendor invoice = direct cost');
+  out = out.replaceAll('Customer charge is not captured yet; vendor invoice is still tracked.', 'Customer invoice is not captured yet; vendor invoice is still tracked.');
+  out = out.replaceAll('Add a customer charge field in ClickUp to show live revenue.', 'Add a customer invoice field in ClickUp to show live revenue.');
+  out = out.replaceAll('Actual customer revenue not in tracker', 'Customer invoice not in tracker');
+  out = out.replaceAll('target gross margin', 'installation margin');
+  return out;
 }
 
 async function main() {
-  const root = path.resolve(process.cwd());
-  const indexHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
-  const outDir = path.join(root, OUTPUT_DIR);
+  if (!TOKEN) throw new Error('Missing CLICKUP_TOKEN');
   await fs.mkdir(outDir, { recursive: true });
 
-  const mainTasks = await fetchPagedTasks((page) => {
-    const url = new URL(`${API_BASE}/team/${TEAM_ID}/task`);
-    url.searchParams.set('page', String(page));
-    url.searchParams.set('subtasks', 'true');
-    url.searchParams.set('include_closed', 'true');
-    url.searchParams.set('order_by', 'updated');
-    url.searchParams.set('reverse', 'true');
-    return url;
-  });
+  const tasks = (await fetchAllTasks()).filter(inWindow);
+  await fs.writeFile(dataPath, JSON.stringify(tasks, null, 2), 'utf8');
 
-  const filtered = mainTasks;
-  await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(filtered, null, 2), 'utf8');
+  const html = await fs.readFile(indexPath, 'utf8');
+  await fs.writeFile(outIndexPath, patchHtml(html), 'utf8');
 
-  let html = indexHtml;
-  html = removeActiveProjectsCard(html);
-  if (html.includes('</body>')) {
-    html = html.replace('</body>', `${buildPnLScript()}</body>`);
-  } else {
-    html += buildPnLScript();
-  }
-
-  await fs.writeFile(path.join(outDir, 'index.html'), html, 'utf8');
-  console.log(`Built ${filtered.length} ClickUp task records.`);
+  console.log(`Built ${tasks.length} ClickUp task records from list ${LIST_ID}.`);
 }
 
 main().catch((err) => {
