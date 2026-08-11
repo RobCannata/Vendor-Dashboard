@@ -39,10 +39,10 @@ jobs:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
         run: npm run build
 
-      - name: Post-process P&L labels
+      - name: Post-process Installation Margin labels
         run: node scripts/postprocess-pnl.mjs
 
-      - name: Patch monthly and top-cost analytics
+      - name: Post-process analytics cards
         run: node scripts/patch-dashboard.mjs
 
       - name: Publish built dashboard to repo root
