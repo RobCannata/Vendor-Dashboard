@@ -196,6 +196,10 @@ function patchHtml(html) {
   out = out.replace(/function renderBars\(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS\)\{const max=Math\.max\(\.\.\.items\.map\(valueFn\),0\);/, 'function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const el=$(target);if(!el)return;const max=Math.max(...items.map(valueFn),0);');
   out = out.replace(/\$\(target\)\.innerHTML=/g, 'el.innerHTML=');
   out = out.replace(/function renderActiveBars\(\)\{/, 'function renderActiveBars(){const activeBarsEl=$(`#activeBars`);const activeBadgeEl=$(`#activeBadge`);if(!activeBarsEl||!activeBadgeEl)return;');
+  out = out.replace('${fmtMoney(finance.revenue,true)}<small>modeled</small>', '${fmtMoney(finance.cost,true)}<small>vendor invoice</small>');
+  out = out.replace('Current filtered view at a ${Math.round(targetMargin)}% installation margin.', 'Current filtered view vendor invoice total.');
+  out = out.replace('<span class="kpi-data-gap"><i></i>Customer invoice not in tracker</span>', '<span class="kpi-data-gap"><i></i>Vendor invoice loaded from ClickUp</span>');
+  out = out.replace('}];\nconst PROJECT_SCORE_DETAIL = {', ',{\"vendor\":\"B2X\",\"short\":\"B2X\",\"taskId\":\"869egpcgz\",\"url\":\"https://app.clickup.com/t/869egpcgz\",\"projectCount\":1,\"updated\":\"2026-08-11T12:59:26Z\",\"fields\":28,\"projects\":[\"B2X\"],\"note\":\"Scorecard record detected in ClickUp; score pending publication.\",\"aliases\":[\"b2x\"],\"score\":null,\"scoreBasis\":\"ClickUp scorecard record present • score pending\"}];\nconst PROJECT_SCORE_DETAIL = {');
   return out;
 }
 
