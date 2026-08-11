@@ -6,58 +6,141 @@
 <meta name="color-scheme" content="dark">
 <title>Vusion Field Services | 2026 Project Portfolio Dashboard</title>
 <style>
-:root{
-  --bg:#07101d;--bg2:#0a1525;--panel:#0d1b2e;--panel2:#102039;--line:rgba(255,255,255,.085);
-  --text:#f4f7fb;--muted:#91a0b7;--soft:#cbd5e1;--accent:#9de05f;--accent2:#4fc3f7;
-  --purple:#9b8cff;--amber:#f6c85f;--red:#ff6b79;--green:#5dd39e;--blue:#5ea8ff;
-  --shadow:0 22px 65px rgba(0,0,0,.28);--radius:18px;
+:root{--bg:#07101d;--panel:#0d1b2e;--panel2:#102039;--line:rgba(255,255,255,.09);--text:#f4f7fb;--muted:#91a0b7;--accent:#9de05f;--accent2:#4fc3f7;--shadow:0 22px 65px rgba(0,0,0,.28);--radius:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#07101d,#060d18 70%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}button,input{font:inherit}
+.wrap{max-width:1600px;margin:0 auto;padding:22px 24px 42px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.eyebrow{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-weight:700}h1{font-size:30px;line-height:1.12;margin:8px 0 6px}.sub{color:var(--muted);font-size:13px;max-width:980px;line-height:1.5}
+.hero{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.95),rgba(9,20,35,.96));box-shadow:var(--shadow);overflow:hidden}.card h2,.card h3{margin:0}.card-head{padding:16px 16px 8px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.card-head p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}.badge{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(157,224,95,.08);border:1px solid rgba(157,224,95,.16);padding:5px 7px;border-radius:8px;white-space:nowrap}.card-body{padding:0 16px 16px}.kpi{font-size:30px;line-height:1;font-weight:800;letter-spacing:-.04em;margin:10px 0 8px}.kpi small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.11em;text-transform:uppercase;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);border-radius:12px;padding:10px 12px}.item b{display:block;font-size:12px}.item span{display:block;color:var(--muted);font-size:10px;margin-top:4px;line-height:1.4}.item em{font-style:normal;font-size:11px;color:#fff;white-space:nowrap}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:11px;vertical-align:top}.table th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#74839a;position:sticky;top:0;background:#0c192b}.table td{color:#b8c4d4}.table td strong{color:#eef3fb;font-weight:650}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 16px 12px}.toolbar input{width:min(100%,420px);height:38px;border:1px solid rgba(255,255,255,.1);background:#0a1627;color:#e9eef6;border-radius:10px;padding:0 12px;outline:none}.section{margin-top:12px}.section .card-head{padding-bottom:10px}.split{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.footer{margin-top:18px;color:var(--muted);font-size:11px;line-height:1.5;padding:0 2px}.muted{color:var(--muted)}.bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),#87d9ff)}@media (max-width: 1100px){.hero,.grid,.grid2,.split{grid-template-columns:1fr 1fr}.wrap{padding:18px}}@media (max-width: 760px){.hero,.grid,.grid2,.split{grid-template-columns:1fr}.wrap{padding:14px}.kpi{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="eyebrow">Vusion Field Services</div>
+      <h1>2026 Project Portfolio Dashboard</h1>
+      <div class="sub">Live data is pulled from ClickUp into <code>clickup-data.json</code>. This page renders vendor invoice data even when customer invoice is missing, and it keeps the scorecard and project register sections visible.</div>
+    </div>
+    <div class="badge" id="lastUpdated">Loading data…</div>
+  </div>
+
+  <div class="hero">
+    <div class="card"><div class="card-head"><div><h3>Installation Quality Scores</h3><p>Project delivery quality from the current ClickUp snapshot.</p></div><span class="badge">Quality</span></div><div class="card-body"><div class="kpi" id="kpiQuality">—<small>loading</small></div></div></div>
+    <div class="card"><div class="card-head"><div><h3>Vendor Performance Scorecards</h3><p>Scorecard records pulled from the Scorecards list.</p></div><span class="badge">Scorecards</span></div><div class="card-body"><div class="kpi" id="kpiScorecards">—<small>loading</small></div></div></div>
+    <div class="card"><div class="card-head"><div><h3>Installation Margin</h3><p>Vendor invoice is shown even when customer invoice is missing.</p></div><span class="badge">Margin</span></div><div class="card-body"><div class="kpi" id="kpiMargin">—<small>loading</small></div></div></div>
+    <div class="card"><div class="card-head"><div><h3>Project portfolio metrics</h3><p>Live portfolio volume and delivery count.</p></div><span class="badge">Portfolio</span></div><div class="card-body"><div class="kpi" id="kpiPortfolio">—<small>loading</small></div></div></div>
+  </div>
+
+  <div class="grid section">
+    <div class="card">
+      <div class="card-head"><div><h3>Project delivery status</h3><p>Open work by delivery stage.</p></div><span class="badge" id="statusBadge">—</span></div>
+      <div class="card-body"><div id="statusList" class="list"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h3>Recorded vendor cost by project workstream</h3><p>Vendor invoice totals grouped by workstream.</p></div><span class="badge">Vendor cost</span></div>
+      <div class="card-body"><div id="workstreamList" class="list"></div></div>
+    </div>
+  </div>
+
+  <div class="grid section">
+    <div class="card">
+      <div class="card-head"><div><h3>Vendor performance scorecards</h3><p>Includes B2X when the scorecard row is present in ClickUp.</p></div><span class="badge">Vendor cards</span></div>
+      <div class="card-body"><div id="scorecardList" class="list"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h3>Vendor scorecard weighting</h3><p>Static weighting used for the scorecard rollup.</p></div><span class="badge">Weighting</span></div>
+      <div class="card-body" id="weighting"></div>
+    </div>
+  </div>
+
+  <div class="grid section">
+    <div class="card">
+      <div class="card-head"><div><h3>Highest-cost projects</h3><p>Top project records by vendor invoice.</p></div><span class="badge">Top 10</span></div>
+      <div class="card-body"><div id="highestCostList" class="list"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h3>Project portfolio metrics</h3><p>Counts by current stage.</p></div><span class="badge">Counts</span></div>
+      <div class="card-body"><div id="metricList" class="list"></div></div>
+    </div>
+  </div>
+
+  <div class="card section">
+    <div class="card-head"><div><h3>2026 project register</h3><p>Filtered ClickUp task records from the reporting window.</p></div><span class="badge" id="registerCount">0 records</span></div>
+    <div class="toolbar"><input id="search" placeholder="Search project, vendor, owner, workstream, or stage"><div class="muted" id="tableHint"></div></div>
+    <div style="overflow:auto;max-height:700px"><table class="table"><thead><tr><th>Project / task</th><th>Workstream</th><th>Stage</th><th>Owner</th><th>Vendor invoice</th><th>Customer invoice</th><th>Updated</th></tr></thead><tbody id="tableBody"></tbody></table></div>
+  </div>
+
+  <div class="footer">Generated from ClickUp data. Vendor invoice is retained even when customer invoice has not been populated yet.</div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const fmtMoney=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number.isFinite(v)?v:0);
+const fmtPct=v=>v==null||!Number.isFinite(v)?'—':`${v.toFixed(1)}%`;
+const num=v=>{if(v==null||v==='')return 0;const n=Number(String(v).replace(/[$,\s]/g,''));return Number.isFinite(n)?n:0};
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const isoDate=s=>s?new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
+
+async function boot(){
+  let rows=[];
+  try{const r=await fetch('clickup-data.json',{cache:'no-store'});rows=await r.json();}catch(e){rows=[];}
+  if(!Array.isArray(rows))rows=[];
+  const view=rows.map(r=>({
+    ...r,
+    invoice:num(r.invoice),
+    revenue:num(r.revenue),
+    stage:String(r.statusGroup||'Other'),
+    workstream:String(r.workstream||r.folder||'ClickUp'),
+    owner:String(r.owner||'Unassigned'),
+    name:String(r.name||''),
+    folder:String(r.folder||''),
+    updated:r.updated||''
+  }));
+
+  const totalVendor=view.reduce((a,r)=>a+r.invoice,0);
+  const totalCustomer=view.reduce((a,r)=>a+r.revenue,0);
+  const margin=totalCustomer-totalVendor;
+  const marginPct=totalCustomer?margin/totalCustomer*100:null;
+  const quality=view.filter(r=>r.stage==='Complete').length;
+  const scorecards=view.filter(r=>/scorecards?/i.test(r.folder)||/b2x/i.test(r.name)).length;
+  const open=view.filter(r=>!['Complete','Cancelled'].includes(r.stage)).length;
+  const byStage=group(view,r=>r.stage);
+  const byWorkstream=group(view,r=>r.workstream).sort((a,b)=>b.total-a.total).slice(0,7);
+  const top=view.slice().sort((a,b)=>b.invoice-a.invoice).slice(0,10);
+  const scorecardRows=view.filter(r=>/scorecards?/i.test(r.folder)||/b2x/i.test(r.name)).slice().sort((a,b)=>b.invoice-a.invoice);
+
+  $('lastUpdated').textContent=`${view.length} rows loaded`;
+  $('kpiQuality').innerHTML=`${quality}<small>completed projects</small>`;
+  $('kpiScorecards').innerHTML=`${scorecards}<small>scorecard records</small>`;
+  $('kpiMargin').innerHTML=`${fmtMoney(customerOrVendor(margin,totalVendor))}<small>${totalCustomer?fmtPct(marginPct)+' margin':'customer invoice missing; showing vendor invoice'}</small>`;
+  $('kpiPortfolio').innerHTML=`${view.length}<small>project records in window</small>`;
+  $('registerCount').textContent=`${view.length} records`;
+  $('statusBadge').textContent=`${open} open`;
+  $('tableHint').textContent=`Vendor invoice total ${fmtMoney(totalVendor)} • customer invoice total ${fmtMoney(totalCustomer)}`;
+
+  $('metricList').innerHTML=Object.entries(byStage).map(([stage,stats])=>item(stage,`${stats.count} records`,`Vendor ${fmtMoney(stats.total)}`)).join('')||empty('No portfolio records found');
+  $('statusList').innerHTML=Object.entries(byStage).sort((a,b)=>b[1].count-a[1].count).map(([stage,stats])=>{
+    const pct=view.length?stats.count/view.length*100:0;
+    return `<div class="item"><div><b>${esc(stage)}</b><span>${stats.count} records • ${fmtMoney(stats.total)} vendor invoice</span><div class="bar"><i style="width:${pct}%"></i></div></div><em>${pct.toFixed(0)}%</em></div>`;
+  }).join('')||empty('No status data found');
+  $('workstreamList').innerHTML=byWorkstream.map(w=>item(w.key,`${w.count} records`,`Vendor ${fmtMoney(w.total)}`)).join('')||empty('No workstream data found');
+  $('highestCostList').innerHTML=top.map(r=>item(r.name,`${r.workstream} • ${r.stage}`,`${fmtMoney(r.invoice)} vendor invoice`)).join('')||empty('No high-cost projects found');
+  $('scorecardList').innerHTML=scorecardRows.map(r=>item(r.name,`${r.folder||'Scorecard'} • ${r.updated?isoDate(r.updated):'no update date'}`,r.invoice?fmtMoney(r.invoice)+' vendor invoice':'scorecard record')).join('')||empty('No vendor scorecard rows found');
+  $('weighting').innerHTML=`<div class="list">${[['Execution',25],['Quality',30],['Communication',20],['Compliance & Safety',15],['Reliability',10]].map(([k,v])=>`<div class="item"><div><b>${k}</b><span>Weight in scorecard rollup</span></div><em>${v}%</em></div>`).join('')}</div>`;
+
+  const body=$('tableBody');
+  const search=$('search');
+  function renderTable(){
+    const q=search.value.trim().toLowerCase();
+    const filtered=view.filter(r=>!q||[r.name,r.workstream,r.stage,r.owner,r.folder,String(r.invoice),String(r.revenue)].join(' ').toLowerCase().includes(q));
+    body.innerHTML=filtered.slice().sort((a,b)=>(b.updated||'').localeCompare(a.updated||'')).map(r=>`<tr><td><strong>${esc(r.name)}</strong><div class="muted">${esc(r.folder||'')}</div></td><td>${esc(r.workstream)}</td><td>${esc(r.stage)}</td><td>${esc(r.owner)}</td><td>${fmtMoney(r.invoice)}</td><td>${r.revenue?fmtMoney(r.revenue):'—'}</td><td>${isoDate(r.updated)}</td></tr>`).join('')||`<tr><td colspan="7" class="muted">No records match your search.</td></tr>`;
+  }
+  search.addEventListener('input',renderTable);
+  renderTable();
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:
- radial-gradient(circle at 82% 3%,rgba(79,195,247,.12),transparent 28%),
- radial-gradient(circle at 12% 0%,rgba(157,224,95,.09),transparent 25%),
- linear-gradient(180deg,var(--bg),#060d18 70%);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
-button,select,input{font:inherit}
-button{cursor:pointer}
-.app{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh}
-.sidebar{position:sticky;top:0;height:100vh;padding:26px 18px;border-right:1px solid var(--line);background:rgba(5,12,22,.82);backdrop-filter:blur(18px);z-index:20}
-.brand{display:flex;align-items:center;gap:12px;padding:0 7px 26px}
-.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,var(--accent),#55b956);color:#06100b;display:grid;place-items:center;font-weight:900;box-shadow:0 12px 30px rgba(157,224,95,.2)}
-.brand strong{display:block;font-size:15px;letter-spacing:.08em}.brand span{display:block;font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:.11em}
-.nav-label{font-size:10px;color:#66758c;text-transform:uppercase;letter-spacing:.15em;padding:10px 12px 8px}
-.nav a{display:flex;align-items:center;gap:11px;color:#a9b6c8;text-decoration:none;padding:11px 12px;border-radius:12px;margin:3px 0;font-size:13px;transition:.2s}
-.nav a:hover,.nav a.active{color:#fff;background:rgba(255,255,255,.055)}
-.nav svg{width:17px;height:17px;opacity:.9}
-.side-card{position:absolute;left:18px;right:18px;bottom:20px;border:1px solid var(--line);border-radius:15px;padding:14px;background:linear-gradient(145deg,rgba(157,224,95,.08),rgba(79,195,247,.04))}
-.side-card .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent)}
-.side-card b{font-size:21px;display:block;margin:7px 0 3px}.side-card p{font-size:11px;line-height:1.5;color:var(--muted);margin:0}
-.main{min-width:0;padding:24px 30px 50px;max-width:1720px;width:100%;margin:0 auto}
-.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:17px}
-.title-wrap .eyebrow{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.17em;font-weight:700}
-h1{font-size:28px;line-height:1.16;margin:8px 0 6px;letter-spacing:-.035em}.subtitle{font-size:13px;color:var(--muted)}
-.actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
-.btn{border:1px solid var(--line);color:var(--soft);background:rgba(255,255,255,.035);border-radius:11px;padding:9px 13px;font-size:12px;display:inline-flex;align-items:center;gap:8px;transition:.18s}
-.btn:hover{background:rgba(255,255,255,.07);color:#fff;border-color:rgba(255,255,255,.16)}.btn.primary{background:var(--accent);color:#07100b;border-color:transparent;font-weight:750}.btn.primary:hover{filter:brightness(1.06)}
-.notice{display:flex;align-items:center;gap:12px;border:1px solid rgba(79,195,247,.16);background:linear-gradient(90deg,rgba(79,195,247,.065),rgba(157,224,95,.03));padding:12px 15px;border-radius:14px;margin-bottom:16px;color:#c9d7e7;font-size:12px;line-height:1.5}
-.notice b{color:#fff}.notice .info{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:rgba(79,195,247,.16);color:var(--accent2);font-weight:800}
-.filters{display:grid;grid-template-columns:1.25fr repeat(4,minmax(130px,.62fr)) auto;gap:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(13,27,46,.67);backdrop-filter:blur(12px);margin-bottom:18px;box-shadow:0 12px 35px rgba(0,0,0,.1)}
-.control{position:relative}.control label{display:block;font-size:9px;color:#708096;text-transform:uppercase;letter-spacing:.13em;margin:0 0 5px 2px}.control input,.control select{width:100%;height:38px;border:1px solid rgba(255,255,255,.08);background:#0a1627;color:#e9eef6;border-radius:10px;padding:0 11px;outline:none;font-size:12px}.control input:focus,.control select:focus{border-color:rgba(157,224,95,.5);box-shadow:0 0 0 3px rgba(157,224,95,.08)}
-.reset-wrap{display:flex;align-items:flex-end}.reset-wrap .btn{height:38px}
-.section-head{display:flex;justify-content:space-between;align-items:end;margin:24px 0 11px}.section-head h2{font-size:16px;margin:0;letter-spacing:-.01em}.section-head p{font-size:11px;color:var(--muted);margin:0}
-.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.kpi{position:relative;overflow:hidden;min-height:126px;padding:16px;border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(17,34,57,.96),rgba(10,22,39,.94));box-shadow:var(--shadow)}
-.kpi:before{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:var(--glow,rgba(79,195,247,.12));filter:blur(2px)}
-.kpi-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:#7f8fa6}.kpi-icon{width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,.05);display:grid;place-items:center;color:var(--kcolor,var(--accent2))}.kpi-icon svg{width:15px;height:15px}
-.kpi-value{font-size:27px;line-height:1;font-weight:760;letter-spacing:-.045em;margin:17px 0 9px}.kpi-meta{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:6px}.dot{width:6px;height:6px;border-radius:50%;background:var(--kcolor,var(--accent2));box-shadow:0 0 11px var(--kcolor,var(--accent2))}
-.grid{display:grid;grid-template-columns:1.05fr 1.25fr .95fr;gap:12px}.grid.two{grid-template-columns:1.25fr .75fr}.grid.equal{grid-template-columns:repeat(2,minmax(0,1fr))}
-.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.95),rgba(9,20,35,.96));box-shadow:var(--shadow);min-width:0;overflow:hidden}
-.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 17px 6px}.card-head h3{font-size:13px;margin:0 0 4px}.card-head p{font-size:10px;color:var(--muted);margin:0;line-height:1.45}.card-body{padding:10px 17px 17px}.badge{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);background:rgba(157,224,95,.08);border:1px solid rgba(157,224,95,.14);padding:5px 7px;border-radius:8px;white-space:nowrap}
-.donut-wrap{display:grid;grid-template-columns:155px minmax(0,1fr);align-items:center;gap:14px;min-height:210px}.donut{width:142px;height:142px;border-radius:50%;position:relative;margin:auto}.donut:after{content:"";position:absolute;inset:23px;border-radius:50%;background:#0c1a2d;border:1px solid var(--line)}.donut-center{position:absolute;inset:0;z-index:2;display:grid;place-content:center;text-align:center}.donut-center b{font-size:25px;letter-spacing:-.04em}.donut-center span{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-top:4px}
-.legend{display:grid;gap:8px}.legend-row{display:grid;grid-template-columns:9px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:10px;color:#b6c2d1}.legend-row i{width:8px;height:8px;border-radius:3px}.legend-row b{font-size:10px;color:#fff;font-variant-numeric:tabular-nums}
-.bar-list{display:grid;gap:10px}.bar-row{display:grid;grid-template-columns:minmax(115px,.9fr) minmax(120px,1.5fr) auto;gap:10px;align-items:center}.bar-label{font-size:10px;color:#bcc7d5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar-track{height:8px;border-radius:99px;background:rgba(255,255,255,.055);overflow:hidden}.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bar-color,var(--accent2)),color-mix(in srgb,var(--bar-color,var(--accent2)) 65%,white));transform-origin:left;animation:grow .5s ease both}.bar-value{font-size:10px;color:#fff;min-width:51px;text-align:right;font-variant-numeric:tabular-nums}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-.chart-box{height:310px;position:relative}.chart-box svg{width:100%;height:100%;overflow:visible}.axis-label{fill:#718096;font-size:9px}.grid-line{stroke:rgba(255,255,255,.065);stroke-width:1}.line-path{fill:none;stroke:var(--accent2);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 5px 10px rgba(79,195,247,.22))}.area-path{fill:url(#areaGradient)}.point{fill:#0c1a2d;stroke:var(--accent2);stroke-width:2}.chart-empty{height:100%;display:grid;place-items:center;color:var(--muted);font-size:11px}
-.risk-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}.risk-mini{border:1px solid var(--line);border-radius:13px;padding:12px;background:rgba(255,255,255,.025)}.risk-mini b{font-size:21px;display:block;margin-bottom:5px}.risk-mini span{font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted)}
-.action-list{display:grid;gap:8px}.action-item{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.022);padding:9px;border-radius:12px;transition:.18s;cursor:pointer}.action-item:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}.risk-score{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:10px;font-weight:800;background:rgba(255,107,121,.1);color:var(--red)}.action-main{min-width:0}.action-main b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.action-main span{display:block;font-size:9px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chips{display:flex;gap:4px;justify-content:flex-end;flex-wrap:wrap}.chip{font-size:8px;padding:4px 6px;border-radius:7px;background:rgba(246,200,95,.09);color:var(--amber);border:1px solid rgba(246,200,95,.13);white-space:nowrap}
-.upcoming{display:grid;gap:9px}.upcoming-item{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:11px;align-items:center;border-bottom:1px solid rgba(255,255,255,.055);padding:5px 0 11px}.upcoming-item:last-child{border-bottom:0}.date-tile{border:1px solid rgba(79,195,247,.16);background:rgba(79,195,247,.07);border-radius:10px;text-align:center;padding:6px 3px}.date-tile b{font-size:16px;display:block;color:#fff}.date-tile span{font-size:8px;text-transform:uppercase;color:var(--accent2);letter-spacing:.1em}.upcoming-main{min-width:0}.upcoming-main b{font-size:11px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.upcoming-main span{font-size:9px;color:var(--muted);display:block;margin-top:4px}.stage-pill{font-size:8px;border-radius:8px;padding:5px 7px;background:rgba(157,224,95,.08);color:var(--accent);white-space:nowrap}
-.table-card{overflow:visible}.table-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 17px 11px}.table-toolbar span{font-size:10px;color:var(--muted)}.table-wrap{overflow:auto;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:1020px}th{position:sticky;top:0;background:#0c192b;z-index:2;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.11em;color:#718096;font-weight:650;padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer}th:hover{color:#dfe7f1}td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.045);font-size:10px;color:#aebbd0;vertical-align:middle}tbody tr{transition:.15s;cursor:pointer}tbody tr:hover{background:rgba(255,255,255,.035)}td.project{max-width:310px;color:#edf2f8;font-weight:620}td.project small{display:block;color:#65758d;font-weight:400;margin-top:4px}.... (truncated)
+function group(rows,fn){const m={};for(const r of rows){const k=fn(r)||'Other';m[k]=m[k]||{count:0,total:0};m[k].count++;m[k].total+=r.invoice||0}return m}
+function item(title,sub,meta){return `<div class="item"><div><b>${esc(title)}</b><span>${esc(sub)}</span></div><em>${esc(meta)}</em></div>`}
+function empty(msg){return `<div class="item"><div><b>${esc(msg)}</b><span>Waiting for ClickUp data.</span></div><em>—</em></div>`}
+function customerOrVendor(margin,totalVendor){return totalVendor && !Number.isFinite(margin) ? totalVendor : margin}
+boot();
+</script>
+</body>
+</html>
