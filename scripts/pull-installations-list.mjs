@@ -2,7 +2,6 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
-const TEAM_ID = process.env.CLICKUP_TEAM_ID || '14341097';
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
 const API_BASE = 'https://api.clickup.com/api/v2';
 const PAGE_SIZE = 100;
@@ -11,9 +10,11 @@ const END_DATE = process.env.CLICKUP_END_DATE || new Date().toISOString().slice(
 const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
 const END_CUTOFF = new Date(`${END_DATE}T23:59:59.999Z`);
 
+// Pull only list sources; folders are not fetchable with the ClickUp list task endpoint.
 const SOURCES = [
   { type: 'list', id: '901210415855', label: 'Installations Main Tracker' },
-  { type: 'folder', id: '901210655304', label: '2026 Installation Project Tracker' },
+  { type: 'list', id: '901218028445', label: 'Hucks Stores 135 Rollout' },
+  { type: 'list', id: '901219830054', label: 'Family Dollar (5 Pilots)' },
   { type: 'list', id: '901217460327', label: 'Scorecards' },
 ];
 
@@ -74,11 +75,10 @@ function creatorName(task) {
 
 function guessWorkstream(task, sourceLabel) {
   return (
-    pickCustomField(task, ['Workstream', 'Work Stream', 'Program', 'Project Type']) ||
     task?.folder?.name ||
     task?.list?.name ||
-    task?.space?.name ||
     sourceLabel ||
+    task?.space?.name ||
     'ClickUp'
   );
 }
@@ -111,10 +111,6 @@ function normalizeTask(task, sourceLabel) {
     updated,
     done,
     years: [],
-    invoice: null,
-    invoiceRecorded: false,
-    revenue: null,
-    revenueRecorded: false,
     timeInStatusHours: 0,
     address: pickCustomField(task, ['Address', 'Store Address', 'Location']) || '',
     storeManager: pickCustomField(task, ['Store Manager', 'Manager']) || '',
@@ -217,7 +213,7 @@ async function main() {
   const filtered = unique.filter(isWithinRange);
 
   await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(filtered, null, 2), 'utf8');
-  console.log(`Pulled ${filtered.length} tasks from ${SOURCES.length} ClickUp sources for ${START_DATE} through ${END_DATE}.`);
+  console.log(`Pulled ${filtered.length} tasks from ClickUp sources for ${START_DATE} through ${END_DATE}.`);
 }
 
 main().catch((err) => {
