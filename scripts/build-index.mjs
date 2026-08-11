@@ -2,7 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
-const LIST_ID = process.env.CLICKUP_LIST_ID || '901210415855';
+const LIST_IDS = (process.env.CLICKUP_LIST_IDS || '901210415855,901218028445,901219830054,901217460327')
+  .split(',')
+  .map((value) => value.trim())
+  .filter(Boolean);
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
 const API_BASE = 'https://api.clickup.com/api/v2';
 const START_DATE = process.env.CLICKUP_START_DATE || '2026-01-01';
@@ -97,7 +100,7 @@ function normalizeTask(task) {
   const due = toIso(task?.due_date || task?.due);
   const statusName = task?.status?.status || task?.status?.name || task?.status || '';
   const statusType = task?.status?.type || '';
-  const status = statusGroup(statusName, statusType);
+  const sg = statusGroup(statusName, statusType);
   const vendorInvoice = pickCustomField(task, ['Vendor invoice', 'Vendor Invoice']);
   const customerInvoice = pickCustomField(task, ['Customer invoice', 'Customer Invoice']);
 
@@ -106,8 +109,8 @@ function normalizeTask(task) {
     name: task?.name || '',
     status: String(statusName || '').toLowerCase(),
     statusLabel: String(statusName || ''),
-    statusGroup: status,
-    active: status !== 'Complete' && status !== 'Cancelled' && statusType !== 'closed',
+    statusGroup: sg,
+    active: sg !== 'Complete' && sg !== 'Cancelled' && statusType !== 'closed',
     workstream: workstream(task),
     folder: task?.folder?.name || task?.list?.name || '',
     owner: firstAssignee(task),
@@ -158,13 +161,15 @@ async function fetchJson(url) {
   return res.json();
 }
 
-async function fetchAllTasks() {
+async function fetchListTasks(listId) {
   const results = [];
   let page = 0;
   let zeroBased = true;
+
   while (true) {
-    const url = `${API_BASE}/list/${LIST_ID}/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`;
+    const url = `${API_BASE}/list/${listId}/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`;
     let data;
+
     try {
       data = await fetchJson(url);
     } catch (err) {
@@ -175,12 +180,26 @@ async function fetchAllTasks() {
       }
       throw err;
     }
+
     const tasks = Array.isArray(data?.tasks) ? data.tasks : Array.isArray(data) ? data : [];
     results.push(...tasks);
     if (tasks.length < 100) break;
     page += 1;
   }
+
   return results.map(normalizeTask);
+}
+
+async function fetchAllTasks() {
+  const merged = new Map();
+  for (const listId of LIST_IDS) {
+    const tasks = await fetchListTasks(listId);
+    for (const task of tasks) {
+      if (!task?.id) continue;
+      merged.set(task.id, task);
+    }
+  }
+  return [...merged.values()];
 }
 
 function inWindow(task) {
@@ -193,23 +212,36 @@ function inWindow(task) {
 
 function patchHtml(html) {
   let out = html;
-  out = out.replace(/function renderBars\(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS\)\{const max=Math\.max\(\.\.\.items\.map\(valueFn\),0\);/, 'function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const el=$(target);if(!el)return;const max=Math.max(...items.map(valueFn),0);');
+
+  out = out.replace(
+    /function renderBars\(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS\)\{const max=Math\.max\(\.\.\.items\.map\(valueFn\),0\);/,
+    'function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const el=$(target);if(!el)return;const max=Math.max(...items.map(valueFn),0);'
+  );
   out = out.replace(/\$\(target\)\.innerHTML=/g, 'el.innerHTML=');
-  out = out.replace(/function renderActiveBars\(\)\{/, 'function renderActiveBars(){const activeBarsEl=$(`#activeBars`);const activeBadgeEl=$(`#activeBadge`);if(!activeBarsEl||!activeBadgeEl)return;');
-  out = out.replace('${fmtMoney(finance.revenue,true)}<small>modeled</small>', '${fmtMoney(finance.cost,true)}<small>vendor invoice</small>');
-  out = out.replace('Current filtered view at a ${Math.round(targetMargin)}% installation margin.', 'Current filtered view vendor invoice total.');
-  out = out.replace('<span class="kpi-data-gap"><i></i>Customer invoice not in tracker</span>', '<span class="kpi-data-gap"><i></i>Vendor invoice loaded from ClickUp</span>');
-  out = out.replace('}];\nconst PROJECT_SCORE_DETAIL = {', ',{\"vendor\":\"B2X\",\"short\":\"B2X\",\"taskId\":\"869egpcgz\",\"url\":\"https://app.clickup.com/t/869egpcgz\",\"projectCount\":1,\"updated\":\"2026-08-11T12:59:26Z\",\"fields\":28,\"projects\":[\"B2X\"],\"note\":\"Scorecard record detected in ClickUp; score pending publication.\",\"aliases\":[\"b2x\"],\"score\":null,\"scoreBasis\":\"ClickUp scorecard record present • score pending\"}];\nconst PROJECT_SCORE_DETAIL = {');
+
+  out = out.replace(/<article class="card"><div class="card-head"><div><h3>Active projects by delivery stage<\/h3><p>Open project records grouped by their current operational status\.<\/p><\/div><span class="badge" id="activeBadge">0 active projects<\/span><\/div><div class="card-body"><div class="bar-list" id="activeBars"><\/div><\/div><\/article>/, '');
+
+  out = out.replace(
+    /const VENDOR_SCORECARDS = \[(.*?)\];\nconst PROJECT_SCORE_DETAIL = \{/s,
+    (_match, inner) => {
+      const b2x = `  {"vendor":"B2X","short":"B2X","taskId":"869egpcgz","url":"https://app.clickup.com/t/869egpcgz","projectCount":1,"updated":"2026-08-11T12:59:26Z","fields":28,"projects":["B2X"],"note":"Scorecard record detected in ClickUp; score pending publication.","aliases":["b2x"],"score":null,"scoreBasis":"ClickUp scorecard record present • score pending"}`;
+      return `const VENDOR_SCORECARDS = [${inner.trim()},\n${b2x}];\nconst PROJECT_SCORE_DETAIL = {`;
+    }
+  );
+
   return out;
 }
 
 async function main() {
   await fs.mkdir(outDir, { recursive: true });
+
   const tasks = (await fetchAllTasks()).filter(inWindow);
   await fs.writeFile(dataPath, JSON.stringify(tasks, null, 2), 'utf8');
+
   const html = await fs.readFile(indexPath, 'utf8');
   await fs.writeFile(outIndexPath, patchHtml(html), 'utf8');
-  console.log(`Built ${tasks.length} ClickUp task records from list ${LIST_ID}.`);
+
+  console.log(`Built ${tasks.length} ClickUp task records from ${LIST_IDS.length} source lists.`);
 }
 
 main().catch((err) => {
