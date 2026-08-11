@@ -24,99 +24,6 @@ const outDir = path.join(root, OUTPUT_DIR);
 const dataPath = path.join(outDir, 'clickup-data.json');
 const outIndexPath = path.join(outDir, 'index.html');
 
-const VENDOR_CARDS = [
-  {
-    vendor: 'Anderson Merchandising',
-    short: 'Anderson',
-    taskId: '869dmepg4',
-    url: 'https://app.clickup.com/t/869dmepg4',
-    projectCount: 5,
-    updated: '2026-08-03T14:03:01Z',
-    fields: 28,
-    projects: ['Academy Sports', 'Hucks Stores Pilot', 'WMUS Top Stock', 'WMUS Audits', 'Natural Grocers'],
-    note: 'Project-level scorecards are maintained under the Anderson parent scorecard, including Natural Grocers.',
-    aliases: ['academy sports', 'huck', 'topstock', 'top stock', 'wmus audit', 'walmart audit', 'natural grocers', 'fresh market'],
-    score: 85,
-    scoreBasis: 'Published vendor average • Jul 20, 2026',
-  },
-  {
-    vendor: 'Channel Partners',
-    short: 'Channel Partners',
-    taskId: '869d1ete9',
-    url: 'https://app.clickup.com/t/869d1ete9',
-    projectCount: 5,
-    updated: '2026-08-03T14:00:36Z',
-    fields: 28,
-    projects: ['Miniso', 'Ace Elgin', 'Fuel Maxx', 'Dufry', 'Ace Elgin follow-up'],
-    note: 'Project-level scorecards are maintained under the Channel Partners parent scorecard.',
-    aliases: ['miniso', 'ace elgin', 'fuel maxx', 'dufry'],
-    score: 93,
-    scoreBasis: 'Published vendor average • Jul 20, 2026',
-  },
-  {
-    vendor: 'Impulso',
-    short: 'Impulso',
-    taskId: '869duw9kp',
-    url: 'https://app.clickup.com/t/869duw9kp',
-    projectCount: 1,
-    updated: '2026-08-03T14:04:13Z',
-    fields: 28,
-    projects: ['OXXO Revisits'],
-    note: 'Current scorecard coverage is focused on the OXXO revisit program.',
-    aliases: ['oxxo'],
-    score: 68,
-    scoreBasis: 'Published vendor average • Jul 20, 2026',
-  },
-  {
-    vendor: 'SASR',
-    short: 'SASR',
-    taskId: '869ed6zn3',
-    url: 'https://app.clickup.com/t/869ed6zn3',
-    projectCount: 2,
-    updated: '2026-08-03T14:01:48Z',
-    fields: 28,
-    projects: ['DHI', 'Dollar General Pilot'],
-    note: 'Current SASR scorecards include DHI at 87% and Dollar General Pilot at 96%.',
-    aliases: ['diamond home improvement', 'dhi', 'dollar general'],
-    score: 92,
-    scoreBasis: '91.5% average • DHI 87% + Dollar General 96%',
-  },
-  {
-    vendor: 'B2X',
-    short: 'B2X',
-    taskId: '869egpcgz',
-    url: 'https://app.clickup.com/t/869egpcgz',
-    projectCount: 1,
-    updated: '2026-08-11T12:59:26Z',
-    fields: 28,
-    projects: ['B2X'],
-    note: 'Scorecard record detected in ClickUp; score pending publication.',
-    aliases: ['b2x'],
-    score: null,
-    scoreBasis: 'ClickUp scorecard record present • score pending',
-  },
-];
-
-const PROJECT_SCORE_DETAIL = {
-  'Anderson Merchandising': {
-    'Academy Sports': { final: 100, quality: 5 },
-    'Hucks Stores Pilot': { final: 80, quality: 3 },
-    'Natural Grocers': { final: 76, quality: 4 },
-  },
-  'Channel Partners': {
-    'Dufry': { final: 100, quality: 5 },
-    'Fuel Maxx': { final: 96, quality: 5 },
-    'Ace Elgin': { final: 76, quality: 4 },
-  },
-  Impulso: {
-    'OXXO Revisits': { final: 68, quality: 4 },
-  },
-  SASR: {
-    DHI: { final: 87, quality: 4 },
-    'Dollar General Pilot': { final: 96, quality: 5 },
-  },
-};
-
 function cleanNumber(value) {
   if (value == null || value === '') return null;
   if (typeof value === 'number') return Number.isFinite(value) ? value : null;
@@ -262,6 +169,7 @@ async function fetchListTasks(listId) {
   while (true) {
     const url = `${API_BASE}/list/${listId}/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`;
     let data;
+
     try {
       data = await fetchJson(url);
     } catch (err) {
@@ -304,17 +212,8 @@ function inWindow(task) {
 
 function patchHtml(html) {
   let out = html;
-
-  out = out.replace(
-    /function renderBars\(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS\)\{const max=Math\.max\(\.\.\.items\.map\(valueFn\),0\);/,
-    'function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const el=$(target);if(!el)return;const max=Math.max(...items.map(valueFn),0);'
-  );
+  out = out.replace(/function renderBars\(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS\)\{const max=Math\.max\(\.\.\.items\.map\(valueFn\),0\);/, 'function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const el=$(target);if(!el)return;const max=Math.max(...items.map(valueFn),0);');
   out = out.replace(/\$\(target\)\.innerHTML=/g, 'el.innerHTML=');
-  out = out.replace(/function renderActiveBars\(\)\{/, 'function renderActiveBars(){const activeBarsEl=$("#activeBars");const activeBadgeEl=$("#activeBadge");if(!activeBarsEl||!activeBadgeEl)return;');
-
-  const vendorBlock = `const VENDOR_SCORECARDS = ${JSON.stringify(VENDOR_CARDS, null, 2)};\nconst PROJECT_SCORE_DETAIL = {`;
-  out = out.replace(/const VENDOR_SCORECARDS = \[[\s\S]*?\];\nconst PROJECT_SCORE_DETAIL = \{/, vendorBlock);
-
   return out;
 }
 
