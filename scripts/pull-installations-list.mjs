@@ -3,7 +3,6 @@ import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
 const TEAM_ID = process.env.CLICKUP_TEAM_ID || '14341097';
-const LIST_ID = process.env.CLICKUP_LIST_ID || '901210415855';
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'dist';
 const API_BASE = 'https://api.clickup.com/api/v2';
 const PAGE_SIZE = 100;
@@ -11,6 +10,12 @@ const START_DATE = process.env.CLICKUP_START_DATE || new Date(Date.now() - 183 *
 const END_DATE = process.env.CLICKUP_END_DATE || new Date().toISOString().slice(0, 10);
 const START_CUTOFF = new Date(`${START_DATE}T00:00:00Z`);
 const END_CUTOFF = new Date(`${END_DATE}T23:59:59.999Z`);
+
+const SOURCES = [
+  { type: 'list', id: '901210415855', label: 'Installations Main Tracker' },
+  { type: 'folder', id: '901210655304', label: '2026 Installation Project Tracker' },
+  { type: 'list', id: '901217460327', label: 'Scorecards' },
+];
 
 if (!TOKEN) {
   console.error('Missing CLICKUP_TOKEN.');
@@ -67,17 +72,18 @@ function creatorName(task) {
   return c.username || c.email || c.name || '';
 }
 
-function guessWorkstream(task) {
+function guessWorkstream(task, sourceLabel) {
   return (
     pickCustomField(task, ['Workstream', 'Work Stream', 'Program', 'Project Type']) ||
     task?.folder?.name ||
     task?.list?.name ||
     task?.space?.name ||
+    sourceLabel ||
     'ClickUp'
   );
 }
 
-function normalizeTask(task) {
+function normalizeTask(task, sourceLabel) {
   const created = toIso(task?.date_created || task?.created_at || task?.created);
   const updated = toIso(task?.date_updated || task?.updated_at || task?.updated);
   const done = toIso(task?.date_done || task?.date_closed || task?.done_at || task?.completed_at);
@@ -87,8 +93,6 @@ function normalizeTask(task) {
   const statusType = task?.status?.type || '';
   const statusGroup = prettyStatusGroup(statusName, statusType);
   const priority = task?.priority?.priority || task?.priority?.name || task?.priority || 'NONE';
-  const invoice = Number(pickCustomField(task, ['Vendor invoice', 'Vendor Invoice', 'Invoice', 'Cost', 'Vendor Cost']) || 0) || null;
-  const revenue = Number(pickCustomField(task, ['Customer invoice', 'Customer charge', 'Customer Charge', 'Charge', 'Billable', 'Revenue', 'Customer Revenue']) || 0) || null;
 
   const acc = {
     id: task?.id || '',
@@ -97,7 +101,7 @@ function normalizeTask(task) {
     statusLabel: String(statusName || ''),
     statusGroup,
     active: statusGroup !== 'Complete' && statusGroup !== 'Cancelled' && statusType !== 'closed',
-    workstream: guessWorkstream(task),
+    workstream: guessWorkstream(task, sourceLabel),
     folder: task?.folder?.name || task?.list?.name || '',
     owner: firstAssignee(task),
     priority: String(priority || 'NONE').toUpperCase(),
@@ -107,10 +111,10 @@ function normalizeTask(task) {
     updated,
     done,
     years: [],
-    invoice,
-    invoiceRecorded: Number.isFinite(invoice),
-    revenue,
-    revenueRecorded: Number.isFinite(revenue),
+    invoice: null,
+    invoiceRecorded: false,
+    revenue: null,
+    revenueRecorded: false,
     timeInStatusHours: 0,
     address: pickCustomField(task, ['Address', 'Store Address', 'Location']) || '',
     storeManager: pickCustomField(task, ['Store Manager', 'Manager']) || '',
@@ -155,13 +159,19 @@ async function fetchJson(url) {
   return res.json();
 }
 
-async function fetchPagedTasks(urlBuilder) {
+async function fetchPagedTasks(source) {
   const results = [];
   let page = 0;
   let useZeroBased = true;
 
   while (true) {
-    const url = urlBuilder(page);
+    const url = new URL(`${API_BASE}/${source.type}/${source.id}/task`);
+    url.searchParams.set('page', String(page));
+    url.searchParams.set('subtasks', 'true');
+    url.searchParams.set('include_closed', 'true');
+    url.searchParams.set('order_by', 'updated');
+    url.searchParams.set('reverse', 'true');
+
     let data;
     try {
       data = await fetchJson(url);
@@ -175,12 +185,12 @@ async function fetchPagedTasks(urlBuilder) {
     }
 
     const tasks = Array.isArray(data?.tasks) ? data.tasks : Array.isArray(data) ? data : [];
-    results.push(...tasks);
+    results.push(...tasks.map((task) => normalizeTask(task, source.label)));
     if (tasks.length < PAGE_SIZE) break;
     page += 1;
   }
 
-  return results.map(normalizeTask);
+  return results;
 }
 
 function isWithinRange(task) {
@@ -197,19 +207,17 @@ async function main() {
   const outDir = path.join(root, OUTPUT_DIR);
   await fs.mkdir(outDir, { recursive: true });
 
-  const listTasks = await fetchPagedTasks((page) => {
-    const url = new URL(`${API_BASE}/list/${LIST_ID}/task`);
-    url.searchParams.set('page', String(page));
-    url.searchParams.set('subtasks', 'true');
-    url.searchParams.set('include_closed', 'true');
-    url.searchParams.set('order_by', 'updated');
-    url.searchParams.set('reverse', 'true');
-    return url;
-  });
+  const allTasks = [];
+  for (const source of SOURCES) {
+    const tasks = await fetchPagedTasks(source);
+    allTasks.push(...tasks);
+  }
 
-  const filtered = listTasks.filter(isWithinRange);
+  const unique = [...new Map(allTasks.map((task) => [task.id, task])).values()];
+  const filtered = unique.filter(isWithinRange);
+
   await fs.writeFile(path.join(outDir, 'clickup-data.json'), JSON.stringify(filtered, null, 2), 'utf8');
-  console.log(`Pulled ${filtered.length} tasks from ClickUp list ${LIST_ID} for ${START_DATE} through ${END_DATE}.`);
+  console.log(`Pulled ${filtered.length} tasks from ${SOURCES.length} ClickUp sources for ${START_DATE} through ${END_DATE}.`);
 }
 
 main().catch((err) => {
