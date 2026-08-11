@@ -8,8 +8,8 @@
 <style>
 :root{--bg:#07101d;--panel:#0d1b2e;--line:rgba(255,255,255,.09);--text:#f4f7fb;--muted:#91a0b7;--accent:#9de05f;--accent2:#4fc3f7;--shadow:0 22px 65px rgba(0,0,0,.28);--radius:18px}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#07101d,#060d18 70%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}code{font:inherit}
-.wrap{max-width:1600px;margin:0 auto;padding:22px 24px 42px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:14px}.logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(145deg,var(--accent),#61bf5b);display:grid;place-items:center;color:#06100b;font-weight:900;font-size:22px;box-shadow:0 14px 30px rgba(157,224,95,.2)}.eyebrow{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-weight:700}h1{font-size:30px;line-height:1.12;margin:8px 0 6px}.sub{color:var(--muted);font-size:13px;max-width:980px;line-height:1.5}.badge{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(157,224,95,.08);border:1px solid rgba(157,224,95,.16);padding:5px 7px;border-radius:8px;white-space:nowrap}
-.hero{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.95),rgba(9,20,35,.96));box-shadow:var(--shadow);overflow:hidden}.card-head{padding:16px 16px 8px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.card-head p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}.card-body{padding:0 16px 16px}.kpi{font-size:30px;line-height:1;font-weight:800;letter-spacing:-.04em;margin:10px 0 8px}.kpi small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.11em;text-transform:uppercase;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);border-radius:12px;padding:10px 12px}.item b{display:block;font-size:12px}.item span{display:block;color:var(--muted);font-size:10px;margin-top:4px;line-height:1.4}.item em{font-style:normal;font-size:11px;color:#fff;white-space:nowrap}.tablewrap{overflow:auto;max-height:700px;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:11px;vertical-align:top}th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#74839a;position:sticky;top:0;background:#0c192b}td{color:#b8c4d4}td strong{color:#eef3fb;font-weight:650}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 16px 12px}.toolbar input{width:min(100%,420px);height:38px;border:1px solid rgba(255,255,255,.1);background:#0a1627;color:#e9eef6;border-radius:10px;padding:0 12px;outline:none}.section{margin-top:12px}.footer{margin-top:18px;color:var(--muted);font-size:11px;line-height:1.5;padding:0 2px}.muted{color:var(--muted)}.bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),#87d9ff)}@media (max-width: 1100px){.hero,.grid{grid-template-columns:1fr 1fr}.wrap{padding:18px}}@media (max-width: 760px){.hero,.grid{grid-template-columns:1fr}.wrap{padding:14px}.kpi{font-size:26px}}
+.wrap{max-width:1600px;margin:0 auto;padding:22px 24px 42px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}.brand{display:flex;align-items:center;gap:14px}.logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(145deg,var(--accent),#61bf5b);display:grid;place-items:center;color:#06100b;font-weight:900;font-size:22px;box-shadow:0 14px 30px rgba(157,224,95,.2)}.eyebrow{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-weight:700}h1{font-size:30px;line-height:1.12;margin:8px 0 6px}.sub{color:var(--muted);font-size:13px;max-width:980px;line-height:1.5}.badge{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(157,224,95,.08);border:1px solid rgba(157,224,95,.16);padding:5px 7px;border-radius:8px;white-space:nowrap}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:12px 0 12px}.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.95),rgba(9,20,35,.96));box-shadow:var(--shadow);overflow:hidden}.card-head{padding:16px 16px 8px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.card-head h3,.card-head h2{margin:0}.card-head p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}.card-body{padding:0 16px 16px}.kpi{font-size:30px;line-height:1;font-weight:800;letter-spacing:-.04em;margin:10px 0 8px}.kpi small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.11em;text-transform:uppercase;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);border-radius:12px;padding:10px 12px}.item b{display:block;font-size:12px}.item span{display:block;color:var(--muted);font-size:10px;margin-top:4px;line-height:1.4}.item em{font-style:normal;font-size:11px;color:#fff;white-space:nowrap}.tablewrap{overflow:auto;max-height:700px;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:11px;vertical-align:top}th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#74839a;position:sticky;top:0;background:#0c192b}td{color:#b8c4d4}td strong{color:#eef3fb;font-weight:650}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 16px 12px}.toolbar input{width:min(100%,420px);height:38px;border:1px solid rgba(255,255,255,.1);background:#0a1627;color:#e9eef6;border-radius:10px;padding:0 12px;outline:none}.section{margin-top:12px}.footer{margin-top:18px;color:var(--muted);font-size:11px;line-height:1.5;padding:0 2px}.muted{color:var(--muted)}.bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),#87d9ff)}@media (max-width: 1100px){.kpis,.grid,.grid3{grid-template-columns:1fr 1fr}.wrap{padding:18px}}@media (max-width: 760px){.kpis,.grid,.grid3{grid-template-columns:1fr}.wrap{padding:14px}.kpi{font-size:26px}}
 </style>
 </head>
 <body>
@@ -20,13 +20,13 @@
       <div>
         <div class="eyebrow">Vusion Field Services</div>
         <h1>Vendor Dashboard</h1>
-        <div class="sub">Live data is pulled from ClickUp into <code>clickup-data.json</code>. This page keeps vendor invoice data visible even when customer invoice is missing, and it shows the logo and scorecard sections again.</div>
+        <div class="sub">Live data is pulled from ClickUp into <code>clickup-data.json</code>. The top row is reserved for KPIs, followed by delivery, scorecard, and project sections below.</div>
       </div>
     </div>
     <div class="badge" id="lastUpdated">Loading data…</div>
   </div>
 
-  <div class="hero">
+  <div class="kpis">
     <div class="card"><div class="card-head"><div><h3>Installation Quality Scores</h3><p>Completed delivery quality from the current ClickUp snapshot.</p></div><span class="badge">Quality</span></div><div class="card-body"><div class="kpi" id="kpiQuality">—<small>loading</small></div></div></div>
     <div class="card"><div class="card-head"><div><h3>Vendor Performance Scorecards</h3><p>Scorecard records surfaced from ClickUp.</p></div><span class="badge">Scorecards</span></div><div class="card-body"><div class="kpi" id="kpiScorecards">—<small>loading</small></div></div></div>
     <div class="card"><div class="card-head"><div><h3>Installation Margin</h3><p>Vendor invoice is shown even when customer invoice is missing.</p></div><span class="badge">Margin</span></div><div class="card-body"><div class="kpi" id="kpiMargin">—<small>loading</small></div></div></div>
@@ -84,7 +84,6 @@ const d=s=>s?new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric'
 const by=(rows,key)=>rows.reduce((a,r)=>{const k=r[key]||'Other';(a[k]??={count:0,total:0});a[k].count++;a[k].total+=r.invoice;return a;},{});
 const row=(title,sub,right)=>`<div class="item"><div><b>${esc(title)}</b><span>${esc(sub)}</span></div><em>${esc(right)}</em></div>`;
 const empty=msg=>`<div class="item"><div><b>${esc(msg)}</b><span>No data available</span></div><em>—</em></div>`;
-const stageLabel=s=>String(s||'Other');
 const scorecards=[
   {vendor:'Anderson Merchandising',score:85,note:'Published vendor average',projects:'Academy Sports, Hucks Stores Pilot, WMUS Top Stock, WMUS Audits, Natural Grocers'},
   {vendor:'Channel Partners',score:93,note:'Published vendor average',projects:'Miniso, Ace Elgin, Fuel Maxx, Dufry'},
@@ -105,11 +104,10 @@ async function boot(){
   const customerTotal=view.reduce((a,r)=>a+r.revenue,0);
   const margin=customerTotal-vendorTotal;
   const marginText=customerTotal?`${money(margin)} / ${pct(margin/customerTotal*100)}`:`${money(vendorTotal)} vendor invoice`;
-  const scorecardCount=scorecards.length;
 
   $('lastUpdated').textContent=`${total} rows loaded`;
   $('kpiQuality').innerHTML=`${complete}<small>completed projects</small>`;
-  $('kpiScorecards').innerHTML=`${scorecardCount}<small>scorecard records</small>`;
+  $('kpiScorecards').innerHTML=`${scorecards.length}<small>scorecard records</small>`;
   $('kpiMargin').innerHTML=`${marginText}<small>${customerTotal ? 'customer invoice vs vendor invoice' : 'customer invoice missing; vendor invoice shown'}</small>`;
   $('kpiPortfolio').innerHTML=`${total}<small>project records in window</small>`;
   $('registerCount').textContent=`${total} records`;
@@ -118,19 +116,21 @@ async function boot(){
 
   const stages=by(view,'stage');
   const ws=by(view,'workstream');
-  $('metricList').innerHTML=Object.entries(stages).map(([k,v])=>row(stageLabel(k),`${v.count} records`,`Vendor ${money(v.total)}`)).join('')||empty('No portfolio records found');
-  $('statusList').innerHTML=Object.entries(stages).sort((a,b)=>b[1].count-a[1].count).map(([k,v])=>{
-    const p=total?v.count/total*100:0; return `<div class="item"><div><b>${esc(stageLabel(k))}</b><span>${v.count} records • ${money(v.total)} vendor invoice</span><div class="bar"><i style="width:${Math.max(5,p)}%"></i></div></div><em>${p.toFixed(0)}%</em></div>`;
-  }).join('')||empty('No status data found');
+  $('metricList').innerHTML=Object.entries(stages).map(([k,v])=>row(k,`${v.count} records`,`Vendor ${money(v.total)}`)).join('')||empty('No portfolio records found');
+  $('statusList').innerHTML=Object.entries(stages).sort((a,b)=>b[1].count-a[1].count).map(([k,v])=>{const p=total?v.count/total*100:0; return `<div class="item"><div><b>${esc(k)}</b><span>${v.count} records • ${money(v.total)} vendor invoice</span><div class="bar"><i style="width:${Math.max(5,p)}%"></i></div></div><em>${p.toFixed(0)}%</em></div>`;}).join('')||empty('No status data found');
   $('workstreamList').innerHTML=Object.entries(ws).sort((a,b)=>b[1].total-a[1].total).slice(0,7).map(([k,v])=>row(k,`${v.count} records`,`Vendor ${money(v.total)}`)).join('')||empty('No workstream data found');
   $('highestCostList').innerHTML=view.slice().sort((a,b)=>b.invoice-a.invoice).slice(0,10).map(r=>row(r.name,`${r.workstream} • ${r.stage}`,`${money(r.invoice)} vendor invoice`)).join('')||empty('No high-cost projects found');
-  $('scorecardList').innerHTML=scorecards.map(s=>`<div class="item"><div><b>${esc(s.vendor)}</b><span>${esc(s.note)}<br>${esc(s.projects)}</span></div><em class="${s.score==null?'muted':''}">${s.score==null?'Pending':`${s.score}%`}</em></div>`).join('');
-  $('weighting').innerHTML=['Execution 25%','Quality 30%','Communication 20%','Compliance & Safety 15%','Reliability 10%'].map(t=>`<div class="item"><div><b>${t.split(' ')[0]}</b><span>${t.includes('Safety')?'Safety':'Weight in scorecard rollup'}</span></div><em>${t.match(/\d+%/)[0]}</em></div>`).join('');
+  $('scorecardList').innerHTML=scorecards.map(s=>row(s.vendor,`${s.note} • ${s.projects}`,s.score==null?'pending':`${s.score}%`)).join('');
+  $('weighting').innerHTML=`<div class="list">${[['Execution',25],['Quality',30],['Communication',20],['Compliance & Safety',15],['Reliability',10]].map(([k,v])=>row(k,'Weight in scorecard rollup',`${v}%`)).join('')}</div>`;
 
-  const input=$('search'); const body=$('tableBody');
-  const render=()=>{const q=input.value.trim().toLowerCase(); const f=view.filter(r=>!q||[r.name,r.folder,r.workstream,r.stage,r.owner,String(r.invoice),String(r.revenue)].join(' ').toLowerCase().includes(q));
-    body.innerHTML=f.slice().sort((a,b)=>(b.updated||'').localeCompare(a.updated||'')).map(r=>`<tr><td><strong>${esc(r.name)}</strong><div class="muted">${esc(r.folder||'')}</div></td><td>${esc(r.workstream)}</td><td>${esc(r.stage)}</td><td>${esc(r.owner)}</td><td>${money(r.invoice)}</td><td>${r.revenueRecorded?money(r.revenue):'—'}</td><td>${d(r.updated)}</td></tr>`).join('')||`<tr><td colspan="7">No records found.</td></tr>`;};
-  input.addEventListener('input',render); render();
+  const body=$('tableBody');
+  const search=$('search');
+  function renderTable(){
+    const q=search.value.trim().toLowerCase();
+    const filtered=view.filter(r=>!q||[r.name,r.workstream,r.stage,r.owner,r.folder,String(r.invoice),String(r.revenue)].join(' ').toLowerCase().includes(q));
+    body.innerHTML=filtered.slice().sort((a,b)=>(b.updated||'').localeCompare(a.updated||'')).map(r=>`<tr><td><strong>${esc(r.name)}</strong><div class="muted">${esc(r.folder||'')}</div></td><td>${esc(r.workstream)}</td><td>${esc(r.stage)}</td><td>${esc(r.owner)}</td><td>${money(r.invoice)}</td><td>${r.revenue?money(r.revenue):'—'}</td><td>${d(r.updated)}</td></tr>`).join('')||`<tr><td colspan="7" class="muted">No matching records</td></tr>`;
+  }
+  search.addEventListener('input',renderTable); renderTable();
 }
 boot();
 </script>
