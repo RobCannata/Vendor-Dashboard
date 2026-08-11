@@ -39,6 +39,11 @@ jobs:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
         run: npm run build
 
+      - name: Pull scoped ClickUp data
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+        run: node scripts/pull-installations-list.mjs
+
       - name: Post-process Installation Margin labels
         run: node scripts/postprocess-pnl.mjs
 
