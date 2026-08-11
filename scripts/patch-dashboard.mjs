@@ -1,3 +1,4 @@
+// Keep analytics cards aligned with the latest source template.
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
