@@ -160,7 +160,7 @@ h1{font-size:28px;line-height:1.16;margin:8px 0 6px;letter-spacing:-.035em}.subt
     <div class="title-wrap"><div class="eyebrow">2026 project portfolio view</div><h1>Field Services Executive Dashboard</h1><div class="subtitle">Installation, survey, AP, hypercare, and rollout project records with a qualifying date from January 1 through August 3, 2026 • <span id="snapshotText"></span></div></div>
     <div class="actions"><button class="btn mobile-menu" onclick="document.querySelector('.filters').scrollIntoView()">Filters</button><button class="btn" id="printBtn">Print / PDF</button><button class="btn primary" id="exportBtn">Export filtered CSV</button></div>
   </header>
-  <div class="notice"><div class="info">i</div><div><b>Reporting window:</b> Includes unique project and site records with a Start, Due, Date Created, or Date Done value from January 1 through August 3, 2026. Vendor scores use current project scorecards where available, with July 20 vendor averages retained only where no newer direct scorecard result is connected. Vendor invoice is treated as recorded cost. Profit is modeled from the editable target gross margin because customer revenue is not included in the source export.</div></div>
+  <div class="notice"><div class="info">i</div><div><b>Reporting window:</b> Includes unique project and site records with a Start, Due, Date Created, or Date Done value from January 1 through August 3, 2026. Vendor scores use current project scorecards where available, with July 20 vendor averages retained only where no newer direct scorecard result is connected. Vendor invoice is treated as recorded cost. Profit is modeled from the editable installation margin because customer revenue is not included in the source export.</div></div>
   <section class="filters" aria-label="Dashboard filters">
     <div class="control"><label for="searchInput">Search project, scope, comment, or address</label><input id="searchInput" type="search" placeholder="Search project name, scope, comment, or address…"></div>
     <div class="control"><label for="viewSelect">Project portfolio view</label><select id="viewSelect"><option value="all">All project records</option><option value="active">Active projects</option><option value="complete">Completed projects</option><option value="cancelled">Cancelled projects</option><option value="costed">Projects with vendor cost</option></select></div>
@@ -204,7 +204,7 @@ h1{font-size:28px;line-height:1.16;margin:8px 0 6px;letter-spacing:-.035em}.subt
     <article class="card"><div class="card-head"><div><h3>Highest-cost projects</h3><p>Project records with the largest recorded vendor invoice values in the current filter.</p></div><span class="badge">Cost concentration</span></div><div class="card-body"><div class="bar-list" id="topCostBars"></div></div></article>
   </section>
 
-  <div class="section-head" id="financials"><div><h2>P&L</h2><p>Recorded vendor cost compared with modeled service revenue and gross profit.</p></div><p>Target gross margin is editable • Actual customer revenue is still a data gap.</p></div>
+  <div class="section-head" id="financials"><div><h2>Installation Margin</h2><p>Recorded vendor cost compared with modeled service revenue and gross profit.</p></div><p>Target gross margin is editable • Actual customer revenue is still a data gap.</p></div>
   <section class="card finance-card">
     <div class="finance-grid">
       <div class="finance-metrics">
@@ -377,9 +377,9 @@ function renderMainKPIs(){
       <div class="main-kpi-foot"><span>Vendor averages • SASR refreshed Aug 3, 2026</span><a href="#scorecards">Open scorecards</a></div>
     </article>
     <article class="main-kpi-card" style="--main-kpi-color:#4fc3f7">
-      <div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>P&L</h3><p>Modeled service revenue derived from recorded vendor cost and the selected target margin.</p></div></div><span class="main-kpi-icon">${ICONS.cost}</span></div>
+      <div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>Installation Margin</h3><p>Installation margin derived from customer invoice and vendor invoice.</p></div></div><span class="main-kpi-icon">${ICONS.cost}</span></div>
       <div class="main-kpi-value">${fmtMoney(finance.revenue,true)}<small>modeled</small></div>
-      <div class="main-kpi-sub">Current filtered view at a ${Math.round(targetMargin)}% target gross margin.</div>
+      <div class="main-kpi-sub">Current filtered view at a ${Math.round(targetMargin)}% installation margin.</div>
       <div class="main-kpi-stats"><div class="main-kpi-stat"><span>Vendor cost</span><b>${fmtMoney(finance.cost,true)}</b></div><div class="main-kpi-stat"><span>Modeled GP</span><b>${fmtMoney(finance.profit,true)}</b></div><div class="main-kpi-stat"><span>Projects with cost</span><b>${fmtInt(invoiceCount)}</b></div></div>
       <div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>Customer invoice not in tracker</span><a href="#financials">Open model</a></div>
     </article>`;
@@ -522,6 +522,79 @@ boot();
       var task = data[i] || {};
       revenue += getNumber(task, ["Customer invoice", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerInvoice", "customerRevenue"]);
       cost += getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);
+    }
+
+    var profit = revenue - cost;
+    var margin = revenue ? Math.round((profit / revenue) * 100) : null;
+    var title = "P&L";
+    var subtitle = revenue > 0 ? "Customer invoice less vendor invoice." : "Customer invoice is not captured yet; vendor invoice is still tracked.";
+    var note = revenue > 0 ? "Customer invoice = revenue • Vendor invoice = direct cost" : "Add a customer invoice field in ClickUp to show live revenue.";
+
+    card.innerHTML =
+      '<div class="main-kpi-head"><div class="main-kpi-title"><span class="main-kpi-index">3</span><div><h3>' + title + '</h3><p>' + subtitle + '</p></div></div><span class="main-kpi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20m5-16H9a3 3 0 0 0 0 6h6a3 3 0 1 1 0 6H6" stroke-width="1.7"/></svg></span></div>' +
+      '<div class="main-kpi-value">' + money(revenue, true) + '<small>revenue</small></div>' +
+      '<div class="main-kpi-sub">Gross profit ' + money(profit, true) + ' • margin ' + (margin == null ? "—" : margin + "%") + '</div>' +
+      '<div class="main-kpi-stats"><div class="main-kpi-stat"><span>Customer invoice</span><b>' + money(revenue, true) + '</b></div><div class="main-kpi-stat"><span>Vendor invoice</span><b>' + money(cost, true) + '</b></div><div class="main-kpi-stat"><span>Gross profit</span><b>' + money(profit, true) + '</b></div></div>' +
+      '<div class="main-kpi-foot"><span class="kpi-data-gap"><i></i>' + note + '</span><a href="#financials">Open model</a></div>';
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", renderPnL, { once: true });
+  } else {
+    renderPnL();
+  }
+})();
+</script><script>
+(function(){
+  function money(value, compact) {
+    var n = Number(value);
+    if (!Number.isFinite(n)) return "—";
+    if (compact) {
+      var abs = Math.abs(n);
+      if (abs >= 1e6) return "$" + (n / 1e6).toFixed(abs >= 1e7 ? 0 : 2).replace(/\.00$/, "") + "M";
+      if (abs >= 1e3) return "$" + (n / 1e3).toFixed(abs >= 1e5 ? 0 : 1).replace(/\.0$/, "") + "K";
+    }
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+  }
+
+  function getNumber(task, keys) {
+    var list = Array.isArray(keys) ? keys : [];
+    for (var i = 0; i < list.length; i++) {
+      var key = String(list[i] || "").trim().toLowerCase();
+      if (!key) continue;
+      for (var j = 0; j < (task.custom_fields || []).length; j++) {
+        var field = task.custom_fields[j] || {};
+        var name = String(field.name || field.label || "").trim().toLowerCase();
+        if (name !== key) continue;
+        var raw = field.value;
+        var num = Number(raw);
+        if (Number.isFinite(num)) return num;
+      }
+      var fallback = Number(task[key]);
+      if (Number.isFinite(fallback)) return fallback;
+    }
+    return 0;
+  }
+
+  function renderPnL() {
+    var cards = document.querySelectorAll(".main-kpi-card");
+    var card = cards[2];
+    var data = window.DATA || [];
+    if (!card || !Array.isArray(data)) return;
+
+    var revenue = 0;
+    var cost = 0;
+    var revenueCount = 0;
+    var costCount = 0;
+
+    for (var i = 0; i < data.length; i++) {
+      var task = data[i] || {};
+      var r = getNumber(task, ["Customer invoice", "Customer Charge", "Charge", "Billable", "Revenue", "Customer Revenue", "customerInvoice", "customerRevenue"]);
+      var c = getNumber(task, ["Vendor invoice", "Vendor Invoice", "Invoice", "Cost", "Vendor Cost", "invoice", "vendorCost"]);
+      revenue += r;
+      cost += c;
+      if (r > 0) revenueCount++;
+      if (c > 0) costCount++;
     }
 
     var profit = revenue - cost;
