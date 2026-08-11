@@ -1,5 +1,6 @@
 name: Build dashboard
 # Triggered to rebuild the dashboard with the latest ClickUp data and source lists.
+# Fresh rebuild trigger: 2026-08-11.
 
 on:
   push:
