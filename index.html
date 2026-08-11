@@ -1,1 +1,1107 @@
-/mnt/data/compact_dashboard.html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<title>Vusion Field Services | Executive KPI Dashboard</title>
+<style>
+  :root{
+    --bg:#07101d;
+    --panel:#0d1b2e;
+    --panel2:#102039;
+    --line:rgba(255,255,255,.08);
+    --text:#f4f7fb;
+    --muted:#97a6bd;
+    --soft:#d7dfeb;
+    --accent:#ffd24a;
+    --accent2:#59c6ff;
+    --green:#31b56b;
+    --orange:#ff8a00;
+    --red:#ef5b67;
+    --shadow:0 20px 65px rgba(0,0,0,.28);
+    --radius:18px;
+    --chip:rgba(255,255,255,.05);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 86% 4%,rgba(89,198,255,.14),transparent 26%),
+      radial-gradient(circle at 16% 4%,rgba(255,210,74,.10),transparent 24%),
+      linear-gradient(180deg,#07111d,#060d18 72%);
+    color:var(--text);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    min-height:100vh;
+  }
+  a{color:inherit}
+  button,input,select{font:inherit}
+  .wrap{max-width:1620px;margin:0 auto;padding:24px 24px 34px}
+  .top{
+    display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .brand{display:flex;align-items:flex-start;gap:16px;min-width:0}
+  .brand img{width:92px;height:92px;object-fit:contain;display:block;flex:0 0 auto}
+  .hdr{min-width:0}
+  .hdr .eyebrow{
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:800
+  }
+  h1{
+    margin:6px 0 8px;
+    font-size:36px;
+    line-height:1;
+    letter-spacing:-.045em;
+  }
+  .sub{
+    margin:0;
+    max-width:1100px;
+    color:var(--muted);
+    font-size:15px;
+    line-height:1.55;
+  }
+  .controls{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;justify-content:flex-end}
+  .ctrl{min-width:220px}
+  .ctrl label{
+    display:block;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#72829a;margin:0 0 6px 2px;font-weight:800
+  }
+  .ctrl select,.search,.btn{
+    height:42px;border-radius:12px;border:1px solid var(--line);outline:none;
+  }
+  .ctrl select,.search{
+    width:100%;
+    background:rgba(255,255,255,.04);
+    color:var(--text);
+    padding:0 12px;
+    box-shadow:var(--shadow);
+  }
+  .btn{
+    background:rgba(255,210,74,.08);
+    color:#fff;
+    padding:0 14px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .btn:hover{filter:brightness(1.06)}
+  .pills{
+    display:grid;
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:12px;
+    margin:16px 0 18px;
+  }
+  .pill{
+    background:linear-gradient(160deg,rgba(16,29,51,.96),rgba(10,20,37,.95));
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px 18px;
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:center;
+    gap:14px;
+    min-height:88px;
+    overflow:hidden;
+    position:relative;
+  }
+  .pill:before{
+    content:'';
+    position:absolute;
+    inset:auto -25px -25px auto;
+    width:86px;height:86px;border-radius:50%;
+    background:rgba(89,198,255,.10);
+    filter:blur(2px);
+  }
+  .ico{
+    width:50px;height:50px;border-radius:16px;
+    display:grid;place-items:center;
+    color:#fff;font-size:20px;font-weight:900;flex:0 0 auto;
+    background:rgba(255,255,255,.06);
+  }
+  .pill b{
+    display:block;font-size:26px;line-height:1;margin-bottom:4px;letter-spacing:-.04em
+  }
+  .pill span{
+    display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700
+  }
+  .section{
+    display:flex;justify-content:space-between;align-items:end;gap:12px;margin:22px 0 12px;
+  }
+  .section h2{margin:0;font-size:16px;letter-spacing:-.01em}
+  .section p{margin:0;color:var(--muted);font-size:12px}
+  .kpis{
+    display:grid;
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    gap:12px;
+  }
+  .kpi{
+    background:linear-gradient(160deg,rgba(16,29,51,.97),rgba(10,20,37,.96));
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    padding:15px;
+    min-height:126px;
+    position:relative;
+    overflow:hidden;
+    text-decoration:none;
+    color:inherit;
+    display:block;
+  }
+  .kpi:hover{border-color:rgba(255,255,255,.18);transform:translateY(-1px)}
+  .kpi:after{
+    content:'';
+    position:absolute;right:-28px;top:-28px;width:90px;height:90px;border-radius:50%;
+    background:rgba(255,210,74,.08);filter:blur(2px)
+  }
+  .kpi-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+  .kpi-label{
+    font-size:10px;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    color:#8292aa;
+  }
+  .kpi-icon{
+    width:30px;height:30px;border-radius:10px;
+    background:rgba(255,255,255,.06);
+    display:grid;place-items:center;
+    color:var(--accent2);
+    font-size:14px;
+    font-weight:800;
+  }
+  .kpi-value{
+    font-size:28px;line-height:1;font-weight:850;letter-spacing:-.05em;margin:16px 0 8px;
+  }
+  .kpi-meta{
+    font-size:10px;color:var(--muted);display:flex;align-items:center;gap:6px
+  }
+  .dot{width:6px;height:6px;border-radius:999px;background:var(--accent2);box-shadow:0 0 12px var(--accent2)}
+  .grid{display:grid;grid-template-columns:1.08fr .92fr;gap:12px}
+  .grid.two{grid-template-columns:1.14fr .86fr}
+  .grid.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .card{
+    background:linear-gradient(160deg,rgba(16,29,51,.97),rgba(10,20,37,.96));
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    min-width:0;
+  }
+  .card a{color:inherit;text-decoration:none}
+  .card-head{
+    display:flex;justify-content:space-between;gap:12px;align-items:flex-start;
+    padding:16px 16px 8px;
+  }
+  .card-head h3{margin:0;font-size:14px;letter-spacing:-.01em}
+  .card-head p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
+  .badge{
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    color:var(--accent);
+    background:rgba(255,210,74,.08);
+    border:1px solid rgba(255,210,74,.14);
+    padding:5px 8px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .card-body{padding:0 16px 16px}
+  .vendor-grid{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:12px;
+  }
+  .vendor{
+    background:linear-gradient(160deg,rgba(16,29,51,.97),rgba(10,20,37,.96));
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    min-height:760px;
+  }
+  .vendor-head{
+    display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:16px 16px 10px
+  }
+  .v-left{display:flex;gap:12px;align-items:center;min-width:0}
+  .v-badge{
+    width:44px;height:44px;border-radius:50%;
+    display:grid;place-items:center;
+    color:#fff;font-size:18px;font-weight:900;flex:0 0 auto;
+    background:rgba(255,255,255,.08);
+  }
+  .v-name{
+    font-size:18px;font-weight:850;line-height:1.1;letter-spacing:-.02em
+  }
+  .v-meta{margin-top:4px;font-size:11px;color:var(--muted)}
+  .v-score{text-align:right}
+  .v-score b{display:block;font-size:24px;line-height:1;margin-bottom:4px;letter-spacing:-.04em}
+  .v-score span{font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:var(--muted);font-weight:700}
+  .vendor-summary{
+    padding:0 16px 0;
+    font-size:11px;
+    color:#cbd6e6;
+    line-height:1.45;
+  }
+  .criteria{padding:12px 16px 0;display:grid;gap:10px}
+  .row{display:grid;grid-template-columns:135px 1fr 44px;gap:10px;align-items:center}
+  .row .lbl{font-size:11px;color:#d7dfeb}
+  .track{height:7px;background:#e8edf5;border-radius:999px;overflow:hidden}
+  .fill{height:100%;border-radius:999px}
+  .val{text-align:right;font-size:11px;font-weight:800;color:#d7dfeb}
+  .projects{
+    padding:16px;border-top:1px solid var(--line);margin-top:6px
+  }
+  .projects h3{
+    margin:0 0 10px;
+    font-size:12px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:#dce5f4;
+  }
+  .project-item{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto auto auto;
+    gap:10px;
+    align-items:center;
+    padding:8px 0;
+  }
+  .project-item+.project-item{border-top:1px solid rgba(255,255,255,.05)}
+  .project-item b{font-size:12px;line-height:1.25}
+  .project-item em{font-style:normal;font-size:12px;font-weight:800}
+  .project-item .good{color:#7be07c}
+  .project-item .warn{color:#f6b253}
+  .project-item .bad{color:#ef6b72}
+  .project-item .muted{color:#9ca3af}
+  .pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .mini{padding:14px}
+  .mini h3{font-size:13px;margin:0 0 4px}
+  .mini p{margin:0 0 12px;color:var(--muted);font-size:11px}
+  .mini-list{display:grid;gap:8px}
+  .mini-item{
+    display:flex;justify-content:space-between;gap:10px;align-items:flex-start;
+    border:1px solid rgba(255,255,255,.06);
+    background:rgba(255,255,255,.02);
+    border-radius:12px;
+    padding:10px 12px;
+    text-decoration:none;
+  }
+  .mini-item:hover{border-color:rgba(255,255,255,.14)}
+  .mini-item b{display:block;font-size:12px}
+  .mini-item span{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:4px}
+  .mini-item em{font-style:normal;font-size:11px;font-weight:800;white-space:nowrap}
+  .legend{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:16px 12px 2px;
+  }
+  .legend .set{
+    display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:12px;color:#d8e1ee
+  }
+  .legend .set span{display:inline-flex;align-items:center;gap:6px}
+  .lgdot{width:14px;height:14px;border-radius:50%}
+  .foot{font-size:12px;color:#8d9cb0;font-style:italic}
+  .table-card{margin-top:12px}
+  .tablewrap{overflow:auto;max-height:620px}
+  table{width:100%;border-collapse:collapse;min-width:1180px}
+  th,td{padding:11px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:11px;vertical-align:top}
+  th{
+    position:sticky;top:0;background:#0d1a2e;
+    font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#8b99ae;z-index:1
+  }
+  td{color:#cbd6e6}
+  td strong{color:#f2f6fb}
+  .toolbar{
+    display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+    padding:0 16px 14px
+  }
+  .toolbar .search{max-width:420px}
+  .toolbar .muted{color:var(--muted);font-size:11px}
+  .section-link{
+    text-decoration:none;
+    display:block;
+    border-radius:18px;
+  }
+  .section-link:hover{transform:translateY(-1px)}
+  @media (max-width: 1400px){
+    .vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .pills,.kpis,.pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid,.grid.two{grid-template-columns:1fr}
+  }
+  @media (max-width: 820px){
+    .wrap{padding:16px}
+    .vendor-grid,.pills,.kpis,.pgrid{grid-template-columns:1fr}
+    .top{flex-direction:column}
+    .controls{justify-content:flex-start}
+    .vendor{min-height:auto}
+    h1{font-size:30px}
+    .project-item{grid-template-columns:1fr auto auto auto}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+  <div class="top">
+    <div class="brand">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAACUCAMAAACNzMQlAAAAllBMVEUMICb9zTgAACT/0zn/0TkAGCYAFCXyyjjeuDb8zzkAGiaojjGkiDAqMicAECXkvDb/3TrEpTNkVSq5mTFZTSkAHCYSIiahizD/2DpwYCsACCXuwzcADSU+PCjSsDSzlTGJdC0aISZQSCnKrDQmLSd1ZisvKicRHSYlJyYeKycvNidgWCsMFSVEQimRfy+AbS01MSdJPihlDSQ5AAAEO0lEQVR4nO2bW3eqOhRGISEg3hAxu1wUqRZba6v2//+5Q02wKD4c0VMPa3/zhVFwdDDJbWUlMQwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8d0h5eid199DvfAzllcjG+lgFjrbcf2tF82fGuJfWzFyYf/fI3MZ34icmtq+Hc6WRCPPr1b4DliWU2xHLnK/vRAo2xc6exeQEPVm0tdzF2uOk0xjXDp9d2tnf55oeWt1kPmvE+5ybftLPYxcYyrc4kFo2wRa9Q9z8ebdGIjyD8Vm/cVRXqpvvSyhr/6lk3q482w3u+0i8hX4pXv1U97LN7vtMv0R2MblfnAdRbBdShXvBHc/HXsv6Yjrq9eVJEF8Yr8bk9POtlFNWnkRPygpFv1MOUODs8DMPg57vQUZfrVE1GLzX/aU9N8ZJdfLxHR91ggasmo1l8/lsxW/LDZ/FmP5+FkHqcO2oa3q+V+nTsqVL3K1+FkLpYJ0p9+XU+FWXbQ6GbblYxJaRuMF9V+OS8j+/ufaWeLCpPSKnvVK3m27MufljW97QqSkldrFU/x/39qfuw/CY9quoGU4VreYuTxi7ferqpb6aV27TUt6Ea2vOTpRXx1dGj+smqAyl18T5SFfvpufpLMdbJZ//Ek5S6wXRj76xOGrse2sLoJNYhph4oSXNSaexytdTqp5q01KcbVePDrHJXznSo41FWl390q04r+XU7V51fuKWsbnzosI1X8uvlvXBwGt8SU7czVcKj6DiCy1e1Gmt1zlZaiKmLSRnQHZXsha7vvbPInpi63Kc6Zj0qsZ5Sry0tElM3np90jT/mJJiu797sbFJDTV3kqtSPK0rS1uPd/I26+pdXxuvqBtMdH9+dJyupqct9GdC9q6bNUvW3MzlP3VBTN0SmSt1SNV6KcuqyJ68+HKuwVWdk4rzM3NT+ATl1MSvzcIcazwK9xyqqpWnJqRuirxv3rrCSXU8H9Yu/QD3eqXS8OWffCXidm5+va6tR9NTtSUcVe7ruGqyvAltrW1uRIahuCD28JVEshV6H88b15VeC6myrKrzbZ/anCnC4P6jvASeoXi448GURyjnVQf4UgupyvdQT9AkLlHmS15s6RfWib1PCTrZSUayVzi7shaWoHuu94nyut8tz/9IuYIrq3fc0+cYJeodr4tU3Gxg01Q1jHB0Y62u0v3TGh6a6sBXl9eL2Z5rq/wqo3/Odfom/WF3eRX3eSvW1eYejAFkb1Y2P9PYDIOFnK0/52dubj/1Y3nMrj/2IhWNZnQVryhM3+baVhW4Yr31uJkG/Ib3U5N6spUe5xfcmSLcxpuVG7TzcWGB/6aWVRnB318ZDbprhW+A2PMtsWV4+bWUfpxF2vkxck1+JZTqd+ayVQ/oPMhbjfuBfS383YK1t50fksMnIFrdfHAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA/5B/AIPdZjRhGaL2AAAAAElFTkSuQmCC"
+        alt="Vusion logo"
+      />
+      <div class="hdr">
+        <div class="eyebrow">Vusion Field Services | KPI Dashboard</div>
+        <h1>Executive Dashboard</h1>
+        <p class="sub">
+          Dark-mode board view for executive review. KPIs are on top, vendor cost and vendor quality are visible, scorecards are broken down by project with weights and final score, and installation margin is shown beside the project register.
+        </p>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="ctrl">
+        <label for="monthSelect">Month</label>
+        <select id="monthSelect"></select>
+      </div>
+      <button class="btn" id="resetBtn" type="button">Reset</button>
+    </div>
+  </div>
+
+  <div class="pills">
+    <a class="pill section-link" href="#cost">
+      <div class="ico" style="background:#2f6bff">$</div>
+      <div><b id="pillVendorCost">—</b><span>vendor cost</span></div>
+    </a>
+    <a class="pill section-link" href="#quality">
+      <div class="ico" style="background:#9f45e6">%</div>
+      <div><b id="pillVendorQuality">—</b><span>vendor quality</span></div>
+    </a>
+    <a class="pill section-link" href="#scorecards">
+      <div class="ico" style="background:#31b56b">⧉</div>
+      <div><b id="pillScorecards">—</b><span>scorecards</span></div>
+    </a>
+    <a class="pill section-link" href="#margin">
+      <div class="ico" style="background:#ff8a00">Δ</div>
+      <div><b id="pillMargin">—</b><span>installation margin</span></div>
+    </a>
+    <a class="pill section-link" href="#delivery">
+      <div class="ico" style="background:#59c6ff">✓</div>
+      <div><b id="pillDelivered">—</b><span>delivered projects</span></div>
+    </a>
+    <a class="pill section-link" href="#open">
+      <div class="ico" style="background:#ef5b67">◌</div>
+      <div><b id="pillOpen">—</b><span>open projects</span></div>
+    </a>
+  </div>
+
+  <div class="kpis">
+    <a class="kpi section-link" href="#cost" id="cost">
+      <div class="kpi-top">
+        <div class="kpi-label">Vendor cost</div>
+        <div class="kpi-icon">$</div>
+      </div>
+      <div class="kpi-value" id="kVendorCost">—</div>
+      <div class="kpi-meta"><span class="dot"></span><span id="kVendorCostMeta">vendor invoice from filtered rows</span></div>
+    </a>
+    <a class="kpi section-link" href="#quality" id="quality">
+      <div class="kpi-top">
+        <div class="kpi-label">Vendor quality</div>
+        <div class="kpi-icon">★</div>
+      </div>
+      <div class="kpi-value" id="kVendorQuality">—</div>
+      <div class="kpi-meta"><span class="dot"></span><span id="kVendorQualityMeta">weighted average of scorecards</span></div>
+    </a>
+    <a class="kpi section-link" href="#scorecards">
+      <div class="kpi-top">
+        <div class="kpi-label">Vendor scorecards</div>
+        <div class="kpi-icon">⧉</div>
+      </div>
+      <div class="kpi-value" id="kScorecards">—</div>
+      <div class="kpi-meta"><span class="dot"></span><span>project breakdown under each vendor</span></div>
+    </a>
+    <a class="kpi section-link" href="#margin" id="margin">
+      <div class="kpi-top">
+        <div class="kpi-label">Installation margin</div>
+        <div class="kpi-icon">Δ</div>
+      </div>
+      <div class="kpi-value" id="kMargin">—</div>
+      <div class="kpi-meta"><span class="dot"></span><span id="kMarginMeta">customer invoice minus vendor invoice</span></div>
+    </a>
+    <a class="kpi section-link" href="#delivery">
+      <div class="kpi-top">
+        <div class="kpi-label">Delivered projects</div>
+        <div class="kpi-icon">✓</div>
+      </div>
+      <div class="kpi-value" id="kDelivered">—</div>
+      <div class="kpi-meta"><span class="dot"></span><span id="kDeliveredMeta">complete / installation completed</span></div>
+    </a>
+    <a class="kpi section-link" href="#open">
+      <div class="kpi-top">
+        <div class="kpi-label">Open projects</div>
+        <div class="kpi-icon">◌</div>
+      </div>
+      <div class="kpi-value" id="kOpen">—</div>
+      <div class="kpi-meta"><span class="dot"></span><span id="kOpenMeta">active / scheduled / on hold</span></div>
+    </a>
+  </div>
+
+  <div class="section" id="scorecards">
+    <div>
+      <h2>Vendor scorecards</h2>
+      <p>Executive facing summary by vendor with projects, weights, and final score.</p>
+    </div>
+    <p id="scorecardHint">—</p>
+  </div>
+  <div id="vendorGrid" class="vendor-grid"></div>
+
+  <div class="legend">
+    <div class="set">
+      <strong>Score guide</strong>
+      <span><i class="lgdot" style="background:#7be07c"></i>90–100 Excellent</span>
+      <span><i class="lgdot" style="background:#f6b253"></i>70–89 Good</span>
+      <span><i class="lgdot" style="background:#ef6b72"></i>Below 70 Needs attention</span>
+    </div>
+    <div class="foot">Scores are normalized to 100 and each project row links back to ClickUp.</div>
+  </div>
+
+  <div class="grid two" style="margin-top:14px">
+    <div class="card" id="delivery">
+      <div class="card-head">
+        <div>
+          <h3>Project delivery and vendor quality</h3>
+          <p>Click any section to open the related ClickUp item when a link exists.</p>
+        </div>
+        <span class="badge">Clickable sections</span>
+      </div>
+      <div class="card-body">
+        <div class="grid three">
+          <div class="card mini" style="background:transparent;border:0;box-shadow:none;padding:0">
+            <h3>Delivery status</h3>
+            <p>Grouped by stage.</p>
+            <div class="mini-list" id="stageList"></div>
+          </div>
+          <div class="card mini" style="background:transparent;border:0;box-shadow:none;padding:0" id="open">
+            <h3>Open projects</h3>
+            <p>Scheduled / on hold / active.</p>
+            <div class="mini-list" id="openList"></div>
+          </div>
+          <div class="card mini" style="background:transparent;border:0;box-shadow:none;padding:0">
+            <h3>Vendor cost by workstream</h3>
+            <p>Vendor invoice concentration.</p>
+            <div class="mini-list" id="workstreamList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="margin">
+      <div class="card-head">
+        <div>
+          <h3>Installation margin</h3>
+          <p>Customer invoice minus vendor invoice, with vendor cost always shown.</p>
+        </div>
+        <span class="badge">Finance</span>
+      </div>
+      <div class="card-body">
+        <div class="mini-list" id="marginList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid two" style="margin-top:12px">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3>Highest-cost projects</h3>
+          <p>Top records by vendor invoice.</p>
+        </div>
+        <span class="badge">Top 10</span>
+      </div>
+      <div class="card-body">
+        <div class="mini-list" id="highestList"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3>Project portfolio metrics</h3>
+          <p>Filtered ClickUp data from January 2026 to now.</p>
+        </div>
+        <span class="badge">Portfolio</span>
+      </div>
+      <div class="card-body">
+        <div class="mini-list" id="metricList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:28px">
+    <div>
+      <h2>Project register</h2>
+      <p>Vendor invoice shown first. Each row can open ClickUp if a URL exists.</p>
+    </div>
+    <p id="tableHint">—</p>
+  </div>
+  <div class="card table-card">
+    <div class="card-head">
+      <div>
+        <h3>2026 project register</h3>
+        <p>Search by project, vendor, owner, workstream, or stage.</p>
+      </div>
+      <span class="badge" id="registerCount">0 records</span>
+    </div>
+    <div class="toolbar">
+      <input class="search" id="search" placeholder="Search project, vendor, owner, workstream, or stage" />
+      <div class="muted" id="countHint"></div>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Project / task</th>
+            <th>Workstream</th>
+            <th>Stage</th>
+            <th>Owner</th>
+            <th>Vendor invoice</th>
+            <th>Customer invoice</th>
+            <th>Updated</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:20px">
+    <div>
+      <h2>KPI note</h2>
+      <p id="lastUpdated">Waiting for data…</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+const moneyFmt = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+const pctFmt = new Intl.NumberFormat('en-US',{maximumFractionDigits:1});
+
+const money = v => {
+  const n = Number(v);
+  return Number.isFinite(n) ? moneyFmt.format(n) : '—';
+};
+
+const pct = v => {
+  if (!Number.isFinite(v)) return '—';
+  return `${pctFmt.format(v)}%`;
+};
+
+const cleanNum = v => {
+  if (v === null || v === undefined || v === '') return 0;
+  const n = Number(String(v).replace(/[$,]/g,'').trim());
+  return Number.isFinite(n) ? n : 0;
+};
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+}[m]));
+
+const pick = (obj, keys, fallback='') => {
+  for (const k of keys) {
+    const v = obj?.[k];
+    if (v !== undefined && v !== null && String(v).trim() !== '') return v;
+  }
+  return fallback;
+};
+
+const toDate = s => {
+  if (!s) return null;
+  const d = new Date(s);
+  return Number.isNaN(d.getTime()) ? null : d;
+};
+
+const fmtDate = s => {
+  const d = toDate(s);
+  return d ? d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+};
+
+const monthKey = d => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2,'0');
+  return `${y}-${m}`;
+};
+
+const monthLabel = key => {
+  const [y,m] = key.split('-').map(Number);
+  return new Date(y, m-1, 1).toLocaleDateString('en-US',{month:'short',year:'numeric'});
+};
+
+const isOpenStage = s => /active|open|on hold|scheduled|in progress|pending/i.test(String(s||''));
+const isClosedStage = s => /complete|completed|done|closed|cancelled/i.test(String(s||''));
+const isDeliveredStage = s => /complete|completed|done/i.test(String(s||''));
+const isGoodQuality = score => score >= 90;
+const isWarnQuality = score => score >= 70 && score < 90;
+
+function linkUrl(row){
+  return pick(row,[
+    'clickupUrl','clickup_url','url','link','taskUrl','task_url','itemUrl','item_url','recordUrl','record_url'
+  ],'');
+}
+
+function titleFor(row){
+  return pick(row,[
+    'name','title','taskName','task_name','projectName','project_name','label'
+  ],'Untitled');
+}
+
+function vendorFor(row){
+  return pick(row,[
+    'vendor','vendorName','vendor_name','company','companyName','ownerVendor'
+  ],'Unassigned');
+}
+
+function workstreamFor(row){
+  return pick(row,[
+    'workstream','workStream','stream','folder','area','group','category'
+  ],'General');
+}
+
+function stageFor(row){
+  return pick(row,[
+    'stage','statusGroup','status','state','deliveryStatus'
+  ],'Open');
+}
+
+function ownerFor(row){
+  return pick(row,[
+    'owner','assignee','assigneeName','assignedTo','pm'
+  ],'Unassigned');
+}
+
+function vendorInvoiceFor(row){
+  return cleanNum(pick(row,[
+    'vendorInvoice','vendor_invoice','vendor cost','vendorCost','vendor_cost','cost','invoice','invoiceAmount','invoice_amount'
+  ],0));
+}
+
+function customerInvoiceFor(row){
+  return cleanNum(pick(row,[
+    'customerInvoice','customer_invoice','customer cost','customerCost','customer_cost','revenue','customerRevenue','customer_revenue','billable'
+  ],0));
+}
+
+function scoreFor(row){
+  const v = cleanNum(pick(row,[
+    'score','finalScore','final_score','vendorScore','vendor_score','quality','qualityScore','quality_score','rating'
+  ],0));
+  return Math.max(0, Math.min(100, v));
+}
+
+function weightFor(row){
+  const w = cleanNum(pick(row,[
+    'weight','scoreWeight','score_weight','weighting','impactWeight'
+  ],0));
+  return Math.max(0, Math.min(100, w));
+}
+
+function normalizeTask(row){
+  const created = toDate(pick(row,['created','createdAt','created_at','dateCreated','startDate','start_date'],''));
+  const updated = toDate(pick(row,['updated','updatedAt','updated_at','dateUpdated','lastUpdated','last_updated'],''));
+  return {
+    raw: row,
+    title: titleFor(row),
+    vendor: vendorFor(row),
+    workstream: workstreamFor(row),
+    stage: stageFor(row),
+    owner: ownerFor(row),
+    vendorInvoice: vendorInvoiceFor(row),
+    customerInvoice: customerInvoiceFor(row),
+    score: scoreFor(row),
+    weight: weightFor(row),
+    created,
+    updated,
+    link: linkUrl(row)
+  };
+}
+
+function renderLink(text, url, extra=''){
+  const safe = esc(text);
+  if (!url) return `<span>${safe}</span>`;
+  return `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" title="Open ClickUp">${safe}${extra}</a>`;
+}
+
+function createMonthOptions(rows){
+  const select = $('monthSelect');
+  const start = new Date(2026,0,1);
+  const today = new Date();
+  const available = new Set(rows.map(r => r.updated ? monthKey(r.updated) : null).filter(Boolean));
+  const keys = [];
+  let cur = new Date(start);
+  while (cur <= today) {
+    keys.push(monthKey(cur));
+    cur = new Date(cur.getFullYear(), cur.getMonth()+1, 1);
+  }
+  select.innerHTML = keys.map(k => `<option value="${k}">${monthLabel(k)}</option>`).join('');
+  const last = keys[keys.length - 1];
+  select.value = available.size ? Array.from(available).sort().slice(-1)[0] : last;
+  return keys;
+}
+
+function scoreBadge(score){
+  if (!Number.isFinite(score)) return `<span class="muted">Not scored</span>`;
+  if (isGoodQuality(score)) return `<span class="good">${score.toFixed(0)}%</span>`;
+  if (isWarnQuality(score)) return `<span class="warn">${score.toFixed(0)}%</span>`;
+  return `<span class="bad">${score.toFixed(0)}%</span>`;
+}
+
+function stageBucket(stage){
+  const s = String(stage||'');
+  if (isDeliveredStage(s)) return 'Delivered';
+  if (/on hold/i.test(s)) return 'On hold';
+  if (/scheduled/i.test(s)) return 'Scheduled';
+  if (/active|open|in progress|pending/i.test(s)) return 'Active';
+  if (/cancelled|closed/i.test(s)) return 'Closed';
+  return 'Other';
+}
+
+function colorForScore(score){
+  if (isGoodQuality(score)) return '#7be07c';
+  if (isWarnQuality(score)) return '#f6b253';
+  return '#ef6b72';
+}
+
+function renderVendorGrid(tasks){
+  // A fixed executive-facing vendor list. Any names present in the source data are prioritized.
+  const vendorNames = Array.from(new Set(tasks.map(t => t.vendor).filter(Boolean)));
+  const canonical = [
+    'Anderson Merchandising',
+    'Channel Partners',
+    'Impulso',
+    'SASR',
+    'B2X'
+  ];
+  const names = [...canonical.filter(v => vendorNames.includes(v)), ...vendorNames.filter(v => !canonical.includes(v))].slice(0, 5);
+
+  const vendorData = names.map(name => {
+    const rows = tasks.filter(t => t.vendor === name || String(t.vendor).toLowerCase().includes(name.toLowerCase()));
+    const scoreRows = rows.filter(t => t.score > 0);
+    const score = scoreRows.length ? scoreRows.reduce((a,b)=>a+b.score,0)/scoreRows.length : NaN;
+    const weighted = scoreRows.length ? scoreRows.reduce((a,b)=>a + (b.score * Math.max(1,b.weight || 20)),0) / scoreRows.reduce((a,b)=>a + Math.max(1,b.weight || 20),0) : NaN;
+    const finalScore = Number.isFinite(weighted) ? Math.round(weighted) : (Number.isFinite(score) ? Math.round(score) : NaN);
+    const vendorCost = rows.reduce((a,b)=>a+b.vendorInvoice,0);
+    const customerCost = rows.reduce((a,b)=>a+b.customerInvoice,0);
+    const margin = customerCost - vendorCost;
+    return { name, rows, finalScore, vendorCost, customerCost, margin, scoreRows };
+  });
+
+  $('kScorecards').textContent = String(vendorData.length || 0);
+  $('pillScorecards').textContent = String(vendorData.length || 0);
+
+  $('vendorGrid').innerHTML = vendorData.map(v => {
+    const color = colorForScore(v.finalScore);
+    const rows = v.rows.slice(0,6);
+    const projectHtml = rows.length ? rows.map(r => {
+      const weight = r.weight > 0 ? r.weight : 20;
+      const final = r.score > 0 ? r.score : 0;
+      const weighted = (final * weight) / 100;
+      const url = r.link;
+      return `
+        <a class="project-item" href="${url ? esc(url) : '#'}" target="_blank" rel="noopener noreferrer">
+          <b>${renderLink(r.title, url)}</b>
+          <em class="muted">W ${weight.toFixed(0)}%</em>
+          <em style="color:${colorForScore(final)}">${final ? final.toFixed(0)+'%' : '—'}</em>
+          <em>${final ? weighted.toFixed(1) : '—'}</em>
+        </a>
+      `;
+    }).join('') : `<div class="project-item"><b class="muted">No projects found</b><em class="muted">W —</em><em class="muted">—</em><em class="muted">—</em></div>`;
+
+    const summaryText = `${v.rows.length} project(s) • Vendor cost ${money(v.vendorCost)} • Customer ${money(v.customerCost)} • Margin ${money(v.margin)}`;
+
+    return `
+      <div class="vendor">
+        <div class="vendor-head">
+          <div class="v-left">
+            <div class="v-badge" style="background:${color}">${v.name.slice(0,1).toUpperCase()}</div>
+            <div>
+              <div class="v-name">${esc(v.name)}</div>
+              <div class="v-meta">${esc(summaryText)}</div>
+            </div>
+          </div>
+          <div class="v-score">
+            <b>${Number.isFinite(v.finalScore) ? v.finalScore.toFixed(0)+'%' : '—'}</b>
+            <span>final score</span>
+          </div>
+        </div>
+        <div class="vendor-summary">${esc(Number.isFinite(v.finalScore) ? 'Normalized to 100 based on weighted project scores.' : 'Score pending publication.')}</div>
+        <div class="criteria">
+          <div class="row">
+            <div class="lbl">Vendor quality</div>
+            <div class="track"><div class="fill" style="width:${Number.isFinite(v.finalScore) ? v.finalScore : 0}%;background:${color}"></div></div>
+            <div class="val">${Number.isFinite(v.finalScore) ? v.finalScore.toFixed(0)+'%' : '—'}</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Vendor cost</div>
+            <div class="track"><div class="fill" style="width:${Math.min(100, v.vendorCost / Math.max(1, tasks.reduce((a,b)=>a+b.vendorInvoice,0)) * 100)}%;background:var(--accent2)"></div></div>
+            <div class="val">${money(v.vendorCost).replace('.00','')}</div>
+          </div>
+          <div class="row">
+            <div class="lbl">Installation margin</div>
+            <div class="track"><div class="fill" style="width:${Math.max(0, Math.min(100, (v.margin / Math.max(1, v.customerCost)) * 100))}%;background:var(--green)"></div></div>
+            <div class="val">${money(v.margin).replace('.00','')}</div>
+          </div>
+        </div>
+        <div class="projects">
+          <h3>Projects</h3>
+          ${projectHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  $('kVendorQuality').textContent = vendorData.length
+    ? pct(vendorData.reduce((a,b)=>a + (Number.isFinite(b.finalScore) ? b.finalScore : 0),0) / Math.max(1, vendorData.filter(v=>Number.isFinite(v.finalScore)).length))
+    : '—';
+  $('pillVendorQuality').textContent = $('kVendorQuality').textContent;
+}
+
+function renderLists(tasks){
+  const totalVendor = tasks.reduce((a,b)=>a+b.vendorInvoice,0);
+  const totalCustomer = tasks.reduce((a,b)=>a+b.customerInvoice,0);
+  const margin = totalCustomer - totalVendor;
+  const delivered = tasks.filter(t => isDeliveredStage(t.stage)).length;
+  const open = tasks.filter(t => isOpenStage(t.stage)).length;
+  const avgScore = tasks.filter(t => t.score > 0).length
+    ? tasks.filter(t => t.score > 0).reduce((a,b)=>a+b.score,0) / tasks.filter(t => t.score > 0).length
+    : NaN;
+
+  $('kVendorCost').textContent = money(totalVendor);
+  $('kVendorQuality').textContent = Number.isFinite(avgScore) ? pct(avgScore) : '—';
+  $('kMargin').textContent = money(margin);
+  $('kDelivered').textContent = String(delivered);
+  $('kOpen').textContent = String(open);
+
+  $('pillVendorCost').textContent = money(totalVendor);
+  $('pillVendorQuality').textContent = Number.isFinite(avgScore) ? pct(avgScore) : '—';
+  $('pillMargin').textContent = money(margin);
+  $('pillDelivered').textContent = String(delivered);
+  $('pillOpen').textContent = String(open);
+
+  $('kVendorCostMeta').textContent = `${tasks.filter(t => t.vendorInvoice > 0).length} rows with vendor invoice`;
+  $('kVendorQualityMeta').textContent = Number.isFinite(avgScore) ? `average score ${avgScore.toFixed(1)} / 100` : 'no scored rows found';
+  $('kMarginMeta').textContent = totalCustomer ? `customer ${money(totalCustomer)} minus vendor ${money(totalVendor)}` : 'customer invoice missing in current filter';
+  $('kDeliveredMeta').textContent = `delivered projects in the selected month`;
+  $('kOpenMeta').textContent = `open / scheduled / on hold projects`;
+
+  const stages = tasks.reduce((m,t) => {
+    const bucket = stageBucket(t.stage);
+    if (!m[bucket]) m[bucket] = [];
+    m[bucket].push(t);
+    return m;
+  }, {});
+  const stageOrder = ['Delivered','Active','Scheduled','On hold','Closed','Other'];
+
+  $('stageList').innerHTML = stageOrder.map(bucket => {
+    const rows = stages[bucket] || [];
+    const total = rows.length;
+    const vendor = rows.reduce((a,b)=>a+b.vendorInvoice,0);
+    const url = rows[0]?.link || '';
+    return `
+      <a class="mini-item" href="${url ? esc(url) : '#'}" target="_blank" rel="noopener noreferrer">
+        <div>
+          <b>${esc(bucket)}</b>
+          <span>${total} project(s) • ${money(vendor)} vendor cost</span>
+        </div>
+        <em>${total}</em>
+      </a>
+    `;
+  }).join('');
+
+  $('openList').innerHTML = tasks.filter(t => isOpenStage(t.stage)).slice(0,8).map(t => `
+    <a class="mini-item" href="${t.link ? esc(t.link) : '#'}" target="_blank" rel="noopener noreferrer">
+      <div>
+        <b>${esc(t.title)}</b>
+        <span>${esc(t.stage)} • ${esc(t.vendor)} • ${esc(t.workstream)}</span>
+      </div>
+      <em>${money(t.vendorInvoice)}</em>
+    </a>
+  `).join('') || `<div class="mini-item"><div><b>No open projects</b><span>Nothing found in this filter</span></div><em>—</em></div>`;
+
+  const ws = [...tasks.reduce((m,t) => {
+    const k = t.workstream || 'General';
+    const v = m.get(k) || {count:0, total:0, row:null};
+    v.count += 1;
+    v.total += t.vendorInvoice;
+    if (!v.row) v.row = t;
+    m.set(k,v);
+    return m;
+  }, new Map()).entries()]
+  .map(([key,v]) => ({key,...v}))
+  .sort((a,b) => b.total - a.total)
+  .slice(0,8);
+
+  $('workstreamList').innerHTML = ws.map(w => `
+    <a class="mini-item" href="${w.row?.link ? esc(w.row.link) : '#'}" target="_blank" rel="noopener noreferrer">
+      <div>
+        <b>${esc(w.key)}</b>
+        <span>${w.count} project(s) • vendor cost concentrated here</span>
+      </div>
+      <em>${money(w.total)}</em>
+    </a>
+  `).join('') || `<div class="mini-item"><div><b>No workstream data</b><span>Nothing found in this filter</span></div><em>—</em></div>`;
+
+  const marginRows = tasks
+    .filter(t => t.customerInvoice > 0 || t.vendorInvoice > 0)
+    .map(t => ({
+      ...t,
+      margin: t.customerInvoice - t.vendorInvoice,
+      marginPct: t.customerInvoice > 0 ? ((t.customerInvoice - t.vendorInvoice) / t.customerInvoice) * 100 : NaN
+    }))
+    .sort((a,b) => b.margin - a.margin)
+    .slice(0,8);
+
+  $('marginList').innerHTML = marginRows.map(t => `
+    <a class="mini-item" href="${t.link ? esc(t.link) : '#'}" target="_blank" rel="noopener noreferrer">
+      <div>
+        <b>${esc(t.title)}</b>
+        <span>${esc(t.vendor)} • Vendor ${money(t.vendorInvoice)} • Customer ${money(t.customerInvoice)}</span>
+      </div>
+      <em>${money(t.margin)}</em>
+      <em class="${t.margin >= 0 ? 'good' : 'bad'}">${Number.isFinite(t.marginPct) ? t.marginPct.toFixed(1)+'%' : '—'}</em>
+    </a>
+  `).join('') || `<div class="mini-item"><div><b>No margin data</b><span>Customer invoice not found for the current filter</span></div><em>—</em><em>—</em></div>`;
+
+  const highest = [...tasks].sort((a,b) => b.vendorInvoice - a.vendorInvoice).slice(0,10);
+  $('highestList').innerHTML = highest.map(t => `
+    <a class="mini-item" href="${t.link ? esc(t.link) : '#'}" target="_blank" rel="noopener noreferrer">
+      <div>
+        <b>${esc(t.title)}</b>
+        <span>${esc(t.vendor)} • ${esc(t.workstream)} • ${esc(t.stage)}</span>
+      </div>
+      <em>${money(t.vendorInvoice)}</em>
+    </a>
+  `).join('') || `<div class="mini-item"><div><b>No high-cost projects</b><span>Nothing found in this filter</span></div><em>—</em></div>`;
+
+  const byStage = [...tasks.reduce((m,t) => {
+    const k = stageBucket(t.stage);
+    const v = m.get(k) || {count:0,total:0,row:null};
+    v.count += 1;
+    v.total += t.vendorInvoice;
+    if (!v.row) v.row = t;
+    m.set(k,v);
+    return m;
+  }, new Map()).entries()].map(([key,v]) => ({key,...v}));
+
+  $('metricList').innerHTML = [
+    {label:'Projects in filter', value:String(tasks.length)},
+    {label:'Vendor invoice total', value:money(totalVendor)},
+    {label:'Customer invoice total', value:money(totalCustomer)},
+    {label:'Installation margin', value:money(margin)},
+    {label:'Delivered projects', value:String(delivered)},
+    {label:'Open projects', value:String(open)}
+  ].map(x => `
+    <a class="mini-item" href="#top">
+      <div>
+        <b>${esc(x.label)}</b>
+        <span>Filtered to the selected month</span>
+      </div>
+      <em>${esc(x.value)}</em>
+    </a>
+  `).join('');
+
+  $('scorecardHint').textContent = `${tasks.length} project rows in the selected month`;
+  $('tableHint').textContent = `${tasks.length} rows shown`;
+  $('countHint').textContent = `${tasks.length} rows in filter`;
+  $('registerCount').textContent = `${tasks.length} records`;
+  $('lastUpdated').textContent = tasks.length
+    ? `Updated view built from ClickUp data. Month filter: ${$('monthSelect').options[$('monthSelect').selectedIndex]?.textContent || 'current'}`
+    : 'No rows matched the current filter';
+}
+
+function renderTable(tasks){
+  const q = $('search').value.trim().toLowerCase();
+  const filtered = tasks.filter(t => {
+    if (!q) return true;
+    return [t.title, t.vendor, t.workstream, t.stage, t.owner, String(t.vendorInvoice), String(t.customerInvoice)].join(' ').toLowerCase().includes(q);
+  });
+
+  $('tableBody').innerHTML = filtered.map(t => {
+    const url = t.link || '';
+    const titleCell = url
+      ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer"><strong>${esc(t.title)}</strong></a>`
+      : `<strong>${esc(t.title)}</strong>`;
+    return `
+      <tr>
+        <td>${titleCell}</td>
+        <td>${esc(t.workstream)}</td>
+        <td>${esc(t.stage)}</td>
+        <td>${esc(t.owner)}</td>
+        <td>${money(t.vendorInvoice)}</td>
+        <td>${t.customerInvoice ? money(t.customerInvoice) : '—'}</td>
+        <td>${esc(fmtDate(t.updated || t.created))}</td>
+      </tr>
+    `;
+  }).join('') || `<tr><td colspan="7" style="color:var(--muted);padding:18px 8px">No matching records</td></tr>`;
+}
+
+async function boot(){
+  let raw = [];
+  try {
+    const res = await fetch('clickup-data.json', { cache:'no-store' });
+    raw = await res.json();
+  } catch (e) {
+    raw = [];
+  }
+  if (!Array.isArray(raw)) raw = [];
+
+  const tasksAll = raw.map(normalizeTask).filter(t => t.title !== 'Untitled' || t.vendorInvoice || t.customerInvoice || t.score);
+
+  // month selector based on Jan 2026 to now
+  const select = $('monthSelect');
+  const start = new Date(2026,0,1);
+  const now = new Date();
+  const months = [];
+  let cur = new Date(start);
+  while (cur <= now) {
+    months.push(monthKey(cur));
+    cur = new Date(cur.getFullYear(), cur.getMonth()+1, 1);
+  }
+  select.innerHTML = months.map(k => `<option value="${k}">${monthLabel(k)}</option>`).join('');
+
+  const latestMonth = tasksAll
+    .map(t => t.updated || t.created)
+    .filter(Boolean)
+    .map(d => monthKey(d))
+    .sort()
+    .slice(-1)[0];
+  select.value = latestMonth || months[months.length-1];
+
+  function currentTasks(){
+    const key = select.value;
+    return tasksAll.filter(t => {
+      const d = t.updated || t.created;
+      if (!d) return false;
+      return monthKey(d) === key;
+    });
+  }
+
+  const rerender = () => {
+    const tasks = currentTasks();
+    renderVendorGrid(tasks);
+    renderLists(tasks);
+    renderTable(tasks);
+  };
+
+  select.addEventListener('change', rerender);
+  $('resetBtn').addEventListener('click', () => {
+    $('search').value = '';
+    select.value = latestMonth || months[months.length-1];
+    rerender();
+  });
+  $('search').addEventListener('input', () => renderTable(currentTasks()));
+
+  rerender();
+}
+boot();
+</script>
+</body>
+</html>
