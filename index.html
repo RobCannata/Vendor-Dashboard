@@ -1,136 +1,249 @@
 <!doctype html>
-<html lang="en">
+<html lang='en'>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='color-scheme' content='dark'>
 <title>Vusion Field Services | Vendor Dashboard</title>
 <style>
-:root{--bg:#07101d;--panel:#0d1b2e;--line:rgba(255,255,255,.09);--text:#f4f7fb;--muted:#91a0b7;--accent:#9de05f;--accent2:#4fc3f7;--shadow:0 22px 65px rgba(0,0,0,.28);--radius:18px}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#07101d,#060d18 70%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}code{font:inherit}
-.wrap{max-width:1600px;margin:0 auto;padding:22px 24px 42px}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}.brand{display:flex;align-items:center;gap:14px}.logo{width:56px;height:56px;border-radius:16px;background:linear-gradient(145deg,var(--accent),#61bf5b);display:grid;place-items:center;color:#06100b;font-weight:900;font-size:22px;box-shadow:0 14px 30px rgba(157,224,95,.2)}.eyebrow{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-weight:700}h1{font-size:30px;line-height:1.12;margin:8px 0 6px}.sub{color:var(--muted);font-size:13px;max-width:980px;line-height:1.5}.badge{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(157,224,95,.08);border:1px solid rgba(157,224,95,.16);padding:5px 7px;border-radius:8px;white-space:nowrap}
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:12px 0 12px}.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.95),rgba(9,20,35,.96));box-shadow:var(--shadow);overflow:hidden}.card-head{padding:16px 16px 8px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.card-head h3,.card-head h2{margin:0}.card-head p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}.card-body{padding:0 16px 16px}.kpi{font-size:30px;line-height:1;font-weight:800;letter-spacing:-.04em;margin:10px 0 8px}.kpi small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.11em;text-transform:uppercase;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);border-radius:12px;padding:10px 12px}.item b{display:block;font-size:12px}.item span{display:block;color:var(--muted);font-size:10px;margin-top:4px;line-height:1.4}.item em{font-style:normal;font-size:11px;color:#fff;white-space:nowrap}.tablewrap{overflow:auto;max-height:700px;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:980px}th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:11px;vertical-align:top}th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#74839a;position:sticky;top:0;background:#0c192b}td{color:#b8c4d4}td strong{color:#eef3fb;font-weight:650}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 16px 12px}.toolbar input{width:min(100%,420px);height:38px;border:1px solid rgba(255,255,255,.1);background:#0a1627;color:#e9eef6;border-radius:10px;padding:0 12px;outline:none}.section{margin-top:12px}.footer{margin-top:18px;color:var(--muted);font-size:11px;line-height:1.5;padding:0 2px}.muted{color:var(--muted)}.bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),#87d9ff)}@media (max-width: 1100px){.kpis,.grid,.grid3{grid-template-columns:1fr 1fr}.wrap{padding:18px}}@media (max-width: 760px){.kpis,.grid,.grid3{grid-template-columns:1fr}.wrap{padding:14px}.kpi{font-size:26px}}
+:root {
+  --bg:#07101d;--panel:#0d1b2e;--line:rgba(255,255,255,.09);--text:#f4f7fb;--muted:#91a0b7;--accent:#9de05f;--accent2:#4fc3f7;--shadow:0 22px 65px rgba(0,0,0,.28);--radius:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#07101d,#060d18 70%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+code{font:inherit}
+.wrap{max-width:1600px;margin:0 auto;padding:22px 24px 42px}
+.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+brand{display:flex;align-items:center;gap:14px}
+.logo{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:#0b1b23;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.logo img{width:100%;height:100%;object-fit:contain;display:block;border-radius:16px}
+.eyebrow{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.18em;font-weight:700}
+h1{font-size:30px;line-height:1.12;margin:8px 0 6px}
+.sub{color:var(--muted);font-size:13px;max-width:1040px;line-height:1.5}
+.badge{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:rgba(157,224,95,.08);border:1px solid rgba(157,224,95,.16);padding:5px 7px;border-radius:8px;white-space:nowrap}
+.hero{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin:18px 0}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(155deg,rgba(15,31,52,.95),rgba(9,20,35,.96));box-shadow:var(--shadow);overflow:hidden;min-width:0}
+.card-head{padding:16px 16px 8px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.card-head h3{margin:0;font-size:13px}
+.card-head p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
+.card-body{padding:0 16px 16px}
+.kpi{font-size:30px;line-height:1;font-weight:800;letter-spacing:-.04em;margin:10px 0 8px}
+.kpi small{display:block;font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.11em;text-transform:uppercase;margin-top:8px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.list{display:grid;gap:8px}
+.item{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);border-radius:12px;padding:10px 12px}
+.item b{display:block;font-size:12px}
+.item span{display:block;color:var(--muted);font-size:10px;margin-top:4px;line-height:1.4}
+.item em{font-style:normal;font-size:11px;color:#fff;white-space:nowrap}
+.pillrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{font-size:9px;padding:4px 7px;border-radius:999px;background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.12);color:#cfefff}
+.tablewrap{overflow:auto;max-height:680px;border-top:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;min-width:980px}
+th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:11px;vertical-align:top}
+th{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#74839a;position:sticky;top:0;background:#0c192b;z-index:2}
+td{color:#b8c4d4}
+td strong{color:#eef3fb;font-weight:650}
+.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:0 16px 12px;flex-wrap:wrap}
+.toolbar input{width:min(100%,420px);height:38px;border:1px solid rgba(255,255,255,.1);background:#0a1627;color:#e9eef6;border-radius:10px;padding:0 12px;outline:none}
+.section{margin-top:12px}
+.footer{margin-top:18px;color:var(--muted);font-size:11px;line-height:1.5;padding:0 2px}
+.bar{height:10px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent2),#87d9ff)}
+@media (max-width: 1300px){.hero{grid-template-columns:repeat(3,minmax(0,1fr))}.grid,.grid3{grid-template-columns:1fr 1fr}}
+@media (max-width: 760px){.hero,.grid,.grid3{grid-template-columns:1fr}.wrap{padding:14px}.kpi{font-size:26px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top">
-    <div class="brand">
-      <div class="logo">V</div>
+<div class='wrap'>
+  <div class='top'>
+    <div class='brand'>
+      <div class='logo'><img alt='Vusion' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAACUCAMAAACNzMQlAAAAllBMVEX///+xsbH08fHn5+eysrLq6urX19f6+vr8/Pz29vb5+fng4ODc3Nz09PT39/fu7u76+vrx8fH9/f3i4uL5+fnw8PDr6+vv7++7u7uKior7+/vT09P4+Pjv7+/f39/w8PDa2tr39/e5ubnT09PZ2dnw8PCWlpbY2Njx8fGurq7Z2dmdnZ2srKx9fX3Ozs6WlpaampqDg4OampqYmJjCwsLq6urU1NTY2Nja2trh4eHe3t7g4ODd3d2qE4X1AAAGP0lEQVR4nO2c63KqIBSGK1YQdLQmQ0b2/5e0m0VZK1t4b4j8m8YxJq8dL8nG8qQwq0b1n9fJw0m0uY0mQz2Qm6e7kQ0wQdZgG5M3Kf4Yf9V6rQJQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHh1Wn4w5Ff6h2fYb5y6m9V2rQ8xqg6Qm7q9v6m3l4S7g0lHc7v5v1vQ7oVw0k6n4J0mF2nC0y0m0Jb0F6dQyY4f3Wf2M5n7e9oNQvQ4u9dQh7Vw2XW3+5e1Lx4t7rV8k4b4V8p8n8r0m3mK8zjXy9y0Qwz8f0c2QXW4m7mB3y8b3y9v8Z3m1b7k2x0r3o8r2N3n6h8m9q8m3W3k3m1s3l1b4mYt5g1z4v4Q4v6w6k7b5p7q7m8x6m7n5m8p7r8x7t7v6w6y7z8A2r9f8u9t8s9y9b9u9m9p9s9x9y9z9AAAAAAAAAAAAAAAB4h3Y8gqKp9m8v7r7v6v5u4t3s2r1q0p+o9n8m7l6k5j4i3h2g1f0e9d8c7b6a5Z4Y3X2W1V0U9T8S7R6Q5P4O3N2M1L0K9J8I7H6G5F4E3D2C1B0AAAAAAAAAAAAAAABw8n7C0m5M7m7s7u7w7y7z7AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP9b7gG3KXwQ5UQmKQAAAABJRU5ErkJggg=='></div>
       <div>
-        <div class="eyebrow">Vusion Field Services</div>
+        <div class='eyebrow'>Vusion Field Services</div>
         <h1>Vendor Dashboard</h1>
-        <div class="sub">Live data is pulled from ClickUp into <code>clickup-data.json</code>. The top row is reserved for KPIs, followed by delivery, scorecard, and project sections below.</div>
+        <div class='sub'>Executive view of portfolio health. KPIs sit on top, vendor invoice stays visible even when customer invoice is missing, and vendor scorecards are broken down by project underneath each vendor.</div>
       </div>
     </div>
-    <div class="badge" id="lastUpdated">Loading data…</div>
+    <div class='badge' id='lastUpdated'>Loading data…</div>
   </div>
 
-  <div class="kpis">
-    <div class="card"><div class="card-head"><div><h3>Installation Quality Scores</h3><p>Completed delivery quality from the current ClickUp snapshot.</p></div><span class="badge">Quality</span></div><div class="card-body"><div class="kpi" id="kpiQuality">—<small>loading</small></div></div></div>
-    <div class="card"><div class="card-head"><div><h3>Vendor Performance Scorecards</h3><p>Scorecard records surfaced from ClickUp.</p></div><span class="badge">Scorecards</span></div><div class="card-body"><div class="kpi" id="kpiScorecards">—<small>loading</small></div></div></div>
-    <div class="card"><div class="card-head"><div><h3>Installation Margin</h3><p>Vendor invoice is shown even when customer invoice is missing.</p></div><span class="badge">Margin</span></div><div class="card-body"><div class="kpi" id="kpiMargin">—<small>loading</small></div></div></div>
-    <div class="card"><div class="card-head"><div><h3>Project portfolio metrics</h3><p>Live portfolio volume and delivery count.</p></div><span class="badge">Portfolio</span></div><div class="card-body"><div class="kpi" id="kpiPortfolio">—<small>loading</small></div></div></div>
+  <div class='hero'>
+    <div class='card'><div class='card-head'><div><h3>Installation Quality Scores</h3><p>Completed delivery quality.</p></div><span class='badge'>Quality</span></div><div class='card-body'><div class='kpi' id='kpiQuality'>—<small>loading</small></div></div></div>
+    <div class='card'><div class='card-head'><div><h3>Vendor Performance Scorecards</h3><p>Vendor scorecards by project.</p></div><span class='badge'>Scorecards</span></div><div class='card-body'><div class='kpi' id='kpiScorecards'>—<small>loading</small></div></div></div>
+    <div class='card'><div class='card-head'><div><h3>Installation Margin</h3><p>Customer invoice vs vendor invoice.</p></div><span class='badge'>Margin</span></div><div class='card-body'><div class='kpi' id='kpiMargin'>—<small>loading</small></div></div></div>
+    <div class='card'><div class='card-head'><div><h3>Vendor Invoice</h3><p>Current cost exposure.</p></div><span class='badge'>Vendor</span></div><div class='card-body'><div class='kpi' id='kpiVendor'>—<small>loading</small></div></div></div>
+    <div class='card'><div class='card-head'><div><h3>Customer Invoice</h3><p>Revenue billed to customer.</p></div><span class='badge'>Revenue</span></div><div class='card-body'><div class='kpi' id='kpiCustomer'>—<small>loading</small></div></div></div>
+    <div class='card'><div class='card-head'><div><h3>Project Portfolio</h3><p>Visible records in window.</p></div><span class='badge'>Portfolio</span></div><div class='card-body'><div class='kpi' id='kpiPortfolio'>—<small>loading</small></div></div></div>
   </div>
 
-  <div class="grid section">
-    <div class="card">
-      <div class="card-head"><div><h3>Project delivery status</h3><p>Open work by delivery stage.</p></div><span class="badge" id="statusBadge">—</span></div>
-      <div class="card-body"><div id="statusList" class="list"></div></div>
+  <div class='grid section'>
+    <div class='card'>
+      <div class='card-head'><div><h3>Project delivery status</h3><p>Open work by delivery stage.</p></div><span class='badge' id='statusBadge'>—</span></div>
+      <div class='card-body'><div id='statusList' class='list'></div></div>
     </div>
-    <div class="card">
-      <div class="card-head"><div><h3>Recorded vendor cost by project workstream</h3><p>Vendor invoice totals grouped by workstream.</p></div><span class="badge">Vendor cost</span></div>
-      <div class="card-body"><div id="workstreamList" class="list"></div></div>
-    </div>
-  </div>
-
-  <div class="grid section">
-    <div class="card">
-      <div class="card-head"><div><h3>Vendor performance scorecards</h3><p>Includes B2X when the scorecard row is present in ClickUp.</p></div><span class="badge">Vendor cards</span></div>
-      <div class="card-body"><div id="scorecardList" class="list"></div></div>
-    </div>
-    <div class="card">
-      <div class="card-head"><div><h3>Vendor scorecard weighting</h3><p>Static weighting used for the scorecard rollup.</p></div><span class="badge">Weighting</span></div>
-      <div class="card-body" id="weighting"></div>
+    <div class='card'>
+      <div class='card-head'><div><h3>Recorded vendor cost by project workstream</h3><p>Vendor invoice totals grouped by workstream.</p></div><span class='badge'>Vendor cost</span></div>
+      <div class='card-body'><div id='workstreamList' class='list'></div></div>
     </div>
   </div>
 
-  <div class="grid section">
-    <div class="card">
-      <div class="card-head"><div><h3>Highest-cost projects</h3><p>Top project records by vendor invoice.</p></div><span class="badge">Top 10</span></div>
-      <div class="card-body"><div id="highestCostList" class="list"></div></div>
+  <div class='grid section'>
+    <div class='card'>
+      <div class='card-head'><div><h3>Highest-cost projects</h3><p>Top project records by vendor invoice.</p></div><span class='badge'>Top 10</span></div>
+      <div class='card-body'><div id='highestCostList' class='list'></div></div>
     </div>
-    <div class="card">
-      <div class="card-head"><div><h3>Project portfolio metrics</h3><p>Counts by current stage.</p></div><span class="badge">Counts</span></div>
-      <div class="card-body"><div id="metricList" class="list"></div></div>
+    <div class='card'>
+      <div class='card-head'><div><h3>Project portfolio metrics</h3><p>Counts by current stage.</p></div><span class='badge'>Counts</span></div>
+      <div class='card-body'><div id='metricList' class='list'></div></div>
     </div>
   </div>
 
-  <div class="card section">
-    <div class="card-head"><div><h3>2026 project register</h3><p>Filtered ClickUp task records from the reporting window.</p></div><span class="badge" id="registerCount">0 records</span></div>
-    <div class="toolbar"><input id="search" placeholder="Search project, vendor, owner, workstream, or stage"><div class="muted" id="tableHint"></div></div>
-    <div class="tablewrap"><table><thead><tr><th>Project / task</th><th>Workstream</th><th>Stage</th><th>Owner</th><th>Vendor invoice</th><th>Customer invoice</th><th>Updated</th></tr></thead><tbody id="tableBody"></tbody></table></div>
+  <div class='grid section'>
+    <div class='card'>
+      <div class='card-head'><div><h3>Vendor performance scorecards</h3><p>Executive view of vendors with project breakdown under each vendor.</p></div><span class='badge'>Executive</span></div>
+      <div class='card-body'><div id='scorecardGrid' class='grid3'></div></div>
+    </div>
+    <div class='card'>
+      <div class='card-head'><div><h3>Vendor scorecard weighting</h3><p>Rollup weighting used for executive summary.</p></div><span class='badge'>Weighting</span></div>
+      <div class='card-body'><div id='weighting' class='list'></div></div>
+    </div>
   </div>
 
-  <div class="footer">Generated from ClickUp data. Vendor invoice is retained even when customer invoice has not been populated yet.</div>
+  <div class='card section'>
+    <div class='card-head'><div><h3>2026 project register</h3><p>Filtered ClickUp task records from the reporting window.</p></div><span class='badge' id='registerCount'>0 records</span></div>
+    <div class='toolbar'><input id='search' placeholder='Search project, vendor, owner, workstream, or stage'><div class='badge' id='tableHint'>—</div></div>
+    <div class='tablewrap'><table><thead><tr><th>Project / task</th><th>Workstream</th><th>Stage</th><th>Owner</th><th>Vendor invoice</th><th>Customer invoice</th><th>Updated</th></tr></thead><tbody id='tableBody'></tbody></table></div>
+  </div>
+
+  <div class='footer'>Generated from ClickUp data. Vendor invoice is retained even when customer invoice has not been populated yet.</div>
 </div>
+
 <script>
-const $=id=>document.getElementById(id);
-const money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number.isFinite(v)?v:0);
-const pct=v=>v==null||!Number.isFinite(v)?'—':`${v.toFixed(1)}%`;
-const n=v=>{if(v==null||v==='')return 0;const x=Number(String(v).replace(/[$,\s]/g,''));return Number.isFinite(x)?x:0};
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const d=s=>s?new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
-const by=(rows,key)=>rows.reduce((a,r)=>{const k=r[key]||'Other';(a[k]??={count:0,total:0});a[k].count++;a[k].total+=r.invoice;return a;},{});
-const row=(title,sub,right)=>`<div class="item"><div><b>${esc(title)}</b><span>${esc(sub)}</span></div><em>${esc(right)}</em></div>`;
-const empty=msg=>`<div class="item"><div><b>${esc(msg)}</b><span>No data available</span></div><em>—</em></div>`;
-const scorecards=[
-  {vendor:'Anderson Merchandising',score:85,note:'Published vendor average',projects:'Academy Sports, Hucks Stores Pilot, WMUS Top Stock, WMUS Audits, Natural Grocers'},
-  {vendor:'Channel Partners',score:93,note:'Published vendor average',projects:'Miniso, Ace Elgin, Fuel Maxx, Dufry'},
-  {vendor:'Impulso',score:68,note:'Published vendor average',projects:'OXXO Revisits'},
-  {vendor:'SASR',score:92,note:'91.5% average',projects:'DHI, Dollar General Pilot'},
-  {vendor:'B2X',score:null,note:'Scorecard record detected in ClickUp; score pending publication.',projects:'B2X'}
+const $ = id => document.getElementById(id);
+const money = v => new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number.isFinite(v)?v:0);
+const pct = v => v == null || !Number.isFinite(v) ? '—' : `${v.toFixed(1)}%`;
+const num = v => { if(v == null || v === '') return 0; const x = Number(String(v).replace(/[$,\s]/g,'')); return Number.isFinite(x) ? x : 0; };
+const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const d = s => s ? new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+
+const vendorScorecards = [
+  { vendor:'Anderson Merchandising', score:85, note:'Published vendor average', projects:['Academy Sports','Hucks Stores Pilot','WMUS Top Stock','WMUS Audits','Natural Grocers'] },
+  { vendor:'Channel Partners', score:93, note:'Published vendor average', projects:['Miniso','Ace Elgin','Fuel Maxx','Dufry','Ace Elgin follow-up'] },
+  { vendor:'Impulso', score:68, note:'Published vendor average', projects:['OXXO Revisits'] },
+  { vendor:'SASR', score:92, note:'91.5% average', projects:['DHI','Dollar General Pilot'] },
+  { vendor:'B2X', score:null, note:'Score pending publication', projects:['B2X'] },
 ];
+const weights = [['Execution',25],['Quality',30],['Communication',20],['Compliance & Safety',15],['Reliability',10]];
 
-async function boot(){
-  let rows=[];
-  try{const r=await fetch('clickup-data.json',{cache:'no-store'});rows=await r.json();}catch(e){rows=[];console.error(e)}
-  if(!Array.isArray(rows)) rows=[];
-  const view=rows.map(r=>({name:String(r.name||''),folder:String(r.folder||''),workstream:String(r.workstream||r.folder||'ClickUp'),stage:String(r.statusGroup||'Other'),owner:String(r.owner||'Unassigned'),invoice:n(r.invoice),revenue:n(r.revenue),revenueRecorded:!!r.revenueRecorded,updated:r.updated||'',active:!!r.active}));
-  const total=view.length;
-  const open=view.filter(r=>!['Complete','Cancelled'].includes(r.stage)).length;
-  const complete=view.filter(r=>r.stage==='Complete').length;
-  const vendorTotal=view.reduce((a,r)=>a+r.invoice,0);
-  const customerTotal=view.reduce((a,r)=>a+r.revenue,0);
-  const margin=customerTotal-vendorTotal;
-  const marginText=customerTotal?`${money(margin)} / ${pct(margin/customerTotal*100)}`:`${money(vendorTotal)} vendor invoice`;
+const row = (title, sub, right) => `<div class='item'><div><b>${esc(title)}</b><span>${esc(sub)}</span></div><em>${esc(right)}</em></div>`;
+const empty = msg => `<div class='item'><div><b>${esc(msg)}</b><span>No data available</span></div><em>—</em></div>`;
 
-  $('lastUpdated').textContent=`${total} rows loaded`;
-  $('kpiQuality').innerHTML=`${complete}<small>completed projects</small>`;
-  $('kpiScorecards').innerHTML=`${scorecards.length}<small>scorecard records</small>`;
-  $('kpiMargin').innerHTML=`${marginText}<small>${customerTotal ? 'customer invoice vs vendor invoice' : 'customer invoice missing; vendor invoice shown'}</small>`;
-  $('kpiPortfolio').innerHTML=`${total}<small>project records in window</small>`;
-  $('registerCount').textContent=`${total} records`;
-  $('statusBadge').textContent=`${open} open`;
-  $('tableHint').textContent=`Vendor invoice total ${money(vendorTotal)} • customer invoice total ${money(customerTotal)}`;
+function group(rows, key) {
+  return rows.reduce((acc, r) => {
+    const k = r[key] || 'Other';
+    acc[k] = acc[k] || { count:0, total:0 };
+    acc[k].count += 1;
+    acc[k].total += r.invoice;
+    return acc;
+  }, {});
+}
 
-  const stages=by(view,'stage');
-  const ws=by(view,'workstream');
-  $('metricList').innerHTML=Object.entries(stages).map(([k,v])=>row(k,`${v.count} records`,`Vendor ${money(v.total)}`)).join('')||empty('No portfolio records found');
-  $('statusList').innerHTML=Object.entries(stages).sort((a,b)=>b[1].count-a[1].count).map(([k,v])=>{const p=total?v.count/total*100:0; return `<div class="item"><div><b>${esc(k)}</b><span>${v.count} records • ${money(v.total)} vendor invoice</span><div class="bar"><i style="width:${Math.max(5,p)}%"></i></div></div><em>${p.toFixed(0)}%</em></div>`;}).join('')||empty('No status data found');
-  $('workstreamList').innerHTML=Object.entries(ws).sort((a,b)=>b[1].total-a[1].total).slice(0,7).map(([k,v])=>row(k,`${v.count} records`,`Vendor ${money(v.total)}`)).join('')||empty('No workstream data found');
-  $('highestCostList').innerHTML=view.slice().sort((a,b)=>b.invoice-a.invoice).slice(0,10).map(r=>row(r.name,`${r.workstream} • ${r.stage}`,`${money(r.invoice)} vendor invoice`)).join('')||empty('No high-cost projects found');
-  $('scorecardList').innerHTML=scorecards.map(s=>row(s.vendor,`${s.note} • ${s.projects}`,s.score==null?'pending':`${s.score}%`)).join('');
-  $('weighting').innerHTML=`<div class="list">${[['Execution',25],['Quality',30],['Communication',20],['Compliance & Safety',15],['Reliability',10]].map(([k,v])=>row(k,'Weight in scorecard rollup',`${v}%`)).join('')}</div>`;
+function scoreBadge(score) {
+  return score == null ? '<span class="badge">Pending</span>' : `<span class="badge">${score}%</span>`;
+}
 
-  const body=$('tableBody');
-  const search=$('search');
-  function renderTable(){
-    const q=search.value.trim().toLowerCase();
-    const filtered=view.filter(r=>!q||[r.name,r.workstream,r.stage,r.owner,r.folder,String(r.invoice),String(r.revenue)].join(' ').toLowerCase().includes(q));
-    body.innerHTML=filtered.slice().sort((a,b)=>(b.updated||'').localeCompare(a.updated||'')).map(r=>`<tr><td><strong>${esc(r.name)}</strong><div class="muted">${esc(r.folder||'')}</div></td><td>${esc(r.workstream)}</td><td>${esc(r.stage)}</td><td>${esc(r.owner)}</td><td>${money(r.invoice)}</td><td>${r.revenue?money(r.revenue):'—'}</td><td>${d(r.updated)}</td></tr>`).join('')||`<tr><td colspan="7" class="muted">No matching records</td></tr>`;
+async function boot() {
+  let rows = [];
+  try {
+    const res = await fetch('clickup-data.json', { cache:'no-store' });
+    rows = await res.json();
+  } catch (e) {
+    console.error(e);
+    $('lastUpdated').textContent = 'Data load failed';
   }
-  search.addEventListener('input',renderTable); renderTable();
+  if (!Array.isArray(rows)) rows = [];
+
+  const view = rows.map(r => ({
+    name: String(r.name || ''),
+    folder: String(r.folder || ''),
+    workstream: String(r.workstream || r.folder || 'ClickUp'),
+    stage: String(r.statusGroup || r.stage || r.statusLabel || 'Other'),
+    owner: String(r.owner || 'Unassigned'),
+    invoice: num(r.invoice ?? r.vendorInvoice ?? r.vendor_invoice),
+    revenue: num(r.revenue ?? r.customerInvoice ?? r.customer_invoice),
+    updated: r.updated || '',
+    active: !!r.active
+  }));
+
+  const total = view.length;
+  const complete = view.filter(r => r.stage === 'Complete').length;
+  const open = view.filter(r => !['Complete','Cancelled'].includes(r.stage)).length;
+  const vendorTotal = view.reduce((a,r) => a + r.invoice, 0);
+  const customerTotal = view.reduce((a,r) => a + r.revenue, 0);
+  const margin = customerTotal - vendorTotal;
+  const marginPct = customerTotal ? (margin / customerTotal * 100) : null;
+  const scorecardCount = vendorScorecards.length;
+
+  $('lastUpdated').textContent = `${total} rows loaded`;
+  $('kpiQuality').innerHTML = `${complete}<small>completed projects</small>`;
+  $('kpiScorecards').innerHTML = `${scorecardCount}<small>vendor scorecards</small>`;
+  $('kpiMargin').innerHTML = `${money(margin)}<small>${customerTotal ? `${pct(marginPct)} margin` : 'customer invoice missing; vendor invoice shown'}</small>`;
+  $('kpiVendor').innerHTML = `${money(vendorTotal)}<small>vendor invoice total</small>`;
+  $('kpiCustomer').innerHTML = `${money(customerTotal)}<small>customer invoice total</small>`;
+  $('kpiPortfolio').innerHTML = `${total}<small>project records in window</small>`;
+  $('registerCount').textContent = `${total} records`;
+  $('statusBadge').textContent = `${open} open`;
+  $('tableHint').textContent = `Vendor invoice total ${money(vendorTotal)} • customer invoice total ${money(customerTotal)}`;
+
+  const stages = group(view, 'stage');
+  const workstreams = group(view, 'workstream');
+  $('metricList').innerHTML = Object.entries(stages).map(([k, v]) => row(k, `${v.count} records`, `Vendor ${money(v.total)}`)).join('') || empty('No portfolio records found');
+  $('statusList').innerHTML = Object.entries(stages).sort((a,b) => b[1].count - a[1].count).map(([k, v]) => {
+    const p = total ? v.count / total * 100 : 0;
+    return `<div class='item'><div><b>${esc(k)}</b><span>${v.count} records • ${money(v.total)} vendor invoice</span><div class='bar'><i style='width:${Math.max(8,p)}%'></i></div></div><em>${p.toFixed(0)}%</em></div>`;
+  }).join('') || empty('No status data found');
+  $('workstreamList').innerHTML = Object.entries(workstreams).sort((a,b) => b[1].total - a[1].total).slice(0,7).map(([k, v]) => row(k, `${v.count} records`, `Vendor ${money(v.total)}`)).join('') || empty('No workstream data found');
+  $('highestCostList').innerHTML = view.slice().sort((a,b) => b.invoice - a.invoice).slice(0,10).map(r => row(r.name, `${r.workstream} • ${r.stage}`, `${money(r.invoice)} vendor invoice`)).join('') || empty('No high-cost projects found');
+
+  $('weighting').innerHTML = weights.map(([name, weight]) => row(name, 'Weight in scorecard rollup', `${weight}%`)).join('');
+
+  $('scorecardGrid').innerHTML = vendorScorecards.map(v => `
+    <div class='card'>
+      <div class='card-head'>
+        <div>
+          <h3>${esc(v.vendor)}</h3>
+          <p>${esc(v.note)}</p>
+        </div>
+        ${scoreBadge(v.score)}
+      </div>
+      <div class='card-body'>
+        <div class='pillrow'>
+          ${v.projects.map(p => `<span class='pill'>${esc(p)}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  const tbody = $('tableBody');
+  const search = $('search');
+  function renderTable() {
+    const q = search.value.trim().toLowerCase();
+    const filtered = view.filter(r => !q || [r.name, r.workstream, r.stage, r.owner, String(r.invoice), String(r.revenue)].join(' ').toLowerCase().includes(q));
+    tbody.innerHTML = filtered.sort((a,b) => (b.updated || '').localeCompare(a.updated || '')).map(r => `
+      <tr>
+        <td><strong>${esc(r.name)}</strong></td>
+        <td>${esc(r.workstream)}</td>
+        <td>${esc(r.stage)}</td>
+        <td>${esc(r.owner)}</td>
+        <td>${money(r.invoice)}</td>
+        <td>${money(r.revenue)}</td>
+        <td>${esc(d(r.updated))}</td>
+      </tr>
+    `).join('');
+  }
+  search.addEventListener('input', renderTable);
+  renderTable();
 }
 boot();
 </script>
