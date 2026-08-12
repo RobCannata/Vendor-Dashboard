@@ -24,6 +24,20 @@ if (!TOKEN) {
   process.exit(1);
 }
 
+function cleanNumber(value) {
+  if (value == null || value === '') return null;
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  if (typeof value === 'object') {
+    if (Array.isArray(value)) return cleanNumber(value[0]);
+    if ('value' in value) return cleanNumber(value.value);
+    if ('text' in value) return cleanNumber(value.text);
+  }
+  const text = String(value).replace(/[$,\s]/g, '').trim();
+  if (!text) return null;
+  const num = Number(text);
+  return Number.isFinite(num) ? num : null;
+}
+
 function pickCustomField(task, names) {
   const wanted = names.map((n) => String(n || '').trim().toLowerCase()).filter(Boolean);
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
@@ -39,6 +53,50 @@ function pickCustomField(task, names) {
       return JSON.stringify(value);
     }
     return value;
+  }
+  return null;
+}
+
+function findAmountField(task, aliases, predicate) {
+  const exact = pickCustomField(task, aliases);
+  if (cleanNumber(exact) != null) return cleanNumber(exact);
+  const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
+  for (const field of fields) {
+    const label = String(field?.name || field?.label || '').trim().toLowerCase();
+    if (!predicate(label)) continue;
+    const amount = cleanNumber(field?.value);
+    if (amount != null) return amount;
+  }
+  return null;
+}
+
+// Vendor Cost must come from the ClickUp "Vendor Invoice" field.
+// Common variants are accepted, but the explicit Vendor Invoice field is first priority.
+function vendorInvoiceAmount(task) {
+  return findAmountField(
+    task,
+    ['Vendor Invoice', 'Vendor invoice', 'Vendor Invoice Amount', 'Vendor Invoice Total', 'Vendor Cost', 'Vendor Cost Amount'],
+    (label) => label.includes('vendor') && label.includes('invoice') && !label.includes('status') && !label.includes('date')
+  );
+}
+
+function customerInvoiceAmount(task) {
+  return findAmountField(
+    task,
+    ['Customer Invoice', 'Customer invoice', 'Customer Invoice Amount', 'Customer Invoice Total', 'Customer Revenue'],
+    (label) => (label.includes('customer') || label.includes('revenue')) && label.includes('invoice') && !label.includes('status') && !label.includes('date')
+  );
+}
+
+function invoiceStatus(task) {
+  const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
+  for (const field of fields) {
+    const label = String(field?.name || field?.label || '').trim().toLowerCase();
+    if (!label.includes('vendor') || !label.includes('invoice') || !label.includes('status')) continue;
+    const value = field?.value;
+    if (value == null || value === '') continue;
+    if (typeof value === 'object') return value.text || value.name || JSON.stringify(value);
+    return String(value);
   }
   return null;
 }
@@ -94,6 +152,9 @@ function normalizeTask(task, sourceLabel) {
   const statusType = task?.status?.type || '';
   const statusGroup = prettyStatusGroup(statusName, statusType);
   const priority = task?.priority?.priority || task?.priority?.name || task?.priority || 'NONE';
+  const vendorInvoice = vendorInvoiceAmount(task);
+  const customerInvoice = customerInvoiceAmount(task);
+  const vendorInvoiceStatus = invoiceStatus(task);
 
   const acc = {
     id: task?.id || '',
@@ -113,6 +174,11 @@ function normalizeTask(task, sourceLabel) {
     done,
     years: [],
     timeInStatusHours: 0,
+    invoice: vendorInvoice,
+    invoiceRecorded: vendorInvoice != null,
+    invoiceStatus: vendorInvoiceStatus,
+    revenue: customerInvoice,
+    revenueRecorded: customerInvoice != null,
     address: pickCustomField(task, ['Address', 'Store Address', 'Location']) || '',
     storeManager: pickCustomField(task, ['Store Manager', 'Manager']) || '',
     storeSqft: pickCustomField(task, ['Store Sqft', 'SQFT', 'Square Feet']) || null,

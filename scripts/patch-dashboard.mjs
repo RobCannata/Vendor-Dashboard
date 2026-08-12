@@ -20,6 +20,8 @@ const PROJECT_DETAIL_TO = '<em class="${p.tone}">${p.score==null?\'—\':`${scor
 const QUALITY_FROM = "const avgPerf=vis.map(r=>r.perf).filter(v=>Number.isFinite(v));const overall=avgPerf.length?Math.round(avgPerf.reduce((a,b)=>a+b,0)/avgPerf.length):null;";
 const QUALITY_TO = "const vendorScores=VENDORS.map(v=>scoreOfVendor(v)).filter(v=>Number.isFinite(v));const overall=vendorScores.length?Math.round(vendorScores.reduce((a,b)=>a+b,0)/vendorScores.length):null;";
 
+const PROJECT_REGISTER_RE = /\s*<section class="card mini" style="margin-top:12px">\s*<div class="card-head"><div><h3>Project register<\/h3>[\s\S]*?<\/section>/;
+
 async function main() {
   const html = await fs.readFile(filePath, 'utf8');
   let next = html;
@@ -27,6 +29,11 @@ async function main() {
 
   for (const [from,to] of [[TREND_FROM,TREND_TO],[TOP_FROM,TOP_TO],[SCORE_FROM,SCORE_TO],[WEIGHT_LABEL_FROM,WEIGHT_LABEL_TO],[PROJECT_DETAIL_FROM,PROJECT_DETAIL_TO],[QUALITY_FROM,QUALITY_TO]]) {
     if (next.includes(from)) { next = next.replace(from,to); replaced += 1; }
+  }
+
+  if (PROJECT_REGISTER_RE.test(next)) {
+    next = next.replace(PROJECT_REGISTER_RE, '');
+    replaced += 1;
   }
 
   if (replaced === 0) console.warn('No dashboard analytics strings were found to patch.');
