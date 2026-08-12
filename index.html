@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111d">
+  <title>Vendor Performance Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">V</div>
+        <div>
+          <div class="eyebrow">FIELD OPERATIONS</div>
+          <h1>Vendor Performance</h1>
+          <p>Executive operating view</p>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-title">Data source</div>
+        <div id="sourceSummary"></div>
+      </div>
+
+      <div class="side-card side-note">
+        <div class="side-title">Dashboard focus</div>
+        <p>Installation quality, vendor scorecards, service revenue, vendor invoice workflow, and execution risk.</p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="header">
+        <div>
+          <div class="eyebrow">EXECUTIVE DASHBOARD</div>
+          <h2>Vendor &amp; Installation Performance</h2>
+          <p>Clean operating view built from the ClickUp Field workspace and Vendor Scorecards list.</p>
+        </div>
+        <div class="connected"><span></span><div><strong>ClickUp connected</strong><small>Field workspace</small></div></div>
+      </header>
+
+      <section class="kpi-grid" id="topKpis"></section>
+
+      <section class="section-head">
+        <div><div class="eyebrow">VENDOR MANAGEMENT</div><h3>Performance Scorecards</h3></div>
+        <span>Scorecards • Vendor Scorecards</span>
+      </section>
+      <section class="vendor-grid" id="vendorGrid"></section>
+
+      <section class="section-head lower-head">
+        <div><div class="eyebrow">OPERATING CONTROLS</div><h3>Financial &amp; Execution View</h3></div>
+        <span>Current ClickUp snapshot</span>
+      </section>
+
+      <section class="control-grid">
+        <article class="panel">
+          <div class="panel-head"><div><div class="eyebrow">INSTALLATION QUALITY</div><h4>Quality by Vendor</h4></div></div>
+          <div id="qualityPanel" class="quality-panel"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head"><div><div class="eyebrow">VENDOR INVOICES</div><h4>Invoice Workflow</h4></div></div>
+          <div id="invoicePanel" class="invoice-panel"></div>
+        </article>
+
+        <article class="panel revenue-panel">
+          <div class="panel-head"><div><div class="eyebrow">SERVICE REVENUE</div><h4>Revenue</h4></div></div>
+          <div class="revenue-value">—</div>
+          <div class="revenue-caption">Service revenue is ready to populate once the ClickUp financial field is mapped.</div>
+          <div class="metric-row"><span>Revenue field</span><strong>Not mapped</strong></div>
+          <div class="metric-row"><span>Invoice amount</span><strong>Not mapped</strong></div>
+          <div class="metric-row"><span>Margin</span><strong>Not mapped</strong></div>
+        </article>
+      </section>
+
+      <section class="section-head lower-head">
+        <div><div class="eyebrow">EXECUTION</div><h3>Installation Work Queue</h3></div>
+        <span>Priority operational records</span>
+      </section>
+
+      <section class="panel queue-panel">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Workstream</th><th>List</th><th>Status</th><th>Owner Action</th></tr></thead>
+            <tbody id="workQueue"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer id="footer"></footer>
+    </main>
+  </div>
+</body>
+</html>
