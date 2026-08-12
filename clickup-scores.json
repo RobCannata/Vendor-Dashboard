@@ -1,12 +1,22 @@
 {
   "source": "ClickUp Field / Vendor Scorecards / Scorecards",
-  "field": "Avg Final Score %",
-  "updatedAt": "2026-08-12T20:17:30.683Z",
+  "field": "Avg Final Score % / Final Score (%)",
+  "updatedAt": "2026-08-12T20:23:23.773Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
     "Impulso": 76,
     "SASR": 96
   },
-  "projectScores": {}
+  "projectScores": {
+    "DHI": 92,
+    "Dollar General Pilot": 100,
+    "Natural Grocers": 68,
+    "Hucks Stores Pilot": 80,
+    "Academy Sports": 100,
+    "Miniso": 96,
+    "Ace Elgin": 76,
+    "Dufry": 100,
+    "Oxxo Revisits": 76
+  }
 }
