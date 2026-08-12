@@ -58,6 +58,48 @@ function pickCustomField(task, names) {
   return null;
 }
 
+function findAmountField(task, aliases, predicate) {
+  const exact = pickCustomField(task, aliases);
+  if (cleanNumber(exact) != null) return cleanNumber(exact);
+  const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
+  for (const field of fields) {
+    const label = String(field?.name || field?.label || '').trim().toLowerCase();
+    if (!predicate(label)) continue;
+    const amount = cleanNumber(field?.value);
+    if (amount != null) return amount;
+  }
+  return null;
+}
+
+function vendorInvoiceAmount(task) {
+  return findAmountField(
+    task,
+    ['Vendor invoice', 'Vendor Invoice', 'Vendor Invoice Amount', 'Vendor Invoice Total', 'Vendor Cost', 'Vendor Cost Amount'],
+    (label) => label.includes('vendor') && (label.includes('invoice') || label.includes('cost')) && !label.includes('status') && !label.includes('date')
+  );
+}
+
+function customerInvoiceAmount(task) {
+  return findAmountField(
+    task,
+    ['Customer invoice', 'Customer Invoice', 'Customer Invoice Amount', 'Customer Invoice Total', 'Customer Revenue'],
+    (label) => (label.includes('customer') || label.includes('revenue')) && label.includes('invoice') && !label.includes('status') && !label.includes('date')
+  );
+}
+
+function invoiceStatus(task) {
+  const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
+  for (const field of fields) {
+    const label = String(field?.name || field?.label || '').trim().toLowerCase();
+    if (!label.includes('vendor') || !label.includes('invoice') || !label.includes('status')) continue;
+    const value = field?.value;
+    if (value == null || value === '') continue;
+    if (typeof value === 'object') return value.text || value.name || JSON.stringify(value);
+    return String(value);
+  }
+  return null;
+}
+
 function toIso(value) {
   if (value == null || value === '') return null;
   if (typeof value === 'string' && /^\d+$/.test(value)) value = Number(value);
@@ -101,8 +143,9 @@ function normalizeTask(task) {
   const statusName = task?.status?.status || task?.status?.name || task?.status || '';
   const statusType = task?.status?.type || '';
   const sg = statusGroup(statusName, statusType);
-  const vendorInvoice = pickCustomField(task, ['Vendor invoice', 'Vendor Invoice']);
-  const customerInvoice = pickCustomField(task, ['Customer invoice', 'Customer Invoice']);
+  const vendorInvoice = vendorInvoiceAmount(task);
+  const customerInvoice = customerInvoiceAmount(task);
+  const vendorInvoiceStatus = invoiceStatus(task);
 
   const row = {
     id: task?.id || '',
@@ -121,10 +164,11 @@ function normalizeTask(task) {
     updated,
     done,
     years: [new Date().getFullYear()],
-    invoice: cleanNumber(vendorInvoice),
-    invoiceRecorded: cleanNumber(vendorInvoice) != null,
-    revenue: cleanNumber(customerInvoice),
-    revenueRecorded: cleanNumber(customerInvoice) != null,
+    invoice: vendorInvoice,
+    invoiceRecorded: vendorInvoice != null,
+    invoiceStatus: vendorInvoiceStatus,
+    revenue: customerInvoice,
+    revenueRecorded: customerInvoice != null,
     timeInStatusHours: 0,
     address: pickCustomField(task, ['Address', 'Store Address', 'Location']) || '',
     storeManager: pickCustomField(task, ['Store Manager', 'Manager']) || '',
