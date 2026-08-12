@@ -3,8 +3,9 @@ import fs from 'node:fs/promises';
 const TOKEN = process.env.CLICKUP_TOKEN;
 const API_BASE = 'https://api.clickup.com/api/v2';
 const OUTPUT = 'clickup-scores.json';
-const INSTALLATIONS_LIST = '901201686156';
 const YEAR = 2026;
+const SCORECARD_LIST = '901217460327';
+const INSTALLATION_LISTS = ['901201686156', '901210415855'];
 
 if (!TOKEN) throw new Error('Missing CLICKUP_TOKEN.');
 
@@ -15,6 +16,7 @@ function numeric(value) {
     if ('text' in value) return numeric(value.text);
     if ('name' in value) return numeric(value.name);
     if ('number' in value) return numeric(value.number);
+    if ('amount' in value) return numeric(value.amount);
   }
   const n = Number(String(value).replace(/[,$\s%]/g, ''));
   return Number.isFinite(n) ? n : null;
@@ -56,31 +58,58 @@ function vendorName(name) {
   return null;
 }
 
-function inferVendor(text) {
-  const n = String(text || '').toLowerCase();
-  if (n.includes('sasr')) return 'SASR';
-  if (n.includes('anderson')) return 'Anderson';
-  if (n.includes('channel partners')) return 'Channel Partners';
-  if (n.includes('impulso')) return 'Impulso';
-  if (n.includes('b2x')) return 'B2X';
-  return null;
-}
-
-function extractInvoiceAmount(text) {
-  const source = String(text || '');
-  const line = source.match(/(?:vendor\s+invoice|invoice\s+amount)[^\n\r]*/i)?.[0];
-  if (!line) return null;
-  const amounts = [...line.matchAll(/\$\s*([0-9][0-9,]*(?:\.\d{1,2})?)/g)].map((m) => numeric(m[1])).filter((n) => n != null);
-  if (!amounts.length) return null;
-  if ((line.match(/=/g) || []).length >= 2) return amounts[amounts.length - 1];
-  if (amounts.length === 1) return amounts[0];
-  return amounts.reduce((a, b) => a + b, 0);
-}
-
 function monthKey(ms) {
   const date = new Date(Number(ms));
   if (!Number.isFinite(date.getTime())) return null;
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function customFieldByName(fields, names) {
+  const wanted = names.map((n) => n.toLowerCase());
+  return (Array.isArray(fields) ? fields : []).find((f) => wanted.includes(String(f?.name || '').trim().toLowerCase()));
+}
+
+function amountFromField(field) {
+  if (!field) return null;
+  const candidates = [field.value, field.value?.value, field.value?.number, field.value?.amount, field.value?.text, field.currency_value, field.number];
+  for (const candidate of candidates) {
+    const n = numeric(candidate);
+    if (n != null) return n;
+  }
+  return null;
+}
+
+async function getJson(url) {
+  const response = await fetch(url, { headers: { Authorization: TOKEN, Accept: 'application/json' } });
+  if (!response.ok) throw new Error(`ClickUp ${response.status}: ${await response.text()}`);
+  return response.json();
+}
+
+async function getListFields(listId) {
+  try {
+    const data = await getJson(`${API_BASE}/list/${listId}/field`);
+    return Array.isArray(data?.fields) ? data.fields : [];
+  } catch (error) {
+    console.warn(`Unable to read custom fields for list ${listId}: ${error.message}`);
+    return [];
+  }
+}
+
+const scores = {};
+const projectScores = {};
+const invoices = [];
+
+let page = 0;
+while (true) {
+  const data = await getJson(`${API_BASE}/list/${SCORECARD_LIST}/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
+  const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
+  for (const task of tasks) {
+    const vendor = vendorName(task?.name);
+    const score = scoreForTask(task);
+    if (vendor && score != null) scores[vendor] = score;
+  }
+  if (tasks.length < 100) break;
+  page += 1;
 }
 
 const PROJECT_TASKS = {
@@ -98,29 +127,6 @@ const PROJECT_TASKS = {
   'Food 4 Less': '869egpcpd',
 };
 
-async function getJson(url) {
-  const response = await fetch(url, { headers: { Authorization: TOKEN, Accept: 'application/json' } });
-  if (!response.ok) throw new Error(`ClickUp ${response.status}: ${await response.text()}`);
-  return response.json();
-}
-
-const scores = {};
-const projectScores = {};
-const invoices = [];
-
-let page = 0;
-while (true) {
-  const data = await getJson(`${API_BASE}/list/901217460327/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
-  const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
-  for (const task of tasks) {
-    const vendor = vendorName(task?.name);
-    const score = scoreForTask(task);
-    if (vendor && score != null) scores[vendor] = score;
-  }
-  if (tasks.length < 100) break;
-  page += 1;
-}
-
 for (const [project, taskId] of Object.entries(PROJECT_TASKS)) {
   try {
     const task = await getJson(`${API_BASE}/task/${taskId}?include_subtasks=false`);
@@ -131,30 +137,50 @@ for (const [project, taskId] of Object.entries(PROJECT_TASKS)) {
   }
 }
 
-// Pull installation tasks and extract Vendor Invoice amounts from task text.
-// Month is based on ClickUp task creation date for a stable reporting period.
-let invoicePage = 0;
-while (true) {
-  const data = await getJson(`${API_BASE}/list/${INSTALLATIONS_LIST}/task?page=${invoicePage}&subtasks=true&include_closed=true&order_by=created&reverse=false`);
-  const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
-  for (const task of tasks) {
-    const month = monthKey(task?.date_created);
-    if (!month || !month.startsWith(`${YEAR}-`)) continue;
-    const text = `${task?.name || ''}\n${task?.text_content || ''}\n${task?.description || ''}`;
-    const amount = extractInvoiceAmount(text);
-    if (amount == null || amount <= 0) continue;
-    invoices.push({
-      taskId: task.id,
-      task: task.name || 'Untitled',
-      vendor: inferVendor(text),
-      month,
-      amount,
-      url: task.url || `https://app.clickup.com/t/${task.id}`,
-      createdAt: task.date_created,
-    });
+// Pull the actual ClickUp Vendor Invoice custom field from installation tasks.
+for (const listId of INSTALLATION_LISTS) {
+  const listFields = await getListFields(listId);
+  const vendorInvoiceField = customFieldByName(listFields, ['Vendor Invoice']);
+  const vendorField = customFieldByName(listFields, ['Vendor', 'Vendor Name', 'Vendor Company']);
+
+  if (!vendorInvoiceField) {
+    console.warn(`List ${listId}: Vendor Invoice custom field was not found.`);
+  } else {
+    console.log(`List ${listId}: Vendor Invoice field ${vendorInvoiceField.id}`);
   }
-  if (tasks.length < 100) break;
-  invoicePage += 1;
+
+  let invoicePage = 0;
+  while (true) {
+    const data = await getJson(`${API_BASE}/list/${listId}/task?page=${invoicePage}&subtasks=true&include_closed=true&order_by=created&reverse=false`);
+    const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
+
+    for (const task of tasks) {
+      const month = monthKey(task?.date_created);
+      if (!month || !month.startsWith(`${YEAR}-`)) continue;
+
+      const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
+      const invoiceField = vendorInvoiceField ? fields.find((f) => String(f?.id) === String(vendorInvoiceField.id)) : null;
+      const amount = amountFromField(invoiceField);
+      if (amount == null || amount <= 0) continue;
+
+      const vendorValue = vendorField ? fields.find((f) => String(f?.id) === String(vendorField.id)) : null;
+      const vendor = vendorValue ? String(vendorValue.value?.label || vendorValue.value?.name || vendorValue.value?.text || vendorValue.value || '').trim() : '';
+
+      invoices.push({
+        taskId: task.id,
+        task: task.name || 'Untitled',
+        vendor: vendor || null,
+        month,
+        amount,
+        sourceField: 'Vendor Invoice',
+        url: task.url || `https://app.clickup.com/t/${task.id}`,
+        createdAt: task.date_created,
+      });
+    }
+
+    if (tasks.length < 100) break;
+    invoicePage += 1;
+  }
 }
 
 const invoiceMonthly = {};
@@ -172,6 +198,7 @@ for (const invoice of invoices) {
 const payload = {
   source: 'ClickUp Field / Vendor Scorecards / Scorecards',
   field: 'Avg Final Score % / Final Score (%)',
+  invoiceField: 'Vendor Invoice',
   updatedAt: new Date().toISOString(),
   scores,
   projectScores,
@@ -183,5 +210,5 @@ const payload = {
 await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n', 'utf8');
 console.log(`Updated vendor scores: ${JSON.stringify(scores)}`);
 console.log(`Updated project scores: ${JSON.stringify(projectScores)}`);
-console.log(`Extracted ${invoices.length} vendor invoices; monthly totals: ${JSON.stringify(invoiceMonthly)}`);
+console.log(`Extracted ${invoices.length} Vendor Invoice field records; monthly totals: ${JSON.stringify(invoiceMonthly)}`);
 console.log(`Invoice totals by vendor: ${JSON.stringify(invoiceByVendor)}`);
