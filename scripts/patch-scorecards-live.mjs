@@ -121,7 +121,7 @@ async function main() {
 
   const html = await fs.readFile(filePath, 'utf8');
   await fs.writeFile(filePath, html.replace('</body>', injection + '</body>'), 'utf8');
-  console.log(`Injected live scorecards: ${JSON.stringify(live)}; DHI_SCORE=${DHI_SCORE}`);
+  console.log(`Injected live scorecards: ${JSON.stringify(live)}; DHI_SCORE=${dhiScore}`);
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });
