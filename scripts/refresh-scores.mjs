@@ -26,7 +26,13 @@ function percent(value) {
 
 function scoreForTask(task) {
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
-  const preferred = ['Avg Final Score %', 'Avg Final Score', 'Final Score %', 'Final Score'];
+  const preferred = [
+    'Avg Final Score %',
+    'Avg Final Score',
+    'Final Score (%)',
+    'Final Score %',
+    'Final Score',
+  ];
   for (const name of preferred) {
     const field = fields.find((f) => String(f?.name || '').trim().toLowerCase() === name.toLowerCase());
     const score = percent(field?.value);
@@ -36,7 +42,7 @@ function scoreForTask(task) {
   }
   for (const field of fields) {
     const label = String(field?.name || '').toLowerCase();
-    if (label.includes('avg') && label.includes('final') && label.includes('score')) {
+    if (label.includes('final') && label.includes('score')) {
       const score = percent(field?.value) ?? percent(field?.formula?.value);
       if (score != null) return score;
     }
@@ -78,7 +84,6 @@ async function getJson(url) {
 const scores = {};
 const projectScores = {};
 
-// Pull parent/vendor scorecards from the linked list.
 let page = 0;
 while (true) {
   const data = await getJson(`${API_BASE}/list/901217460327/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
@@ -92,19 +97,11 @@ while (true) {
   page += 1;
 }
 
-// Pull each project scorecard directly so formula/calculated custom fields are included.
 for (const [project, taskId] of Object.entries(PROJECT_TASKS)) {
   try {
     const task = await getJson(`${API_BASE}/task/${taskId}?include_subtasks=false`);
     const score = scoreForTask(task);
     if (score != null) projectScores[project] = score;
-    else {
-      const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
-      const candidates = fields
-        .filter((f) => /score/i.test(String(f?.name || '')))
-        .map((f) => ({ name: f?.name, type: f?.type, value: f?.value, formula: f?.formula }));
-      console.log(`PROJECT_DEBUG ${project}: ${JSON.stringify(candidates)}`);
-    }
   } catch (error) {
     console.warn(`Project fetch failed for ${project}: ${error.message}`);
   }
@@ -112,7 +109,7 @@ for (const [project, taskId] of Object.entries(PROJECT_TASKS)) {
 
 const payload = {
   source: 'ClickUp Field / Vendor Scorecards / Scorecards',
-  field: 'Avg Final Score %',
+  field: 'Avg Final Score % / Final Score (%)',
   updatedAt: new Date().toISOString(),
   scores,
   projectScores,
