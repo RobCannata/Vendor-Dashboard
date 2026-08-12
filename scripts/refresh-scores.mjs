@@ -4,10 +4,7 @@ const TOKEN = process.env.CLICKUP_TOKEN;
 const API_BASE = 'https://api.clickup.com/api/v2';
 const OUTPUT = 'clickup-scores.json';
 
-if (!TOKEN) {
-  console.error('Missing CLICKUP_TOKEN.');
-  process.exit(1);
-}
+if (!TOKEN) throw new Error('Missing CLICKUP_TOKEN.');
 
 function numeric(value) {
   if (value == null || value === '') return null;
@@ -15,6 +12,7 @@ function numeric(value) {
     if ('value' in value) return numeric(value.value);
     if ('text' in value) return numeric(value.text);
     if ('name' in value) return numeric(value.name);
+    if ('number' in value) return numeric(value.number);
   }
   const n = Number(String(value).replace(/[,$\s%]/g, ''));
   return Number.isFinite(n) ? n : null;
@@ -26,17 +24,6 @@ function percent(value) {
   return Math.round(n >= 0 && n <= 1 ? n * 100 : n);
 }
 
-function vendorName(name) {
-  const n = String(name || '').trim().toLowerCase();
-  if (n.includes('channel partners')) return 'Channel Partners';
-  if (n.includes('anderson') && n.includes('scorecard')) return 'Anderson';
-  if (n === 'anderson') return 'Anderson';
-  if (n.includes('impulso')) return 'Impulso';
-  if (n === 'sasr' || n.includes('sasr scorecard')) return 'SASR';
-  if (n.includes('b2x')) return 'B2X';
-  return null;
-}
-
 function scoreForTask(task) {
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
   const preferred = ['Avg Final Score %', 'Avg Final Score', 'Final Score %', 'Final Score'];
@@ -44,36 +31,27 @@ function scoreForTask(task) {
     const field = fields.find((f) => String(f?.name || '').trim().toLowerCase() === name.toLowerCase());
     const score = percent(field?.value);
     if (score != null) return score;
+    const alt = percent(field?.formula?.value);
+    if (alt != null) return alt;
   }
   for (const field of fields) {
     const label = String(field?.name || '').toLowerCase();
     if (label.includes('avg') && label.includes('final') && label.includes('score')) {
-      const score = percent(field?.value);
+      const score = percent(field?.value) ?? percent(field?.formula?.value);
       if (score != null) return score;
     }
   }
   return null;
 }
 
-async function getJson(url) {
-  const response = await fetch(url, {
-    headers: { Authorization: TOKEN, Accept: 'application/json' },
-  });
-  if (!response.ok) throw new Error(`ClickUp ${response.status}: ${await response.text()}`);
-  return response.json();
-}
-
-async function getListTasks() {
-  const tasks = [];
-  let page = 0;
-  while (true) {
-    const data = await getJson(`${API_BASE}/list/901217460327/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
-    const batch = Array.isArray(data?.tasks) ? data.tasks : [];
-    tasks.push(...batch);
-    if (batch.length < 100) break;
-    page += 1;
-  }
-  return tasks;
+function vendorName(name) {
+  const n = String(name || '').trim().toLowerCase();
+  if (n === 'sasr' || n.includes('sasr scorecard')) return 'SASR';
+  if (n.includes('anderson') && n.includes('scorecard')) return 'Anderson';
+  if (n.includes('channel partners')) return 'Channel Partners';
+  if (n.includes('impulso')) return 'Impulso';
+  if (n.includes('b2x')) return 'B2X';
+  return null;
 }
 
 const PROJECT_TASKS = {
@@ -91,22 +69,44 @@ const PROJECT_TASKS = {
   'Food 4 Less': '869egpcpd',
 };
 
-const listTasks = await getListTasks();
-const scores = {};
-for (const task of listTasks) {
-  const vendor = vendorName(task?.name);
-  const score = scoreForTask(task);
-  if (vendor && score != null) scores[vendor] = score;
+async function getJson(url) {
+  const response = await fetch(url, { headers: { Authorization: TOKEN, Accept: 'application/json' } });
+  if (!response.ok) throw new Error(`ClickUp ${response.status}: ${await response.text()}`);
+  return response.json();
 }
 
+const scores = {};
 const projectScores = {};
+
+// Pull parent/vendor scorecards from the linked list.
+let page = 0;
+while (true) {
+  const data = await getJson(`${API_BASE}/list/901217460327/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
+  const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
+  for (const task of tasks) {
+    const vendor = vendorName(task?.name);
+    const score = scoreForTask(task);
+    if (vendor && score != null) scores[vendor] = score;
+  }
+  if (tasks.length < 100) break;
+  page += 1;
+}
+
+// Pull each project scorecard directly so formula/calculated custom fields are included.
 for (const [project, taskId] of Object.entries(PROJECT_TASKS)) {
   try {
     const task = await getJson(`${API_BASE}/task/${taskId}?include_subtasks=false`);
     const score = scoreForTask(task);
     if (score != null) projectScores[project] = score;
-  } catch (err) {
-    console.warn(`Project score fetch failed for ${project} (${taskId}):`, err.message);
+    else {
+      const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
+      const candidates = fields
+        .filter((f) => /score/i.test(String(f?.name || '')))
+        .map((f) => ({ name: f?.name, type: f?.type, value: f?.value, formula: f?.formula }));
+      console.log(`PROJECT_DEBUG ${project}: ${JSON.stringify(candidates)}`);
+    }
+  } catch (error) {
+    console.warn(`Project fetch failed for ${project}: ${error.message}`);
   }
 }
 
