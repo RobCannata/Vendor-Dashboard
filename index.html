@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-<head>
+<head><style>.vendor{min-height:0!important;height:auto!important}.vendor .projects{margin-top:4px}.overall-quality{margin:12px 0;background:linear-gradient(160deg,rgba(16,29,51,.97),rgba(10,20,37,.96));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.overall-quality-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:16px 18px}.overall-quality-title{font-size:15px;font-weight:800;margin-top:4px}.overall-quality-sub{font-size:11px;color:var(--muted);margin-top:3px}.overall-quality-score{font-size:34px;font-weight:900;letter-spacing:-.05em;color:var(--accent)}@media(max-width:820px){.overall-quality-inner{align-items:flex-start}.overall-quality-score{font-size:28px}}</style>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
@@ -64,7 +64,7 @@ button,input,select{font:inherit}
 .badge{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);background:rgba(255,210,74,.08);border:1px solid rgba(255,210,74,.14);padding:5px 8px;border-radius:999px;white-space:nowrap}
 .body{padding:0 16px 16px}
 .vendor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.vendor{display:flex;flex-direction:column;min-height:760px}
+.vendor{display:flex;flex-direction:column;min-height:0;height:auto}
 .vendor-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:16px 16px 10px}
 .v-left{display:flex;gap:12px;align-items:center;min-width:0}
 .v-badge{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:14px;font-weight:900;flex:0 0 auto;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
@@ -135,7 +135,7 @@ button,input,select{font:inherit}
       <a class="kpi" href="#projects"><div class="kpi-top"><div class="kpi-label">Projects</div><div class="kpi-icon">PR</div></div><div class="kpi-value" id="kProjects">—</div><div class="kpi-meta"><span class="dot"></span><span id="kProjectsMeta">visible in selected month</span></div></a>
     </div>
 
-    <div class="layout">
+    <section class="card overall-quality" id="overallVendorQuality"><div class="overall-quality-inner"><div><div class="kpi-label">Overall Vendor Quality</div><div class="overall-quality-title">Weighted vendor scorecard average</div><div class="overall-quality-sub">Average of vendor final scores across the active scorecards.</div></div><div class="overall-quality-score" id="overallVendorQualityScore">—</div></div></section><div class="layout">
       <section class="card vendor" id="vendorGridWrap">
         <div class="card-head">
           <div><h3>Projects by vendor</h3><p>Vendor / project, final score, status, and performance level.</p></div>
@@ -265,6 +265,31 @@ async function boot(){
 boot();
 </script>
 <script>
+(function(){
+  function renderStaticScorecards(){
+    try{
+      if(typeof VENDORS==='undefined' || typeof renderVendor!=='function') return false;
+      const grid=document.getElementById('vendorGrid');
+      if(grid) grid.innerHTML=VENDORS.map(renderVendor).join('');
+      const avg=document.getElementById('avgList');
+      if(avg && typeof scoreOfVendor==='function'){
+        const items=VENDORS.map(v=>({name:v.name,score:scoreOfVendor(v),color:v.accent,projects:v.projects.length})).filter(x=>x.score!=null).sort((a,b)=>b.score-a.score);
+        avg.innerHTML=items.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • weighted average across scorecards</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');
+      }
+      const quality=document.getElementById('kVendorQuality');
+      if(quality && typeof scoreOfVendor==='function'){
+        const scores=VENDORS.map(v=>scoreOfVendor(v)).filter(v=>Number.isFinite(v));
+        const qualityText = scores.length ? String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)) + '%' : '—';
+        quality.textContent=qualityText;
+      }
+      const count=document.getElementById('kScorecards');
+      if(count) count.textContent=String(VENDORS.length);
+      return true;
+    }catch(e){ console.warn('Scorecard bootstrap failed', e); return false; }
+  }
+  if(!renderStaticScorecards()) document.addEventListener('DOMContentLoaded', renderStaticScorecards);
+})();
+</script><script>
 (function(){
   function renderStaticScorecards(){
     try{
