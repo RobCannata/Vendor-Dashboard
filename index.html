@@ -102,6 +102,15 @@ button,input,select{font:inherit}
     .vendor-grid .vendor{min-height:0!important;height:auto!important}
     @media (max-width:1400px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
     @media (max-width:820px){.vendor-grid{grid-template-columns:1fr!important}}
+  </style><style id="vendor-scorecard-layout-fix">
+    .layout{display:flex!important;flex-direction:column!important;gap:12px!important}
+    #scores{order:0!important;width:100%!important}
+    #vendorGridWrap{order:1!important;width:100%!important}
+    #vendorGridWrap .body{padding-top:0!important}
+    .vendor-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+    .vendor-grid .vendor{min-height:0!important;height:auto!important}
+    @media (max-width:1400px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+    @media (max-width:820px){.vendor-grid{grid-template-columns:1fr!important}}
   </style></head>
 <body>
 <div class="app">
@@ -397,6 +406,74 @@ boot();
     for(const v of VENDORS){ const s=LIVE_SCORECARDS[vendorKey(v.name)]; if(Number.isFinite(s)) v.liveFinalScore=s; }
     if(!VENDORS.some(v=>vendorKey(v.name)==='SASR')){
       VENDORS.push({name:'SASR',accent:'#e07a3f',icon:'SA',summary:'1 project',note:'Live ClickUp scorecard',criteria:[{label:'Execution',weight:25,value:5},{label:'Quality',weight:30,value:5},{label:'Communication',weight:20,value:5},{label:'Compliance',weight:15,value:5},{label:'Reliability',weight:10,value:5}],projects:[{name:'Dollar General Pilot',score:5,tone:'good'}],url:'https://app.clickup.com/t/869ed6zn3',liveFinalScore:LIVE_SCORECARDS.SASR});
+    }
+  }
+  function renderAll(){
+    if(typeof VENDORS==='undefined') return;
+    const avgItems=VENDORS.map(v=>({name:v.name,score:scoreOverride(v),color:v.accent,projects:v.projects.length})).filter(x=>Number.isFinite(x.score)).sort((a,b)=>b.score-a.score);
+    const avg=document.getElementById('avgList');
+    if(avg) avg.innerHTML=avgItems.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • live ClickUp Avg Final Score %</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');
+    const quality=document.getElementById('kVendorQuality');
+    const scores=VENDORS.map(v=>scoreOverride(v)).filter(Number.isFinite);
+    if(quality) quality.textContent=scores.length?String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length))+'%':'—';
+    const count=document.getElementById('kScorecards');
+    if(count) count.textContent=String(VENDORS.length);
+    const grid=document.getElementById('vendorGrid');
+    if(grid && typeof renderVendor==='function') grid.innerHTML=VENDORS.map(renderVendor).join('');
+    const sheet=document.createElement('style');
+    sheet.textContent='.vendor-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}.vendor-grid .vendor{min-width:0}@media(max-width:1400px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:820px){.vendor-grid{grid-template-columns:1fr!important}}';
+    document.head.appendChild(sheet);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',renderAll); else renderAll();
+})();
+</script><script>
+(function(){
+  function renderStaticScorecards(){
+    try{
+      if(typeof VENDORS==='undefined' || typeof renderVendor!=='function') return false;
+      const grid=document.getElementById('vendorGrid');
+      if(grid) grid.innerHTML=VENDORS.map(renderVendor).join('');
+      const avg=document.getElementById('avgList');
+      if(avg && typeof scoreOfVendor==='function'){
+        const items=VENDORS.map(v=>({name:v.name,score:scoreOfVendor(v),color:v.accent,projects:v.projects.length})).filter(x=>x.score!=null).sort((a,b)=>b.score-a.score);
+        avg.innerHTML=items.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • weighted average across scorecards</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');
+      }
+      const quality=document.getElementById('kVendorQuality');
+      if(quality && typeof scoreOfVendor==='function'){
+        const scores=VENDORS.map(v=>scoreOfVendor(v)).filter(v=>Number.isFinite(v));
+        const qualityText = scores.length ? String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)) + '%' : '—';
+        quality.textContent=qualityText;
+      }
+      const count=document.getElementById('kScorecards');
+      if(count) count.textContent=String(VENDORS.length);
+      return true;
+    }catch(e){ console.warn('Scorecard bootstrap failed', e); return false; }
+  }
+  if(!renderStaticScorecards()) document.addEventListener('DOMContentLoaded', renderStaticScorecards);
+})();
+</script><script>
+(function(){
+  const LIVE_SCORECARDS={"Channel Partners":92,"SASR":96,"Anderson":81,"Impulso":76};
+  const vendorKey=v=>String(v||'').replace(/\s+Scorecard$/i,'').trim();
+  const originals={scoreOfVendor:typeof scoreOfVendor==='function'?scoreOfVendor:null};
+  function scoreOverride(v){
+    const liveScore=LIVE_SCORECARDS[vendorKey(v.name)];
+    if(Number.isFinite(liveScore)) return liveScore;
+    return originals.scoreOfVendor ? originals.scoreOfVendor(v) : null;
+  }
+  if(typeof scoreOfVendor==='function') scoreOfVendor=scoreOverride;
+  if(typeof VENDORS!=='undefined') {
+    for(const v of VENDORS){ const s=LIVE_SCORECARDS[vendorKey(v.name)]; if(Number.isFinite(s)) v.liveFinalScore=s; }
+    const sasr = VENDORS.find(v=>vendorKey(v.name)==='SASR');
+    if(sasr){
+      sasr.summary='2 projects';
+      sasr.note='Live ClickUp scorecard';
+      sasr.projects=[
+        {name:'Dollar General Pilot',score:5,tone:'good'},
+        {name:'DHI',score:null,tone:'muted'}
+      ];
+    } else {
+      VENDORS.push({name:'SASR',accent:'#e07a3f',icon:'SA',summary:'2 projects',note:'Live ClickUp scorecard',criteria:[{label:'Execution',weight:25,value:5},{label:'Quality',weight:30,value:5},{label:'Communication',weight:20,value:5},{label:'Compliance',weight:15,value:5},{label:'Reliability',weight:10,value:5}],projects:[{name:'Dollar General Pilot',score:5,tone:'good'},{name:'DHI',score:null,tone:'muted'}],url:'https://app.clickup.com/t/869ed6zn3',liveFinalScore:LIVE_SCORECARDS.SASR});
     }
   }
   function renderAll(){
