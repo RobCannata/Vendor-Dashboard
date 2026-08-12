@@ -82,7 +82,7 @@ async function getTasks() {
   const tasks = [];
   let page = 0;
   while (true) {
-    const data = await getJson(`${API_BASE}/list/${LIST_ID}/task?page=${page}&subtasks=false&include_closed=true&order_by=updated&reverse=true`);
+    const data = await getJson(`${API_BASE}/list/${LIST_ID}/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
     const batch = Array.isArray(data?.tasks) ? data.tasks : [];
     tasks.push(...batch);
     if (batch.length < 100) break;
