@@ -1,5 +1,29 @@
 const vendors = ['SASR', 'Anderson', 'Channel Partners', 'Impulso', 'B2X'];
 
+const clickUpLinks = {
+  vendors: {
+    'SASR': 'https://app.clickup.com/t/869ed6zn3',
+    'Anderson': 'https://app.clickup.com/t/869dmepg4',
+    'Channel Partners': 'https://app.clickup.com/t/869d1ete9',
+    'Impulso': 'https://app.clickup.com/t/869duw9kp',
+    'B2X': 'https://app.clickup.com/t/869egpcgz'
+  },
+  projects: {
+    'DHI': 'https://app.clickup.com/t/869ed6zzt',
+    'Dollar General Pilot': 'https://app.clickup.com/t/869ed6zxk',
+    'Natural Grocers': 'https://app.clickup.com/t/869ed78hy',
+    'Hucks Stores Pilot': 'https://app.clickup.com/t/869daqvck',
+    'WMUS Top Stock': 'https://app.clickup.com/t/869dvfp4w',
+    'WMUS Audits': 'https://app.clickup.com/t/869dvfnue',
+    'Academy Sports': 'https://app.clickup.com/t/869d1wf7v',
+    'Miniso': 'https://app.clickup.com/t/869ed7at4',
+    'Ace Elgin': 'https://app.clickup.com/t/869d4m6vq',
+    'Dufry': 'https://app.clickup.com/t/869dmfb7c',
+    'Oxxo Revisits': 'https://app.clickup.com/t/869duwa8r',
+    'Food 4 Less': 'https://app.clickup.com/t/869egpcpd'
+  }
+};
+
 function scoreBand(score) {
   if (!Number.isFinite(score)) return 'na';
   if (score >= 90) return 'score-green';
@@ -71,6 +95,34 @@ function applyProjectScores(projectScores) {
   });
 }
 
+function setupClickUpLinks() {
+  document.querySelectorAll('.vendor-card').forEach(card => {
+    const vendor = card.querySelector('.vendor-name')?.textContent?.trim();
+    const vendorUrl = clickUpLinks.vendors[vendor];
+    if (!vendorUrl) return;
+
+    card.classList.add('clickup-linked');
+    card.setAttribute('title', `Open ${vendor} scorecard in ClickUp`);
+    card.addEventListener('click', event => {
+      const projectRow = event.target.closest('.project-row');
+      if (projectRow) return;
+      window.open(vendorUrl, '_blank', 'noopener,noreferrer');
+    });
+
+    card.querySelectorAll('.project-row').forEach(row => {
+      const project = row.querySelector('.project-name')?.textContent?.trim();
+      const projectUrl = clickUpLinks.projects[project];
+      if (!projectUrl) return;
+      row.classList.add('clickup-linked');
+      row.setAttribute('title', `Open ${project} scorecard in ClickUp`);
+      row.addEventListener('click', event => {
+        event.stopPropagation();
+        window.open(projectUrl, '_blank', 'noopener,noreferrer');
+      });
+    });
+  });
+}
+
 async function loadClickUpScores() {
   try {
     const res = await fetch(`clickup-scores.json?v=${Date.now()}`, { cache: 'no-store' });
@@ -87,6 +139,7 @@ async function loadClickUpScores() {
     });
 
     applyProjectScores(projectScores);
+    setupClickUpLinks();
 
     const values = vendors.map(v => Number(scores[v])).filter(Number.isFinite);
     const avg = values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : null;
