@@ -1,19 +1,12 @@
-name: Build dashboard
-# Triggered to rebuild the dashboard with the latest ClickUp data and source lists.
-# Fresh rebuild trigger: 2026-08-12 11:18 CT.
+name: Deploy dashboard
 
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'clickup-data.json'
-      - 'index.html'
   workflow_dispatch:
-  schedule:
-    - cron: '17 * * * *'
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -28,68 +21,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build dashboard
-        env:
-          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
-        run: npm run build
-
-      - name: Pull scoped ClickUp data
-        env:
-          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
-        run: node scripts/pull-installations-list.mjs
-
-      - name: Post-process Installation Margin labels
-        run: node scripts/postprocess-pnl.mjs
-
-      - name: Post-process analytics cards
-        run: node scripts/patch-dashboard.mjs
-
-      - name: Restore independent scorecard rendering
-        run: node scripts/patch-scorecard-bootstrap.mjs
-
-      - name: Apply live ClickUp scorecards
-        env:
-          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
-        run: node scripts/patch-scorecards-live.mjs
-
-      - name: Render reference-style executive dashboard
-        run: node scripts/patch-reference-dashboard.mjs
-
-      - name: Apply reference dashboard v2 layout
-        run: node scripts/patch-reference-dashboard-v2.mjs
-
-      - name: Publish built dashboard to repo root
+      - name: Prepare clean site
         run: |
-          cp dist/clickup-data.json clickup-data.json
-          cp dist/index.html index.html
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add clickup-data.json index.html
-          if ! git diff --cached --quiet; then
-            git commit -m "Update ClickUp data and built dashboard"
-            for attempt in 1 2 3; do
-              git pull --rebase --autostash origin main && git push && break
-              if [ "$attempt" -eq 3 ]; then
-                exit 1
-              fi
-              sleep 2
-            done
-          else
-            echo "No dashboard changes to commit."
-          fi
+          rm -rf site
+          mkdir -p site
+          cp index.html site/index.html
+          cp style.css site/style.css
+          cp app.js site/app.js
+          if [ -f clickup-data.json ]; then cp clickup-data.json site/clickup-data.json; fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     needs: build
