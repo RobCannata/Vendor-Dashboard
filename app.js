@@ -1,5 +1,13 @@
 const vendors = ['SASR', 'Anderson', 'Channel Partners', 'Impulso', 'B2X'];
 
+function scoreBand(score) {
+  if (!Number.isFinite(score)) return 'na';
+  if (score >= 90) return 'score-green';
+  if (score >= 80) return 'score-blue';
+  if (score >= 70) return 'score-orange';
+  return 'score-red';
+}
+
 function fmtScore(value) {
   return Number.isFinite(value) ? `${value}%` : '—';
 }
@@ -13,7 +21,10 @@ function applyScore(card, score) {
 
   value.textContent = fmtScore(score);
   value.classList.toggle('na', !Number.isFinite(score));
+  value.classList.remove('score-green', 'score-blue', 'score-orange', 'score-red');
+  value.classList.add(scoreBand(score));
   bar.style.width = Number.isFinite(score) ? `${score}%` : '0%';
+  bar.className = scoreBand(score);
 
   if (Number.isFinite(score)) {
     badge.textContent = score >= 90 ? 'STRONG' : score >= 80 ? 'WATCH' : 'AT RISK';
@@ -26,15 +37,36 @@ function applyProjectScores(projectScores) {
   const rows = [...document.querySelectorAll('.project-row')];
   rows.forEach(row => {
     const name = row.querySelector('.project-name')?.textContent?.trim();
+    const result = row.querySelector('.project-result');
     const scoreEl = row.querySelector('.project-result strong');
-    if (!name || !scoreEl) return;
+    if (!name || !result || !scoreEl) return;
 
     const score = Number(projectScores?.[name]);
+    scoreEl.classList.remove('project-score-live', 'score-green', 'score-blue', 'score-orange', 'score-red');
+    result.querySelector('.project-score-bar')?.remove();
+
     if (Number.isFinite(score)) {
       scoreEl.textContent = `${score}%`;
-      scoreEl.classList.add('project-score-live');
+      const band = scoreBand(score);
+      scoreEl.classList.add('project-score-live', band);
+
+      const track = document.createElement('div');
+      track.className = 'project-score-bar';
+      track.innerHTML = `<span class="${band}" style="width:${score}%"></span>`;
+      result.appendChild(track);
+
+      const status = result.querySelector('.project-status');
+      if (status) {
+        status.textContent = score >= 90 ? 'Strong' : score >= 80 ? 'Watch' : 'At risk';
+        status.className = `project-status ${band}`;
+      }
     } else {
       scoreEl.textContent = '—';
+      const status = result.querySelector('.project-status');
+      if (status) {
+        status.textContent = 'Pending';
+        status.className = 'project-status';
+      }
     }
   });
 }
@@ -69,7 +101,8 @@ async function loadClickUpScores() {
         const score = Number(scores[v]);
         const shown = Number.isFinite(score) ? `${score}%` : '—';
         const width = Number.isFinite(score) ? score : 0;
-        return `<div class="quality-row"><div><div class="qname">${v}</div><div class="qtrack"><span style="width:${width}%"></span></div></div><div class="qscore">${shown}</div></div>`;
+        const band = scoreBand(score);
+        return `<div class="quality-row"><div><div class="qname">${v}</div><div class="qtrack"><span class="${band}" style="width:${width}%"></span></div></div><div class="qscore ${band}">${shown}</div></div>`;
       }).join('');
     }
 
