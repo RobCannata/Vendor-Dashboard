@@ -1,4 +1,5 @@
 const vendors = ['SASR', 'Anderson', 'Channel Partners', 'Impulso', 'B2X'];
+const REPORT_YEAR = 2026;
 
 const clickUpLinks = {
   vendors: {
@@ -34,6 +35,11 @@ function scoreBand(score) {
 
 function fmtScore(value) {
   return Number.isFinite(value) ? `${value}%` : '—';
+}
+
+function money(value) {
+  if (!Number.isFinite(Number(value))) return '—';
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value));
 }
 
 function applyScore(card, score) {
@@ -123,6 +129,56 @@ function setupClickUpLinks() {
   });
 }
 
+function setupMonths(payload) {
+  const select = document.getElementById('reportMonth');
+  if (!select) return;
+  const available = new Set(Object.keys(payload?.invoiceMonthly || {}));
+  const currentMonth = new Date().getMonth() + 1;
+  select.innerHTML = '';
+  for (let month = 1; month <= 12; month += 1) {
+    const key = `${REPORT_YEAR}-${String(month).padStart(2, '0')}`;
+    const option = document.createElement('option');
+    option.value = key;
+    option.textContent = new Date(REPORT_YEAR, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    if (available.has(key)) option.textContent += ' • data';
+    if (month === currentMonth) option.selected = true;
+    select.appendChild(option);
+  }
+  if (!select.value) select.value = `${REPORT_YEAR}-01`;
+  select.onchange = () => renderInvoiceMonth(payload, select.value);
+}
+
+function renderInvoiceMonth(payload, monthKey) {
+  const invoices = (payload?.invoices || []).filter(invoice => invoice.month === monthKey);
+  const total = invoices.reduce((sum, invoice) => sum + Number(invoice.amount || 0), 0);
+  const label = new Date(`${monthKey}-01T00:00:00`).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+  const topTotal = document.getElementById('invoiceMonthTotal');
+  if (topTotal) topTotal.textContent = money(total);
+  const topDetail = document.getElementById('invoiceMonthDetail');
+  if (topDetail) topDetail.textContent = `${invoices.length} invoice record${invoices.length === 1 ? '' : 's'} in ClickUp`;
+
+  const selectedMonth = document.getElementById('invoiceSelectedMonth');
+  const panelTotal = document.getElementById('invoicePanelTotal');
+  const count = document.getElementById('invoiceCount');
+  const rows = document.getElementById('invoiceRows');
+  if (selectedMonth) selectedMonth.textContent = label;
+  if (panelTotal) panelTotal.textContent = money(total);
+  if (count) count.textContent = String(invoices.length);
+  if (!rows) return;
+
+  if (!invoices.length) {
+    rows.innerHTML = '<tr><td colspan="3" class="invoice-empty">No Vendor Invoice amount found for this month.</td></tr>';
+    return;
+  }
+
+  const ordered = [...invoices].sort((a, b) => Number(b.amount) - Number(a.amount));
+  rows.innerHTML = ordered.slice(0, 50).map(invoice => {
+    const vendor = invoice.vendor || 'Unassigned';
+    return `<tr><td>${vendor}</td><td>${money(Number(invoice.amount))}</td><td><a class="invoice-link" href="${invoice.url}" target="_blank" rel="noopener">${invoice.task}</a></td></tr>`;
+  }).join('');
+}
+
 async function loadClickUpScores() {
   try {
     const res = await fetch(`clickup-scores.json?v=${Date.now()}`, { cache: 'no-store' });
@@ -140,6 +196,8 @@ async function loadClickUpScores() {
 
     applyProjectScores(projectScores);
     setupClickUpLinks();
+    setupMonths(payload);
+    renderInvoiceMonth(payload, document.getElementById('reportMonth')?.value || `${REPORT_YEAR}-${String(new Date().getMonth() + 1).padStart(2, '0')}`);
 
     const values = vendors.map(v => Number(scores[v])).filter(Number.isFinite);
     const avg = values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : null;
