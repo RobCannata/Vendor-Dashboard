@@ -2216,6 +2216,120 @@ boot();
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',renderAll); else renderAll();
 })();
+</script><script>
+(function(){
+  function applyVendorCardLayout(){
+    if(document.getElementById('vendor-scorecard-size-fix')) return;
+    const style=document.createElement('style');
+    style.id='vendor-scorecard-size-fix';
+    style.textContent=''
+      + '.vendor-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:14px!important}'
+      + '.vendor-grid .vendor{min-height:300px!important;height:auto!important;aspect-ratio:1 / 1!important;overflow:hidden!important}'
+      + '.vendor-grid .vendor-head{padding:18px 18px 12px!important}'
+      + '.vendor-grid .v-name{font-size:20px!important}'
+      + '.vendor-grid .v-score b{font-size:28px!important}'
+      + '.vendor-grid .criteria{padding:14px 18px 0!important;gap:10px!important}'
+      + '.vendor-grid .projects{padding:14px 18px!important;margin-top:auto!important;overflow:auto!important;max-height:150px!important}'
+      + '.vendor-grid .proj{grid-template-columns:minmax(0,1fr) 60px!important;gap:8px!important}'
+      + '#scores .list{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:18px!important}'
+      + '#scores .item{min-height:240px!important;height:240px!important;aspect-ratio:1 / 1!important;padding:24px!important;border-radius:14px!important;display:flex!important;align-items:center!important;justify-content:center!important}'
+      + '#scores .item b{font-size:19px!important;line-height:1.15!important}'
+      + '#scores .item span{font-size:11px!important;line-height:1.45!important;margin-top:9px!important}'
+      + '#scores .item em{font-size:28px!important;line-height:1!important}'
+      + '#scores .item > div > div{height:12px!important;margin-top:14px!important}'
+      + '@media(max-width:1500px){.vendor-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.vendor-grid .vendor{aspect-ratio:auto!important;min-height:320px!important}.#scores .list{grid-template-columns:repeat(3,minmax(0,1fr))!important}.#scores .item{height:220px!important;min-height:220px!important}}'
+      + '@media(max-width:1100px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.vendor-grid .vendor{min-height:320px!important}.#scores .list{grid-template-columns:repeat(2,minmax(0,1fr))!important}.#scores .item{height:210px!important;min-height:210px!important}}'
+      + '@media(max-width:820px){.vendor-grid{grid-template-columns:1fr!important}.vendor-grid .vendor{aspect-ratio:auto!important;min-height:280px!important}.#scores .list{grid-template-columns:1fr!important}.#scores .item{height:auto!important;min-height:180px!important;aspect-ratio:auto!important}}';
+    document.head.appendChild(style);
+  }
+
+  function renderStaticScorecards(){
+    try{
+      applyVendorCardLayout();
+      if(typeof VENDORS==='undefined' || typeof renderVendor!=='function') return false;
+      const grid=document.getElementById('vendorGrid');
+      if(grid) grid.innerHTML=VENDORS.map(renderVendor).join('');
+      const avg=document.getElementById('avgList');
+      if(avg && typeof scoreOfVendor==='function'){
+        const items=VENDORS.map(v=>({name:v.name,score:scoreOfVendor(v),color:v.accent,projects:v.projects.length})).filter(x=>x.score!=null).sort((a,b)=>b.score-a.score);
+        avg.innerHTML=items.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • weighted average across scorecards</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');
+      }
+      const quality=document.getElementById('kVendorQuality');
+      if(quality && typeof scoreOfVendor==='function'){
+        const scores=VENDORS.map(v=>scoreOfVendor(v)).filter(v=>Number.isFinite(v));
+        const qualityText = scores.length ? String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)) + '%' : '—';
+        quality.textContent=qualityText;
+      }
+      const count=document.getElementById('kScorecards');
+      if(count) count.textContent=String(VENDORS.length);
+      return true;
+    }catch(e){ console.warn('Scorecard bootstrap failed', e); return false; }
+  }
+  if(!renderStaticScorecards()) document.addEventListener('DOMContentLoaded', renderStaticScorecards);
+})();
+</script><script>
+(function(){
+  const LIVE_SCORECARDS={"Channel Partners":92,"Anderson":81,"Impulso":76,"SASR":96};
+  const DHI_SCORE=92;
+  const DHI_URL='https://app.clickup.com/t/869ed6zzt';
+  window.__LIVE_SCORECARDS__=LIVE_SCORECARDS;
+  const vendorKey=v=>String(v||'').replace(/\s+Scorecard$/i,'').trim();
+  const originalScoreOfVendor=typeof scoreOfVendor==='function'?scoreOfVendor:null;
+  function scoreOverride(v){
+    const liveScore=LIVE_SCORECARDS[vendorKey(v.name)];
+    if(Number.isFinite(liveScore)) return liveScore;
+    return originalScoreOfVendor ? originalScoreOfVendor(v) : null;
+  }
+  function applyVendorQuality(){
+    try{
+      if(typeof VENDORS==='undefined') return;
+      const scores=VENDORS.map(v=>scoreOverride(v)).filter(Number.isFinite);
+      const overall=scores.length?String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length))+'%':'—';
+      const quality=document.getElementById('kVendorQuality');
+      const overallCard=document.getElementById('overallVendorQualityScore');
+      if(quality && quality.textContent!==overall) quality.textContent=overall;
+      if(overallCard && overallCard.textContent!==overall) overallCard.textContent=overall;
+    }catch(e){console.warn(e)}
+  }
+  if(typeof scoreOfVendor==='function') scoreOfVendor=scoreOverride;
+  if(typeof VENDORS!=='undefined') {
+    for(const v of VENDORS){ const s=LIVE_SCORECARDS[vendorKey(v.name)]; if(Number.isFinite(s)) v.liveFinalScore=s; }
+    let sasrVendor=VENDORS.find(v=>vendorKey(v.name)==='SASR');
+    if(!sasrVendor){
+      sasrVendor={name:'SASR',accent:'#e07a3f',icon:'SA',summary:'',note:'Live ClickUp scorecard',criteria:[],projects:[],url:'https://app.clickup.com/t/869ed6zn3',liveFinalScore:LIVE_SCORECARDS.SASR};
+      VENDORS.push(sasrVendor);
+    }
+    if(sasrVendor){
+      const dhiProject=sasrVendor.projects.find(p=>String(p.name||'').trim().toLowerCase()==='dhi');
+      if(dhiProject){
+        dhiProject.score=Number.isFinite(DHI_SCORE)?DHI_SCORE/20:null;
+        dhiProject.tone=Number.isFinite(DHI_SCORE)&&DHI_SCORE>=90?'good':Number.isFinite(DHI_SCORE)&&DHI_SCORE>=75?'warn':'bad';
+        dhiProject.url=DHI_URL;
+      }else{
+        sasrVendor.projects.push({name:'DHI',score:Number.isFinite(DHI_SCORE)?DHI_SCORE/20:null,tone:Number.isFinite(DHI_SCORE)&&DHI_SCORE>=90?'good':Number.isFinite(DHI_SCORE)&&DHI_SCORE>=75?'warn':'bad',url:DHI_URL});
+      }
+      sasrVendor.summary=String(sasrVendor.projects.length)+' projects';
+    }
+  }
+  function renderAll(){
+    if(typeof VENDORS==='undefined') return;
+    const avgItems=VENDORS.map(v=>({name:v.name,score:scoreOverride(v),color:v.accent,projects:v.projects.length})).filter(x=>Number.isFinite(x.score)).sort((a,b)=>b.score-a.score);
+    const avg=document.getElementById('avgList');
+    if(avg) avg.innerHTML=avgItems.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • live ClickUp Avg Final Score %</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');
+    const count=document.getElementById('kScorecards');
+    if(count) count.textContent=String(VENDORS.length);
+    const grid=document.getElementById('vendorGrid');
+    if(grid && typeof renderVendor==='function') grid.innerHTML=VENDORS.map(renderVendor).join('');
+    applyVendorQuality();
+    const quality=document.getElementById('kVendorQuality');
+    if(quality && !quality.__liveObserver){
+      const observer=new MutationObserver(applyVendorQuality);
+      observer.observe(quality,{childList:true,characterData:true,subtree:true});
+      quality.__liveObserver=true;
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',renderAll); else renderAll();
+})();
 </script></body>
 </html>
 +(a/1e6).toFixed(2)+'M'; if(a>=1e3)return s+'
@@ -6075,7 +6189,16 @@ boot();
   shell.innerHTML=`<div class="mbr"><aside class="rail"><div class="brand"><div class="brandmark">V</div><div><div class="eyebrow">VUSION</div><h1>Executive MBR Dashboard</h1><p>Live ClickUp operational view</p></div></div><section class="railcard"><h3>Quick Summary</h3>${quick}</section><section class="railcard note"><span>ⓘ</span><p>Metrics reflect the current ClickUp data set and live vendor scorecards.</p></section></aside><main class="main"><div class="topline"><div><div class="eyebrow">EXECUTIVE MONTHLY BUSINESS REVIEW</div><h2>Vendor & Installation Performance</h2><p>Operational performance, vendor quality, cost exposure and invoice activity</p></div><div class="asof"><span>DATA AS OF</span><b>${asOf}</b><small>ClickUp + Vendor Scorecards</small></div></div><section class="kpis"><div><span>Revenue Invoiced</span><b>${money(revenue)}</b><small>Customer invoice value</small></div><div><span>Installation Margin</span><b>${pct(margin)}</b><small>Revenue less vendor cost</small></div><div><span>Active Projects</span><b>${active.toLocaleString()}</b><small>Active ClickUp items</small></div><div><span>Vendors Active</span><b>${vendors.length}</b><small>Live scorecards</small></div><div><span>Avg Vendor Quality</span><b>${overall==null?'—':overall.toFixed(1)}</b><small>Overall score</small></div><div><span>Vendor Cost</span><b>${money(vendorCost)}</b><small>Recorded vendor invoices</small></div><div><span>Customer Invoices</span><b>${customerInvoices}</b><small>Invoice-recorded tasks</small></div><div><span>Scorecards</span><b>${vendors.length}</b><small>Vendor records</small></div></section><section class="g3"><article class="panel"><header><div><h3>Vendor Scorecard</h3><p>Live vendor quality and status</p></div><em>LIVE</em></header><div class="tablewrap"><table><thead><tr><th>Vendor</th><th>Quality</th><th>Projects</th><th>Data</th><th>Status</th></tr></thead><tbody>${vendorRows}</tbody></table></div></article><article class="panel"><header><div><h3>Vendor Quality Score</h3><p>Average ${overall==null?'—':overall.toFixed(1)}</p></div></header><div class="vchart">${scoreBars}</div><footer>Target ≥ 90</footer></article><article class="panel"><header><div><h3>Vendor Cost Exposure</h3><p>Top vendor invoice values</p></div></header><div class="hbars">${costBars||'<div class="empty">No vendor invoice values</div>'}</div><footer>Total ${money(vendorCost)}</footer></article></section><section class="g3 lower"><article class="panel"><header><div><h3>Projects Overview</h3><p>Highest invoiced work items</p></div></header><div class="tablewrap"><table><thead><tr><th>Project / Task</th><th>Owner</th><th>Status</th><th>Revenue</th><th>Margin</th><th>Progress</th></tr></thead><tbody>${projectRows||'<tr><td colspan="6" class="empty">No project invoice data</td></tr>'}</tbody></table></div></article><article class="panel"><header><div><h3>Installation Margin by Project</h3><p>Revenue less recorded vendor cost</p></div></header><div class="mchart">${marginBars||'<div class="empty">No margin data</div>'}</div><footer>Portfolio margin ${pct(margin)}</footer></article><article class="panel"><header><div><h3>Invoice & Data Coverage</h3><p>Current dashboard data completeness</p></div></header><div class="aginggrid">${aging}</div><div class="topitems"><h4>Top Customer Invoice Items</h4>${topRevenue.slice(0,5).map(r=>'<div><span>'+esc(r.name||'Task')+'</span><b>'+money(r.revenue)+'</b></div>').join('')||'<div class="empty">No customer invoice data</div>'}</div></article></section><div class="foot"><span>Vendor Dashboard</span><span>Data as of ${asOf}</span><span>ClickUp / Vendor Scorecards</span></div></main></div>`;
   document.body.insertBefore(shell,document.body.firstChild);
   const old=document.querySelector('.app'); if(old) old.style.display='none';
-})();</script></head>
+})();</script><style id="vendor-scorecard-layout-fix">
+    .layout{display:flex!important;flex-direction:column!important;gap:12px!important}
+    #scores{order:0!important;width:100%!important}
+    #vendorGridWrap{order:1!important;width:100%!important}
+    #vendorGridWrap .body{padding-top:0!important}
+    .vendor-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+    .vendor-grid .vendor{min-height:0!important;height:auto!important}
+    @media (max-width:1400px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+    @media (max-width:820px){.vendor-grid{grid-template-columns:1fr!important}}
+  </style></head>
 <body>
 <div class="app">
   <aside class="sidebar">
