@@ -16,11 +16,14 @@ if (!TOKEN) {
 function numeric(value) {
   if (value == null || value === '') return null;
   if (typeof value === 'object') {
-    if ('value' in value) return numeric(value.value);
-    if ('text' in value) return numeric(value.text);
-    if ('name' in value) return numeric(value.name);
+    for (const key of ['value', 'text', 'name', 'number', 'percentage', 'raw']) {
+      if (key in value) {
+        const parsed = numeric(value[key]);
+        if (parsed != null) return parsed;
+      }
+    }
   }
-  const text = String(value).replace(/[,$\\s%]/g, '');
+  const text = String(value).replace(/[,$\s%]/g, '');
   const n = Number(text);
   return Number.isFinite(n) ? n : null;
 }
@@ -32,19 +35,34 @@ function normalizePercent(value) {
   return n;
 }
 
+function fieldValue(field) {
+  if (!field) return null;
+  const candidates = [
+    field.value,
+    field.raw_value,
+    field.calculated_value,
+    field.type_config?.value,
+    field.type_config?.default,
+  ];
+  for (const candidate of candidates) {
+    const value = normalizePercent(candidate);
+    if (value != null) return value;
+  }
+  return null;
+}
+
 function getScore(task, preferred = ['Avg Final Score %', 'Avg Final Score', 'Final Score %', 'Final Score']) {
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
   for (const name of preferred) {
     const field = fields.find((f) => String(f?.name || '').trim().toLowerCase() === name.toLowerCase());
-    if (!field) continue;
-    const value = normalizePercent(field?.value);
+    const value = fieldValue(field);
     if (value != null) return Math.round(value);
   }
   for (const field of fields) {
     const label = String(field?.name || '').trim().toLowerCase();
-    if (!label.includes('final') || !label.includes('score')) continue;
-    if (label.includes('avg') || label === 'final score %' || label === 'final score') {
-      const value = normalizePercent(field?.value);
+    if (!label.includes('score')) continue;
+    if (label.includes('final') || label.includes('avg')) {
+      const value = fieldValue(field);
       if (value != null) return Math.round(value);
     }
   }
@@ -111,12 +129,16 @@ async function main() {
 
   const sasr = tasks.find((task) => String(task?.id) === SASR_PARENT_ID || String(task?.name || '').trim().toLowerCase() === 'sasr');
   const sasrChildren = Array.isArray(sasr?.subtasks) ? sasr.subtasks : tasks.filter((task) => String(task?.parent) === SASR_PARENT_ID);
-
-  // ClickUp's list endpoint returns DHI as a child task but may omit custom field values.
-  // Fetch DHI directly to obtain its full custom_fields payload and use its own Final Score %.
   const dhiSummary = sasrChildren.find((task) => String(task?.id) === DHI_TASK_ID || String(task?.name || '').trim().toLowerCase() === 'dhi');
   const dhi = dhiSummary ? await fetchJson(`${API_BASE}/task/${DHI_TASK_ID}?include_subtasks=false`) : null;
   const dhiScore = dhi ? projectScore(dhi) : null;
+
+  const scoreFields = Array.isArray(dhi?.custom_fields)
+    ? dhi.custom_fields
+        .filter((f) => String(f?.name || '').toLowerCase().includes('score') || String(f?.name || '').toLowerCase().includes('final'))
+        .map((f) => ({ name: f?.name, type: f?.type, value: fieldValue(f) }))
+    : [];
+  console.log(`DHI score fields: ${JSON.stringify(scoreFields)}`);
 
   const sasrFinalScore = live.SASR ?? 100;
   live.SASR = sasrFinalScore;
