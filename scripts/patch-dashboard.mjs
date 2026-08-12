@@ -37,16 +37,16 @@ const OVERALL_QUALITY_STYLE = `<style id="dashboard-polish">
 #scores .card-head{padding:16px 18px 11px;min-height:68px}
 #scores .card-head h3{font-size:16px;letter-spacing:-.02em}
 #scores .card-head p{font-size:11px;max-width:620px}
-#scores .body{padding:0 18px 18px}
-#scores .list{gap:12px;grid-template-columns:repeat(5,minmax(0,1fr));display:grid}
-#scores .item{padding:16px 16px;border-radius:10px;min-width:0;min-height:150px;aspect-ratio:1.2 / 1;align-items:stretch;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-color:rgba(255,255,255,.10);box-shadow:0 12px 30px rgba(0,0,0,.16)}
-#scores .item b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#scores .item span{font-size:9px;line-height:1.35;white-space:normal;overflow:visible;text-overflow:clip;margin-top:7px}
-#scores .item em{font-size:18px;letter-spacing:-.02em}
-#scores .item > div > div{height:9px!important;margin-top:11px!important}
-#scores .item > div > div > div{box-shadow:0 0 10px rgba(89,198,255,.16)}
-@media(max-width:1400px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}#scores .list{grid-template-columns:repeat(2,minmax(0,1fr))}#scores .item{aspect-ratio:auto;min-height:150px}}
-@media(max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}#scores .list{grid-template-columns:1fr}#scores .item{aspect-ratio:auto;min-height:130px}}
+#scores .body{padding:0 18px 22px}
+#scores .list{gap:16px;grid-template-columns:repeat(5,minmax(0,1fr));display:grid}
+#scores .item{padding:22px 20px;border-radius:12px;min-width:0;min-height:230px;aspect-ratio:1 / 1;align-items:stretch;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border-color:rgba(255,255,255,.12);box-shadow:0 16px 36px rgba(0,0,0,.2)}
+#scores .item b{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#scores .item span{font-size:10px;line-height:1.4;white-space:normal;overflow:visible;text-overflow:clip;margin-top:9px}
+#scores .item em{font-size:26px;letter-spacing:-.03em}
+#scores .item > div > div{height:10px!important;margin-top:13px!important}
+#scores .item > div > div > div{box-shadow:0 0 12px rgba(89,198,255,.18)}
+@media(max-width:1400px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}#scores .list{grid-template-columns:repeat(2,minmax(0,1fr))}#scores .item{aspect-ratio:1 / 1;min-height:210px}}
+@media(max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}#scores .list{grid-template-columns:1fr}#scores .item{aspect-ratio:auto;min-height:150px}}
 </style>`;
 
 async function main() {
