@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07111d">
-  <title>Vendor & Installation Performance</title>
+  <title>Field Operations Monthly Business Review</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,13 +14,13 @@
 <body>
   <div class="shell">
     <aside class="sidebar">
-      <div class="brand"><div class="logo">V</div><div><div class="eyebrow">FIELD OPERATIONS</div><h1>Vendor Performance</h1><p>Executive operating view</p></div></div>
+      <div class="brand"><img class="brand-logo" src="vusion-logo.svg" alt="Vusion logo"><div><div class="eyebrow">FIELD OPERATIONS</div><h1>Monthly Business Review</h1><p>Executive operating view</p></div></div>
       <div class="side-card"><div class="side-title">Data source</div><div class="side-row"><span>Workspace</span><strong>Field</strong></div><div class="side-row"><span>Scorecards</span><strong>Vendor Scorecards</strong></div><div class="side-row"><span>Vendors</span><strong>5</strong></div><div class="side-row"><span>Projects</span><strong>12</strong></div></div>
       <div class="side-card side-note"><div class="side-title">Dashboard focus</div><p>Installation quality, vendor performance, project ownership, vendor invoices, service revenue, and execution risk.</p></div>
     </aside>
 
     <main class="main">
-      <header class="header"><div><div class="eyebrow">EXECUTIVE DASHBOARD</div><h2>Vendor &amp; Installation Performance</h2><p>Projects are grouped directly under the vendor responsible for delivery.</p></div><div class="connected"><span></span><div><strong>ClickUp source</strong><small>Field / Vendor Scorecards</small></div></div></header>
+      <header class="header"><div><div class="eyebrow">EXECUTIVE DASHBOARD</div><h2>Field Operations Monthly Business Review</h2><p>Projects are grouped directly under the vendor responsible for delivery.</p></div><div class="connected"><span></span><div><strong>ClickUp source</strong><small>Field / Vendor Scorecards</small></div></div></header>
 
       <section class="reporting-toolbar">
         <div><div class="eyebrow">REPORTING PERIOD</div><strong>Month</strong><span>Invoice totals are grouped by ClickUp task creation month.</span></div>
@@ -29,15 +29,14 @@
 
       <section class="summary-panel">
         <div class="summary-head">
-          <div><div class="eyebrow">EXECUTIVE SUMMARY</div><h3>Executive Summary</h3><p>Overall status, major wins, major misses, top risks, and decisions for the selected reporting month.</p></div>
+          <div><div class="eyebrow">EXECUTIVE SUMMARY</div><h3>Executive Summary</h3><p>Major wins, major misses, top risks, and decisions for the selected reporting month.</p></div>
           <div class="summary-period"><span>Reporting month</span><select id="reportMonthSummary" aria-label="Executive summary reporting month"></select></div>
         </div>
         <div class="summary-grid">
-          <article class="summary-card"><span class="summary-label">Overall status</span><strong id="summaryOverall">—</strong><p id="summaryOverallDetail">Waiting for ClickUp score feed.</p></article>
-          <article class="summary-card"><span class="summary-label">Major wins</span><div id="summaryWins" class="summary-list">—</div></article>
-          <article class="summary-card"><span class="summary-label">Major misses</span><div id="summaryMisses" class="summary-list">—</div></article>
-          <article class="summary-card"><span class="summary-label">Top 3 risks</span><div id="summaryRisks" class="summary-list">—</div></article>
-          <article class="summary-card summary-wide"><span class="summary-label">Decisions needed</span><div id="summaryDecisions" class="summary-list">—</div></article>
+          <article class="summary-card"><span class="summary-label">Major wins</span><div id="summaryWins" class="summary-list">SASR — 96%<br>Channel Partners — 92%<br>Anderson — 81%</div></article>
+          <article class="summary-card"><span class="summary-label">Major misses</span><div id="summaryMisses" class="summary-list">Impulso — 76%<br>Anderson — 81%<br>Channel Partners — 92%</div></article>
+          <article class="summary-card"><span class="summary-label">Top 3 risks</span><div id="summaryRisks" class="summary-list">Natural Grocers — 68%<br>Ace Elgin — 76%<br>Oxxo Revisits — 76%</div></article>
+          <article class="summary-card summary-wide"><span class="summary-label">Decisions needed</span><div id="summaryDecisions" class="summary-list"><div>Review <strong>Natural Grocers</strong> and confirm recovery action.</div><div>Review <strong>Ace Elgin</strong> and confirm recovery action.</div></div></article>
         </div>
       </section>
 
@@ -52,29 +51,23 @@
 
       <section class="vendor-grid">
         <article class="vendor-card"><div class="vendor-top"><div><div class="vendor-name">SASR</div><div class="vendor-meta">3 linked scorecard records</div></div><span class="badge good">LIVE</span></div><div class="score-box"><div class="score-label"><span>Vendor quality</span><span class="score-source">ClickUp</span></div><div class="score">—</div><div class="bar"><span style="width:0%"></span></div></div><div class="vendor-foot">Avg Final Score % from ClickUp Scorecards</div><div class="project-stack"><div class="project-stack-title">Projects <strong>2</strong></div><div class="project-row"><div class="project-info"><span class="project-name">DHI</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div><div class="project-row"><div class="project-info"><span class="project-name">Dollar General Pilot</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div></div></article>
-
         <article class="vendor-card"><div class="vendor-top"><div><div class="vendor-name">Anderson</div><div class="vendor-meta">7 linked scorecard records</div></div><span class="badge pending">LIVE</span></div><div class="score-box"><div class="score-label"><span>Vendor quality</span><span class="score-source">ClickUp</span></div><div class="score na">—</div><div class="bar"><span style="width:0%"></span></div></div><div class="vendor-foot">Avg Final Score % from ClickUp Scorecards</div><div class="project-stack"><div class="project-stack-title">Projects <strong>5</strong></div><div class="project-row"><div class="project-info"><span class="project-name">Natural Grocers</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div><div class="project-row"><div class="project-info"><span class="project-name">Hucks Stores Pilot</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div><div class="project-row"><div class="project-info"><span class="project-name">WMUS Top Stock</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div><div class="project-row"><div class="project-info"><span class="project-name">WMUS Audits</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div><div class="project-row"><div class="project-info"><span class="project-name">Academy Sports</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div></div></article>
-
         <article class="vendor-card"><div class="vendor-top"><div><div class="vendor-name">Channel Partners</div><div class="vendor-meta">4 linked scorecard records</div></div><span class="badge pending">LIVE</span></div><div class="score-box"><div class="score-label"><span>Vendor quality</span><span class="score-source">ClickUp</span></div><div class="score na">—</div><div class="bar"><span style="width:0%"></span></div></div><div class="vendor-foot">Avg Final Score % from ClickUp Scorecards</div><div class="project-stack"><div class="project-stack-title">Projects <strong>3</strong></div><div class="project-row"><div class="project-info"><span class="project-name">Miniso</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div><div class="project-row"><div class="project-info"><span class="project-name">Ace Elgin</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div><div class="project-row"><div class="project-info"><span class="project-name">Dufry</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div></div></article>
-
         <article class="vendor-card"><div class="vendor-top"><div><div class="vendor-name">Impulso</div><div class="vendor-meta">2 linked scorecard records</div></div><span class="badge pending">LIVE</span></div><div class="score-box"><div class="score-label"><span>Vendor quality</span><span class="score-source">ClickUp</span></div><div class="score na">—</div><div class="bar"><span style="width:0%"></span></div></div><div class="vendor-foot">Avg Final Score % from ClickUp Scorecards</div><div class="project-stack"><div class="project-stack-title">Projects <strong>1</strong></div><div class="project-row"><div class="project-info"><span class="project-name">Oxxo Revisits</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div></div></article>
-
         <article class="vendor-card"><div class="vendor-top"><div><div class="vendor-name">B2X</div><div class="vendor-meta">1 linked scorecard record</div></div><span class="badge pending">LIVE</span></div><div class="score-box"><div class="score-label"><span>Vendor quality</span><span class="score-source">ClickUp</span></div><div class="score na">—</div><div class="bar"><span style="width:0%"></span></div></div><div class="vendor-foot">Avg Final Score % from ClickUp Scorecards</div><div class="project-stack"><div class="project-stack-title">Projects <strong>1</strong></div><div class="project-row"><div class="project-info"><span class="project-name">Food 4 Less</span><span class="project-meta">1 scorecard record</span></div><div class="project-result"><strong>—</strong><span class="project-status">Pending</span></div></div></div></article>
       </section>
 
       <section class="section-head lower-head"><div><div class="eyebrow">OPERATING CONTROLS</div><h3>Financial &amp; Execution View</h3></div><span>Score feed <strong id="scoreRefresh">—</strong></span></section>
       <section class="control-grid">
         <article class="panel"><div class="panel-head"><div><div class="eyebrow">INSTALLATION QUALITY</div><h4>Quality by Vendor</h4></div></div><div class="quality-panel" id="qualityByVendor"><div class="quality-note">Loading ClickUp vendor scores…</div></div></article>
-
         <article class="panel"><div class="panel-head"><div><div class="eyebrow">VENDOR INVOICES</div><h4>Invoice Workflow</h4></div></div><div class="invoice-panel"><div class="invoice-stats"><div class="invoice-stat"><span>Selected month</span><strong id="invoiceSelectedMonth">—</strong></div><div class="invoice-stat"><span>Invoice value</span><strong id="invoicePanelTotal">—</strong></div><div class="invoice-stat"><span>Invoices</span><strong id="invoiceCount">0</strong></div></div><table class="invoice-table"><thead><tr><th>Vendor</th><th>Amount</th><th>Task</th></tr></thead><tbody id="invoiceRows"><tr><td colspan="3">Loading ClickUp invoice data…</td></tr></tbody></table></div></article>
-
         <article class="panel revenue-panel"><div class="panel-head"><div><div class="eyebrow">SERVICE REVENUE</div><h4>Revenue</h4></div></div><div class="revenue-value">—</div><div class="revenue-caption">Service revenue will populate when ClickUp financial fields are mapped.</div><div class="metric-row"><span>Revenue field</span><strong>Not mapped</strong></div><div class="metric-row"><span>Invoice amount</span><strong>Mapped</strong></div><div class="metric-row"><span>Margin</span><strong>Not mapped</strong></div></article>
       </section>
 
       <section class="section-head lower-head"><div><div class="eyebrow">EXECUTION</div><h3>Installation Work Queue</h3></div><span>Priority operational records</span></section>
       <section class="panel queue-panel"><div class="table-wrap"><table><thead><tr><th>Workstream</th><th>List</th><th>Status</th><th>Owner Action</th></tr></thead><tbody><tr><td>Family Dollar (Pilot)</td><td>New White Glove Installations</td><td><span class="status status-amber">Vendor PO to issue</span></td><td>Vendor PO / scheduling</td></tr><tr><td>Rexall Multi Store Pilot</td><td>Installations Main Tracker</td><td><span class="status status-green">Prospective project</span></td><td>Planning</td></tr><tr><td>iShoppes JFK</td><td>Installations Main Tracker</td><td><span class="status status-green">Prospective project</span></td><td>Planning</td></tr><tr><td>The Fresh Market</td><td>Installations Main Tracker</td><td><span class="status status-green">Prospective project</span></td><td>Planning</td></tr><tr><td>OxxO 2nd Visit Quality</td><td>Installations Main Tracker</td><td><span class="status status-red">Not reported</span></td><td>Quality / status review</td></tr></tbody></table></div></section>
 
-      <footer>Clean dashboard. Vendor scorecards are updated from ClickUp. Invoice amounts are extracted from ClickUp installation tasks by reporting month.</footer>
+      <footer>Field Operations Monthly Business Review. Vendor scorecards and invoice amounts are updated from ClickUp.</footer>
     </main>
   </div>
 </body>
