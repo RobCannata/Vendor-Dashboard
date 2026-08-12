@@ -25,6 +25,15 @@ const clickUpLinks = {
   }
 };
 
+function loadSummaryStyles() {
+  if (document.querySelector('link[data-summary-styles]')) return;
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `summary.css?v=${Date.now()}`;
+  link.dataset.summaryStyles = 'true';
+  document.head.appendChild(link);
+}
+
 function scoreBand(score) {
   if (!Number.isFinite(score)) return 'na';
   if (score >= 90) return 'score-green';
@@ -165,9 +174,6 @@ function renderExecutiveSummary(scores, projectScores, monthKey) {
   setHtml('summaryMisses', misses);
   setHtml('summaryRisks', riskHtml);
   setHtml('summaryDecisions', decisions);
-
-  const period = document.getElementById('summaryPeriodLabel');
-  if (period) period.textContent = new Date(`${monthKey}-01T00:00:00`).toLocaleString('en-US', { month: 'long', year: 'numeric' });
 }
 
 function setupMonths(payload) {
@@ -281,4 +287,7 @@ async function loadClickUpScores() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', loadClickUpScores);
+document.addEventListener('DOMContentLoaded', () => {
+  loadSummaryStyles();
+  loadClickUpScores();
+});
