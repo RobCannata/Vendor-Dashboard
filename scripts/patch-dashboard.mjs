@@ -23,9 +23,30 @@ const QUALITY_TO = "const vendorScores=VENDORS.map(v=>scoreOfVendor(v)).filter(v
 const PROJECT_REGISTER_RE = /\s*<section class="card mini" style="margin-top:12px">\s*<div class="card-head"><div><h3>Project register<\/h3>[\s\S]*?<\/section>/;
 const VENDOR_HEIGHT_RE = /\.vendor\{display:flex;flex-direction:column;min-height:760px\}/;
 const VENDOR_HEIGHT_TO = '.vendor{display:flex;flex-direction:column;min-height:0;height:auto}';
-const QUALITY_CARD = `<section class="card overall-quality" id="overallVendorQuality"><div class="overall-quality-inner"><div><div class="kpi-label">Overall Vendor Quality</div><div class="overall-quality-title">Weighted vendor scorecard average</div><div class="overall-quality-sub">Average of vendor final scores across the active scorecards.</div></div><div class="overall-quality-score" id="overallVendorQualityScore">—</div></div></section>`;
-const QUALITY_CARD_ANCHOR = '<div class="layout">';
-const QUALITY_STYLE = '<style>.vendor{min-height:0!important;height:auto!important}.vendor .projects{margin-top:4px}.overall-quality{margin:12px 0;background:linear-gradient(160deg,rgba(16,29,51,.97),rgba(10,20,37,.96));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.overall-quality-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:16px 18px}.overall-quality-title{font-size:15px;font-weight:800;margin-top:4px}.overall-quality-sub{font-size:11px;color:var(--muted);margin-top:3px}.overall-quality-score{font-size:34px;font-weight:900;letter-spacing:-.05em;color:var(--accent)}@media(max-width:820px){.overall-quality-inner{align-items:flex-start}.overall-quality-score{font-size:28px}}</style>';
+const OVERALL_QUALITY_RE = /\s*<section class="card overall-quality" id="overallVendorQuality">[\s\S]*?<\/section>/;
+const OVERALL_QUALITY_STYLE = `<style id="dashboard-polish">
+.kpis{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:10px 0 12px}
+.kpi{min-height:96px;padding:13px 14px;border-radius:14px;background:linear-gradient(160deg,rgba(18,32,54,.98),rgba(10,20,37,.98));box-shadow:0 10px 30px rgba(0,0,0,.18);border-color:rgba(255,255,255,.09)}
+.kpi:before{width:62px;height:62px;right:-18px;top:-18px;background:rgba(89,198,255,.06)}
+.kpi-top{align-items:center}
+.kpi-label{font-size:9px;letter-spacing:.13em;font-weight:800;color:#9aa9be}
+.kpi-icon{width:26px;height:26px;border-radius:8px;font-size:12px;background:rgba(255,255,255,.05)}
+.kpi-value{font-size:25px;margin:11px 0 6px;letter-spacing:-.045em}
+.kpi-meta{font-size:9px}
+#scores{margin-top:0}
+#scores .card-head{padding:10px 12px 5px}
+#scores .card-head h3{font-size:12px}
+#scores .card-head p{font-size:10px}
+#scores .body{padding:0 12px 10px}
+#scores .list{gap:6px;grid-template-columns:repeat(5,minmax(0,1fr));display:grid}
+#scores .item{padding:7px 9px;border-radius:10px;min-width:0;align-items:center}
+#scores .item b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#scores .item span{font-size:8px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#scores .item em{font-size:10px}
+#scores .item > div > div{height:5px!important;margin-top:5px!important}
+@media(max-width:1400px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}#scores .list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}#scores .list{grid-template-columns:1fr}}
+</style>`;
 
 async function main() {
   const html = await fs.readFile(filePath, 'utf8');
@@ -46,19 +67,18 @@ async function main() {
     replaced += 1;
   }
 
-  if (!next.includes('id="overallVendorQuality"')) {
-    next = next.includes('<head>') ? next.replace('<head>', '<head>' + QUALITY_STYLE) : QUALITY_STYLE + next;
-    const anchorIndex = next.indexOf(QUALITY_CARD_ANCHOR);
-    if (anchorIndex >= 0) {
-      next = next.slice(0, anchorIndex) + QUALITY_CARD + next.slice(anchorIndex);
-      replaced += 1;
-    }
-  }
-
-  if (!next.includes('overallVendorQualityScore')) {
-    next = next.replace('</body>', `<script>(function(){try{var scores=VENDORS.map(function(v){return scoreOfVendor(v)}).filter(function(v){return Number.isFinite(v)});var el=document.getElementById('overallVendorQualityScore');if(el){el.textContent=scores.length?String(Math.round(scores.reduce(function(a,b){return a+b},0)/scores.length))+'%':'—';}}catch(e){console.warn(e)}})();</script></body>`);
+  if (OVERALL_QUALITY_RE.test(next)) {
+    next = next.replace(OVERALL_QUALITY_RE, '');
     replaced += 1;
   }
+
+  if (!next.includes('id="dashboard-polish"')) {
+    next = next.includes('</head>') ? next.replace('</head>', OVERALL_QUALITY_STYLE + '</head>') : OVERALL_QUALITY_STYLE + next;
+    replaced += 1;
+  }
+
+  // Preserve a simple overall score calculation for the KPI row; the separate redundant card is intentionally removed.
+  next = next.replace(/\s*<script>\(function\(\)\{try\{var scores=VENDORS\.map\(function\(v\)\{return scoreOfVendor\(v\)\}\)\.filter\(function\(v\)\{return Number\.isFinite\(v\)\}\);var el=document\.getElementById\('overallVendorQualityScore'\);if\(el\)\{el\.textContent=scores\.length\?String\(Math\.round\(scores\.reduce\(function\(a,b\)\{return a\+b\},0\)\/scores\.length\)\)\+'%'\:'—'\;\}\}catch\(e\)\{console\.warn\(e\)\}\}\)\(\);<\/script>/, '');
 
   if (replaced === 0) console.warn('No dashboard analytics strings were found to patch.');
   await fs.writeFile(filePath, next, 'utf8');
