@@ -1,0 +1,45 @@
+name: Refresh ClickUp vendor scores
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/refresh-scores.mjs'
+      - 'index.html'
+      - 'style.css'
+      - 'app.js'
+      - '.github/workflows/refresh-scores.yml'
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: clickup-score-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Pull vendor scores from ClickUp
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+        run: node scripts/refresh-scores.mjs
+      - name: Commit score snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add clickup-scores.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Refresh ClickUp vendor scores"
+            git push
+          else
+            echo "No score changes."
+          fi
