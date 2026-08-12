@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="professional-theme.css?v=2">
-  <script src="app.js" defer></script>
+  <script src="app.js?v=20260812-1702" defer></script>
 </head>
 <body>
   <div class="shell">
@@ -26,7 +26,7 @@
       <section class="summary-panel">
         <div class="summary-head">
           <div><div class="eyebrow">EXECUTIVE SUMMARY</div><h3>Executive Summary</h3></div>
-          <div class="summary-period"><span>Reporting month</span><select id="reportMonthSummary" aria-label="Executive summary reporting month"></select></div>
+          <div class="summary-period"><span>Reporting period</span><select id="reportMonthSummary" aria-label="Executive summary reporting period"></select></div>
         </div>
 
         <div class="summary-kpi-grid">
@@ -50,7 +50,7 @@
       <section class="section-head lower-head"><div><div class="eyebrow">OPERATING CONTROLS</div><h3>Financial &amp; Execution View</h3></div><span>Score feed <strong id="scoreRefresh">—</strong></span></section>
       <section class="control-grid">
         <article class="panel"><div class="panel-head"><div><div class="eyebrow">INSTALLATION QUALITY</div><h4>Quality by Vendor</h4></div></div><div class="quality-panel" id="qualityByVendor"><div class="quality-note">Loading ClickUp vendor scores…</div></div></article>
-        <article class="panel"><div class="panel-head"><div><div class="eyebrow">VENDOR INVOICES</div><h4>Invoice Workflow</h4></div></div><div class="invoice-panel"><div class="invoice-stats"><div class="invoice-stat"><span>Selected month</span><strong id="invoiceSelectedMonth">—</strong></div><div class="invoice-stat"><span>Invoice value</span><strong id="invoicePanelTotal">—</strong></div><div class="invoice-stat"><span>Invoices</span><strong id="invoiceCount">0</strong></div></div><table class="invoice-table"><thead><tr><th>Vendor</th><th>Amount</th><th>Task</th></tr></thead><tbody id="invoiceRows"><tr><td colspan="3">Loading ClickUp invoice data…</td></tr></tbody></table></div></article>
+        <article class="panel"><div class="panel-head"><div><div class="eyebrow">VENDOR INVOICES</div><h4>Invoice Workflow</h4></div></div><div class="invoice-panel"><div class="invoice-stats"><div class="invoice-stat"><span>Selected period</span><strong id="invoiceSelectedMonth">—</strong></div><div class="invoice-stat"><span>Invoice value</span><strong id="invoicePanelTotal">—</strong></div><div class="invoice-stat"><span>Invoices</span><strong id="invoiceCount">0</strong></div></div><table class="invoice-table"><thead><tr><th>Vendor</th><th>Amount</th><th>Task</th></tr></thead><tbody id="invoiceRows"><tr><td colspan="3">Loading ClickUp invoice data…</td></tr></tbody></table></div></article>
         <article class="panel revenue-panel"><div class="panel-head"><div><div class="eyebrow">SERVICE REVENUE</div><h4>Revenue</h4></div></div><div class="revenue-value">—</div><div class="revenue-caption">Service revenue will populate when ClickUp financial fields are mapped.</div><div class="metric-row"><span>Revenue field</span><strong>Not mapped</strong></div><div class="metric-row"><span>Invoice amount</span><strong>Mapped</strong></div><div class="metric-row"><span>Margin</span><strong>Not mapped</strong></div></article>
       </section>
 
