@@ -157,48 +157,92 @@ function renderExecutiveSummary() {
   setHtml('summaryDecisions', decisions);
 }
 
+function periodMonths(endMonth, monthsBack) {
+  const endIndex = endMonth - 1;
+  const startIndex = Math.max(0, endIndex - monthsBack + 1);
+  const keys = [];
+  for (let index = startIndex; index <= endIndex; index += 1) {
+    keys.push(`${REPORT_YEAR}-${String(index + 1).padStart(2, '0')}`);
+  }
+  return keys;
+}
+
+function formatPeriodLabel(endMonth, monthsBack) {
+  const end = new Date(REPORT_YEAR, endMonth - 1, 1);
+  const startMonth = Math.max(1, endMonth - monthsBack + 1);
+  const start = new Date(REPORT_YEAR, startMonth - 1, 1);
+  const endLabel = end.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+  if (monthsBack === 1) return endLabel;
+  const startLabel = start.toLocaleString('en-US', { month: 'short' });
+  return `${startLabel}–${endLabel}`;
+}
+
 function setupMonths(payload) {
-  const primary = document.getElementById('reportMonth');
-  const summary = document.getElementById('reportMonthSummary');
-  const selects = [primary, summary].filter(Boolean);
+  const selects = [document.getElementById('reportMonth'), document.getElementById('reportMonthSummary')].filter(Boolean);
   if (!selects.length) return;
+
   const available = new Set(Object.keys(payload?.invoiceMonthly || {}));
   const currentMonth = new Date().getMonth() + 1;
+  const options = [];
+
+  const monthlyGroup = document.createElement('optgroup');
+  monthlyGroup.label = 'Monthly';
+  for (let month = 1; month <= 12; month += 1) {
+    const option = document.createElement('option');
+    option.value = `1|${month}`;
+    option.textContent = new Date(REPORT_YEAR, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' }) + (available.has(`${REPORT_YEAR}-${String(month).padStart(2, '0')}`) ? ' • data' : '');
+    monthlyGroup.appendChild(option);
+  }
+  options.push(monthlyGroup);
+
+  const rolling3 = document.createElement('optgroup');
+  rolling3.label = 'Rolling 3 Months';
+  for (let month = 1; month <= 12; month += 1) {
+    const option = document.createElement('option');
+    option.value = `3|${month}`;
+    option.textContent = `${formatPeriodLabel(month, 3)} — 3 Month View`;
+    rolling3.appendChild(option);
+  }
+  options.push(rolling3);
+
+  const rolling6 = document.createElement('optgroup');
+  rolling6.label = 'Rolling 6 Months';
+  for (let month = 1; month <= 12; month += 1) {
+    const option = document.createElement('option');
+    option.value = `6|${month}`;
+    option.textContent = `${formatPeriodLabel(month, 6)} — 6 Month View`;
+    rolling6.appendChild(option);
+  }
+  options.push(rolling6);
 
   selects.forEach(select => {
     select.innerHTML = '';
-    for (let month = 1; month <= 12; month += 1) {
-      const key = `${REPORT_YEAR}-${String(month).padStart(2, '0')}`;
-      const option = document.createElement('option');
-      option.value = key;
-      option.textContent = new Date(REPORT_YEAR, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
-      if (available.has(key)) option.textContent += ' • data';
-      if (month === currentMonth) option.selected = true;
-      select.appendChild(option);
-    }
+    options.forEach(group => select.appendChild(group.cloneNode(true)));
+    select.value = `1|${currentMonth}`;
   });
-
-  if (primary) primary.value = primary.value || `${REPORT_YEAR}-01`;
-  if (summary) summary.value = primary?.value || `${REPORT_YEAR}-01`;
 
   selects.forEach(select => {
     select.onchange = () => {
       selects.forEach(other => { if (other !== select) other.value = select.value; });
-      renderInvoiceMonth(payload, select.value);
+      renderInvoicePeriod(payload, select.value);
       renderExecutiveSummary();
     };
   });
 }
 
-function renderInvoiceMonth(payload, monthKey) {
-  const invoices = (payload?.invoices || []).filter(invoice => invoice.month === monthKey);
+function renderInvoicePeriod(payload, periodKey) {
+  const [monthsBackRaw, endMonthRaw] = String(periodKey || '1|1').split('|');
+  const monthsBack = Number(monthsBackRaw) || 1;
+  const endMonth = Number(endMonthRaw) || 1;
+  const monthKeys = periodMonths(endMonth, monthsBack);
+  const invoices = (payload?.invoices || []).filter(invoice => monthKeys.includes(invoice.month));
   const total = invoices.reduce((sum, invoice) => sum + Number(invoice.amount || 0), 0);
-  const label = new Date(`${monthKey}-01T00:00:00`).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  const label = formatPeriodLabel(endMonth, monthsBack);
 
   const topTotal = document.getElementById('invoiceMonthTotal');
   if (topTotal) topTotal.textContent = money(total);
   const topDetail = document.getElementById('invoiceMonthDetail');
-  if (topDetail) topDetail.textContent = `${invoices.length} invoice record${invoices.length === 1 ? '' : 's'} in ClickUp`;
+  if (topDetail) topDetail.textContent = `${invoices.length} invoice record${invoices.length === 1 ? '' : 's'} across ${monthsBack} month${monthsBack === 1 ? '' : 's'}`;
 
   const selectedMonth = document.getElementById('invoiceSelectedMonth');
   const panelTotal = document.getElementById('invoicePanelTotal');
@@ -210,7 +254,7 @@ function renderInvoiceMonth(payload, monthKey) {
   if (!rows) return;
 
   if (!invoices.length) {
-    rows.innerHTML = '<tr><td colspan="3" class="invoice-empty">No Vendor Invoice amount found for this month.</td></tr>';
+    rows.innerHTML = '<tr><td colspan="3" class="invoice-empty">No Vendor Invoice amount found for this reporting period.</td></tr>';
     return;
   }
 
@@ -239,8 +283,9 @@ async function loadClickUpScores() {
     applyProjectScores(projectScores);
     setupClickUpLinks();
     setupMonths(payload);
-    const selectedMonth = document.getElementById('reportMonth')?.value || `${REPORT_YEAR}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
-    renderInvoiceMonth(payload, selectedMonth);
+    const currentMonth = new Date().getMonth() + 1;
+    const selectedPeriod = document.getElementById('reportMonth')?.value || `1|${currentMonth}`;
+    renderInvoicePeriod(payload, selectedPeriod);
     renderExecutiveSummary();
 
     const values = vendors.map(v => Number(scores[v])).filter(Number.isFinite);
