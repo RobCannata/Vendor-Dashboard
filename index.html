@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#06111d">
   <title>Vendor Performance Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -25,13 +24,13 @@
       </div>
 
       <section class="side-card">
-        <div class="section-label">Data source</div>
+        <div class="section-label">Dashboard source</div>
         <div id="summaryList" class="summary-list"></div>
       </section>
 
       <section class="side-card side-note">
-        <div class="section-label">Data quality</div>
-        <p>Operational task and status data is sourced from ClickUp. Financial, quality, safety, margin, and invoice-aging values are shown as unavailable until their ClickUp custom fields are mapped.</p>
+        <div class="section-label">Coverage</div>
+        <p id="coverageNote"></p>
       </section>
     </aside>
 
@@ -40,93 +39,96 @@
         <div>
           <p class="eyebrow">Executive dashboard</p>
           <h2>Vendor &amp; Installation Performance</h2>
-          <p class="header-copy">A single view of workstreams, vendor coverage, project status, and ClickUp data readiness.</p>
+          <p class="header-copy">Quality, vendor scorecards, service revenue, invoice workflow, and installation execution in one operating view.</p>
         </div>
         <div class="header-status">
           <span class="status-dot"></span>
           <div>
             <strong>ClickUp connected</strong>
-            <small>Field workspace snapshot</small>
+            <small>Field / Scorecards source</small>
           </div>
         </div>
       </header>
 
-      <section class="kpi-grid" id="kpiGrid" aria-label="Key performance indicators"></section>
+      <section class="kpi-grid kpi-grid-primary" id="kpiGrid" aria-label="Executive KPIs"></section>
 
-      <section class="content-grid two-column">
-        <article class="panel panel-wide">
-          <div class="panel-header">
-            <div><p class="panel-kicker">Vendor coverage</p><h3>Vendor Scorecard</h3></div>
-            <span class="panel-tag">ClickUp matched tasks</span>
+      <section class="panel hero-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Vendor management</p>
+            <h3>Vendor Performance Scorecards</h3>
           </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Vendor</th><th>Quality</th><th>Cost</th><th>On-time</th><th>Safety</th><th>Margin</th><th>Invoice</th><th>Coverage</th></tr></thead>
-              <tbody id="vendorTable"></tbody>
-            </table>
-          </div>
-        </article>
-
-        <article class="panel chart-card">
-          <div class="panel-header">
-            <div><p class="panel-kicker">Operational activity</p><h3>Task Status Mix</h3></div>
-            <span class="panel-tag">Task count</span>
-          </div>
-          <div class="chart-wrap"><canvas id="qualityChart"></canvas></div>
-        </article>
+          <span class="panel-tag">Scorecards list · 901217460327</span>
+        </div>
+        <div id="vendorCards" class="vendor-grid"></div>
       </section>
 
-      <section class="content-grid two-column">
-        <article class="panel chart-card">
+      <section class="content-grid three-column">
+        <article class="panel">
           <div class="panel-header">
-            <div><p class="panel-kicker">Portfolio mix</p><h3>Project Status</h3></div>
-            <span class="panel-tag">Current snapshot</span>
+            <div><p class="panel-kicker">Financial operations</p><h3>Vendor Invoices</h3></div>
+            <span class="panel-tag">Workflow visibility</span>
           </div>
-          <div class="chart-wrap compact"><canvas id="costChart"></canvas></div>
-        </article>
-
-        <article class="panel chart-card">
-          <div class="panel-header">
-            <div><p class="panel-kicker">Workstream reporting</p><h3>Reported Status by Task</h3></div>
-            <span class="panel-tag">Top workstreams</span>
-          </div>
-          <div class="chart-wrap"><canvas id="marginChart"></canvas></div>
-        </article>
-      </section>
-
-      <section class="content-grid two-column">
-        <article class="panel panel-wide">
-          <div class="panel-header">
-            <div><p class="panel-kicker">Execution pipeline</p><h3>Projects Overview</h3></div>
-            <span class="panel-tag">Recent ClickUp tasks</span>
-          </div>
+          <div id="invoiceSummary" class="invoice-summary"></div>
           <div class="table-wrap">
-            <table>
-              <thead><tr><th>Project / Task</th><th>Customer</th><th>Region</th><th>Stage</th><th>Value</th><th>Margin</th><th>Completion</th></tr></thead>
-              <tbody id="projectTable"></tbody>
+            <table class="invoice-table">
+              <thead><tr><th>Vendor</th><th>Invoice</th><th>Stage</th></tr></thead>
+              <tbody id="invoiceTable"></tbody>
             </table>
           </div>
         </article>
 
         <article class="panel">
           <div class="panel-header">
-            <div><p class="panel-kicker">Receivables</p><h3>Invoice Aging</h3></div>
-            <span class="panel-tag">Mapping required</span>
+            <div><p class="panel-kicker">Installation quality</p><h3>Quality Coverage</h3></div>
+            <span class="panel-tag">Available score fields</span>
           </div>
-          <div class="aging-grid" id="agingGrid"></div>
-          <div class="subsection">
-            <h4>Customer detail</h4>
-            <div class="table-wrap compact-table">
-              <table>
-                <thead><tr><th>Customer</th><th>Invoice</th><th>Days</th><th>Flag</th></tr></thead>
-                <tbody id="invoiceTable"></tbody>
-              </table>
-            </div>
+          <div id="qualitySummary" class="quality-summary"></div>
+          <div id="qualityBars" class="quality-bars"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div><p class="panel-kicker">Service economics</p><h3>Service Revenue</h3></div>
+            <span class="panel-tag">ClickUp financial mapping</span>
+          </div>
+          <div class="revenue-card">
+            <div class="revenue-value" id="revenueValue">—</div>
+            <div class="revenue-label">Service revenue</div>
+            <div class="revenue-note" id="revenueNote"></div>
+          </div>
+          <div class="revenue-checks">
+            <div><span>Revenue field</span><strong>Not mapped</strong></div>
+            <div><span>Invoice amount</span><strong>Not mapped</strong></div>
+            <div><span>Margin field</span><strong>Not mapped</strong></div>
           </div>
         </article>
       </section>
 
-      <footer class="page-footer"></footer>
+      <section class="content-grid two-column">
+        <article class="panel panel-wide">
+          <div class="panel-header">
+            <div><p class="panel-kicker">Execution pipeline</p><h3>Installation Work Queue</h3></div>
+            <span class="panel-tag">Field workspace</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Workstream</th><th>List</th><th>Status</th><th>Operational flag</th></tr></thead>
+              <tbody id="workQueue"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div><p class="panel-kicker">Data readiness</p><h3>Dashboard Coverage</h3></div>
+            <span class="panel-tag">Mapping status</span>
+          </div>
+          <div id="coverageGrid" class="coverage-grid"></div>
+        </article>
+      </section>
+
+      <footer class="page-footer" id="pageFooter"></footer>
     </main>
   </div>
 </body>
