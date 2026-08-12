@@ -18,7 +18,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "75 Akerley Blvd, Dartmouth, NS B3B 1R7, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -52,7 +57,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -86,7 +96,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": 1418.65,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3101 23rd Ave, Astoria, NY 11105, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -121,7 +136,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 7362.6,
+    "timeInStatusHours": 7362.7,
+    "invoice": 9787.77,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1273 Joe Battle Blvd, El Paso, TX 79936, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -155,7 +175,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 4032.2,
+    "timeInStatusHours": 4032.3,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2500 Russwood Dr, Flower Mound, TX 75028, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -191,7 +216,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3905.6,
+    "timeInStatusHours": 3905.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "29 Dugger McNeil Dr #8, Halifax, NS B3A 1C9, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -225,7 +255,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "551 S Service Rd, Wynyard, SK S0A 4T0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -259,7 +294,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 8032.9,
+    "timeInStatusHours": 8033,
+    "invoice": 13643.37,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 13211.53,
+    "revenueRecorded": true,
     "address": "1607 Denmark Rd, Union, MO 63084, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -293,7 +333,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": 32355.25,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "11721 Roe Ave, Leawood, KS 66209, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -329,7 +374,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": 18853.5,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 38317.15,
+    "revenueRecorded": true,
     "address": "11 Rue Marcel-Lépine, Saint-Jacques, QC J0K 2R0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -362,7 +412,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": 6696,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 7224,
+    "revenueRecorded": true,
     "address": "550 Av. Saint-Alphonse, Saint-Bruno, QC G0W 2L0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -395,7 +450,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": 1000,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 300,
+    "revenueRecorded": true,
     "address": "3404 78 Ave NW, Edmonton, AB T6B 2X9, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -429,7 +489,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "80a Rue J.-A.-Bombardier, Boucherville, QC J4B 8N4, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -464,7 +529,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 1490,
+    "revenueRecorded": true,
     "address": "3417 Boul Industriel, Laval, QC H7L 5A1, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -499,7 +569,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 1600,
+    "revenueRecorded": true,
     "address": "10205 13 St, Dawson Creek, BC V1G 3W3, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -534,7 +609,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": 750,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 300,
+    "revenueRecorded": true,
     "address": "1041 Rte 111 E, Amos, QC J9T 1N2, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -569,7 +649,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 350,
+    "revenueRecorded": true,
     "address": "127 King St, North Sydney, NS B2A 3S1, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -604,7 +689,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 1600,
+    "revenueRecorded": true,
     "address": "2702 99 St, Battleford, SK S0M 0E0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -639,7 +729,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 1600,
+    "revenueRecorded": true,
     "address": "10052 100 Ave, Fort St John, BC V1J 1Y6, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -674,7 +769,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": 325,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 990,
+    "revenueRecorded": true,
     "address": "3602 Riverside Plaza Dr Ste 111, Riverside, CA 92506, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -709,7 +809,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "636 E Interstate Hwy 2 #103, Weslaco, TX 78596, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -743,7 +848,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2204.2,
+    "timeInStatusHours": 2204.3,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "200 Wilmot Rd, Deerfield, IL 60015, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -777,7 +887,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2183.8,
+    "timeInStatusHours": 2183.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -811,7 +926,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2183.8,
+    "timeInStatusHours": 2183.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -845,7 +965,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2183.8,
+    "timeInStatusHours": 2183.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -880,6 +1005,11 @@
       2026
     ],
     "timeInStatusHours": 2183.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -913,7 +1043,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2183.7,
+    "timeInStatusHours": 2183.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 1600,
+    "revenueRecorded": true,
     "address": "5003 50 Ave S, Fort Nelson, BC V0C 1R0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -947,7 +1082,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2183.7,
+    "timeInStatusHours": 2183.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 1600,
+    "revenueRecorded": true,
     "address": "111 Victoria Rd, Revelstoke, BC V0E 2S0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -981,7 +1121,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2183.7,
+    "timeInStatusHours": 2183.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 1600,
+    "revenueRecorded": true,
     "address": "2025 Coutlee Ave, Merritt, BC V1K 1A4, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1016,6 +1161,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1050,6 +1200,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Metro, Av. Canadá 1110, La Victoria 15034, Peru",
     "storeManager": "",
     "storeSqft": null,
@@ -1084,6 +1239,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "C. Bajada Balta 626, Miraflores 15074, Peru",
     "storeManager": "",
     "storeSqft": null,
@@ -1117,7 +1277,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1721.9,
+    "timeInStatusHours": 1722,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "11600 Leona Rd, Eden Prairie, MN 55344, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1152,6 +1317,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": 14771.2,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2685 Pearl St, Boulder, CO 80302, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1185,7 +1355,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": 1072.43,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "31-01 23rd Ave, Astoria, NY 11105, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1219,7 +1394,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": 325,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "8628 Mexico Rd, O'Fallon, MO 63366, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1254,6 +1434,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": 1855,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 4760,
+    "revenueRecorded": true,
     "address": "526 Chemin des Patriotes, Otterburn Park, QC J3H 1Z3, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1288,6 +1473,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": 3600,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 1500,
+    "revenueRecorded": true,
     "address": "1900 Cypress street West Monroe LA 71291 West Monroe United States",
     "storeManager": "",
     "storeSqft": null,
@@ -1323,6 +1513,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": 850,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 350,
+    "revenueRecorded": true,
     "address": "3173 3rd Ave, Whitehorse, YT Y1A 1G5, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1357,6 +1552,11 @@
       2026
     ],
     "timeInStatusHours": 858.8,
+    "invoice": 1414.64,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 2000,
+    "revenueRecorded": true,
     "address": "380 Industrial Park Crescent, Sault Ste. Marie, ON P6B 5Y8, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1391,6 +1591,11 @@
       2026
     ],
     "timeInStatusHours": 859,
+    "invoice": 1220,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 350,
+    "revenueRecorded": true,
     "address": "10255 101 Ave, Lac La Biche, AB T0A 2C0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1424,7 +1629,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 501.9,
+    "timeInStatusHours": 502,
+    "invoice": 311497.98,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 298200,
+    "revenueRecorded": true,
     "address": "Michelena Y Miguel Dominguez 1304, Thomas Alva Edison, Talleres, 64480 Monterrey, N.L., Mexico",
     "storeManager": "",
     "storeSqft": null,
@@ -1458,7 +1668,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 864.6,
+    "timeInStatusHours": 864.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1 Legend Dr, Sleepy Hollow, NY 10591",
     "storeManager": "",
     "storeSqft": null,
@@ -1491,7 +1706,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 859,
+    "timeInStatusHours": 859.1,
+    "invoice": 656.75,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1526 Fairfield Ave 71101 Shreveport United States",
     "storeManager": "",
     "storeSqft": null,
@@ -1525,7 +1745,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": 717.23,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2003 N Eastman Rd Suite 36, Kingsport, TN 37660, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1559,7 +1784,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": 525,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 750,
+    "revenueRecorded": true,
     "address": "3201 Harrison Ave, Butte, MT 59701, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1593,7 +1823,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 858.8,
+    "timeInStatusHours": 858.9,
+    "invoice": 650,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "4142 California Ave #14, Bakersfield, CA 93309, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1627,7 +1862,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 8182.6,
+    "timeInStatusHours": 8182.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2572 Lake Tahoe Blvd, South Lake Tahoe, CA 96150, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1661,7 +1901,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 4583.4,
+    "timeInStatusHours": 4583.5,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Av. Andrés Bello 2465, Gran Torre Santiago, Piso 1, 7510689 Santiago, Providencia, Región Metropolitana, Chile",
     "storeManager": "",
     "storeSqft": null,
@@ -1695,7 +1940,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 8182.6,
+    "timeInStatusHours": 8182.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1729,7 +1979,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 5928.3,
+    "timeInStatusHours": 5928.4,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Av. La Dehesa 1445, Lo Barnechea, Región Metropolitana, Chile",
     "storeManager": "",
     "storeSqft": null,
@@ -1764,7 +2019,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 6046.8,
+    "timeInStatusHours": 6046.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "El Gabino 13551, 7690141 Lo Barnechea, Región Metropolitana, Chile",
     "storeManager": "",
     "storeSqft": null,
@@ -1799,7 +2059,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 4672.6,
+    "timeInStatusHours": 4672.7,
+    "invoice": 422.5,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1832,7 +2097,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2157.2,
+    "timeInStatusHours": 2157.3,
+    "invoice": 870,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 2000,
+    "revenueRecorded": true,
     "address": "5219 47 Ave, Taber, AB T1G 1R5, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1867,7 +2137,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 863,
+    "timeInStatusHours": 863.1,
+    "invoice": 5495,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "1008 Ross Park Mall Dr, Pittsburgh, PA 15237",
     "storeManager": "",
     "storeSqft": "132,000",
@@ -1901,7 +2176,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 863,
+    "timeInStatusHours": 863.1,
+    "invoice": 1200,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "10030 N 90th St, Scottsdale, AZ 85258",
     "storeManager": "",
     "storeSqft": "15588",
@@ -1935,7 +2215,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 816.5,
+    "timeInStatusHours": 816.6,
+    "invoice": 1375,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "1900 FM 700 Big Spring, TX 79720",
     "storeManager": "",
     "storeSqft": "20,000",
@@ -1969,7 +2254,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 859.1,
+    "timeInStatusHours": 859.2,
+    "invoice": 16775,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2003,7 +2293,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1463.1,
+    "timeInStatusHours": 1463.2,
+    "invoice": 32198.84,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2037,7 +2332,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1466.5,
+    "timeInStatusHours": 1466.6,
+    "invoice": 1650,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2071,7 +2371,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "906 SW Regional Airport Blvd, Bentonville, AR 72712, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2105,7 +2410,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": 8536,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "406 S Walton Blvd, Bentonville, AR 72712, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2139,7 +2449,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2539.6,
+    "timeInStatusHours": 2539.7,
+    "invoice": 2226.1,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "511 Wellman Crescent, Saskatoon",
     "storeManager": "",
     "storeSqft": null,
@@ -2172,7 +2487,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 863.7,
+    "timeInStatusHours": 863.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "906 SW Regional Airport Blvd Bentonville, AR 72712",
     "storeManager": "",
     "storeSqft": null,
@@ -2206,7 +2526,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 163.2,
+    "timeInStatusHours": 163.3,
+    "invoice": 42339.6,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "9734 Katy Fwy, Houston, TX 77055, United States",
     "storeManager": "",
     "storeSqft": null,
@@ -2239,7 +2564,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 163.2,
+    "timeInStatusHours": 163.3,
+    "invoice": 42339.6,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "19150 W Bellfort, Richmond, TX 77407, United States",
     "storeManager": "",
     "storeSqft": null,
@@ -2272,7 +2602,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 162.4,
+    "timeInStatusHours": 162.5,
+    "invoice": 850,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "135 John R Rice Blvd, Murfreesboro, TN 37129, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2305,7 +2640,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 162.4,
+    "timeInStatusHours": 162.5,
+    "invoice": 750,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "2710 SW Snyder Blvd, Ankeny, Iowa 50023 ",
     "storeManager": "",
     "storeSqft": null,
@@ -2338,7 +2678,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 162.4,
+    "timeInStatusHours": 162.5,
+    "invoice": 550,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "3476 Bristol Pike Rd 3476 Bristol Pike Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -2371,7 +2716,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 162.4,
+    "timeInStatusHours": 162.5,
+    "invoice": 1200,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "#113 2000 S. Randall Rd, Ste 100",
     "storeManager": "",
     "storeSqft": null,
@@ -2404,7 +2754,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 162.4,
+    "timeInStatusHours": 162.5,
+    "invoice": 3750,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": "7613",
@@ -2438,6 +2793,11 @@
       2026
     ],
     "timeInStatusHours": 162.4,
+    "invoice": 8975,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2472,6 +2832,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": 521000,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 551281,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2505,7 +2870,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 863,
+    "timeInStatusHours": 863.1,
+    "invoice": 3250,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "1200 Ernest W. Barrett Pkwy NE Kennesaw, GA 30144",
     "storeManager": "",
     "storeSqft": "75000",
@@ -2540,6 +2910,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": 29500,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 42356.8,
+    "revenueRecorded": true,
     "address": "2380 S 6th St, Klamath Falls, OR 97601, États-Unis",
     "storeManager": "",
     "storeSqft": null,
@@ -2573,7 +2948,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3838,
+    "timeInStatusHours": 3838.1,
+    "invoice": 30232,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 53007,
+    "revenueRecorded": true,
     "address": "990 Rue de St Jovite, Mont-Tremblant, QC J8E 3C1, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -2608,6 +2988,11 @@
       2026
     ],
     "timeInStatusHours": 377.9,
+    "invoice": 880,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 1166.49,
+    "revenueRecorded": true,
     "address": "111 Victoria Rd, Revelstoke, BC V0E 2S0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -2641,7 +3026,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 5895.5,
+    "timeInStatusHours": 5895.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 889.2,
+    "revenueRecorded": true,
     "address": "400 N Keller Dr, Effingham, IL 62401, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2675,7 +3065,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 5895.5,
+    "timeInStatusHours": 5895.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 843,
+    "revenueRecorded": true,
     "address": "1671 Monongahela Ave, Pittsburgh, PA 15218, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2709,7 +3104,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 48,
+    "timeInStatusHours": 48.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 32204,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2742,7 +3142,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 26.9,
+    "timeInStatusHours": 27,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1200 Ernest W Barrett Pkwy NE Kennesaw, GA 30144",
     "storeManager": "",
     "storeSqft": null,
@@ -2775,7 +3180,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 26.9,
+    "timeInStatusHours": 27,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2808,7 +3218,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 26.9,
+    "timeInStatusHours": 27,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2841,7 +3256,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 26.9,
+    "timeInStatusHours": 27,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Michelena Y Miguel Dominguez 1304, Thomas Alva Edison, Talleres, 64480 Monterrey, N.L., Mexico",
     "storeManager": "",
     "storeSqft": null,
@@ -2874,7 +3294,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 26.2,
+    "timeInStatusHours": 26.3,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "17531 Stony Plain Road, T5S 2S1, Edmonton, Alberta, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -2908,6 +3333,11 @@
       2026
     ],
     "timeInStatusHours": 17.4,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "In excel",
     "storeManager": "",
     "storeSqft": null,
@@ -2940,7 +3370,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 0.6,
+    "timeInStatusHours": 0.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "khjb",
     "storeManager": "",
     "storeSqft": "2332",
@@ -2974,6 +3409,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1373 W Tipton St",
     "storeManager": "",
     "storeSqft": null,
@@ -3007,6 +3447,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "113 West Commerce St",
     "storeManager": "",
     "storeSqft": null,
@@ -3040,6 +3485,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "363 S. Maple St.",
     "storeManager": "",
     "storeSqft": null,
@@ -3073,6 +3523,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "7117 Shelbyville Rd.",
     "storeManager": "",
     "storeSqft": null,
@@ -3106,6 +3561,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "5750 Benton Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -3139,6 +3599,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "23 Veterans Drive N.",
     "storeManager": "",
     "storeSqft": null,
@@ -3172,6 +3637,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "8795 Sasak Place",
     "storeManager": "",
     "storeSqft": null,
@@ -3205,6 +3675,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1029 Lincoln Hwy",
     "storeManager": "",
     "storeSqft": null,
@@ -3238,6 +3713,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "601 Charleston",
     "storeManager": "",
     "storeSqft": null,
@@ -3271,6 +3751,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "315 East Calumet",
     "storeManager": "",
     "storeSqft": null,
@@ -3304,6 +3789,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "20th  and Hwy 149",
     "storeManager": "",
     "storeSqft": null,
@@ -3337,6 +3827,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "600 S. Commercial St",
     "storeManager": "",
     "storeSqft": null,
@@ -3370,6 +3865,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "23 Fairway Crossings",
     "storeManager": "",
     "storeSqft": null,
@@ -3403,6 +3903,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "600 Topside Trail",
     "storeManager": "",
     "storeSqft": null,
@@ -3436,6 +3941,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2305 Remington Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -3469,6 +3979,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2450 Polo Club Blvd",
     "storeManager": "",
     "storeSqft": null,
@@ -3502,6 +4017,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "620 North Main",
     "storeManager": "",
     "storeSqft": null,
@@ -3535,6 +4055,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "600 US Hwy 60 East",
     "storeManager": "",
     "storeSqft": null,
@@ -3568,6 +4093,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "675 Western Kentucky Pkwy",
     "storeManager": "",
     "storeSqft": null,
@@ -3601,6 +4131,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "200 East Main",
     "storeManager": "",
     "storeSqft": null,
@@ -3634,6 +4169,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Rt 51 North & 62",
     "storeManager": "",
     "storeSqft": null,
@@ -3667,6 +4207,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "823 East Malone",
     "storeManager": "",
     "storeSqft": null,
@@ -3700,6 +4245,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "106 HWY 46",
     "storeManager": "",
     "storeSqft": null,
@@ -3733,6 +4283,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1400 S First Street",
     "storeManager": "",
     "storeSqft": null,
@@ -3766,6 +4321,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "424 Lindell St",
     "storeManager": "",
     "storeSqft": null,
@@ -3799,6 +4359,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1295 Union University Dr.",
     "storeManager": "",
     "storeSqft": null,
@@ -3832,6 +4397,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "7 Ridgecrest Road",
     "storeManager": "",
     "storeSqft": null,
@@ -3865,6 +4435,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "506 St Francis St",
     "storeManager": "",
     "storeSqft": null,
@@ -3898,6 +4473,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "703 North Westwood",
     "storeManager": "",
     "storeSqft": null,
@@ -3931,6 +4511,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "353 S  Kings Highway",
     "storeManager": "",
     "storeSqft": null,
@@ -3964,6 +4549,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "812 W. Main St.",
     "storeManager": "",
     "storeSqft": null,
@@ -3997,6 +4587,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "208 S  State Rd  145",
     "storeManager": "",
     "storeSqft": null,
@@ -4030,6 +4625,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "555 Hoffman Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -4063,6 +4663,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "230 Third Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4096,6 +4701,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "601 North Main",
     "storeManager": "",
     "storeSqft": null,
@@ -4129,6 +4739,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "819 Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -4162,6 +4777,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "104 S Madisonville Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -4195,6 +4815,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "5425 Highway 62",
     "storeManager": "",
     "storeSqft": null,
@@ -4228,6 +4853,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "11 West Main",
     "storeManager": "",
     "storeSqft": null,
@@ -4261,6 +4891,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "568 E. Pearl St.",
     "storeManager": "",
     "storeSqft": null,
@@ -4294,6 +4929,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "9823 N  State Rd  9",
     "storeManager": "",
     "storeSqft": null,
@@ -4327,6 +4967,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "515 West Main",
     "storeManager": "",
     "storeSqft": null,
@@ -4360,6 +5005,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "104 Wabash Road",
     "storeManager": "",
     "storeSqft": null,
@@ -4393,6 +5043,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "631 W 4th St",
     "storeManager": "",
     "storeSqft": null,
@@ -4426,6 +5081,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "300 E Parrish Ave.",
     "storeManager": "",
     "storeSqft": null,
@@ -4459,6 +5119,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2245 Ragu Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -4492,6 +5157,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Hwy 66  Box 7777",
     "storeManager": "",
     "storeSqft": null,
@@ -4525,6 +5195,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "17 West Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -4558,6 +5233,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2110 W Broadway St",
     "storeManager": "",
     "storeSqft": null,
@@ -4591,6 +5271,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "US Hwy 41 & SR 168",
     "storeManager": "",
     "storeSqft": null,
@@ -4624,6 +5309,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1 Gateway Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -4657,6 +5347,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "509 West  Main Street",
     "storeManager": "",
     "storeSqft": null,
@@ -4690,6 +5385,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "232 West North Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4723,6 +5423,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "607 E  Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -4756,6 +5461,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1521 Hart Street",
     "storeManager": "",
     "storeSqft": null,
@@ -4789,6 +5499,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1515 Washington Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4822,6 +5537,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2816  N  Sixth",
     "storeManager": "",
     "storeSqft": null,
@@ -4855,6 +5575,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "501 Madison Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4888,6 +5613,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1001 Lincoln Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4921,6 +5651,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "150 Spitler Park Dr.",
     "storeManager": "",
     "storeSqft": null,
@@ -4954,6 +5689,11 @@
       2026
     ],
     "timeInStatusHours": 42.1,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "204 North 22nd St",
     "storeManager": "",
     "storeSqft": null,
@@ -4986,7 +5726,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "709 S Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -5019,7 +5764,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "20 Mt. Tabor Ct.",
     "storeManager": "",
     "storeSqft": null,
@@ -5052,7 +5802,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "306 Morgantown Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5085,7 +5840,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2801 Lindbergh",
     "storeManager": "",
     "storeSqft": null,
@@ -5118,7 +5878,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "700 Pike St",
     "storeManager": "",
     "storeSqft": null,
@@ -5151,7 +5916,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "104 New Bond Way",
     "storeManager": "",
     "storeSqft": null,
@@ -5184,7 +5954,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "501 N  Hershey Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5217,7 +5992,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "121 Ring Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5250,7 +6030,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3951 N  Green River",
     "storeManager": "",
     "storeSqft": null,
@@ -5283,7 +6068,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "921 National Mine Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5316,7 +6106,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "102 E  Lincoln Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5349,7 +6144,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "4914 Russellville Road",
     "storeManager": "",
     "storeSqft": null,
@@ -5382,7 +6182,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "101 N. Cross Pointe Blvd",
     "storeManager": "",
     "storeSqft": null,
@@ -5415,7 +6220,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "601 Hennessy Way",
     "storeManager": "",
     "storeSqft": null,
@@ -5448,7 +6258,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3131 Kansas Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5481,7 +6296,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2225 N Fares Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5514,7 +6334,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "4200 Lafayette Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5547,7 +6372,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1830 E 9th St.",
     "storeManager": "",
     "storeSqft": null,
@@ -5580,7 +6410,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2001 Lynch Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5613,7 +6448,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "150 North Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -5646,7 +6486,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "925 East Clinton Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5679,7 +6524,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "900 N. 12th Street",
     "storeManager": "",
     "storeSqft": null,
@@ -5712,7 +6562,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "701 West Cleveland",
     "storeManager": "",
     "storeSqft": null,
@@ -5745,7 +6600,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "411 S 12th Street",
     "storeManager": "",
     "storeSqft": null,
@@ -5778,7 +6638,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2401 S Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -5811,7 +6676,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "297 Treeland Dr",
     "storeManager": "",
     "storeSqft": null,
@@ -5844,7 +6714,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "102 W. Oakland Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5877,7 +6752,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2299 US Hwy 62 W",
     "storeManager": "",
     "storeSqft": null,
@@ -5910,7 +6790,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1415 W Alta Rd.",
     "storeManager": "",
     "storeSqft": null,
@@ -5943,7 +6828,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.8,
+    "timeInStatusHours": 41.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3570 Lone Oak Road",
     "storeManager": "",
     "storeSqft": null,
@@ -5977,6 +6867,11 @@
       2026
     ],
     "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "205 W  Center",
     "storeManager": "",
     "storeSqft": null,
@@ -6009,7 +6904,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1100 Pin Oak Dr",
     "storeManager": "",
     "storeSqft": null,
@@ -6042,7 +6942,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "701 E  Deyoung",
     "storeManager": "",
     "storeSqft": null,
@@ -6075,7 +6980,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1900 S  Illinois Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -6108,7 +7018,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2700 W. Main St.",
     "storeManager": "",
     "storeSqft": null,
@@ -6141,7 +7056,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "908 South Court St",
     "storeManager": "",
     "storeSqft": null,
@@ -6174,7 +7094,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2612 W. DeYoung Street",
     "storeManager": "",
     "storeSqft": null,
@@ -6207,7 +7132,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "600 W  Poplar St",
     "storeManager": "",
     "storeSqft": null,
@@ -6240,7 +7170,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "101 East Broadway",
     "storeManager": "",
     "storeSqft": null,
@@ -6273,7 +7208,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "104 Egyptian Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -6306,7 +7246,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1200 N  Main",
     "storeManager": "",
     "storeSqft": null,
@@ -6339,7 +7284,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "208 North Logan",
     "storeManager": "",
     "storeSqft": null,
@@ -6372,7 +7322,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "102 W  10th St",
     "storeManager": "",
     "storeSqft": null,
@@ -6405,7 +7360,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2250 New Holt Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -6438,7 +7398,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3025 Olivet Church Road",
     "storeManager": "",
     "storeSqft": null,
@@ -6471,7 +7436,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3819 W War Memorial Dr",
     "storeManager": "",
     "storeSqft": null,
@@ -6504,7 +7474,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "7225 North Allen Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -6537,7 +7512,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1015 West Camp",
     "storeManager": "",
     "storeSqft": null,
@@ -6570,7 +7550,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1109 Hwy 45 N",
     "storeManager": "",
     "storeSqft": null,
@@ -6603,7 +7588,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "110 E  Randolph",
     "storeManager": "",
     "storeSqft": null,
@@ -6636,7 +7626,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "522 N  Court Street",
     "storeManager": "",
     "storeSqft": null,
@@ -6669,7 +7664,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "101 West Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -6702,7 +7702,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1801 S 10th St",
     "storeManager": "",
     "storeSqft": null,
@@ -6735,7 +7740,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "201 Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -6768,7 +7778,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Box 1633/I-57 & I-64 (101 S. 45th St)",
     "storeManager": "",
     "storeSqft": null,
@@ -6801,7 +7816,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3300 Broadway St",
     "storeManager": "",
     "storeSqft": null,
@@ -6834,7 +7854,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "540 Airport Road",
     "storeManager": "",
     "storeSqft": null,
@@ -6867,7 +7892,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1530 W  Main",
     "storeManager": "",
     "storeSqft": null,
@@ -6900,7 +7930,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3441 St. Mary's Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -6933,7 +7968,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "520 S. Park Avenue",
     "storeManager": "",
     "storeSqft": null,
@@ -6966,7 +8006,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "884 State Route 3",
     "storeManager": "",
     "storeSqft": null,
@@ -6999,7 +8044,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3228 S. Park Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -7032,7 +8082,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "10170 Manchester Road",
     "storeManager": "",
     "storeSqft": null,
@@ -7065,7 +8120,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1020 Country Club Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7098,7 +8158,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "110 S  Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -7131,7 +8196,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "4590 N  Illinois St",
     "storeManager": "",
     "storeSqft": null,
@@ -7164,7 +8234,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "2875 St Peters Howell Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7197,7 +8272,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "328 South Main",
     "storeManager": "",
     "storeSqft": null,
@@ -7230,7 +8310,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "5608 Humbert Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7263,7 +8348,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "322 East Broadway",
     "storeManager": "",
     "storeSqft": null,
@@ -7296,7 +8386,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "3500 Patterson Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7329,7 +8424,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.7,
+    "timeInStatusHours": 41.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "501 Civic Center Dr.",
     "storeManager": "",
     "storeSqft": null,
@@ -7362,7 +8462,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1040.4,
+    "timeInStatusHours": 1040.5,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "#142",
     "storeManager": "",
     "storeSqft": null,
@@ -7395,7 +8500,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1022.1,
+    "timeInStatusHours": 1022.2,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "#400",
     "storeManager": "",
     "storeSqft": null,
@@ -7428,7 +8538,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 551.3,
+    "timeInStatusHours": 551.4,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7462,7 +8577,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 551.3,
+    "timeInStatusHours": 551.4,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7496,7 +8616,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.5,
+    "timeInStatusHours": 41.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7529,7 +8654,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.5,
+    "timeInStatusHours": 41.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7562,7 +8692,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.5,
+    "timeInStatusHours": 41.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7595,7 +8730,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.5,
+    "timeInStatusHours": 41.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7628,7 +8768,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.5,
+    "timeInStatusHours": 41.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7661,7 +8806,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 41.5,
+    "timeInStatusHours": 41.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7694,7 +8844,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.9,
+    "timeInStatusHours": 378,
+    "invoice": 34988.25,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 45370,
+    "revenueRecorded": true,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7727,7 +8882,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 377.8,
+    "timeInStatusHours": 377.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7761,6 +8921,11 @@
       2026
     ],
     "timeInStatusHours": 456,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7794,7 +8959,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 216.2,
+    "timeInStatusHours": 216.3,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Av. La Dehesa 1445, Lo Barnechea, Región Metropolitana, Chile",
     "storeManager": "",
     "storeSqft": null,
@@ -7827,7 +8997,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 216.2,
+    "timeInStatusHours": 216.3,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "El Gabino 13551, 7690141 Lo Barnechea, Región ",
     "storeManager": "",
     "storeSqft": null,
@@ -7860,7 +9035,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 163.4,
+    "timeInStatusHours": 163.5,
+    "invoice": 5359.18,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "Av. Aeropuerto, Carolina, 00979, Puerto Rico",
     "storeManager": "",
     "storeSqft": null,
@@ -7893,7 +9073,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 163.1,
+    "timeInStatusHours": 163.2,
+    "invoice": 311350.5,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7928,6 +9113,11 @@
       2026
     ],
     "timeInStatusHours": 137.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7961,6 +9151,11 @@
       2026
     ],
     "timeInStatusHours": 137.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7993,7 +9188,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 118.3,
+    "timeInStatusHours": 118.4,
+    "invoice": 11700,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "104 Britain st Hendersonville TN",
     "storeManager": "",
     "storeSqft": null,
@@ -8027,7 +9227,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 42.7,
+    "timeInStatusHours": 42.8,
+    "invoice": 18216.69,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 15500,
+    "revenueRecorded": true,
     "address": "2301 W Atherton Dr. Manteca 95337 CA",
     "storeManager": "",
     "storeSqft": null,
@@ -8061,7 +9266,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 27.3,
+    "timeInStatusHours": 27.4,
+    "invoice": 5180,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 5602.8,
+    "revenueRecorded": true,
     "address": "JFK Airport Queens NY",
     "storeManager": "",
     "storeSqft": null,
@@ -8095,7 +9305,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 22.7,
+    "timeInStatusHours": 22.8,
+    "invoice": 5349.5,
+    "invoiceRecorded": true,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "1050 Lakes dr ste 260, west Convina, CA 91790",
     "storeManager": "",
     "storeSqft": null,
@@ -8128,7 +9343,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 21.6,
+    "timeInStatusHours": 21.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "Ejército Nacional 769, Torre B-12 Miguel Hidalgo Ciudad de México, 11520",
     "storeManager": "",
     "storeSqft": null,
@@ -8161,7 +9381,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 18.3,
+    "timeInStatusHours": 18.4,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "1900 FM700, Big Spring, TX 79720, United States",
     "storeManager": "",
     "storeSqft": null,
@@ -8195,7 +9420,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 18.3,
+    "timeInStatusHours": 18.4,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": 0,
+    "revenueRecorded": true,
     "address": "5 Different Stores",
     "storeManager": "",
     "storeSqft": null,
@@ -8229,7 +9459,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1.1,
+    "timeInStatusHours": 1.2,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8262,7 +9497,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1535.1,
+    "timeInStatusHours": 1535.2,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8295,7 +9535,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1488.4,
+    "timeInStatusHours": 1488.5,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8328,7 +9573,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1487.7,
+    "timeInStatusHours": 1487.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8361,7 +9611,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1487.7,
+    "timeInStatusHours": 1487.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8395,6 +9650,11 @@
       2026
     ],
     "timeInStatusHours": 1200.3,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8427,7 +9687,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1196.2,
+    "timeInStatusHours": 1196.3,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8460,7 +9725,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1175.4,
+    "timeInStatusHours": 1175.5,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8493,7 +9763,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1175.4,
+    "timeInStatusHours": 1175.5,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8527,6 +9802,11 @@
       2026
     ],
     "timeInStatusHours": 863.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8559,7 +9839,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.8,
+    "timeInStatusHours": 215.9,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8592,7 +9877,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.7,
+    "timeInStatusHours": 215.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8625,7 +9915,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.7,
+    "timeInStatusHours": 215.8,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8658,7 +9953,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.6,
+    "timeInStatusHours": 215.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8691,7 +9991,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.6,
+    "timeInStatusHours": 215.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8724,7 +10029,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.6,
+    "timeInStatusHours": 215.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8757,7 +10067,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.6,
+    "timeInStatusHours": 215.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8791,6 +10106,11 @@
       2026
     ],
     "timeInStatusHours": 215.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8823,7 +10143,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 215.5,
+    "timeInStatusHours": 215.6,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8856,7 +10181,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 27.3,
+    "timeInStatusHours": 27.4,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8889,7 +10219,12 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 24.6,
+    "timeInStatusHours": 24.7,
+    "invoice": null,
+    "invoiceRecorded": false,
+    "invoiceStatus": null,
+    "revenue": null,
+    "revenueRecorded": false,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
