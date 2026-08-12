@@ -18,9 +18,15 @@ const BOOT_SCRIPT = `<script>
       + '.vendor-grid .criteria{padding:14px 18px 0!important;gap:10px!important}'
       + '.vendor-grid .projects{padding:14px 18px!important;margin-top:auto!important;overflow:auto!important;max-height:150px!important}'
       + '.vendor-grid .proj{grid-template-columns:minmax(0,1fr) 60px!important;gap:8px!important}'
-      + '@media(max-width:1500px){.vendor-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.vendor-grid .vendor{aspect-ratio:auto!important;min-height:320px!important}}'
-      + '@media(max-width:1100px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.vendor-grid .vendor{min-height:320px!important}}'
-      + '@media(max-width:820px){.vendor-grid{grid-template-columns:1fr!important}.vendor-grid .vendor{aspect-ratio:auto!important;min-height:280px!important}}';
+      + '#scores .list{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:18px!important}'
+      + '#scores .item{min-height:240px!important;height:240px!important;aspect-ratio:1 / 1!important;padding:24px!important;border-radius:14px!important;display:flex!important;align-items:center!important;justify-content:center!important}'
+      + '#scores .item b{font-size:19px!important;line-height:1.15!important}'
+      + '#scores .item span{font-size:11px!important;line-height:1.45!important;margin-top:9px!important}'
+      + '#scores .item em{font-size:28px!important;line-height:1!important}'
+      + '#scores .item > div > div{height:12px!important;margin-top:14px!important}'
+      + '@media(max-width:1500px){.vendor-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.vendor-grid .vendor{aspect-ratio:auto!important;min-height:320px!important}.#scores .list{grid-template-columns:repeat(3,minmax(0,1fr))!important}.#scores .item{height:220px!important;min-height:220px!important}}'
+      + '@media(max-width:1100px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.vendor-grid .vendor{min-height:320px!important}.#scores .list{grid-template-columns:repeat(2,minmax(0,1fr))!important}.#scores .item{height:210px!important;min-height:210px!important}}'
+      + '@media(max-width:820px){.vendor-grid{grid-template-columns:1fr!important}.vendor-grid .vendor{aspect-ratio:auto!important;min-height:280px!important}.#scores .list{grid-template-columns:1fr!important}.#scores .item{height:auto!important;min-height:180px!important;aspect-ratio:auto!important}}';
     document.head.appendChild(style);
   }
 
@@ -54,7 +60,7 @@ async function main(){
   const html=await fs.readFile(filePath,'utf8');
   const next=html.includes(BOOT_FROM) ? html.replace(BOOT_FROM, BOOT_SCRIPT + BOOT_FROM) : html + BOOT_SCRIPT;
   await fs.writeFile(filePath,next,'utf8');
-  console.log('Added independent scorecard bootstrap with larger vendor cards.');
+  console.log('Added independent scorecard bootstrap with larger vendor and average-score cards.');
 }
 
 main().catch(err=>{console.error(err);process.exit(1);});
