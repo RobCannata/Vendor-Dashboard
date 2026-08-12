@@ -30,11 +30,33 @@ function percent(value) {
 function vendorName(name) {
   const n = String(name || '').trim().toLowerCase();
   if (n.includes('channel partners')) return 'Channel Partners';
-  if (n.includes('anderson')) return 'Anderson';
+  if (n.includes('anderson') && n.includes('scorecard')) return 'Anderson';
+  if (n === 'anderson') return 'Anderson';
   if (n.includes('impulso')) return 'Impulso';
   if (n === 'sasr' || n.includes('sasr scorecard')) return 'SASR';
   if (n.includes('b2x')) return 'B2X';
   return null;
+}
+
+const PROJECT_NAMES = [
+  'DHI',
+  'Dollar General Pilot',
+  'Natural Grocers',
+  'Hucks Stores Pilot',
+  'WMUS Top Stock',
+  'WMUS Audits',
+  'Academy Sports',
+  'Miniso',
+  'Ace Elgin',
+  'Dufry',
+  'Oxxo Revisits',
+  'Food 4 Less',
+];
+
+function projectName(name) {
+  const raw = String(name || '').trim();
+  const match = PROJECT_NAMES.find((candidate) => candidate.toLowerCase() === raw.toLowerCase());
+  return match || null;
 }
 
 function scoreForTask(task) {
@@ -71,10 +93,17 @@ async function getTasks() {
 
 const tasks = await getTasks();
 const scores = {};
+const projectScores = {};
+
 for (const task of tasks) {
-  const vendor = vendorName(task?.name);
   const score = scoreForTask(task);
-  if (vendor && score != null) scores[vendor] = score;
+  if (score == null) continue;
+
+  const vendor = vendorName(task?.name);
+  if (vendor) scores[vendor] = score;
+
+  const project = projectName(task?.name);
+  if (project) projectScores[project] = score;
 }
 
 const payload = {
@@ -82,7 +111,9 @@ const payload = {
   field: 'Avg Final Score %',
   updatedAt: new Date().toISOString(),
   scores,
+  projectScores,
 };
 
 await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n', 'utf8');
-console.log(`Updated ${Object.keys(scores).length} live vendor scores: ${JSON.stringify(scores)}`);
+console.log(`Updated vendor scores: ${JSON.stringify(scores)}`);
+console.log(`Updated project scores: ${JSON.stringify(projectScores)}`);
