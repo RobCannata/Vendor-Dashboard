@@ -1,24 +1,61 @@
 const vendors = [
-  { name: 'SASR', score: 100, records: 3, status: 'Green', source: 'Calculated score available' },
-  { name: 'Anderson', score: null, records: 7, status: 'Pending', source: 'Scorecard records available' },
-  { name: 'Channel Partners', score: null, records: 4, status: 'Pending', source: 'Scorecard records available' },
-  { name: 'Impulso', score: null, records: 2, status: 'Pending', source: 'Scorecard records available' },
-  { name: 'B2X', score: null, records: 1, status: 'Pending', source: 'Scorecard record available' }
-];
-
-const projects = [
-  { name: 'DHI', parent: 'SASR', score: null, records: 1, status: 'Pending' },
-  { name: 'Natural Grocers', parent: 'Anderson', score: null, records: 1, status: 'Pending' },
-  { name: 'Food 4 Less', parent: 'B2X', score: null, records: 1, status: 'Pending' },
-  { name: 'Miniso', parent: 'Channel Partners', score: null, records: 1, status: 'Pending' },
-  { name: 'Dollar General Pilot', parent: 'SASR', score: null, records: 1, status: 'Pending' },
-  { name: 'Oxxo Revisits', parent: 'Impulso', score: null, records: 1, status: 'Pending' },
-  { name: 'Anderson_Hucks Stores Pilot', parent: 'Anderson', score: null, records: 1, status: 'Pending' },
-  { name: 'Anderson_WMUS Top Stock', parent: 'Anderson', score: null, records: 1, status: 'Pending' },
-  { name: 'Anderson_WMUS Audits', parent: 'Anderson', score: null, records: 1, status: 'Pending' },
-  { name: 'Anderson_Academy Sports', parent: 'Anderson', score: null, records: 1, status: 'Pending' },
-  { name: 'Channel Partners_Ace Elgin', parent: 'Channel Partners', score: null, records: 1, status: 'Pending' },
-  { name: 'Channel Partners_Dufry', parent: 'Channel Partners', score: null, records: 1, status: 'Pending' }
+  {
+    name: 'SASR',
+    score: 100,
+    records: 3,
+    status: 'Green',
+    source: 'Calculated score available',
+    projects: [
+      { name: 'DHI', score: null, records: 1, status: 'Pending' },
+      { name: 'Dollar General Pilot', score: null, records: 1, status: 'Pending' }
+    ]
+  },
+  {
+    name: 'Anderson',
+    score: null,
+    records: 7,
+    status: 'Pending',
+    source: 'Scorecard records available',
+    projects: [
+      { name: 'Natural Grocers', score: null, records: 1, status: 'Pending' },
+      { name: 'Hucks Stores Pilot', score: null, records: 1, status: 'Pending' },
+      { name: 'WMUS Top Stock', score: null, records: 1, status: 'Pending' },
+      { name: 'WMUS Audits', score: null, records: 1, status: 'Pending' },
+      { name: 'Academy Sports', score: null, records: 1, status: 'Pending' }
+    ]
+  },
+  {
+    name: 'Channel Partners',
+    score: null,
+    records: 4,
+    status: 'Pending',
+    source: 'Scorecard records available',
+    projects: [
+      { name: 'Miniso', score: null, records: 1, status: 'Pending' },
+      { name: 'Ace Elgin', score: null, records: 1, status: 'Pending' },
+      { name: 'Dufry', score: null, records: 1, status: 'Pending' }
+    ]
+  },
+  {
+    name: 'Impulso',
+    score: null,
+    records: 2,
+    status: 'Pending',
+    source: 'Scorecard records available',
+    projects: [
+      { name: 'Oxxo Revisits', score: null, records: 1, status: 'Pending' }
+    ]
+  },
+  {
+    name: 'B2X',
+    score: null,
+    records: 1,
+    status: 'Pending',
+    source: 'Scorecard record available',
+    projects: [
+      { name: 'Food 4 Less', score: null, records: 1, status: 'Pending' }
+    ]
+  }
 ];
 
 const invoiceStages = [
@@ -40,14 +77,19 @@ const workQueue = [
 
 const refresh = 'Aug 12, 2026 • 12:05 PM CT';
 const scoredVendors = vendors.filter(v => v.score !== null);
-const avgQuality = scoredVendors.length ? Math.round(scoredVendors.reduce((sum, v) => sum + v.score, 0) / scoredVendors.length) : null;
+const avgQuality = scoredVendors.length
+  ? Math.round(scoredVendors.reduce((sum, v) => sum + v.score, 0) / scoredVendors.length)
+  : null;
+const projectCount = vendors.reduce((sum, vendor) => sum + vendor.projects.length, 0);
 
-const esc = (value) => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const esc = (value) => String(value ?? '').replace(/[&<>"']/g, c => ({
+  '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+}[c]));
 
 function renderKpis() {
   const data = [
     ['Installation Quality Score', avgQuality === null ? '—' : avgQuality + '%', `${scoredVendors.length} of ${vendors.length} vendors scored`, 'Q', 'good'],
-    ['Vendor Performance Scorecards', vendors.length, 'Vendor parent scorecards', 'V', 'good'],
+    ['Vendor Performance Scorecards', vendors.length, `${projectCount} related projects`, 'V', 'good'],
     ['Service Revenue', '—', 'Financial field mapping required', '$', 'warn'],
     ['Vendor Invoices', '—', 'Invoice amount/status mapping required', '$', 'warn']
   ];
@@ -64,7 +106,7 @@ function renderSource() {
     <div class="side-row"><span>Workspace</span><strong>Field</strong></div>
     <div class="side-row"><span>List</span><strong>Scorecards</strong></div>
     <div class="side-row"><span>Vendors</span><strong>${vendors.length}</strong></div>
-    <div class="side-row"><span>Projects</span><strong>${projects.length}</strong></div>
+    <div class="side-row"><span>Projects</span><strong>${projectCount}</strong></div>
     <div class="side-row"><span>Refresh</span><strong>${refresh}</strong></div>`;
 }
 
@@ -72,28 +114,35 @@ function renderVendors() {
   document.getElementById('vendorGrid').innerHTML = vendors.map(v => `
     <article class="vendor-card">
       <div class="vendor-top">
-        <div><div class="vendor-name">${esc(v.name)}</div><div class="vendor-meta">${v.records} linked scorecard record${v.records === 1 ? '' : 's'}</div></div>
+        <div>
+          <div class="vendor-name">${esc(v.name)}</div>
+          <div class="vendor-meta">${v.records} linked scorecard record${v.records === 1 ? '' : 's'}</div>
+        </div>
         <span class="badge ${v.score !== null ? 'good' : 'pending'}">${v.status.toUpperCase()}</span>
       </div>
+
       <div class="score-box">
-        <div class="score-label"><span>Installation quality</span><span>${v.score !== null ? 'Calculated' : 'Awaiting data'}</span></div>
+        <div class="score-label"><span>Vendor quality</span><span>${v.score !== null ? 'Calculated' : 'Awaiting data'}</span></div>
         <div class="score ${v.score === null ? 'na' : ''}">${v.score === null ? '—' : v.score + '%'}</div>
         <div class="bar"><span style="width:${v.score || 0}%"></span></div>
       </div>
-      <div class="vendor-foot">${esc(v.source)}</div>
-    </article>`).join('');
-}
 
-function renderProjects() {
-  document.getElementById('projectGrid').innerHTML = projects.map(p => `
-    <article class="project-card">
-      <div class="project-top">
-        <div><div class="project-name">${esc(p.name)}</div><div class="project-meta">Vendor: ${esc(p.parent)}</div></div>
-        <span class="badge pending">PROJECT</span>
+      <div class="vendor-foot"><span>${esc(v.source)}</span></div>
+
+      <div class="project-stack">
+        <div class="project-stack-title">Projects <strong>${v.projects.length}</strong></div>
+        ${v.projects.map(p => `
+          <div class="project-row">
+            <div class="project-info">
+              <span class="project-name">${esc(p.name)}</span>
+              <span class="project-meta">${p.records} scorecard record</span>
+            </div>
+            <div class="project-result">
+              <strong>${p.score === null ? '—' : p.score + '%'}</strong>
+              <span class="project-status">${esc(p.status)}</span>
+            </div>
+          </div>`).join('')}
       </div>
-      <div class="project-score-row"><span>Installation quality</span><strong>${p.score === null ? '—' : p.score + '%'}</strong></div>
-      <div class="project-bar"><span style="width:${p.score || 0}%"></span></div>
-      <div class="project-foot">${p.records} scorecard record • ${esc(p.status)}</div>
     </article>`).join('');
 }
 
@@ -129,11 +178,10 @@ function init() {
   renderKpis();
   renderSource();
   renderVendors();
-  renderProjects();
   renderQuality();
   renderInvoices();
   renderQueue();
-  document.getElementById('footer').innerHTML = `Source: <strong>ClickUp Field / Scorecards</strong> • Refreshed ${refresh}. Vendor and project scorecards are separated; financial values remain blank until the underlying ClickUp custom fields are mapped.`;
+  document.getElementById('footer').innerHTML = `Source: <strong>ClickUp Field / Scorecards</strong> • Refreshed ${refresh}. Projects are nested under their assigned vendor so ownership is visible in one card.`;
 }
 
 document.addEventListener('DOMContentLoaded', init);
