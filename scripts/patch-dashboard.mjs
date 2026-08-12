@@ -33,17 +33,18 @@ const OVERALL_QUALITY_STYLE = `<style id="dashboard-polish">
 .kpi-icon{width:26px;height:26px;border-radius:8px;font-size:12px;background:rgba(255,255,255,.05)}
 .kpi-value{font-size:25px;margin:11px 0 6px;letter-spacing:-.045em}
 .kpi-meta{font-size:9px}
-#scores{margin-top:0}
-#scores .card-head{padding:10px 12px 5px}
-#scores .card-head h3{font-size:12px}
-#scores .card-head p{font-size:10px}
-#scores .body{padding:0 12px 10px}
-#scores .list{gap:6px;grid-template-columns:repeat(5,minmax(0,1fr));display:grid}
-#scores .item{padding:7px 9px;border-radius:10px;min-width:0;align-items:center}
-#scores .item b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#scores .item span{font-size:8px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#scores .item em{font-size:10px}
-#scores .item > div > div{height:5px!important;margin-top:5px!important}
+#scores{margin-top:0;border-color:rgba(89,198,255,.16);box-shadow:0 16px 45px rgba(0,0,0,.22)}
+#scores .card-head{padding:16px 18px 11px;min-height:68px}
+#scores .card-head h3{font-size:16px;letter-spacing:-.02em}
+#scores .card-head p{font-size:11px;max-width:620px}
+#scores .body{padding:0 18px 18px}
+#scores .list{gap:12px;grid-template-columns:repeat(5,minmax(0,1fr));display:grid}
+#scores .item{padding:14px 16px;border-radius:14px;min-width:0;min-height:94px;align-items:center;background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-color:rgba(255,255,255,.09)}
+#scores .item b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#scores .item span{font-size:9px;line-height:1.35;white-space:normal;overflow:visible;text-overflow:clip;margin-top:5px}
+#scores .item em{font-size:15px;letter-spacing:-.02em}
+#scores .item > div > div{height:9px!important;margin-top:9px!important}
+#scores .item > div > div > div{box-shadow:0 0 10px rgba(89,198,255,.16)}
 @media(max-width:1400px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}#scores .list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}#scores .list{grid-template-columns:1fr}}
 </style>`;
