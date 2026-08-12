@@ -1,11 +1,12 @@
 {
   "source": "ClickUp Field / Vendor Scorecards / Scorecards",
   "field": "Avg Final Score %",
-  "updatedAt": "2026-08-12T19:37:02.500Z",
+  "updatedAt": "2026-08-12T19:49:07.369Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
     "Impulso": 76,
     "SASR": 96
-  }
+  },
+  "projectScores": {}
 }
