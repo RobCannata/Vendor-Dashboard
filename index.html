@@ -217,7 +217,8 @@ const VENDORS=[
 async function boot(){
   $('monthSelect').innerHTML=MONTHS.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join('');
   $('monthSelect').value='All months';
-  $('resetBtn').onclick=()=>{$('monthSelect').value='All months';$('search').value='';$('statusFilter').value='all';refresh();};
+  const resetBtn=$('resetBtn');
+  if(resetBtn) resetBtn.onclick=()=>{$('monthSelect').value='All months';$('search').value='';$('statusFilter').value='all';refresh();};
   let raw=[];
   try{const r=await fetch('clickup-data.json',{cache:'no-store'});raw=await r.json();}catch(e){raw=[];}
   if(!Array.isArray(raw)) raw=[];
