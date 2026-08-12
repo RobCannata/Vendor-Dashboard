@@ -60,6 +60,9 @@ jobs:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
         run: node scripts/patch-scorecards-live.mjs
 
+      - name: Render reference-style executive dashboard
+        run: node scripts/patch-reference-dashboard.mjs
+
       - name: Publish built dashboard to repo root
         run: |
           cp dist/clickup-data.json clickup-data.json
