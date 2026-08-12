@@ -264,5 +264,30 @@ async function boot(){
 }
 boot();
 </script>
-</body>
+<script>
+(function(){
+  function renderStaticScorecards(){
+    try{
+      if(typeof VENDORS==='undefined' || typeof renderVendor!=='function') return false;
+      const grid=document.getElementById('vendorGrid');
+      if(grid) grid.innerHTML=VENDORS.map(renderVendor).join('');
+      const avg=document.getElementById('avgList');
+      if(avg && typeof scoreOfVendor==='function'){
+        const items=VENDORS.map(v=>({name:v.name,score:scoreOfVendor(v),color:v.accent,projects:v.projects.length})).filter(x=>x.score!=null).sort((a,b)=>b.score-a.score);
+        avg.innerHTML=items.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • weighted average across scorecards</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');
+      }
+      const quality=document.getElementById('kVendorQuality');
+      if(quality && typeof scoreOfVendor==='function'){
+        const scores=VENDORS.map(v=>scoreOfVendor(v)).filter(v=>Number.isFinite(v));
+        const qualityText = scores.length ? String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)) + '%' : '—';
+        quality.textContent=qualityText;
+      }
+      const count=document.getElementById('kScorecards');
+      if(count) count.textContent=String(VENDORS.length);
+      return true;
+    }catch(e){ console.warn('Scorecard bootstrap failed', e); return false; }
+  }
+  if(!renderStaticScorecards()) document.addEventListener('DOMContentLoaded', renderStaticScorecards);
+})();
+</script></body>
 </html>
