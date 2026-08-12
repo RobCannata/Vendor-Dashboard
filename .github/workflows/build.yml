@@ -52,6 +52,9 @@ jobs:
       - name: Post-process analytics cards
         run: node scripts/patch-dashboard.mjs
 
+      - name: Restore independent scorecard rendering
+        run: node scripts/patch-scorecard-bootstrap.mjs
+
       - name: Publish built dashboard to repo root
         run: |
           cp dist/clickup-data.json clickup-data.json
