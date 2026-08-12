@@ -3,6 +3,8 @@ import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
 const LIST_ID = '901217460327';
+const SASR_PARENT_ID = '869ed6zn3';
+const DHI_TASK_ID = '869ed6zzt';
 const API_BASE = 'https://api.clickup.com/api/v2';
 const filePath = path.resolve(process.cwd(), 'dist', 'index.html');
 
@@ -18,7 +20,7 @@ function numeric(value) {
     if ('text' in value) return numeric(value.text);
     if ('name' in value) return numeric(value.name);
   }
-  const text = String(value).replace(/[,$\s%]/g, '');
+  const text = String(value).replace(/[,$\\s%]/g, '');
   const n = Number(text);
   return Number.isFinite(n) ? n : null;
 }
@@ -30,9 +32,8 @@ function normalizePercent(value) {
   return n;
 }
 
-function getScore(task) {
+function getScore(task, preferred = ['Avg Final Score %', 'Avg Final Score', 'Final Score %', 'Final Score']) {
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
-  const preferred = ['Avg Final Score %', 'Avg Final Score', 'Final Score %', 'Final Score'];
   for (const name of preferred) {
     const field = fields.find((f) => String(f?.name || '').trim().toLowerCase() === name.toLowerCase());
     if (!field) continue;
@@ -41,9 +42,11 @@ function getScore(task) {
   }
   for (const field of fields) {
     const label = String(field?.name || '').trim().toLowerCase();
-    if (!label.includes('avg') || !label.includes('final') || !label.includes('score')) continue;
-    const value = normalizePercent(field?.value);
-    if (value != null) return Math.round(value);
+    if (!label.includes('final') || !label.includes('score')) continue;
+    if (label.includes('avg') || label === 'final score %' || label === 'final score') {
+      const value = normalizePercent(field?.value);
+      if (value != null) return Math.round(value);
+    }
   }
   return null;
 }
@@ -60,7 +63,10 @@ function vendorName(taskName) {
 
 async function fetchJson(url) {
   const res = await fetch(url, { headers: { Authorization: TOKEN, Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`ClickUp request failed: ${res.status}`);
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`ClickUp request failed (${res.status}): ${body.slice(0, 240)}`);
+  }
   return res.json();
 }
 
@@ -68,7 +74,7 @@ async function fetchScorecards() {
   const all = [];
   let page = 0;
   while (true) {
-    const data = await fetchJson(`${API_BASE}/list/${LIST_ID}/task?page=${page}&subtasks=false&include_closed=true&order_by=updated&reverse=true`);
+    const data = await fetchJson(`${API_BASE}/list/${LIST_ID}/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
     const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
     all.push(...tasks);
     if (tasks.length < 100) break;
@@ -77,8 +83,25 @@ async function fetchScorecards() {
   return all;
 }
 
+function flatten(tasks) {
+  const out = [];
+  const visit = (task) => {
+    if (!task) return;
+    out.push(task);
+    const children = Array.isArray(task.subtasks) ? task.subtasks : [];
+    for (const child of children) visit(child);
+  };
+  for (const task of tasks) visit(task);
+  return out;
+}
+
+function projectScore(child) {
+  return getScore(child, ['Final Score %', 'Final Score', 'Avg Final Score %', 'Avg Final Score']);
+}
+
 async function main() {
-  const tasks = await fetchScorecards();
+  const topLevel = await fetchScorecards();
+  const tasks = flatten(topLevel);
   const live = {};
   for (const task of tasks) {
     const vendor = vendorName(task?.name);
@@ -86,14 +109,19 @@ async function main() {
     if (vendor && score != null) live[vendor] = score;
   }
 
-  const sasrFallback = live.SASR ?? 100;
-  live.SASR = sasrFallback;
+  const sasr = tasks.find((task) => String(task?.id) === SASR_PARENT_ID || String(task?.name || '').trim().toLowerCase() === 'sasr');
+  const sasrChildren = Array.isArray(sasr?.subtasks) ? sasr.subtasks : tasks.filter((task) => String(task?.parent) === SASR_PARENT_ID);
+  const dhi = sasrChildren.find((task) => String(task?.id) === DHI_TASK_ID || String(task?.name || '').trim().toLowerCase() === 'dhi');
+  const dhiScore = dhi ? projectScore(dhi) : null;
 
-  const injection = `<script>\n(function(){\n  const LIVE_SCORECARDS=${JSON.stringify(live)};\n  const vendorKey=v=>String(v||'').replace(/\\s+Scorecard$/i,'').trim();\n  const originals={scoreOfVendor:typeof scoreOfVendor==='function'?scoreOfVendor:null};\n  function scoreOverride(v){\n    const liveScore=LIVE_SCORECARDS[vendorKey(v.name)];\n    if(Number.isFinite(liveScore)) return liveScore;\n    return originals.scoreOfVendor ? originals.scoreOfVendor(v) : null;\n  }\n  if(typeof scoreOfVendor==='function') scoreOfVendor=scoreOverride;\n  if(typeof VENDORS!=='undefined') {\n    for(const v of VENDORS){ const s=LIVE_SCORECARDS[vendorKey(v.name)]; if(Number.isFinite(s)) v.liveFinalScore=s; }\n    const sasr = VENDORS.find(v=>vendorKey(v.name)==='SASR');\n    if(sasr){\n      sasr.summary='2 projects';\n      sasr.note='Live ClickUp scorecard';\n      sasr.projects=[\n        {name:'Dollar General Pilot',score:5,tone:'good'},\n        {name:'DHI',score:null,tone:'muted'}\n      ];\n    } else {\n      VENDORS.push({name:'SASR',accent:'#e07a3f',icon:'SA',summary:'2 projects',note:'Live ClickUp scorecard',criteria:[{label:'Execution',weight:25,value:5},{label:'Quality',weight:30,value:5},{label:'Communication',weight:20,value:5},{label:'Compliance',weight:15,value:5},{label:'Reliability',weight:10,value:5}],projects:[{name:'Dollar General Pilot',score:5,tone:'good'},{name:'DHI',score:null,tone:'muted'}],url:'https://app.clickup.com/t/869ed6zn3',liveFinalScore:LIVE_SCORECARDS.SASR});\n    }\n  }\n  function renderAll(){\n    if(typeof VENDORS==='undefined') return;\n    const avgItems=VENDORS.map(v=>({name:v.name,score:scoreOverride(v),color:v.accent,projects:v.projects.length})).filter(x=>Number.isFinite(x.score)).sort((a,b)=>b.score-a.score);\n    const avg=document.getElementById('avgList');\n    if(avg) avg.innerHTML=avgItems.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • live ClickUp Avg Final Score %</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');\n    const quality=document.getElementById('kVendorQuality');\n    const scores=VENDORS.map(v=>scoreOverride(v)).filter(Number.isFinite);\n    if(quality) quality.textContent=scores.length?String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length))+'%':'—';\n    const count=document.getElementById('kScorecards');\n    if(count) count.textContent=String(VENDORS.length);\n    const grid=document.getElementById('vendorGrid');\n    if(grid && typeof renderVendor==='function') grid.innerHTML=VENDORS.map(renderVendor).join('');\n    const sheet=document.createElement('style');\n    sheet.textContent='.vendor-grid{grid-template-columns:repeat(5,minmax(0,1fr))!important}.vendor-grid .vendor{min-width:0}@media(max-width:1400px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:820px){.vendor-grid{grid-template-columns:1fr!important}}';\n    document.head.appendChild(sheet);\n  }\n  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',renderAll); else renderAll();\n})();\n</script>`;
+  const sasrFinalScore = live.SASR ?? 100;
+  live.SASR = sasrFinalScore;
+
+  const injection = `<script>\n(function(){\n  const LIVE_SCORECARDS=${JSON.stringify(live)};\n  const DHI_SCORE=${JSON.stringify(dhiScore)};\n  const DHI_URL='https://app.clickup.com/t/869ed6zzt';\n  const vendorKey=v=>String(v||'').replace(/\\s+Scorecard$/i,'').trim();\n  const originals={scoreOfVendor:typeof scoreOfVendor==='function'?scoreOfVendor:null};\n  function scoreOverride(v){\n    const liveScore=LIVE_SCORECARDS[vendorKey(v.name)];\n    if(Number.isFinite(liveScore)) return liveScore;\n    return originals.scoreOfVendor ? originals.scoreOfVendor(v) : null;\n  }\n  if(typeof scoreOfVendor==='function') scoreOfVendor=scoreOverride;\n  if(typeof VENDORS!=='undefined') {\n    for(const v of VENDORS){ const s=LIVE_SCORECARDS[vendorKey(v.name)]; if(Number.isFinite(s)) v.liveFinalScore=s; }\n    let sasrVendor=VENDORS.find(v=>vendorKey(v.name)==='SASR');\n    if(!sasrVendor){\n      sasrVendor={name:'SASR',accent:'#e07a3f',icon:'SA',summary:'',note:'Live ClickUp scorecard',criteria:[],projects:[],url:'https://app.clickup.com/t/869ed6zn3',liveFinalScore:LIVE_SCORECARDS.SASR};\n      VENDORS.push(sasrVendor);\n    }\n    if(sasrVendor && !sasrVendor.projects.some(p=>String(p.name||'').trim().toLowerCase()==='dhi')){\n      sasrVendor.projects.push({name:'DHI',score:Number.isFinite(DHI_SCORE)?DHI_SCORE/20:null,tone:Number.isFinite(DHI_SCORE)&&DHI_SCORE>=90?'good':Number.isFinite(DHI_SCORE)&&DHI_SCORE>=75?'warn':'bad',url:DHI_URL});\n    }\n    if(sasrVendor) sasrVendor.summary=String(sasrVendor.projects.length)+' projects';\n  }\n  function renderAll(){\n    if(typeof VENDORS==='undefined') return;\n    const avgItems=VENDORS.map(v=>({name:v.name,score:scoreOverride(v),color:v.accent,projects:v.projects.length})).filter(x=>Number.isFinite(x.score)).sort((a,b)=>b.score-a.score);\n    const avg=document.getElementById('avgList');\n    if(avg) avg.innerHTML=avgItems.map(v=>'<a class="item" href="'+VENDORS.find(x=>x.name===v.name).url+'" target="_blank" rel="noreferrer"><div><b>'+String(v.name)+'</b><span>'+v.projects+' projects • live ClickUp Avg Final Score %</span><div style="height:8px;background:#e8edf6;border-radius:999px;overflow:hidden;margin-top:8px"><div style="height:100%;width:'+v.score+'%;background:'+v.color+'"></div></div></div><em>'+v.score+'%</em></a>').join('');\n    const quality=document.getElementById('kVendorQuality');\n    const scores=VENDORS.map(v=>scoreOverride(v)).filter(Number.isFinite);\n    if(quality) quality.textContent=scores.length?String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length))+'%':'—';\n    const count=document.getElementById('kScorecards');\n    if(count) count.textContent=String(VENDORS.length);\n    const grid=document.getElementById('vendorGrid');\n    if(grid && typeof renderVendor==='function') grid.innerHTML=VENDORS.map(renderVendor).join('');\n  }\n  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',renderAll); else renderAll();\n})();\n</script>`;
 
   const html = await fs.readFile(filePath, 'utf8');
   await fs.writeFile(filePath, html.replace('</body>', injection + '</body>'), 'utf8');
-  console.log(`Injected live scorecards: ${JSON.stringify(live)}`);
+  console.log(`Injected live scorecards: ${JSON.stringify(live)}; DHI_SCORE=${DHI_SCORE}`);
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });
