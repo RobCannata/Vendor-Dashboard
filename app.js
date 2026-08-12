@@ -22,19 +22,39 @@ function applyScore(card, score) {
   }
 }
 
+function applyProjectScores(projectScores) {
+  const rows = [...document.querySelectorAll('.project-row')];
+  rows.forEach(row => {
+    const name = row.querySelector('.project-name')?.textContent?.trim();
+    const scoreEl = row.querySelector('.project-result strong');
+    if (!name || !scoreEl) return;
+
+    const score = Number(projectScores?.[name]);
+    if (Number.isFinite(score)) {
+      scoreEl.textContent = `${score}%`;
+      scoreEl.classList.add('project-score-live');
+    } else {
+      scoreEl.textContent = '—';
+    }
+  });
+}
+
 async function loadClickUpScores() {
   try {
     const res = await fetch(`clickup-scores.json?v=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const payload = await res.json();
     const scores = payload?.scores || {};
+    const projectScores = payload?.projectScores || {};
     const cards = [...document.querySelectorAll('.vendor-card')];
 
     cards.forEach(card => {
       const name = card.querySelector('.vendor-name')?.textContent?.trim();
       if (!name) return;
-      applyScore(card, Number.isFinite(scores[name]) ? scores[name] : null);
+      applyScore(card, Number.isFinite(Number(scores[name])) ? Number(scores[name]) : null);
     });
+
+    applyProjectScores(projectScores);
 
     const values = vendors.map(v => Number(scores[v])).filter(Number.isFinite);
     const avg = values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : null;
