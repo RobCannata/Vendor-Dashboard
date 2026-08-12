@@ -1,7 +1,8 @@
 {
   "source": "ClickUp Field / Vendor Scorecards / Scorecards",
   "field": "Avg Final Score % / Final Score (%)",
-  "updatedAt": "2026-08-12T21:07:21.068Z",
+  "invoiceField": "Vendor Invoice",
+  "updatedAt": "2026-08-12T21:12:10.230Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
@@ -19,7 +20,329 @@
     "Dufry": 100,
     "Oxxo Revisits": 76
   },
-  "invoices": [],
-  "invoiceMonthly": {},
-  "invoiceByVendor": {}
+  "invoices": [
+    {
+      "taskId": "869edbegy",
+      "task": "Home Depot (2 stores)",
+      "vendor": null,
+      "month": "2026-08",
+      "amount": 8975,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869edbegy",
+      "createdAt": "1785789150114"
+    },
+    {
+      "taskId": "869e7mcgj",
+      "task": "Family Dollar (5 Stores)",
+      "vendor": null,
+      "month": "2026-07",
+      "amount": 3750,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869e7mcgj",
+      "createdAt": "1784654065721"
+    },
+    {
+      "taskId": "869dxa6xn",
+      "task": "Higginbotham Brothers ",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 1375,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869dxa6xn",
+      "createdAt": "1782749570098"
+    },
+    {
+      "taskId": "869dp02hg",
+      "task": "Dick's House of Sports",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 5495,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869dp02hg",
+      "createdAt": "1781277798825"
+    },
+    {
+      "taskId": "869dn07cc",
+      "task": "Floor and Decor ",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 3250,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869dn07cc",
+      "createdAt": "1781106065457"
+    },
+    {
+      "taskId": "869dmvvwk",
+      "task": "Air Gas",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 550,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869dmvvwk",
+      "createdAt": "1781093907814"
+    },
+    {
+      "taskId": "869dm9jkg",
+      "task": "PetSmart site Survey",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 1200,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869dm9jkg",
+      "createdAt": "1781005305202"
+    },
+    {
+      "taskId": "869dkqxjb",
+      "task": "Fresh Thyme 3D Scan",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 1200,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869dkqxjb",
+      "createdAt": "1780919807735"
+    },
+    {
+      "taskId": "869d9tuxv",
+      "task": "Kohls Sub One replacement 82 Stores",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 32198.84,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d9tuxv",
+      "createdAt": "1778692090266"
+    },
+    {
+      "taskId": "869d95bgh",
+      "task": "Kohl's Core Appliance (24 Stores)",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 1650,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d95bgh",
+      "createdAt": "1778602641238"
+    },
+    {
+      "taskId": "869d6h7za",
+      "task": "GAP AP Issue",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 4186.29,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d6h7za",
+      "createdAt": "1778073691612"
+    },
+    {
+      "taskId": "869d5h3ku",
+      "task": "Appliance Alliance",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 930.68,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d5h3ku",
+      "createdAt": "1777914147985"
+    },
+    {
+      "taskId": "869d49x5m",
+      "task": "Harrison Paint Fairfield",
+      "vendor": null,
+      "month": "2026-04",
+      "amount": 656.75,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d49x5m",
+      "createdAt": "1777573745911"
+    },
+    {
+      "taskId": "869d39523",
+      "task": "Federated",
+      "vendor": null,
+      "month": "2026-04",
+      "amount": 2226.1,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d39523",
+      "createdAt": "1777395063741"
+    },
+    {
+      "taskId": "869d0b9fw",
+      "task": "Harrison Paint Monroe",
+      "vendor": null,
+      "month": "2026-04",
+      "amount": 3600,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d0b9fw",
+      "createdAt": "1776798703556"
+    },
+    {
+      "taskId": "869cveep1",
+      "task": "Kim Phat",
+      "vendor": null,
+      "month": "2026-04",
+      "amount": 10782,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869cveep1",
+      "createdAt": "1775833723811"
+    },
+    {
+      "taskId": "869cqgd06",
+      "task": "Liverpool #3234",
+      "vendor": null,
+      "month": "2026-03",
+      "amount": 325,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869cqgd06",
+      "createdAt": "1774983515767"
+    },
+    {
+      "taskId": "869cje11b",
+      "task": "Casey General Store 3D Scan",
+      "vendor": null,
+      "month": "2026-03",
+      "amount": 750,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869cje11b",
+      "createdAt": "1773935589876"
+    },
+    {
+      "taskId": "869ce60pe",
+      "task": "WM Store 100 TopStock",
+      "vendor": null,
+      "month": "2026-03",
+      "amount": 16775,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869ce60pe",
+      "createdAt": "1773172090763"
+    },
+    {
+      "taskId": "869c89kha",
+      "task": "Walmart Store 100",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 8536,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869c89kha",
+      "createdAt": "1771875010557"
+    },
+    {
+      "taskId": "869c4rgh6",
+      "task": "UAP Traction - Sault Ste.Marie",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 1414.64,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869c4rgh6",
+      "createdAt": "1771009575078"
+    },
+    {
+      "taskId": "869c1uq26",
+      "task": "UAP Napa - 1635 - Taber Autoparts",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 870,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869c1uq26",
+      "createdAt": "1770320746393"
+    },
+    {
+      "taskId": "869c0u3jh",
+      "task": "Academy Sports #10",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 42339.6,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869c0u3jh",
+      "createdAt": "1770135853317"
+    },
+    {
+      "taskId": "869c0u2r4",
+      "task": "Academy Sports #321",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 42339.6,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869c0u2r4",
+      "createdAt": "1770135719139"
+    },
+    {
+      "taskId": "869c08dwn",
+      "task": "Site Survey of TSC",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 850,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869c08dwn",
+      "createdAt": "1770047783283"
+    },
+    {
+      "taskId": "869bz162y",
+      "task": "Napa Chilliwack",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 422.5,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869bz162y",
+      "createdAt": "1769720342789"
+    },
+    {
+      "taskId": "869byh1vn",
+      "task": "Charter Store 4385",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 650,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869byh1vn",
+      "createdAt": "1769620097761"
+    },
+    {
+      "taskId": "869bt9433",
+      "task": "Charter 4292 - Butte Montana",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 525,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869bt9433",
+      "createdAt": "1768412530115"
+    },
+    {
+      "taskId": "869brp6z3",
+      "task": "Charter 6219, O'Fallon, MO-Mexico",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 325,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869brp6z3",
+      "createdAt": "1768321086214"
+    },
+    {
+      "taskId": "869bpebae",
+      "task": "Charter 5780, Kingsport,TN-N Eastman",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 717.23,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869bpebae",
+      "createdAt": "1767824564311"
+    },
+    {
+      "taskId": "869bpdcc0",
+      "task": "NAPA Lac La Biche - 188-7275",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 1220,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869bpdcc0",
+      "createdAt": "1767814662341"
+    }
+  ],
+  "invoiceMonthly": {
+    "2026-08": 8975,
+    "2026-07": 3750,
+    "2026-06": 13070,
+    "2026-05": 38965.81,
+    "2026-04": 17264.85,
+    "2026-03": 17850,
+    "2026-02": 96349.84,
+    "2026-01": 3859.73
+  },
+  "invoiceByVendor": {
+    "Unassigned": 200085.23
+  }
 }
