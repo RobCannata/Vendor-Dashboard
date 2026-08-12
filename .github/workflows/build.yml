@@ -63,6 +63,9 @@ jobs:
       - name: Render reference-style executive dashboard
         run: node scripts/patch-reference-dashboard.mjs
 
+      - name: Apply reference dashboard v2 layout
+        run: node scripts/patch-reference-dashboard-v2.mjs
+
       - name: Publish built dashboard to repo root
         run: |
           cp dist/clickup-data.json clickup-data.json
