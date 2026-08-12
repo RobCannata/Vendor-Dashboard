@@ -1,229 +1,97 @@
-const clickUpSnapshot = {
-  source: 'ClickUp',
-  space: 'Field',
-  refreshedAt: '2026-08-12T12:05:00-05:00'
-};
+const clickUpSnapshot={source:'ClickUp',space:'Field',scorecardList:'Scorecards',refreshedAt:'2026-08-12T12:05:00-05:00'};
 
-const tasks = [
-  ['Family Dollar (Pilot)', 'vendor po to issue', 'New White Glove Installations'],
-  ['Rexall Multi Store Pilot', 'prospective project', 'Installations Main Tracker'],
-  ['iShoppes JFK', 'prospective project', 'Installations Main Tracker'],
-  ['US L.B.M : Higginbotham Brothers - BIG SPRINGS TX', 'not reported', 'Installations Main Tracker'],
-  ['OxxO 2nd Visit Quality (10MON)', 'not reported', 'Installations Main Tracker'],
-  ['Rexall', 'prospective project', 'Installations Main Tracker'],
-  ['Reeves Ace Hardware - Highlands', 'not reported', 'Installations Main Tracker'],
-  ['Food 4 Less', 'not reported', 'Installations Main Tracker'],
-  ['Dollar General', 'not reported', 'Installations Main Tracker'],
-  ['Tractor Supply Pilot', 'not reported', 'Installations Main Tracker'],
-  ['PETCO Mexico', 'not reported', 'Installations Main Tracker'],
-  ['Homes Alive Pets West Edmonton', 'not reported', 'Installations Main Tracker'],
-  ['Homes Alive Pets - Red Deer', 'not reported', 'Installations Main Tracker'],
-  ['WMUS TopStock Gen 1 Unistall', 'not reported', 'Installations Main Tracker'],
-  ['Family Dollar', 'not reported', 'Installations Main Tracker'],
-  ['DHI', 'not reported', 'Installations Main Tracker'],
-  ['Dark store install', 'not reported', 'Installations Main Tracker'],
-  ['Homes Alive Pets Sherwood', 'not reported', 'Installations Main Tracker'],
-  ['Miniso', 'not reported', 'Installations Main Tracker'],
-  ['WMUS Top Stock Gen 2', 'not reported', 'Installations Main Tracker'],
-  ['SASR', 'not reported', 'Installations Main Tracker'],
-  ['Import all Invoice/Cost into Clickup', 'not reported', 'Installations Main Tracker'],
-  ['Hucks # 264', 'not reported', 'Installations Main Tracker'],
-  ['The Fresh Market', 'prospective project', 'Installations Main Tracker']
+const scorecards=[
+  {vendor:'SASR',parent:'869ed6zn3',score:100,records:3,note:'Score available from Scorecard Average Calculator'},
+  {vendor:'Channel Partners',parent:'869d1ete9',score:100,records:5,note:'Scorecard records active'},
+  {vendor:'Anderson',parent:'869dmepg4',score:100,records:6,note:'Scorecard records active'},
+  {vendor:'Impulso',parent:'869duw9kp',score:null,records:2,note:'Score field not returned in task payload'},
+  {vendor:'B2X',parent:'869egpcgz',score:null,records:1,note:'No calculated score returned'}
 ];
 
-const vendorKeywords = [
-  'SASR', 'Rexall', 'Food 4 Less', 'Family Dollar', 'Dollar General',
-  'Tractor Supply', 'Homes Alive', 'Miniso', 'PETCO', 'OxxO'
+const workQueue=[
+  ['Family Dollar (Pilot)','New White Glove Installations','vendor po to issue','Vendor PO action'],
+  ['Rexall Multi Store Pilot','Installations Main Tracker','prospective project','Planning'],
+  ['iShoppes JFK','Installations Main Tracker','prospective project','Planning'],
+  ['The Fresh Market','Installations Main Tracker','prospective project','Planning'],
+  ['Import all Invoice/Cost into Clickup','Objectives','installation to request','Financial data workstream'],
+  ['OxxO 2nd Visit Quality (10MON)','Installations Main Tracker','not reported','Status not reported'],
+  ['WMUS TopStock Gen 2','Installations Main Tracker','not reported','Status not reported'],
+  ['SASR','Installations Main Tracker','not reported','Operational task']
 ];
 
-const vendorRows = vendorKeywords.map((vendor) => ({
-  vendor,
-  matches: tasks.filter(([name]) => name.toLowerCase().includes(vendor.toLowerCase()))
-}));
+const vendorInvoices=scorecards.map(v=>({vendor:v.vendor,amount:null,stage:'Not reported',note:'Invoice amount/status not exposed in current Scorecards payload'}));
+const scored=scorecards.filter(v=>v.score!==null);
+const averageQuality=scored.length?Math.round(scored.reduce((s,v)=>s+v.score,0)/scored.length):null;
 
-const stageCounts = tasks.reduce((counts, [, status]) => {
-  counts[status] = (counts[status] || 0) + 1;
-  return counts;
-}, {});
+const escapeHtml=value=>String(value).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const formatRefresh=iso=>new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/Chicago'}).format(new Date(iso));
+const clsForStatus=status=>status==='prospective project'?'green':status==='vendor po to issue'?'watch':status==='not reported'?'risk':'stage';
 
-const reportedCount = tasks.filter(([, status]) => status !== 'not reported').length;
-const prospectiveCount = tasks.filter(([, status]) => status === 'prospective project').length;
-const matchedVendorCount = vendorRows.filter(({ matches }) => matches.length > 0).length;
-const unmappedCount = tasks.length;
-
-const kpis = [
-  ['ClickUp tasks', tasks.length, 'Field workspace snapshot', '▣', 'up'],
-  ['Prospective projects', prospectiveCount, 'Current task status', '◉', 'up'],
-  ['Vendor workstreams', matchedVendorCount, 'Matched by task name', '◈', 'up'],
-  ['Status reported', `${reportedCount}/${tasks.length}`, 'Tasks with an actionable status', '◷', 'up'],
-  ['Quality score', 'N/A', 'Custom field not mapped', 'Q', 'warn'],
-  ['Installation margin', 'N/A', 'Custom field not mapped', '%', 'warn'],
-  ['On-time rate', 'N/A', 'Custom field not mapped', 'T', 'warn'],
-  ['Invoice aging', 'N/A', 'Custom field not mapped', '$', 'warn']
-];
-
-const safe = (value) => String(value).replace(/[&<>'"]/g, (char) => ({
-  '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-}[char]));
-
-const formatRefresh = (iso) => new Intl.DateTimeFormat('en-US', {
-  month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago'
-}).format(new Date(iso));
-
-const statusClass = (status) => {
-  if (status === 'prospective project') return 'green';
-  if (status === 'vendor po to issue') return 'watch';
-  if (status === 'not reported') return 'risk';
-  return 'stage';
+const renderKpis=()=>{
+  const data=[
+    ['Installation Quality Score',averageQuality!==null?`${averageQuality}%`:'—',`${scored.length} of ${scorecards.length} vendor programs scored`,'Q','good'],
+    ['Vendor Performance Scorecards',scorecards.length, 'Active vendor scorecard programs','V','good'],
+    ['Service Revenue','—','ClickUp revenue field not mapped','$','warn'],
+    ['Vendor Invoices','—','Invoice amount/status not mapped','$','warn']
+  ];
+  document.getElementById('kpiGrid').innerHTML=data.map(([label,value,detail,icon,state])=>`<article class="kpi"><div class="label"><span class="dot">${icon}</span>${escapeHtml(label)}</div><div class="value">${escapeHtml(value)}</div><div class="delta ${state==='warn'?'down':''}">${escapeHtml(detail)}</div></article>`).join('');
 };
 
-const renderKpis = () => {
-  document.getElementById('kpiGrid').innerHTML = kpis.map(([label, value, detail, icon, state]) => `
-    <article class="kpi">
-      <div class="label"><span class="dot">${icon}</span>${safe(label)}</div>
-      <div class="value">${safe(value)}</div>
-      <div class="delta ${state === 'warn' ? 'down' : ''}">${safe(detail)}</div>
-    </article>
-  `).join('');
+const renderSummary=()=>{
+  document.getElementById('summaryList').innerHTML=`
+    <div class="summary-item"><div class="summary-icon">V</div><div><div class="summary-label">Scorecard programs</div><div class="summary-value">${scorecards.length}</div><div class="trend">Vendor parents</div></div></div>
+    <div class="summary-item"><div class="summary-icon">Q</div><div><div class="summary-label">Quality coverage</div><div class="summary-value">${scored.length}/${scorecards.length}</div><div class="trend">Calculated scores available</div></div></div>
+    <div class="summary-item"><div class="summary-icon">◷</div><div><div class="summary-label">Last refresh</div><div class="summary-value">${escapeHtml(formatRefresh(clickUpSnapshot.refreshedAt))}</div><div class="trend">Central time</div></div></div>`;
+  document.getElementById('coverageNote').textContent='Vendor scorecard structure is available from the linked ClickUp Scorecards list. Revenue and invoice amounts require custom-field mapping before they can be displayed as financial KPIs.';
 };
 
-const renderSummary = () => {
-  const refreshed = formatRefresh(clickUpSnapshot.refreshedAt);
-  document.getElementById('summaryList').innerHTML = `
-    <div class="summary-item"><div class="summary-icon">▣</div><div><div class="summary-label">Workspace</div><div class="summary-value">${safe(clickUpSnapshot.space)}</div><div class="trend">Operational source</div></div></div>
-    <div class="summary-item"><div class="summary-icon">◉</div><div><div class="summary-label">Tasks loaded</div><div class="summary-value">${tasks.length}</div><div class="trend">Current snapshot</div></div></div>
-    <div class="summary-item"><div class="summary-icon">◷</div><div><div class="summary-label">Last refresh</div><div class="summary-value">${safe(refreshed)}</div><div class="trend">Central time</div></div></div>
-  `;
+const renderVendorCards=()=>{
+  document.getElementById('vendorCards').innerHTML=scorecards.map(v=>{
+    const scoreText=v.score===null?'—':`${v.score}%`;
+    const bar=v.score===null?0:v.score;
+    return `<article class="vendor-card">
+      <div class="vendor-top"><div><div class="vendor-name">${escapeHtml(v.vendor)}</div><div class="vendor-count">${v.records} linked scorecard records</div></div><span class="status ${v.score!==null?'green':'watch'}">${v.score!==null?'Scored':'Pending'}</span></div>
+      <div class="score-wrap"><div class="score-label"><span>Installation quality</span><span>${v.score!==null?'Available':'Not mapped'}</span></div><div class="score ${v.score===null?'na':''}">${scoreText}</div><div class="score-bar"><span style="width:${bar}%"></span></div></div>
+      <div class="vendor-footer"><span class="mini-status"><span class="mini-dot ${v.score===null?'gray':''}"></span>${v.score!==null?'Calculated':'Awaiting field'}</span><strong>${escapeHtml(v.note)}</strong></div>
+    </article>`;
+  }).join('');
 };
 
-const renderVendorTable = () => {
-  document.getElementById('vendorTable').innerHTML = vendorRows.map(({ vendor, matches }) => `
-    <tr>
-      <td>${safe(vendor)}</td>
-      <td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
-      <td><span class="status ${matches.length ? 'green' : 'risk'}">${matches.length} task${matches.length === 1 ? '' : 's'}</span></td>
-    </tr>
-  `).join('');
+const renderInvoices=()=>{
+  const pending='Pending vendor invoice';
+  document.getElementById('invoiceSummary').innerHTML=`
+    <div class="invoice-tile"><span>Invoice amount</span><strong>—</strong></div>
+    <div class="invoice-tile"><span>Invoice stage</span><strong>—</strong></div>
+    <div class="invoice-tile"><span>Vendors tracked</span><strong>${scorecards.length}</strong></div>`;
+  document.getElementById('invoiceTable').innerHTML=vendorInvoices.map(v=>`<tr><td>${escapeHtml(v.vendor)}</td><td>—</td><td><span class="status watch">${pending}</span></td></tr>`).join('');
 };
 
-const renderProjects = () => {
-  document.getElementById('projectTable').innerHTML = tasks.map(([name, status]) => `
-    <tr>
-      <td>${safe(name)}</td>
-      <td>Not mapped</td>
-      <td>Not mapped</td>
-      <td><span class="status ${statusClass(status)}">${safe(status)}</span></td>
-      <td>—</td><td>—</td><td>—</td>
-    </tr>
-  `).join('');
+const renderQuality=()=>{
+  document.getElementById('qualitySummary').innerHTML=`<div><div class="quality-average">${averageQuality!==null?averageQuality+'%':'—'}</div><div class="section-label">Average available score</div></div><div class="quality-note">${scored.length} scored vendor programs. Unscored programs remain visible below.</div>`;
+  document.getElementById('qualityBars').innerHTML=scorecards.map(v=>`<div class="quality-row"><div><div class="qname">${escapeHtml(v.vendor)}</div><div class="qtrack"><span style="width:${v.score||0}%"></span></div></div><div class="qscore">${v.score===null?'—':v.score+'%'}</div></div>`).join('');
 };
 
-const renderAging = () => {
-  const buckets = ['Current', '1–30 Days', '31–60 Days', '61–90 Days', '90+ Days'];
-  document.getElementById('agingGrid').innerHTML = buckets.map((bucket) => `
-    <div class="aging-card"><div class="age">${bucket}</div><div class="amt">N/A</div><div class="pct">Field not mapped</div></div>
-  `).join('');
-
-  document.getElementById('invoiceTable').innerHTML = `
-    <tr><td>Invoice / cost workstream</td><td>—</td><td>—</td><td><span class="status watch">Mapping needed</span></td></tr>
-  `;
+const renderRevenue=()=>{
+  document.getElementById('revenueNote').textContent='Service revenue cannot be calculated from the currently exposed ClickUp task payload. The workspace contains an invoice/cost import workstream, but the financial fields themselves are not returned by the connected task view.';
 };
 
-const makeCharts = () => {
-  if (!window.Chart) return;
-
-  Chart.defaults.color = '#94a6b9';
-  Chart.defaults.borderColor = '#1a3045';
-  Chart.defaults.font.family = 'Inter';
-  Chart.defaults.font.size = 9;
-
-  const statusLabels = Object.keys(stageCounts);
-  const statusValues = Object.values(stageCounts);
-
-  new Chart(document.getElementById('qualityChart'), {
-    type: 'bar',
-    data: {
-      labels: statusLabels,
-      datasets: [{
-        label: 'Tasks',
-        data: statusValues,
-        backgroundColor: ['#2f86ff', '#57d98a', '#f3c85b'],
-        borderRadius: 6,
-        maxBarThickness: 48
-      }]
-    },
-    options: {
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { displayColors: false } },
-      scales: {
-        y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: '#102435' } },
-        x: { grid: { display: false } }
-      }
-    }
-  });
-
-  new Chart(document.getElementById('costChart'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Prospective project', 'Vendor PO to issue', 'Not reported'],
-      datasets: [{
-        data: [stageCounts['prospective project'] || 0, stageCounts['vendor po to issue'] || 0, stageCounts['not reported'] || 0],
-        backgroundColor: ['#57d98a', '#f3c85b', '#2f86ff'],
-        borderColor: '#071522',
-        borderWidth: 4,
-        hoverOffset: 5
-      }]
-    },
-    options: {
-      maintainAspectRatio: false,
-      cutout: '68%',
-      plugins: {
-        legend: { position: 'bottom', labels: { boxWidth: 9, padding: 14 } },
-        tooltip: { displayColors: false }
-      }
-    }
-  });
-
-  const topTasks = tasks.slice(0, 10);
-  new Chart(document.getElementById('marginChart'), {
-    type: 'bar',
-    data: {
-      labels: topTasks.map(([name]) => name.length > 18 ? `${name.slice(0, 18)}…` : name),
-      datasets: [{
-        label: 'Reported status',
-        data: topTasks.map(([, status]) => status === 'not reported' ? 0 : 1),
-        backgroundColor: '#35d5ff',
-        borderRadius: 5,
-        maxBarThickness: 22
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { displayColors: false } },
-      scales: {
-        x: { beginAtZero: true, max: 1, ticks: { stepSize: 1, callback: (value) => value ? 'Reported' : 'Not reported' }, grid: { color: '#102435' } },
-        y: { grid: { display: false } }
-      }
-    }
-  });
+const renderQueue=()=>{
+  document.getElementById('workQueue').innerHTML=workQueue.map(([name,list,status,flag])=>`<tr><td>${escapeHtml(name)}</td><td>${escapeHtml(list)}</td><td><span class="status ${clsForStatus(status)}">${escapeHtml(status)}</span></td><td>${escapeHtml(flag)}</td></tr>`).join('');
 };
 
-const renderFooter = () => {
-  document.querySelector('.page-footer').innerHTML = `
-    Data source: <strong>ClickUp</strong> · Refreshed ${safe(formatRefresh(clickUpSnapshot.refreshedAt))}. 
-    ${unmappedCount} task records loaded. Financial, quality, safety, margin, and invoice-aging metrics remain unavailable until ClickUp custom fields are mapped.
-  `;
+const renderCoverage=()=>{
+  const items=[
+    ['Vendor scorecard parents','Available','coverage-good'],
+    ['Installation quality score','Partial','coverage-partial'],
+    ['Service revenue','Not mapped','coverage-none'],
+    ['Vendor invoice amount','Not mapped','coverage-none'],
+    ['Vendor invoice status','Not mapped','coverage-none'],
+    ['Installation status','Available from task status','coverage-good']
+  ];
+  document.getElementById('coverageGrid').innerHTML=items.map(([label,status,cls])=>`<div class="coverage-item"><span>${escapeHtml(label)}</span><strong class="${cls}">${escapeHtml(status)}</strong></div>`).join('');
 };
 
-const init = () => {
-  renderKpis();
-  renderSummary();
-  renderVendorTable();
-  renderProjects();
-  renderAging();
-  renderFooter();
-  makeCharts();
-};
+const renderFooter=()=>{document.getElementById('pageFooter').innerHTML=`Data source: <strong>ClickUp Field</strong> · Scorecards list: <strong>Scorecards</strong> · Refreshed ${escapeHtml(formatRefresh(clickUpSnapshot.refreshedAt))}. Financial fields remain intentionally blank until their ClickUp custom fields are mapped.`};
 
-document.addEventListener('DOMContentLoaded', init);
+const init=()=>{renderKpis();renderSummary();renderVendorCards();renderInvoices();renderQuality();renderRevenue();renderQueue();renderCoverage();renderFooter();};
+document.addEventListener('DOMContentLoaded',init);
