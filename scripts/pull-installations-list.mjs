@@ -15,6 +15,7 @@ const SOURCES = [
   { type: 'list', id: '901210415855', label: 'Installations Main Tracker' },
   { type: 'list', id: '901218028445', label: 'Hucks Stores 135 Rollout' },
   { type: 'list', id: '901219830054', label: 'Family Dollar (5 Pilots)' },
+  { type: 'list', id: '901219429938', label: 'New White Glove Installations' },
   { type: 'list', id: '901217460327', label: 'Scorecards' },
 ];
 
