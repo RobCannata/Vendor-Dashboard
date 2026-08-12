@@ -60,9 +60,6 @@ jobs:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
         run: node scripts/patch-scorecards-live.mjs
 
-      - name: Set DHI score
-        run: node scripts/set-dhi-score.mjs
-
       - name: Publish built dashboard to repo root
         run: |
           cp dist/clickup-data.json clickup-data.json
