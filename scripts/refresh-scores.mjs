@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
-const LIST_ID = '901217460327';
 const API_BASE = 'https://api.clickup.com/api/v2';
 const OUTPUT = 'clickup-scores.json';
 
@@ -38,27 +37,6 @@ function vendorName(name) {
   return null;
 }
 
-const PROJECT_NAMES = [
-  'DHI',
-  'Dollar General Pilot',
-  'Natural Grocers',
-  'Hucks Stores Pilot',
-  'WMUS Top Stock',
-  'WMUS Audits',
-  'Academy Sports',
-  'Miniso',
-  'Ace Elgin',
-  'Dufry',
-  'Oxxo Revisits',
-  'Food 4 Less',
-];
-
-function projectName(name) {
-  const raw = String(name || '').trim();
-  const match = PROJECT_NAMES.find((candidate) => candidate.toLowerCase() === raw.toLowerCase());
-  return match || null;
-}
-
 function scoreForTask(task) {
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
   const preferred = ['Avg Final Score %', 'Avg Final Score', 'Final Score %', 'Final Score'];
@@ -66,6 +44,13 @@ function scoreForTask(task) {
     const field = fields.find((f) => String(f?.name || '').trim().toLowerCase() === name.toLowerCase());
     const score = percent(field?.value);
     if (score != null) return score;
+  }
+  for (const field of fields) {
+    const label = String(field?.name || '').toLowerCase();
+    if (label.includes('avg') && label.includes('final') && label.includes('score')) {
+      const score = percent(field?.value);
+      if (score != null) return score;
+    }
   }
   return null;
 }
@@ -78,11 +63,11 @@ async function getJson(url) {
   return response.json();
 }
 
-async function getTasks() {
+async function getListTasks() {
   const tasks = [];
   let page = 0;
   while (true) {
-    const data = await getJson(`${API_BASE}/list/${LIST_ID}/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
+    const data = await getJson(`${API_BASE}/list/901217460327/task?page=${page}&subtasks=true&include_closed=true&order_by=updated&reverse=true`);
     const batch = Array.isArray(data?.tasks) ? data.tasks : [];
     tasks.push(...batch);
     if (batch.length < 100) break;
@@ -91,19 +76,38 @@ async function getTasks() {
   return tasks;
 }
 
-const tasks = await getTasks();
+const PROJECT_TASKS = {
+  'DHI': '869ed6zzt',
+  'Dollar General Pilot': '869ed6zxk',
+  'Natural Grocers': '869ed78hy',
+  'Hucks Stores Pilot': '869daqvck',
+  'WMUS Top Stock': '869dvfp4w',
+  'WMUS Audits': '869dvfnue',
+  'Academy Sports': '869d1wf7v',
+  'Miniso': '869ed7at4',
+  'Ace Elgin': '869d4m6vq',
+  'Dufry': '869dmfb7c',
+  'Oxxo Revisits': '869duwa8r',
+  'Food 4 Less': '869egpcpd',
+};
+
+const listTasks = await getListTasks();
 const scores = {};
-const projectScores = {};
-
-for (const task of tasks) {
-  const score = scoreForTask(task);
-  if (score == null) continue;
-
+for (const task of listTasks) {
   const vendor = vendorName(task?.name);
-  if (vendor) scores[vendor] = score;
+  const score = scoreForTask(task);
+  if (vendor && score != null) scores[vendor] = score;
+}
 
-  const project = projectName(task?.name);
-  if (project) projectScores[project] = score;
+const projectScores = {};
+for (const [project, taskId] of Object.entries(PROJECT_TASKS)) {
+  try {
+    const task = await getJson(`${API_BASE}/task/${taskId}?include_subtasks=false`);
+    const score = scoreForTask(task);
+    if (score != null) projectScores[project] = score;
+  } catch (err) {
+    console.warn(`Project score fetch failed for ${project} (${taskId}):`, err.message);
+  }
 }
 
 const payload = {
