@@ -10,6 +10,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
+  <style>
+    .vendor-grid{align-items:stretch}
+    .vendor-card{height:360px;min-height:360px;display:flex;flex-direction:column}
+    .project-stack{flex:1;overflow:auto}
+    @media(max-width:900px){.vendor-card{height:auto;min-height:320px}}
+  </style>
 </head>
 <body>
   <div class="shell">
@@ -46,9 +52,7 @@
       <section class="section-head lower-head"><div><div class="eyebrow">OPERATING CONTROLS</div><h3>Financial &amp; Execution View</h3></div><span>Score feed <strong id="scoreRefresh">—</strong></span></section>
       <section class="control-grid">
         <article class="panel"><div class="panel-head"><div><div class="eyebrow">INSTALLATION QUALITY</div><h4>Quality by Vendor</h4></div></div><div class="quality-panel" id="qualityByVendor"><div class="quality-note">Loading ClickUp vendor scores…</div></div></article>
-
         <article class="panel"><div class="panel-head"><div><div class="eyebrow">VENDOR INVOICES</div><h4>Invoice Workflow</h4></div></div><div class="invoice-panel"><div class="invoice-stats"><div class="invoice-stat"><span>Total invoice value</span><strong>—</strong></div><div class="invoice-stat"><span>Pending invoices</span><strong>0</strong></div><div class="invoice-stat"><span>Vendors tracked</span><strong>5</strong></div></div><table class="invoice-table"><thead><tr><th>Workflow</th><th>Count</th><th>Amount</th></tr></thead><tbody><tr><td>Pending vendor invoice</td><td>0</td><td>—</td></tr><tr><td>Ready for OTB reception</td><td>0</td><td>—</td></tr><tr><td>Complete</td><td>0</td><td>—</td></tr></tbody></table></div></article>
-
         <article class="panel revenue-panel"><div class="panel-head"><div><div class="eyebrow">SERVICE REVENUE</div><h4>Revenue</h4></div></div><div class="revenue-value">—</div><div class="revenue-caption">Service revenue will populate when ClickUp financial fields are mapped.</div><div class="metric-row"><span>Revenue field</span><strong>Not mapped</strong></div><div class="metric-row"><span>Invoice amount</span><strong>Not mapped</strong></div><div class="metric-row"><span>Margin</span><strong>Not mapped</strong></div></article>
       </section>
 
