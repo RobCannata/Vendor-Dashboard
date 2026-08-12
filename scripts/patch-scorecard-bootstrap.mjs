@@ -18,7 +18,8 @@ const BOOT_SCRIPT = `<script>
       const quality=document.getElementById('kVendorQuality');
       if(quality && typeof scoreOfVendor==='function'){
         const scores=VENDORS.map(v=>scoreOfVendor(v)).filter(v=>Number.isFinite(v));
-        quality.textContent=scores.length?`${Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)}%`:'—';
+        const qualityText = scores.length ? String(Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)) + '%' : '—';
+        quality.textContent=qualityText;
       }
       const count=document.getElementById('kScorecards');
       if(count) count.textContent=String(VENDORS.length);
