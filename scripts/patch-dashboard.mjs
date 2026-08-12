@@ -21,6 +21,11 @@ const QUALITY_FROM = "const avgPerf=vis.map(r=>r.perf).filter(v=>Number.isFinite
 const QUALITY_TO = "const vendorScores=VENDORS.map(v=>scoreOfVendor(v)).filter(v=>Number.isFinite(v));const overall=vendorScores.length?Math.round(vendorScores.reduce((a,b)=>a+b,0)/vendorScores.length):null;";
 
 const PROJECT_REGISTER_RE = /\s*<section class="card mini" style="margin-top:12px">\s*<div class="card-head"><div><h3>Project register<\/h3>[\s\S]*?<\/section>/;
+const VENDOR_HEIGHT_RE = /\.vendor\{display:flex;flex-direction:column;min-height:760px\}/;
+const VENDOR_HEIGHT_TO = '.vendor{display:flex;flex-direction:column;min-height:0;height:auto}';
+const QUALITY_CARD = `<section class="card overall-quality" id="overallVendorQuality"><div class="overall-quality-inner"><div><div class="kpi-label">Overall Vendor Quality</div><div class="overall-quality-title">Weighted vendor scorecard average</div><div class="overall-quality-sub">Average of vendor final scores across the active scorecards.</div></div><div class="overall-quality-score" id="overallVendorQualityScore">—</div></div></section>`;
+const QUALITY_CARD_ANCHOR = '<div class="layout">';
+const QUALITY_STYLE = '<style>.vendor{min-height:0!important;height:auto!important}.vendor .projects{margin-top:4px}.overall-quality{margin:12px 0;background:linear-gradient(160deg,rgba(16,29,51,.97),rgba(10,20,37,.96));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}.overall-quality-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:16px 18px}.overall-quality-title{font-size:15px;font-weight:800;margin-top:4px}.overall-quality-sub{font-size:11px;color:var(--muted);margin-top:3px}.overall-quality-score{font-size:34px;font-weight:900;letter-spacing:-.05em;color:var(--accent)}@media(max-width:820px){.overall-quality-inner{align-items:flex-start}.overall-quality-score{font-size:28px}}</style>';
 
 async function main() {
   const html = await fs.readFile(filePath, 'utf8');
@@ -33,6 +38,25 @@ async function main() {
 
   if (PROJECT_REGISTER_RE.test(next)) {
     next = next.replace(PROJECT_REGISTER_RE, '');
+    replaced += 1;
+  }
+
+  if (VENDOR_HEIGHT_RE.test(next)) {
+    next = next.replace(VENDOR_HEIGHT_RE, VENDOR_HEIGHT_TO);
+    replaced += 1;
+  }
+
+  if (!next.includes('id="overallVendorQuality"')) {
+    next = next.includes('<head>') ? next.replace('<head>', '<head>' + QUALITY_STYLE) : QUALITY_STYLE + next;
+    const anchorIndex = next.indexOf(QUALITY_CARD_ANCHOR);
+    if (anchorIndex >= 0) {
+      next = next.slice(0, anchorIndex) + QUALITY_CARD + next.slice(anchorIndex);
+      replaced += 1;
+    }
+  }
+
+  if (!next.includes('overallVendorQualityScore')) {
+    next = next.replace('</body>', `<script>(function(){try{var scores=VENDORS.map(function(v){return scoreOfVendor(v)}).filter(function(v){return Number.isFinite(v)});var el=document.getElementById('overallVendorQualityScore');if(el){el.textContent=scores.length?String(Math.round(scores.reduce(function(a,b){return a+b},0)/scores.length))+'%':'—';}}catch(e){console.warn(e)}})();</script></body>`);
     replaced += 1;
   }
 
