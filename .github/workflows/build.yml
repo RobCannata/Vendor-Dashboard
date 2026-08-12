@@ -55,6 +55,11 @@ jobs:
       - name: Restore independent scorecard rendering
         run: node scripts/patch-scorecard-bootstrap.mjs
 
+      - name: Apply live ClickUp scorecards
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+        run: node scripts/patch-scorecards-live.mjs
+
       - name: Publish built dashboard to repo root
         run: |
           cp dist/clickup-data.json clickup-data.json
