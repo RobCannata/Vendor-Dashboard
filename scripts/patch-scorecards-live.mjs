@@ -111,7 +111,11 @@ async function main() {
 
   const sasr = tasks.find((task) => String(task?.id) === SASR_PARENT_ID || String(task?.name || '').trim().toLowerCase() === 'sasr');
   const sasrChildren = Array.isArray(sasr?.subtasks) ? sasr.subtasks : tasks.filter((task) => String(task?.parent) === SASR_PARENT_ID);
-  const dhi = sasrChildren.find((task) => String(task?.id) === DHI_TASK_ID || String(task?.name || '').trim().toLowerCase() === 'dhi');
+
+  // ClickUp's list endpoint returns DHI as a child task but may omit custom field values.
+  // Fetch DHI directly to obtain its full custom_fields payload and use its own Final Score %.
+  const dhiSummary = sasrChildren.find((task) => String(task?.id) === DHI_TASK_ID || String(task?.name || '').trim().toLowerCase() === 'dhi');
+  const dhi = dhiSummary ? await fetchJson(`${API_BASE}/task/${DHI_TASK_ID}?include_subtasks=false`) : null;
   const dhiScore = dhi ? projectScore(dhi) : null;
 
   const sasrFinalScore = live.SASR ?? 100;
