@@ -18,7 +18,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.2,
     "address": "75 Akerley Blvd, Dartmouth, NS B3B 1R7, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -52,7 +52,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.2,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -86,7 +86,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.2,
     "address": "3101 23rd Ave, Astoria, NY 11105, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -105,8 +105,8 @@
   {
     "id": "8699rduav",
     "name": "Gebruder Weiss - Plant 1715",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -117,11 +117,11 @@
     "due": null,
     "created": "2025-07-10T13:55:35.977Z",
     "updated": "2026-02-23T21:59:58.971Z",
-    "done": null,
+    "done": "2025-10-09T19:01:46.894Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 4067.8,
+    "timeInStatusHours": 7362,
     "address": "1273 Joe Battle Blvd, El Paso, TX 79936, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -131,7 +131,8 @@
     "commentCount": 0,
     "createdBy": "Graham Magyar",
     "activityMonths": [
-      "July"
+      "July",
+      "October"
     ],
     "activityLabel": "July"
   },
@@ -154,7 +155,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 4028.4,
+    "timeInStatusHours": 4031.6,
     "address": "2500 Russwood Dr, Flower Mound, TX 75028, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -190,7 +191,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 3901.8,
+    "timeInStatusHours": 3905,
     "address": "29 Dugger McNeil Dr #8, Halifax, NS B3A 1C9, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -208,8 +209,8 @@
   {
     "id": "8699r1xx6",
     "name": "NAPA-Wynyard (Boylak Enterprises)",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -220,11 +221,11 @@
     "due": null,
     "created": "2025-07-09T16:09:39.692Z",
     "updated": "2026-03-05T15:38:56.675Z",
-    "done": null,
+    "done": "2026-03-05T15:38:56.675Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 3834.2,
+    "timeInStatusHours": 3837.4,
     "address": "551 S Service Rd, Wynyard, SK S0A 4T0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -234,15 +235,16 @@
     "commentCount": 0,
     "createdBy": "Omar ElBanna",
     "activityMonths": [
-      "July"
+      "July",
+      "March"
     ],
     "activityLabel": "July"
   },
   {
     "id": "8699fvvr1",
     "name": "Macadoodles - Union",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -253,11 +255,11 @@
     "due": null,
     "created": "2025-06-18T21:21:31.409Z",
     "updated": "2026-03-12T14:05:23.914Z",
-    "done": null,
+    "done": "2025-09-11T20:45:24.311Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 3667.7,
+    "timeInStatusHours": 8032.3,
     "address": "1607 Denmark Rd, Union, MO 63084, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -267,7 +269,8 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "June"
+      "June",
+      "September"
     ],
     "activityLabel": "June"
   },
@@ -290,7 +293,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "11721 Roe Ave, Leawood, KS 66209, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -326,7 +329,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "11 Rue Marcel-Lépine, Saint-Jacques, QC J0K 2R0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -359,7 +362,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "550 Av. Saint-Alphonse, Saint-Bruno, QC G0W 2L0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -392,7 +395,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "3404 78 Ave NW, Edmonton, AB T6B 2X9, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -426,7 +429,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "80a Rue J.-A.-Bombardier, Boucherville, QC J4B 8N4, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -461,7 +464,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "3417 Boul Industriel, Laval, QC H7L 5A1, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -496,7 +499,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "10205 13 St, Dawson Creek, BC V1G 3W3, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -531,7 +534,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "1041 Rte 111 E, Amos, QC J9T 1N2, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -566,7 +569,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "127 King St, North Sydney, NS B2A 3S1, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -601,7 +604,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "2702 99 St, Battleford, SK S0M 0E0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -636,7 +639,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "10052 100 Ave, Fort St John, BC V1J 1Y6, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -671,7 +674,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "3602 Riverside Plaza Dr Ste 111, Riverside, CA 92506, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -690,8 +693,8 @@
   {
     "id": "869ayg148",
     "name": "Charter 2539",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -702,11 +705,11 @@
     "due": null,
     "created": "2025-10-24T19:09:21.525Z",
     "updated": "2026-04-30T19:37:21.815Z",
-    "done": null,
+    "done": "2026-03-05T15:39:18.019Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 2486.2,
+    "timeInStatusHours": 3837.4,
     "address": "636 E Interstate Hwy 2 #103, Weslaco, TX 78596, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -716,7 +719,8 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "October"
+      "October",
+      "March"
     ],
     "activityLabel": "October"
   },
@@ -739,7 +743,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2200.4,
+    "timeInStatusHours": 2203.6,
     "address": "200 Wilmot Rd, Deerfield, IL 60015, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -773,7 +777,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2180,
+    "timeInStatusHours": 2183.2,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -807,7 +811,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2180,
+    "timeInStatusHours": 2183.2,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -841,7 +845,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2179.9,
+    "timeInStatusHours": 2183.2,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -875,7 +879,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2179.9,
+    "timeInStatusHours": 2183.2,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -909,7 +913,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2179.9,
+    "timeInStatusHours": 2183.1,
     "address": "5003 50 Ave S, Fort Nelson, BC V0C 1R0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -943,7 +947,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2179.9,
+    "timeInStatusHours": 2183.1,
     "address": "111 Victoria Rd, Revelstoke, BC V0E 2S0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -977,7 +981,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 2179.9,
+    "timeInStatusHours": 2183.1,
     "address": "2025 Coutlee Ave, Merritt, BC V1K 1A4, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1011,7 +1015,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1045,7 +1049,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "Metro, Av. Canadá 1110, La Victoria 15034, Peru",
     "storeManager": "",
     "storeSqft": null,
@@ -1079,7 +1083,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "C. Bajada Balta 626, Miraflores 15074, Peru",
     "storeManager": "",
     "storeSqft": null,
@@ -1113,7 +1117,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1718.1,
+    "timeInStatusHours": 1721.3,
     "address": "11600 Leona Rd, Eden Prairie, MN 55344, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1147,7 +1151,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "2685 Pearl St, Boulder, CO 80302, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1165,8 +1169,8 @@
   {
     "id": "869bczzx1",
     "name": "Charter Astoria 1011 - 23rd St",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1177,11 +1181,11 @@
     "due": null,
     "created": "2025-12-04T22:26:52.761Z",
     "updated": "2026-06-16T15:59:30.063Z",
-    "done": null,
+    "done": "2026-03-05T15:38:11.815Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 1361.8,
+    "timeInStatusHours": 3837.4,
     "address": "31-01 23rd Ave, Astoria, NY 11105, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1191,15 +1195,16 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "December"
+      "December",
+      "March"
     ],
     "activityLabel": "December"
   },
   {
     "id": "869brp6z3",
     "name": "Charter 6219, O'Fallon, MO-Mexico",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1210,11 +1215,11 @@
     "due": null,
     "created": "2026-01-13T16:18:06.214Z",
     "updated": "2026-06-16T16:00:41.233Z",
-    "done": null,
+    "done": "2026-03-05T15:38:38.311Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 1361.8,
+    "timeInStatusHours": 3837.4,
     "address": "8628 Mexico Rd, O'Fallon, MO 63366, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1224,7 +1229,8 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "January"
+      "January",
+      "March"
     ],
     "activityLabel": "January"
   },
@@ -1247,7 +1253,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "526 Chemin des Patriotes, Otterburn Park, QC J3H 1Z3, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1281,7 +1287,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "1900 Cypress street West Monroe LA 71291 West Monroe United States",
     "storeManager": "",
     "storeSqft": null,
@@ -1316,7 +1322,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "3173 3rd Ave, Whitehorse, YT Y1A 1G5, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1334,8 +1340,8 @@
   {
     "id": "869c4rgh6",
     "name": "UAP Traction - Sault Ste.Marie",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1346,11 +1352,11 @@
     "due": null,
     "created": "2026-02-13T19:06:15.078Z",
     "updated": "2026-07-07T18:52:18.521Z",
-    "done": null,
+    "done": "2026-07-07T18:52:18.521Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 854.9,
+    "timeInStatusHours": 858.2,
     "address": "380 Industrial Park Crescent, Sault Ste. Marie, ON P6B 5Y8, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1360,15 +1366,16 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "February"
+      "February",
+      "July"
     ],
     "activityLabel": "February"
   },
   {
     "id": "869bpdcc0",
     "name": "NAPA Lac La Biche - 188-7275",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1379,11 +1386,11 @@
     "due": null,
     "created": "2026-01-07T19:37:42.341Z",
     "updated": "2026-07-20T17:14:42.521Z",
-    "done": null,
+    "done": "2026-07-07T18:40:16.767Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 544.6,
+    "timeInStatusHours": 858.4,
     "address": "10255 101 Ave, Lac La Biche, AB T0A 2C0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1393,15 +1400,16 @@
     "commentCount": 0,
     "createdBy": "Omar ElBanna",
     "activityMonths": [
-      "January"
+      "January",
+      "July"
     ],
     "activityLabel": "January"
   },
   {
     "id": "8699d1wwj",
     "name": "OxxO - Pilot",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1412,11 +1420,11 @@
     "due": null,
     "created": "2025-06-11T13:57:08.113Z",
     "updated": "2026-07-22T15:42:42.669Z",
-    "done": null,
+    "done": "2026-07-22T15:42:42.669Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 498.1,
+    "timeInStatusHours": 501.3,
     "address": "Michelena Y Miguel Dominguez 1304, Thomas Alva Edison, Talleres, 64480 Monterrey, N.L., Mexico",
     "storeManager": "",
     "storeSqft": null,
@@ -1426,15 +1434,16 @@
     "commentCount": 0,
     "createdBy": "Peyton Morrison",
     "activityMonths": [
-      "June"
+      "June",
+      "July"
     ],
     "activityLabel": "June"
   },
   {
     "id": "869dz7np7",
     "name": "Decicco & Sons Audit",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1445,11 +1454,11 @@
     "due": null,
     "created": "2026-07-02T19:23:59.879Z",
     "updated": "2026-07-22T18:33:36.672Z",
-    "done": null,
+    "done": "2026-07-07T13:01:30.663Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 495.3,
+    "timeInStatusHours": 864,
     "address": "1 Legend Dr, Sleepy Hollow, NY 10591",
     "storeManager": "",
     "storeSqft": null,
@@ -1466,8 +1475,8 @@
   {
     "id": "869d49x5m",
     "name": "Harrison Paint Fairfield",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1478,11 +1487,11 @@
     "due": null,
     "created": "2026-04-30T18:29:05.911Z",
     "updated": "2026-07-22T18:33:45.424Z",
-    "done": null,
+    "done": "2026-07-07T18:39:16.996Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 495.3,
+    "timeInStatusHours": 858.4,
     "address": "1526 Fairfield Ave 71101 Shreveport United States",
     "storeManager": "",
     "storeSqft": null,
@@ -1492,15 +1501,16 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "April"
+      "April",
+      "July"
     ],
     "activityLabel": "April"
   },
   {
     "id": "869bpebae",
     "name": "Charter 5780, Kingsport,TN-N Eastman",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1511,11 +1521,11 @@
     "due": null,
     "created": "2026-01-07T22:22:44.311Z",
     "updated": "2026-07-24T16:26:12.314Z",
-    "done": null,
+    "done": "2026-03-05T15:38:31.481Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 449.4,
+    "timeInStatusHours": 3837.4,
     "address": "2003 N Eastman Rd Suite 36, Kingsport, TN 37660, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1525,15 +1535,16 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "January"
+      "January",
+      "March"
     ],
     "activityLabel": "January"
   },
   {
     "id": "869bt9433",
     "name": "Charter 4292 - Butte Montana",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1544,11 +1555,11 @@
     "due": null,
     "created": "2026-01-14T17:42:10.115Z",
     "updated": "2026-07-24T16:26:14.108Z",
-    "done": null,
+    "done": "2026-03-05T15:38:34.965Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 449.4,
+    "timeInStatusHours": 3837.4,
     "address": "3201 Harrison Ave, Butte, MT 59701, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1558,15 +1569,16 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "January"
+      "January",
+      "March"
     ],
     "activityLabel": "January"
   },
   {
     "id": "869byh1vn",
     "name": "Charter Store 4385",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1577,11 +1589,11 @@
     "due": null,
     "created": "2026-01-28T17:08:17.761Z",
     "updated": "2026-07-24T16:26:20.742Z",
-    "done": null,
+    "done": "2026-07-07T18:51:22.504Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 449.4,
+    "timeInStatusHours": 858.2,
     "address": "4142 California Ave #14, Bakersfield, CA 93309, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1591,7 +1603,8 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "January"
+      "January",
+      "July"
     ],
     "activityLabel": "January"
   },
@@ -1614,7 +1627,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 8178.8,
+    "timeInStatusHours": 8182,
     "address": "2572 Lake Tahoe Blvd, South Lake Tahoe, CA 96150, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -1648,7 +1661,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 4579.6,
+    "timeInStatusHours": 4582.8,
     "address": "Av. Andrés Bello 2465, Gran Torre Santiago, Piso 1, 7510689 Santiago, Providencia, Región Metropolitana, Chile",
     "storeManager": "",
     "storeSqft": null,
@@ -1682,7 +1695,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 8178.8,
+    "timeInStatusHours": 8182,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1700,8 +1713,8 @@
   {
     "id": "869951dz9",
     "name": "Cencosud-Jumbo la Dehesa",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1712,11 +1725,11 @@
     "due": "2025-12-04T10:00:00.000Z",
     "created": "2025-05-21T20:30:33.016Z",
     "updated": "2026-07-27T20:14:11.668Z",
-    "done": null,
+    "done": "2025-12-08T13:19:40.023Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 373.6,
+    "timeInStatusHours": 5927.7,
     "address": "Av. La Dehesa 1445, Lo Barnechea, Región Metropolitana, Chile",
     "storeManager": "",
     "storeSqft": null,
@@ -1735,8 +1748,8 @@
   {
     "id": "869951gc0",
     "name": "Cencosud-Santa Isabel El Gabino",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1747,11 +1760,11 @@
     "due": "2025-11-20T10:00:00.000Z",
     "created": "2025-05-21T20:38:23.078Z",
     "updated": "2026-07-27T20:14:13.100Z",
-    "done": null,
+    "done": "2025-12-03T14:49:11.928Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 373.6,
+    "timeInStatusHours": 6046.2,
     "address": "El Gabino 13551, 7690141 Lo Barnechea, Región Metropolitana, Chile",
     "storeManager": "",
     "storeSqft": null,
@@ -1762,15 +1775,16 @@
     "createdBy": "ClickBot",
     "activityMonths": [
       "November",
-      "May"
+      "May",
+      "December"
     ],
     "activityLabel": "November"
   },
   {
     "id": "869bz162y",
     "name": "Napa Chilliwack",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1781,11 +1795,11 @@
     "due": null,
     "created": "2026-01-29T20:59:02.789Z",
     "updated": "2026-07-28T14:24:57.536Z",
-    "done": null,
+    "done": "2026-01-29T20:59:02.789Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 355.4,
+    "timeInStatusHours": 4672,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1802,8 +1816,8 @@
   {
     "id": "869c1uq26",
     "name": "UAP Napa - 1635 - Taber Autoparts",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1814,11 +1828,11 @@
     "due": "2026-04-02T09:00:00.000Z",
     "created": "2026-02-05T19:45:46.393Z",
     "updated": "2026-07-28T14:25:16.913Z",
-    "done": null,
+    "done": "2026-05-14T16:26:05.834Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 355.4,
+    "timeInStatusHours": 2156.6,
     "address": "5219 47 Ave, Taber, AB T1G 1R5, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -1829,15 +1843,16 @@
     "createdBy": "ClickBot",
     "activityMonths": [
       "April",
-      "February"
+      "February",
+      "May"
     ],
     "activityLabel": "April"
   },
   {
     "id": "869dp02hg",
     "name": "Dick's House of Sports",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1848,11 +1863,11 @@
     "due": null,
     "created": "2026-06-12T15:23:18.825Z",
     "updated": "2026-08-05T18:19:09.614Z",
-    "done": null,
+    "done": "2026-07-07T14:37:39.839Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 862.4,
     "address": "1008 Ross Park Mall Dr, Pittsburgh, PA 15237",
     "storeManager": "",
     "storeSqft": "132,000",
@@ -1862,15 +1877,16 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "June"
+      "June",
+      "July"
     ],
     "activityLabel": "June"
   },
   {
     "id": "869dm9jkg",
     "name": "PetSmart site Survey",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1881,11 +1897,11 @@
     "due": null,
     "created": "2026-06-09T11:41:45.202Z",
     "updated": "2026-08-05T18:19:11.606Z",
-    "done": null,
+    "done": "2026-07-07T14:37:39.839Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 862.4,
     "address": "10030 N 90th St, Scottsdale, AZ 85258",
     "storeManager": "",
     "storeSqft": "15588",
@@ -1895,15 +1911,16 @@
     "commentCount": 0,
     "createdBy": "Robert Cannata",
     "activityMonths": [
-      "June"
+      "June",
+      "July"
     ],
     "activityLabel": "June"
   },
   {
     "id": "869dxa6xn",
     "name": "Higginbotham Brothers ",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1914,11 +1931,11 @@
     "due": null,
     "created": "2026-06-29T16:12:50.098Z",
     "updated": "2026-08-05T18:19:14.639Z",
-    "done": null,
+    "done": "2026-07-09T13:08:59.366Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 815.9,
     "address": "1900 FM 700 Big Spring, TX 79720",
     "storeManager": "",
     "storeSqft": "20,000",
@@ -1928,15 +1945,16 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "June"
+      "June",
+      "July"
     ],
     "activityLabel": "June"
   },
   {
     "id": "869ce60pe",
     "name": "WM Store 100 TopStock",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1947,11 +1965,11 @@
     "due": null,
     "created": "2026-03-10T19:48:10.763Z",
     "updated": "2026-08-05T18:19:23.639Z",
-    "done": null,
+    "done": "2026-07-07T18:30:51.649Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 858.5,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1961,15 +1979,16 @@
     "commentCount": 0,
     "createdBy": "Omar ElBanna",
     "activityMonths": [
-      "March"
+      "March",
+      "July"
     ],
     "activityLabel": "March"
   },
   {
     "id": "869d9tuxv",
     "name": "Kohls Sub One replacement 82 Stores",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -1980,11 +1999,11 @@
     "due": null,
     "created": "2026-05-13T17:08:10.266Z",
     "updated": "2026-08-05T18:19:31.589Z",
-    "done": null,
+    "done": "2026-06-12T14:29:22.025Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 1462.5,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -1994,15 +2013,16 @@
     "commentCount": 0,
     "createdBy": "Robert Cannata",
     "activityMonths": [
-      "May"
+      "May",
+      "June"
     ],
     "activityLabel": "May"
   },
   {
     "id": "869d95bgh",
     "name": "Kohl's Core Appliance (24 Stores)",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2013,11 +2033,11 @@
     "due": null,
     "created": "2026-05-12T16:17:21.238Z",
     "updated": "2026-08-05T18:19:32.786Z",
-    "done": null,
+    "done": "2026-06-12T11:06:15.857Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 1465.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2027,15 +2047,16 @@
     "commentCount": 0,
     "createdBy": "Omar ElBanna",
     "activityMonths": [
-      "May"
+      "May",
+      "June"
     ],
     "activityLabel": "May"
   },
   {
     "id": "869c1q50b",
     "name": "Walmart Top Stock",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2046,11 +2067,11 @@
     "due": null,
     "created": "2026-02-05T14:29:27.435Z",
     "updated": "2026-08-05T18:19:37.043Z",
-    "done": null,
+    "done": "2026-03-05T15:38:51.855Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 3837.4,
     "address": "906 SW Regional Airport Blvd, Bentonville, AR 72712, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2060,15 +2081,16 @@
     "commentCount": 0,
     "createdBy": "Robert Cannata",
     "activityMonths": [
-      "February"
+      "February",
+      "March"
     ],
     "activityLabel": "February"
   },
   {
     "id": "869c89kha",
     "name": "Walmart Store 100",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2079,11 +2101,11 @@
     "due": null,
     "created": "2026-02-23T19:30:10.557Z",
     "updated": "2026-08-05T18:19:45.826Z",
-    "done": null,
+    "done": "2026-03-05T15:39:28.828Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 3837.4,
     "address": "406 S Walton Blvd, Bentonville, AR 72712, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2093,15 +2115,16 @@
     "commentCount": 0,
     "createdBy": "Omar ElBanna",
     "activityMonths": [
-      "February"
+      "February",
+      "March"
     ],
     "activityLabel": "February"
   },
   {
     "id": "869d39523",
     "name": "Federated",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2112,11 +2135,11 @@
     "due": null,
     "created": "2026-04-28T16:51:03.741Z",
     "updated": "2026-08-05T18:19:48.985Z",
-    "done": null,
+    "done": "2026-04-28T18:01:18.285Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 2539,
     "address": "511 Wellman Crescent, Saskatoon",
     "storeManager": "",
     "storeSqft": null,
@@ -2133,8 +2156,8 @@
   {
     "id": "869cy7j7j",
     "name": "Walmart Store 4686 Battery Replacement",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2145,11 +2168,11 @@
     "due": null,
     "created": "2026-04-16T19:38:38.782Z",
     "updated": "2026-08-05T18:20:28.920Z",
-    "done": null,
+    "done": "2026-07-07T13:54:12.491Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.5,
+    "timeInStatusHours": 863.1,
     "address": "906 SW Regional Airport Blvd Bentonville, AR 72712",
     "storeManager": "",
     "storeSqft": null,
@@ -2159,15 +2182,16 @@
     "commentCount": 0,
     "createdBy": "Omar ElBanna",
     "activityMonths": [
-      "April"
+      "April",
+      "July"
     ],
     "activityLabel": "April"
   },
   {
     "id": "869c0u3jh",
     "name": "Academy Sports #10",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2182,7 +2206,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.4,
+    "timeInStatusHours": 162.6,
     "address": "9734 Katy Fwy, Houston, TX 77055, United States",
     "storeManager": "",
     "storeSqft": null,
@@ -2199,8 +2223,8 @@
   {
     "id": "869c0u2r4",
     "name": "Academy Sports #321",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2215,7 +2239,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 159.4,
+    "timeInStatusHours": 162.6,
     "address": "19150 W Bellfort, Richmond, TX 77407, United States",
     "storeManager": "",
     "storeSqft": null,
@@ -2232,8 +2256,8 @@
   {
     "id": "869c08dwn",
     "name": "Site Survey of TSC",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2248,7 +2272,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 158.6,
+    "timeInStatusHours": 161.8,
     "address": "135 John R Rice Blvd, Murfreesboro, TN 37129, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2265,8 +2289,8 @@
   {
     "id": "869cje11b",
     "name": "Casey General Store 3D Scan",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2281,7 +2305,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 158.6,
+    "timeInStatusHours": 161.8,
     "address": "2710 SW Snyder Blvd, Ankeny, Iowa 50023 ",
     "storeManager": "",
     "storeSqft": null,
@@ -2298,8 +2322,8 @@
   {
     "id": "869dmvvwk",
     "name": "Air Gas",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2314,7 +2338,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 158.6,
+    "timeInStatusHours": 161.8,
     "address": "3476 Bristol Pike Rd 3476 Bristol Pike Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -2331,8 +2355,8 @@
   {
     "id": "869dkqxjb",
     "name": "Fresh Thyme 3D Scan",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2347,7 +2371,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 158.6,
+    "timeInStatusHours": 161.8,
     "address": "#113 2000 S. Randall Rd, Ste 100",
     "storeManager": "",
     "storeSqft": null,
@@ -2364,8 +2388,8 @@
   {
     "id": "869e7mcgj",
     "name": "Family Dollar (5 Stores)",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2380,7 +2404,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 158.6,
+    "timeInStatusHours": 161.8,
     "address": "",
     "storeManager": "",
     "storeSqft": "7613",
@@ -2397,8 +2421,8 @@
   {
     "id": "869edbegy",
     "name": "Home Depot (2 stores)",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2413,7 +2437,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 158.5,
+    "timeInStatusHours": 161.8,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2447,7 +2471,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2465,8 +2489,8 @@
   {
     "id": "869dn07cc",
     "name": "Floor and Decor ",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2477,11 +2501,11 @@
     "due": null,
     "created": "2026-06-10T15:41:05.457Z",
     "updated": "2026-08-07T15:20:03.692Z",
-    "done": null,
+    "done": "2026-07-07T14:37:39.839Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 114.5,
+    "timeInStatusHours": 862.4,
     "address": "1200 Ernest W. Barrett Pkwy NE Kennesaw, GA 30144",
     "storeManager": "",
     "storeSqft": "75000",
@@ -2491,7 +2515,8 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "June"
+      "June",
+      "July"
     ],
     "activityLabel": "June"
   },
@@ -2514,7 +2539,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "2380 S 6th St, Klamath Falls, OR 97601, États-Unis",
     "storeManager": "",
     "storeSqft": null,
@@ -2532,8 +2557,8 @@
   {
     "id": "8699xg1t1",
     "name": "CA0517185 Gestion Caducéum inc.",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2544,11 +2569,11 @@
     "due": null,
     "created": "2025-07-23T19:18:18.670Z",
     "updated": "2026-08-10T13:31:09.973Z",
-    "done": null,
+    "done": "2026-03-05T15:38:41.407Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 44.3,
+    "timeInStatusHours": 3837.4,
     "address": "990 Rue de St Jovite, Mont-Tremblant, QC J8E 3C1, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -2558,7 +2583,8 @@
     "commentCount": 0,
     "createdBy": "ClickBot",
     "activityMonths": [
-      "July"
+      "July",
+      "March"
     ],
     "activityLabel": "July"
   },
@@ -2581,7 +2607,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 374,
+    "timeInStatusHours": 377.3,
     "address": "111 Victoria Rd, Revelstoke, BC V0E 2S0, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -2615,7 +2641,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 5891.7,
+    "timeInStatusHours": 5894.9,
     "address": "400 N Keller Dr, Effingham, IL 62401, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2649,7 +2675,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 5891.7,
+    "timeInStatusHours": 5894.9,
     "address": "1671 Monongahela Ave, Pittsburgh, PA 15218, USA",
     "storeManager": "",
     "storeSqft": null,
@@ -2667,8 +2693,8 @@
   {
     "id": "869eg9jqq",
     "name": "Southeast Ace - Elgin",
-    "status": "installation completed",
-    "statusLabel": "installation completed",
+    "status": "completed",
+    "statusLabel": "completed",
     "statusGroup": "Complete",
     "active": false,
     "workstream": "Installations Main Tracker",
@@ -2679,11 +2705,11 @@
     "due": null,
     "created": "2026-08-10T13:35:44.387Z",
     "updated": "2026-08-11T10:36:10.383Z",
-    "done": null,
+    "done": "2026-08-10T13:35:44.387Z",
     "years": [
       2026
     ],
-    "timeInStatusHours": 23.2,
+    "timeInStatusHours": 47.4,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2700,9 +2726,9 @@
   {
     "id": "869e1fu17",
     "name": "Floor and Decor Pilot Store",
-    "status": "installation to request",
-    "statusLabel": "installation to request",
-    "statusGroup": "Commercial / Prep",
+    "status": "prospective project",
+    "statusLabel": "prospective project",
+    "statusGroup": "Prospective",
     "active": true,
     "workstream": "Installations Main Tracker",
     "folder": "Installations Main Tracker",
@@ -2716,7 +2742,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 23.1,
+    "timeInStatusHours": 26.3,
     "address": "1200 Ernest W Barrett Pkwy NE Kennesaw, GA 30144",
     "storeManager": "",
     "storeSqft": null,
@@ -2733,9 +2759,9 @@
   {
     "id": "869d1dt4x",
     "name": "DSW 30 Store Pilot",
-    "status": "installation to request",
-    "statusLabel": "installation to request",
-    "statusGroup": "Commercial / Prep",
+    "status": "prospective project",
+    "statusLabel": "prospective project",
+    "statusGroup": "Prospective",
     "active": true,
     "workstream": "Installations Main Tracker",
     "folder": "Installations Main Tracker",
@@ -2749,7 +2775,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 23.1,
+    "timeInStatusHours": 26.3,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2766,9 +2792,9 @@
   {
     "id": "869cxe7y9",
     "name": "Orgill (Hardware Stores)",
-    "status": "installation to request",
-    "statusLabel": "installation to request",
-    "statusGroup": "Commercial / Prep",
+    "status": "prospective project",
+    "statusLabel": "prospective project",
+    "statusGroup": "Prospective",
     "active": true,
     "workstream": "Installations Main Tracker",
     "folder": "Installations Main Tracker",
@@ -2782,7 +2808,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 23.1,
+    "timeInStatusHours": 26.3,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -2799,9 +2825,9 @@
   {
     "id": "869by2pt8",
     "name": "OXXO Phase 2",
-    "status": "installation to request",
-    "statusLabel": "installation to request",
-    "statusGroup": "Commercial / Prep",
+    "status": "prospective project",
+    "statusLabel": "prospective project",
+    "statusGroup": "Prospective",
     "active": true,
     "workstream": "Installations Main Tracker",
     "folder": "Installations Main Tracker",
@@ -2815,7 +2841,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 23.1,
+    "timeInStatusHours": 26.3,
     "address": "Michelena Y Miguel Dominguez 1304, Thomas Alva Edison, Talleres, 64480 Monterrey, N.L., Mexico",
     "storeManager": "",
     "storeSqft": null,
@@ -2832,9 +2858,9 @@
   {
     "id": "869egdjjc",
     "name": "Homes Alive Pets West Edmonton",
-    "status": "installation to request",
-    "statusLabel": "installation to request",
-    "statusGroup": "Commercial / Prep",
+    "status": "prospective project",
+    "statusLabel": "prospective project",
+    "statusGroup": "Prospective",
     "active": true,
     "workstream": "Installations Main Tracker",
     "folder": "Installations Main Tracker",
@@ -2848,7 +2874,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 22.4,
+    "timeInStatusHours": 25.6,
     "address": "17531 Stony Plain Road, T5S 2S1, Edmonton, Alberta, Canada",
     "storeManager": "",
     "storeSqft": null,
@@ -2863,44 +2889,11 @@
     "activityLabel": "August"
   },
   {
-    "id": "869egy7tb",
-    "name": "TEST",
-    "status": "installation to request",
-    "statusLabel": "installation to request",
-    "statusGroup": "Commercial / Prep",
-    "active": true,
-    "workstream": "Installations Main Tracker",
-    "folder": "Installations Main Tracker",
-    "owner": "Robert Cannata",
-    "priority": "NONE",
-    "start": null,
-    "due": null,
-    "created": "2026-08-11T19:09:26.264Z",
-    "updated": "2026-08-11T19:09:27.512Z",
-    "done": null,
-    "years": [
-      2026
-    ],
-    "timeInStatusHours": 14.7,
-    "address": "",
-    "storeManager": "",
-    "storeSqft": null,
-    "tier": "",
-    "latestComment": "",
-    "content": "",
-    "commentCount": 0,
-    "createdBy": "Omar ElBanna",
-    "activityMonths": [
-      "August"
-    ],
-    "activityLabel": "August"
-  },
-  {
     "id": "869e62mz1",
     "name": "Rexall",
-    "status": "installation to request",
-    "statusLabel": "installation to request",
-    "statusGroup": "Commercial / Prep",
+    "status": "prospective project",
+    "statusLabel": "prospective project",
+    "statusGroup": "Prospective",
     "active": true,
     "workstream": "Installations Main Tracker",
     "folder": "Installations Main Tracker",
@@ -2914,7 +2907,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 13.5,
+    "timeInStatusHours": 16.8,
     "address": "In excel",
     "storeManager": "",
     "storeSqft": null,
@@ -2947,7 +2940,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1373 W Tipton St",
     "storeManager": "",
     "storeSqft": null,
@@ -2980,7 +2973,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "113 West Commerce St",
     "storeManager": "",
     "storeSqft": null,
@@ -3013,7 +3006,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "363 S. Maple St.",
     "storeManager": "",
     "storeSqft": null,
@@ -3046,7 +3039,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "7117 Shelbyville Rd.",
     "storeManager": "",
     "storeSqft": null,
@@ -3079,7 +3072,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "5750 Benton Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -3112,7 +3105,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "23 Veterans Drive N.",
     "storeManager": "",
     "storeSqft": null,
@@ -3145,7 +3138,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "8795 Sasak Place",
     "storeManager": "",
     "storeSqft": null,
@@ -3178,7 +3171,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1029 Lincoln Hwy",
     "storeManager": "",
     "storeSqft": null,
@@ -3211,7 +3204,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "601 Charleston",
     "storeManager": "",
     "storeSqft": null,
@@ -3244,7 +3237,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "315 East Calumet",
     "storeManager": "",
     "storeSqft": null,
@@ -3277,7 +3270,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "20th  and Hwy 149",
     "storeManager": "",
     "storeSqft": null,
@@ -3310,7 +3303,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "600 S. Commercial St",
     "storeManager": "",
     "storeSqft": null,
@@ -3343,7 +3336,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "23 Fairway Crossings",
     "storeManager": "",
     "storeSqft": null,
@@ -3376,7 +3369,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "600 Topside Trail",
     "storeManager": "",
     "storeSqft": null,
@@ -3409,7 +3402,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "2305 Remington Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -3442,7 +3435,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "2450 Polo Club Blvd",
     "storeManager": "",
     "storeSqft": null,
@@ -3475,7 +3468,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "620 North Main",
     "storeManager": "",
     "storeSqft": null,
@@ -3508,7 +3501,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "600 US Hwy 60 East",
     "storeManager": "",
     "storeSqft": null,
@@ -3541,7 +3534,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "675 Western Kentucky Pkwy",
     "storeManager": "",
     "storeSqft": null,
@@ -3574,7 +3567,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "200 East Main",
     "storeManager": "",
     "storeSqft": null,
@@ -3607,7 +3600,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "Rt 51 North & 62",
     "storeManager": "",
     "storeSqft": null,
@@ -3640,7 +3633,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "823 East Malone",
     "storeManager": "",
     "storeSqft": null,
@@ -3673,7 +3666,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "106 HWY 46",
     "storeManager": "",
     "storeSqft": null,
@@ -3706,7 +3699,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1400 S First Street",
     "storeManager": "",
     "storeSqft": null,
@@ -3739,7 +3732,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "424 Lindell St",
     "storeManager": "",
     "storeSqft": null,
@@ -3772,7 +3765,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1295 Union University Dr.",
     "storeManager": "",
     "storeSqft": null,
@@ -3805,7 +3798,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "7 Ridgecrest Road",
     "storeManager": "",
     "storeSqft": null,
@@ -3838,7 +3831,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "506 St Francis St",
     "storeManager": "",
     "storeSqft": null,
@@ -3871,7 +3864,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "703 North Westwood",
     "storeManager": "",
     "storeSqft": null,
@@ -3904,7 +3897,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "353 S  Kings Highway",
     "storeManager": "",
     "storeSqft": null,
@@ -3937,7 +3930,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "812 W. Main St.",
     "storeManager": "",
     "storeSqft": null,
@@ -3970,7 +3963,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "208 S  State Rd  145",
     "storeManager": "",
     "storeSqft": null,
@@ -4003,7 +3996,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "555 Hoffman Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -4036,7 +4029,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "230 Third Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4069,7 +4062,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "601 North Main",
     "storeManager": "",
     "storeSqft": null,
@@ -4102,7 +4095,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "819 Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -4135,7 +4128,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "104 S Madisonville Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -4168,7 +4161,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "5425 Highway 62",
     "storeManager": "",
     "storeSqft": null,
@@ -4201,7 +4194,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "11 West Main",
     "storeManager": "",
     "storeSqft": null,
@@ -4234,7 +4227,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "568 E. Pearl St.",
     "storeManager": "",
     "storeSqft": null,
@@ -4267,7 +4260,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "9823 N  State Rd  9",
     "storeManager": "",
     "storeSqft": null,
@@ -4300,7 +4293,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "515 West Main",
     "storeManager": "",
     "storeSqft": null,
@@ -4333,7 +4326,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "104 Wabash Road",
     "storeManager": "",
     "storeSqft": null,
@@ -4366,7 +4359,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "631 W 4th St",
     "storeManager": "",
     "storeSqft": null,
@@ -4399,7 +4392,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "300 E Parrish Ave.",
     "storeManager": "",
     "storeSqft": null,
@@ -4432,7 +4425,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "2245 Ragu Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -4465,7 +4458,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "Hwy 66  Box 7777",
     "storeManager": "",
     "storeSqft": null,
@@ -4498,7 +4491,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "17 West Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -4531,7 +4524,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "2110 W Broadway St",
     "storeManager": "",
     "storeSqft": null,
@@ -4564,7 +4557,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "US Hwy 41 & SR 168",
     "storeManager": "",
     "storeSqft": null,
@@ -4597,7 +4590,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1 Gateway Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -4630,7 +4623,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "509 West  Main Street",
     "storeManager": "",
     "storeSqft": null,
@@ -4663,7 +4656,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "232 West North Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4696,7 +4689,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "607 E  Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -4729,7 +4722,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1521 Hart Street",
     "storeManager": "",
     "storeSqft": null,
@@ -4762,7 +4755,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1515 Washington Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4795,7 +4788,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "2816  N  Sixth",
     "storeManager": "",
     "storeSqft": null,
@@ -4828,7 +4821,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "501 Madison Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4861,7 +4854,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "1001 Lincoln Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -4894,7 +4887,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "150 Spitler Park Dr.",
     "storeManager": "",
     "storeSqft": null,
@@ -4927,7 +4920,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38.2,
+    "timeInStatusHours": 41.5,
     "address": "204 North 22nd St",
     "storeManager": "",
     "storeSqft": null,
@@ -4960,7 +4953,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "709 S Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -4993,7 +4986,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "20 Mt. Tabor Ct.",
     "storeManager": "",
     "storeSqft": null,
@@ -5026,7 +5019,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "306 Morgantown Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5059,7 +5052,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "2801 Lindbergh",
     "storeManager": "",
     "storeSqft": null,
@@ -5092,7 +5085,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "700 Pike St",
     "storeManager": "",
     "storeSqft": null,
@@ -5125,7 +5118,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "104 New Bond Way",
     "storeManager": "",
     "storeSqft": null,
@@ -5158,7 +5151,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "501 N  Hershey Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5191,7 +5184,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "121 Ring Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5224,7 +5217,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "3951 N  Green River",
     "storeManager": "",
     "storeSqft": null,
@@ -5257,7 +5250,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "921 National Mine Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5290,7 +5283,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "102 E  Lincoln Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5323,7 +5316,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "4914 Russellville Road",
     "storeManager": "",
     "storeSqft": null,
@@ -5356,7 +5349,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "101 N. Cross Pointe Blvd",
     "storeManager": "",
     "storeSqft": null,
@@ -5389,7 +5382,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "601 Hennessy Way",
     "storeManager": "",
     "storeSqft": null,
@@ -5422,7 +5415,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "3131 Kansas Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5455,7 +5448,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "2225 N Fares Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5488,7 +5481,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "4200 Lafayette Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5521,7 +5514,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "1830 E 9th St.",
     "storeManager": "",
     "storeSqft": null,
@@ -5554,7 +5547,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "2001 Lynch Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -5587,7 +5580,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "150 North Drive",
     "storeManager": "",
     "storeSqft": null,
@@ -5620,7 +5613,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "925 East Clinton Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5653,7 +5646,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "900 N. 12th Street",
     "storeManager": "",
     "storeSqft": null,
@@ -5686,7 +5679,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "701 West Cleveland",
     "storeManager": "",
     "storeSqft": null,
@@ -5719,7 +5712,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "411 S 12th Street",
     "storeManager": "",
     "storeSqft": null,
@@ -5752,7 +5745,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "2401 S Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -5785,7 +5778,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "297 Treeland Dr",
     "storeManager": "",
     "storeSqft": null,
@@ -5818,7 +5811,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "102 W. Oakland Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -5851,7 +5844,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "2299 US Hwy 62 W",
     "storeManager": "",
     "storeSqft": null,
@@ -5884,7 +5877,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "1415 W Alta Rd.",
     "storeManager": "",
     "storeSqft": null,
@@ -5917,7 +5910,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 38,
+    "timeInStatusHours": 41.2,
     "address": "3570 Lone Oak Road",
     "storeManager": "",
     "storeSqft": null,
@@ -5950,7 +5943,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.2,
     "address": "205 W  Center",
     "storeManager": "",
     "storeSqft": null,
@@ -5983,7 +5976,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1100 Pin Oak Dr",
     "storeManager": "",
     "storeSqft": null,
@@ -6016,7 +6009,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "701 E  Deyoung",
     "storeManager": "",
     "storeSqft": null,
@@ -6049,7 +6042,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1900 S  Illinois Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -6082,7 +6075,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "2700 W. Main St.",
     "storeManager": "",
     "storeSqft": null,
@@ -6115,7 +6108,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "908 South Court St",
     "storeManager": "",
     "storeSqft": null,
@@ -6148,7 +6141,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "2612 W. DeYoung Street",
     "storeManager": "",
     "storeSqft": null,
@@ -6181,7 +6174,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "600 W  Poplar St",
     "storeManager": "",
     "storeSqft": null,
@@ -6214,7 +6207,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "101 East Broadway",
     "storeManager": "",
     "storeSqft": null,
@@ -6247,7 +6240,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "104 Egyptian Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -6280,7 +6273,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1200 N  Main",
     "storeManager": "",
     "storeSqft": null,
@@ -6313,7 +6306,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "208 North Logan",
     "storeManager": "",
     "storeSqft": null,
@@ -6346,7 +6339,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "102 W  10th St",
     "storeManager": "",
     "storeSqft": null,
@@ -6379,7 +6372,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "2250 New Holt Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -6412,7 +6405,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "3025 Olivet Church Road",
     "storeManager": "",
     "storeSqft": null,
@@ -6445,7 +6438,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "3819 W War Memorial Dr",
     "storeManager": "",
     "storeSqft": null,
@@ -6478,7 +6471,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "7225 North Allen Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -6511,7 +6504,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1015 West Camp",
     "storeManager": "",
     "storeSqft": null,
@@ -6544,7 +6537,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1109 Hwy 45 N",
     "storeManager": "",
     "storeSqft": null,
@@ -6577,7 +6570,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "110 E  Randolph",
     "storeManager": "",
     "storeSqft": null,
@@ -6610,7 +6603,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "522 N  Court Street",
     "storeManager": "",
     "storeSqft": null,
@@ -6643,7 +6636,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "101 West Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -6676,7 +6669,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1801 S 10th St",
     "storeManager": "",
     "storeSqft": null,
@@ -6709,7 +6702,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "201 Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -6742,7 +6735,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "Box 1633/I-57 & I-64 (101 S. 45th St)",
     "storeManager": "",
     "storeSqft": null,
@@ -6775,7 +6768,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "3300 Broadway St",
     "storeManager": "",
     "storeSqft": null,
@@ -6808,7 +6801,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "540 Airport Road",
     "storeManager": "",
     "storeSqft": null,
@@ -6841,7 +6834,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1530 W  Main",
     "storeManager": "",
     "storeSqft": null,
@@ -6874,7 +6867,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "3441 St. Mary's Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -6907,7 +6900,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "520 S. Park Avenue",
     "storeManager": "",
     "storeSqft": null,
@@ -6940,7 +6933,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "884 State Route 3",
     "storeManager": "",
     "storeSqft": null,
@@ -6973,7 +6966,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "3228 S. Park Ave",
     "storeManager": "",
     "storeSqft": null,
@@ -7006,7 +6999,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "10170 Manchester Road",
     "storeManager": "",
     "storeSqft": null,
@@ -7039,7 +7032,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "1020 Country Club Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7072,7 +7065,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "110 S  Main St",
     "storeManager": "",
     "storeSqft": null,
@@ -7105,7 +7098,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "4590 N  Illinois St",
     "storeManager": "",
     "storeSqft": null,
@@ -7138,7 +7131,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "2875 St Peters Howell Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7171,7 +7164,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "328 South Main",
     "storeManager": "",
     "storeSqft": null,
@@ -7204,7 +7197,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "5608 Humbert Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7237,7 +7230,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "322 East Broadway",
     "storeManager": "",
     "storeSqft": null,
@@ -7270,7 +7263,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "3500 Patterson Rd",
     "storeManager": "",
     "storeSqft": null,
@@ -7303,7 +7296,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.9,
+    "timeInStatusHours": 41.1,
     "address": "501 Civic Center Dr.",
     "storeManager": "",
     "storeSqft": null,
@@ -7336,7 +7329,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1036.6,
+    "timeInStatusHours": 1039.8,
     "address": "#142",
     "storeManager": "",
     "storeSqft": null,
@@ -7369,7 +7362,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1018.3,
+    "timeInStatusHours": 1021.5,
     "address": "#400",
     "storeManager": "",
     "storeSqft": null,
@@ -7402,7 +7395,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 547.5,
+    "timeInStatusHours": 550.7,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7436,7 +7429,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 547.5,
+    "timeInStatusHours": 550.7,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7470,7 +7463,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.7,
+    "timeInStatusHours": 40.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7503,7 +7496,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.7,
+    "timeInStatusHours": 40.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7536,7 +7529,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.7,
+    "timeInStatusHours": 40.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7569,7 +7562,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.7,
+    "timeInStatusHours": 40.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7602,7 +7595,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.7,
+    "timeInStatusHours": 40.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7635,7 +7628,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 37.7,
+    "timeInStatusHours": 40.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7648,6 +7641,574 @@
       "July"
     ],
     "activityLabel": "July"
+  },
+  {
+    "id": "869ckmv6x",
+    "name": "Fuel Maxx Rollout",
+    "status": "installation completed",
+    "statusLabel": "installation completed",
+    "statusGroup": "Complete",
+    "active": false,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-03-23T16:32:09.831Z",
+    "updated": "2026-07-27T19:45:15.996Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 377.3,
+    "address": "",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": 2,
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "ClickBot",
+    "activityMonths": [
+      "March"
+    ],
+    "activityLabel": "March"
+  },
+  {
+    "id": "869dk3zud",
+    "name": "Rexall 365 Stores",
+    "status": "installation scheduled",
+    "statusLabel": "installation scheduled",
+    "statusGroup": "Scheduled",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-06-05T16:07:07.389Z",
+    "updated": "2026-07-27T19:46:58.255Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 377.2,
+    "address": "",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Robert Cannata",
+    "activityMonths": [
+      "June"
+    ],
+    "activityLabel": "June"
+  },
+  {
+    "id": "869d5zwn2",
+    "name": "Balls Foods Rollout - 23 Stores",
+    "status": "cancelled",
+    "statusLabel": "cancelled",
+    "statusGroup": "Cancelled",
+    "active": false,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-05-05T13:59:38.606Z",
+    "updated": "2026-07-27T19:54:25.089Z",
+    "done": "2026-07-24T13:40:06.209Z",
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 455.4,
+    "address": "",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Omar ElBanna",
+    "activityMonths": [
+      "May",
+      "July"
+    ],
+    "activityLabel": "May"
+  },
+  {
+    "id": "869dh4p9j",
+    "name": "Cencosud-Chile_ Jumbo ",
+    "status": "installation scheduled",
+    "statusLabel": "installation scheduled",
+    "statusGroup": "Scheduled",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-06-01T14:55:03.988Z",
+    "updated": "2026-08-03T13:27:13.302Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 215.6,
+    "address": "Av. La Dehesa 1445, Lo Barnechea, Región Metropolitana, Chile",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Robert Cannata",
+    "activityMonths": [
+      "June"
+    ],
+    "activityLabel": "June"
+  },
+  {
+    "id": "869dh4qwv",
+    "name": "Cencosud-Chile_Santa Isabel",
+    "status": "installation scheduled",
+    "statusLabel": "installation scheduled",
+    "statusGroup": "Scheduled",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-06-01T14:57:24.573Z",
+    "updated": "2026-08-03T13:27:15.968Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 215.6,
+    "address": "El Gabino 13551, 7690141 Lo Barnechea, Región ",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Robert Cannata",
+    "activityMonths": [
+      "June"
+    ],
+    "activityLabel": "June"
+  },
+  {
+    "id": "869c6qctv",
+    "name": "Dufry Puerto Rico",
+    "status": "installation completed",
+    "statusLabel": "installation completed",
+    "statusGroup": "Complete",
+    "active": false,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-02-18T20:45:31.062Z",
+    "updated": "2026-08-05T18:12:23.008Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 162.8,
+    "address": "Av. Aeropuerto, Carolina, 00979, Puerto Rico",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "ClickBot",
+    "activityMonths": [
+      "February"
+    ],
+    "activityLabel": "February"
+  },
+  {
+    "id": "869d0bd4h",
+    "name": "Huck's Store 135 Stores",
+    "status": "installation scheduled",
+    "statusLabel": "installation scheduled",
+    "statusGroup": "Scheduled",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Unassigned",
+    "priority": "NONE",
+    "start": "2026-08-31T09:00:00.000Z",
+    "due": null,
+    "created": "2026-04-21T19:19:59.704Z",
+    "updated": "2026-08-05T18:33:31.746Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 162.5,
+    "address": "",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Robert Cannata",
+    "activityMonths": [
+      "August",
+      "April"
+    ],
+    "activityLabel": "August"
+  },
+  {
+    "id": "869edvq5q",
+    "name": "Issue 2",
+    "status": "vendor quote requested",
+    "statusLabel": "vendor quote requested",
+    "statusGroup": "Commercial / Prep",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Unassigned",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-08-04T18:27:24.526Z",
+    "updated": "2026-08-06T19:58:33.772Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 137.1,
+    "address": "",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Peyton Morrison",
+    "activityMonths": [
+      "August"
+    ],
+    "activityLabel": "August"
+  },
+  {
+    "id": "869edvq5f",
+    "name": "Issue 1",
+    "status": "vendor quote requested",
+    "statusLabel": "vendor quote requested",
+    "statusGroup": "Commercial / Prep",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Unassigned",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-08-04T18:27:20.629Z",
+    "updated": "2026-08-06T19:58:33.772Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 137.1,
+    "address": "",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Peyton Morrison",
+    "activityMonths": [
+      "August"
+    ],
+    "activityLabel": "August"
+  },
+  {
+    "id": "869dvd4cf",
+    "name": "Dollar General",
+    "status": "payment released",
+    "statusLabel": "payment released",
+    "statusGroup": "Other",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": "2026-07-29T09:00:00.000Z",
+    "due": null,
+    "created": "2026-06-24T12:25:18.326Z",
+    "updated": "2026-08-07T15:19:26.379Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 117.7,
+    "address": "104 Britain st Hendersonville TN",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Robert Cannata",
+    "activityMonths": [
+      "July",
+      "June"
+    ],
+    "activityLabel": "July"
+  },
+  {
+    "id": "869dz3fkz",
+    "name": "Food 4 Less",
+    "status": "installation scheduled",
+    "statusLabel": "installation scheduled",
+    "statusGroup": "Scheduled",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": "2026-08-10T09:00:00.000Z",
+    "due": null,
+    "created": "2026-07-02T14:16:01.955Z",
+    "updated": "2026-08-10T18:55:56.987Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 42.1,
+    "address": "2301 W Atherton Dr. Manteca 95337 CA",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "colleen jensen",
+    "activityMonths": [
+      "August",
+      "July"
+    ],
+    "activityLabel": "August"
+  },
+  {
+    "id": "869e723nj",
+    "name": "iShoppes JFK ",
+    "status": "installation scheduled",
+    "statusLabel": "installation scheduled",
+    "statusGroup": "Scheduled",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": "2026-08-24T09:00:00.000Z",
+    "due": null,
+    "created": "2026-07-20T17:57:41.480Z",
+    "updated": "2026-08-11T10:19:51.358Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 26.7,
+    "address": "JFK Airport Queens NY",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "ClickBot",
+    "activityMonths": [
+      "August",
+      "July"
+    ],
+    "activityLabel": "August"
+  },
+  {
+    "id": "869dy2cf4",
+    "name": "Miniso",
+    "status": "payment released",
+    "statusLabel": "payment released",
+    "statusGroup": "Other",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-07-01T02:19:25.553Z",
+    "updated": "2026-08-11T14:57:43.859Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 22.1,
+    "address": "1050 Lakes dr ste 260, west Convina, CA 91790",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "ClickBot",
+    "activityMonths": [
+      "July"
+    ],
+    "activityLabel": "July"
+  },
+  {
+    "id": "869ed68fk",
+    "name": "PETCO Mexico",
+    "status": "vendor quote requested",
+    "statusLabel": "vendor quote requested",
+    "statusGroup": "Commercial / Prep",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-08-03T13:18:37.573Z",
+    "updated": "2026-08-11T16:00:55.764Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 21,
+    "address": "Ejército Nacional 769, Torre B-12 Miguel Hidalgo Ciudad de México, 11520",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Robert Cannata",
+    "activityMonths": [
+      "August"
+    ],
+    "activityLabel": "August"
+  },
+  {
+    "id": "869ef0tqx",
+    "name": "US L.B.M : Higginbotham Brothers - BIG SPRINGS TX",
+    "status": "vendor quote to request",
+    "statusLabel": "vendor quote to request",
+    "statusGroup": "Commercial / Prep",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": "2026-09-17T00:00:00.000Z",
+    "due": "2026-09-30T00:00:00.000Z",
+    "created": "2026-08-06T21:48:50.203Z",
+    "updated": "2026-08-11T19:18:33.552Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 17.7,
+    "address": "1900 FM700, Big Spring, TX 79720, United States",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "ClickBot",
+    "activityMonths": [
+      "September",
+      "August"
+    ],
+    "activityLabel": "September"
+  },
+  {
+    "id": "869e55tk0",
+    "name": "Family Dollar (Pilot)",
+    "status": "vendor po to issue",
+    "statusLabel": "vendor po to issue",
+    "statusGroup": "Other",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Omar ElBanna",
+    "priority": "NONE",
+    "start": "2026-08-24T09:00:00.000Z",
+    "due": null,
+    "created": "2026-07-15T14:20:51.408Z",
+    "updated": "2026-08-11T19:20:40.119Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 17.7,
+    "address": "5 Different Stores",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Peyton Morrison",
+    "activityMonths": [
+      "August",
+      "July"
+    ],
+    "activityLabel": "August"
+  },
+  {
+    "id": "869eezykd",
+    "name": "Tractor Supply Pilot",
+    "status": "vendor quote requested",
+    "statusLabel": "vendor quote requested",
+    "statusGroup": "Commercial / Prep",
+    "active": true,
+    "workstream": "ESL Requests",
+    "folder": "ESL Requests",
+    "owner": "Robert Cannata",
+    "priority": "NONE",
+    "start": null,
+    "due": null,
+    "created": "2026-08-06T19:45:17.847Z",
+    "updated": "2026-08-12T12:31:51.702Z",
+    "done": null,
+    "years": [
+      2026
+    ],
+    "timeInStatusHours": 0.5,
+    "address": "",
+    "storeManager": "",
+    "storeSqft": null,
+    "tier": "",
+    "latestComment": "",
+    "content": "",
+    "commentCount": 0,
+    "createdBy": "Omar ElBanna",
+    "activityMonths": [
+      "August"
+    ],
+    "activityLabel": "August"
   },
   {
     "id": "869dmd2m8",
@@ -7668,7 +8229,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1531.3,
+    "timeInStatusHours": 1534.5,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7701,7 +8262,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1484.6,
+    "timeInStatusHours": 1487.8,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7734,7 +8295,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1483.9,
+    "timeInStatusHours": 1487.1,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7767,7 +8328,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1483.9,
+    "timeInStatusHours": 1487.1,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7800,7 +8361,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1196.4,
+    "timeInStatusHours": 1199.7,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7833,7 +8394,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1192.4,
+    "timeInStatusHours": 1195.6,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7866,7 +8427,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1171.6,
+    "timeInStatusHours": 1174.8,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7899,7 +8460,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 1171.6,
+    "timeInStatusHours": 1174.8,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7932,7 +8493,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 859.7,
+    "timeInStatusHours": 863,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7965,7 +8526,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 212,
+    "timeInStatusHours": 215.2,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -7998,7 +8559,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.9,
+    "timeInStatusHours": 215.1,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8031,7 +8592,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.9,
+    "timeInStatusHours": 215.1,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8064,7 +8625,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.8,
+    "timeInStatusHours": 215,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8097,7 +8658,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.8,
+    "timeInStatusHours": 215,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8130,7 +8691,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.8,
+    "timeInStatusHours": 215,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8163,7 +8724,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.8,
+    "timeInStatusHours": 215,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8196,7 +8757,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.7,
+    "timeInStatusHours": 215,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8229,7 +8790,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 211.7,
+    "timeInStatusHours": 214.9,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8262,7 +8823,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 23.5,
+    "timeInStatusHours": 26.7,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
@@ -8295,7 +8856,7 @@
     "years": [
       2026
     ],
-    "timeInStatusHours": 20.8,
+    "timeInStatusHours": 24,
     "address": "",
     "storeManager": "",
     "storeSqft": null,
