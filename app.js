@@ -129,23 +129,78 @@ function setupClickUpLinks() {
   });
 }
 
+function renderExecutiveSummary(scores, projectScores, monthKey) {
+  const vendorRows = vendors
+    .map(name => ({ name, score: Number(scores?.[name]) }))
+    .filter(item => Number.isFinite(item.score))
+    .sort((a, b) => b.score - a.score);
+
+  const avg = vendorRows.length ? Math.round(vendorRows.reduce((sum, row) => sum + row.score, 0) / vendorRows.length) : null;
+  const overall = document.getElementById('summaryOverall');
+  const overallDetail = document.getElementById('summaryOverallDetail');
+  if (overall) {
+    overall.textContent = avg == null ? 'No score' : avg >= 90 ? 'Strong' : avg >= 80 ? 'Watch' : 'At risk';
+    overall.className = `summary-status ${scoreBand(avg)}`;
+  }
+  if (overallDetail) overallDetail.textContent = avg == null ? 'Waiting for ClickUp score feed.' : `${vendorRows.length} of ${vendors.length} vendor scorecards reporting; average ${avg}%.`;
+
+  const wins = vendorRows.slice(0, 3).map(row => `<div><strong>${row.name}</strong><span>${row.score}%</span></div>`).join('') || '<div>No current vendor scores.</div>';
+  const misses = [...vendorRows].sort((a, b) => a.score - b.score).slice(0, 3).map(row => `<div><strong>${row.name}</strong><span>${row.score}%</span></div>`).join('') || '<div>No current vendor scores.</div>';
+
+  const projectRows = Object.entries(projectScores || {})
+    .map(([name, score]) => ({ name, score: Number(score) }))
+    .filter(item => Number.isFinite(item.score))
+    .sort((a, b) => a.score - b.score);
+  const risks = projectRows.filter(row => row.score < 80).slice(0, 3);
+  const riskHtml = risks.map(row => `<div><strong>${row.name}</strong><span>${row.score}%</span></div>`).join('') || '<div>No project scores below 80%.</div>';
+  const decisions = risks.length
+    ? risks.map(row => `<div>Review <strong>${row.name}</strong> and confirm recovery action.</div>`).join('')
+    : '<div>No score-driven decision required from the current data.</div>';
+
+  const setHtml = (id, html) => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  };
+  setHtml('summaryWins', wins);
+  setHtml('summaryMisses', misses);
+  setHtml('summaryRisks', riskHtml);
+  setHtml('summaryDecisions', decisions);
+
+  const period = document.getElementById('summaryPeriodLabel');
+  if (period) period.textContent = new Date(`${monthKey}-01T00:00:00`).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+}
+
 function setupMonths(payload) {
-  const select = document.getElementById('reportMonth');
-  if (!select) return;
+  const primary = document.getElementById('reportMonth');
+  const summary = document.getElementById('reportMonthSummary');
+  const selects = [primary, summary].filter(Boolean);
+  if (!selects.length) return;
   const available = new Set(Object.keys(payload?.invoiceMonthly || {}));
   const currentMonth = new Date().getMonth() + 1;
-  select.innerHTML = '';
-  for (let month = 1; month <= 12; month += 1) {
-    const key = `${REPORT_YEAR}-${String(month).padStart(2, '0')}`;
-    const option = document.createElement('option');
-    option.value = key;
-    option.textContent = new Date(REPORT_YEAR, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
-    if (available.has(key)) option.textContent += ' • data';
-    if (month === currentMonth) option.selected = true;
-    select.appendChild(option);
-  }
-  if (!select.value) select.value = `${REPORT_YEAR}-01`;
-  select.onchange = () => renderInvoiceMonth(payload, select.value);
+
+  selects.forEach(select => {
+    select.innerHTML = '';
+    for (let month = 1; month <= 12; month += 1) {
+      const key = `${REPORT_YEAR}-${String(month).padStart(2, '0')}`;
+      const option = document.createElement('option');
+      option.value = key;
+      option.textContent = new Date(REPORT_YEAR, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      if (available.has(key)) option.textContent += ' • data';
+      if (month === currentMonth) option.selected = true;
+      select.appendChild(option);
+    }
+  });
+
+  if (primary) primary.value = primary.value || `${REPORT_YEAR}-01`;
+  if (summary) summary.value = primary?.value || `${REPORT_YEAR}-01`;
+
+  selects.forEach(select => {
+    select.onchange = () => {
+      selects.forEach(other => { if (other !== select) other.value = select.value; });
+      renderInvoiceMonth(payload, select.value);
+      renderExecutiveSummary(payload?.scores || {}, payload?.projectScores || {}, select.value);
+    };
+  });
 }
 
 function renderInvoiceMonth(payload, monthKey) {
@@ -197,7 +252,9 @@ async function loadClickUpScores() {
     applyProjectScores(projectScores);
     setupClickUpLinks();
     setupMonths(payload);
-    renderInvoiceMonth(payload, document.getElementById('reportMonth')?.value || `${REPORT_YEAR}-${String(new Date().getMonth() + 1).padStart(2, '0')}`);
+    const selectedMonth = document.getElementById('reportMonth')?.value || `${REPORT_YEAR}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
+    renderInvoiceMonth(payload, selectedMonth);
+    renderExecutiveSummary(scores, projectScores, selectedMonth);
 
     const values = vendors.map(v => Number(scores[v])).filter(Number.isFinite);
     const avg = values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : null;
