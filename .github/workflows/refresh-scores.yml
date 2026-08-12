@@ -37,9 +37,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add clickup-scores.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Refresh ClickUp vendor scores"
-            git push
-          else
+          if git diff --cached --quiet; then
             echo "No score changes."
+            exit 0
           fi
+          git commit -m "Refresh ClickUp vendor scores"
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin main && git push && break
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            sleep 3
+          done
