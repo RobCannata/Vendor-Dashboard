@@ -214,6 +214,7 @@ function patchHtml(html) {
   let out = html;
   out = out.replace(/function renderBars\(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS\)\{const max=Math\.max\(\.\.\.items\.map\(valueFn\),0\);/, 'function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const el=$(target);if(!el)return;const max=Math.max(...items.map(valueFn),0);');
   out = out.replace(/\$\(target\)\.innerHTML=/g, 'el.innerHTML=');
+  out = out.replace("  $('resetBtn').onclick=()=>{", "  const resetBtn=$('resetBtn');\n  if(resetBtn) resetBtn.onclick=()=>{");
   return out;
 }
 
