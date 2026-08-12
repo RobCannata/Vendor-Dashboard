@@ -256,6 +256,19 @@ function inWindow(task) {
 
 function patchHtml(html) {
   let out = html;
+
+  const responsiveCss = `<style id="vendor-scorecard-layout-fix">
+    .layout{display:flex!important;flex-direction:column!important;gap:12px!important}
+    #scores{order:0!important;width:100%!important}
+    #vendorGridWrap{order:1!important;width:100%!important}
+    #vendorGridWrap .body{padding-top:0!important}
+    .vendor-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+    .vendor-grid .vendor{min-height:0!important;height:auto!important}
+    @media (max-width:1400px){.vendor-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+    @media (max-width:820px){.vendor-grid{grid-template-columns:1fr!important}}
+  </style>`;
+  out = out.replace('</head>', `${responsiveCss}</head>`);
+
   out = out.replace(/function renderBars\(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS\)\{const max=Math\.max\(\.\.\.items\.map\(valueFn\),0\);/, 'function renderBars(target,items,valueFn,labelFn,formatFn,colors=WORKSTREAM_COLORS){const el=$(target);if(!el)return;const max=Math.max(...items.map(valueFn),0);');
   out = out.replace(/\$\(target\)\.innerHTML=/g, 'el.innerHTML=');
   out = out.replace("  $('resetBtn').onclick=()=>{", "  const resetBtn=$('resetBtn');\n  if(resetBtn) resetBtn.onclick=()=>{");
