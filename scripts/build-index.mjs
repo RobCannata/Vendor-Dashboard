@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const TOKEN = process.env.CLICKUP_TOKEN;
-const LIST_IDS = (process.env.CLICKUP_LIST_IDS || '901210415855,901218028445,901219830054,901217460327')
+const LIST_IDS = (process.env.CLICKUP_LIST_IDS || '901210415855,901218028445,901219830054,901219429938,901217460327')
   .split(',')
   .map((value) => value.trim())
   .filter(Boolean);
