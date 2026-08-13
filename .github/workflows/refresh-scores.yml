@@ -44,6 +44,7 @@ jobs:
         run: node scripts/repair-dashboard-state.mjs
       - name: Remove duplicate inline project renderer and bump script cache
         run: |
+          set -e
           python3 - <<'PY'
           from pathlib import Path
           import re
