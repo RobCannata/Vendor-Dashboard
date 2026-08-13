@@ -2,7 +2,7 @@ name: Remove legacy project override
 
 on:
   push:
-    branches: [fix/remove-legacy-project-override-v12]
+    branches: [main]
     paths:
       - 'scripts/remove-legacy-project-override.mjs'
   workflow_dispatch:
@@ -30,4 +30,4 @@ jobs:
             exit 0
           fi
           git commit -m "Use 2026 monthly project history only"
-          git push origin HEAD:${GITHUB_REF_NAME}
+          git push origin HEAD:main
