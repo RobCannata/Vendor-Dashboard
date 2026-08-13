@@ -5,6 +5,7 @@ on:
     branches: [main, fix/monthly-active-projects]
     paths:
       - 'scripts/refresh-scores.mjs'
+      - 'scripts/patch-project-month-binding.mjs'
       - 'index.html'
       - 'style.css'
       - 'app.js'
@@ -47,4 +48,26 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh ClickUp vendor scores"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+  patch-project-month:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Apply project month binding patch
+        run: node scripts/patch-project-month-binding.mjs
+      - name: Commit project month binding
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add quick-summary.js
+          if git diff --cached --quiet; then
+            echo "Project month binding already applied."
+            exit 0
+          fi
+          git commit -m "Fix 2026 project month binding"
           git push origin "HEAD:${GITHUB_REF_NAME}"
