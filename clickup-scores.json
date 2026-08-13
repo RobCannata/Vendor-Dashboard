@@ -1191,7 +1191,7 @@
     "901210415855",
     "170218462"
   ],
-  "projectHistoryUpdatedAt": "2026-08-13T17:36:58.695Z",
+  "projectHistoryUpdatedAt": "2026-08-13T17:44:56.441Z",
   "monthlyCsat": {
     "2026-01": null,
     "2026-02": null,
@@ -1221,6 +1221,7 @@
     "2026-12": []
   },
   "csatField": "CSAT (Customer Satisfaction) 1–4 rating",
-  "csatSource": "ClickUp Scorecards; current custom-field values grouped by scorecard creation month in 2026",
-  "csatRecordCount": 0
+  "csatSource": "ClickUp installation/project tracker tasks; direct task custom-field values grouped by form-response task creation month in 2026",
+  "csatRecordCount": 0,
+  "csatTaskFetches": 42
 }
