@@ -1,115 +1,23 @@
 document.addEventListener('DOMContentLoaded',()=>{
-  const sidebar=document.querySelector('.sidebar');
-  if(!sidebar) return;
-  const nav=sidebar.querySelector('.side-nav');
-  const existing=sidebar.querySelector('.quick-summary');
-  if(existing) existing.remove();
-
-  const card=document.createElement('section');
-  card.className='quick-summary';
-  card.innerHTML=`<div class="quick-summary-title">Quick Summary</div>
-    <div class="quick-metric"><span class="quick-icon margin">%</span><div><div class="quick-label">Installation Margin</div><strong id="quickMarginPct">—</strong><small id="quickMarginPctDetail">Selected period</small></div><div class="quick-trend"><span id="quickMarginDelta" class="quick-delta">—</span><span id="quickMarginSpark"></span></div></div>
-    <div class="quick-metric"><span class="quick-icon revenue">$</span><div><div class="quick-label">Revenue Invoiced</div><strong id="quickRevenue">—</strong><small id="quickRevenueDetail">Customer Invoice</small></div><div class="quick-trend"><span id="quickRevenueDelta" class="quick-delta">—</span><span id="quickRevenueSpark"></span></div></div>
-    <div class="quick-metric"><span class="quick-icon projects">P</span><div><div class="quick-label">Active Projects</div><strong id="quickProjects">12</strong><small id="quickProjectsDetail">Current project portfolio</small></div><div class="quick-trend"><span id="quickProjectsDelta" class="quick-delta">—</span><span id="quickProjectsSpark"></span></div></div>
-    <div class="quick-metric"><span class="quick-icon vendors">V</span><div><div class="quick-label">Vendors Active</div><strong id="quickVendors">5</strong><small id="quickVendorsDetail">Current vendor partners</small></div><div class="quick-trend"><span id="quickVendorsDelta" class="quick-delta">—</span><span id="quickVendorsSpark"></span></div></div>
-    <div class="quick-metric"><span class="quick-icon quality">Q</span><div><div class="quick-label">Avg Vendor Quality Score</div><strong id="quickQuality">—</strong><small id="quickQualityDetail">ClickUp scorecards</small></div><div class="quick-trend"><span id="quickQualityDelta" class="quick-delta">—</span><span id="quickQualitySpark"></span></div></div>
-    <div class="quick-metric"><span class="quick-icon open-invoices">$</span><div><div class="quick-label">Open Customer Invoices</div><strong id="quickOpenInvoices">—</strong><small id="quickOpenInvoicesDetail">Customer Invoice records</small></div><div class="quick-trend"><span id="quickOpenInvoicesDelta" class="quick-delta">—</span><span id="quickOpenInvoicesSpark"></span></div></div>
-    <div class="quick-metric"><span class="quick-icon csat">★</span><div><div class="quick-label">Customer CSAT</div><strong id="quickCsat">—</strong><small id="quickCsatDetail">ClickUp CSAT</small></div><div class="quick-trend"><span id="quickCsatDelta" class="quick-delta">—</span><span id="quickCsatSpark"></span></div></div>`;
-  if(nav) nav.after(card); else sidebar.appendChild(card);
-
-  const style=document.createElement('style');
-  style.textContent=`
-    .quick-summary{margin-top:10px;padding:12px 10px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:#17365D!important;color:#fff}
-    .quick-summary-title{font-size:13px;font-weight:800;margin:0 8px 9px;color:#fff}
-    .quick-metric{display:grid;grid-template-columns:28px minmax(0,1fr) 92px;gap:8px;align-items:center;padding:9px 6px;border-top:1px solid rgba(255,255,255,.09)}
-    .quick-icon{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;background:rgba(255,255,255,.14);color:#fff}
-    .quick-label{font-size:9px;line-height:1.15;color:rgba(255,255,255,.78);font-weight:700}
-    .quick-metric strong{display:block;font-size:18px;line-height:1.05;color:#fff;margin-top:2px;letter-spacing:-.25px;white-space:nowrap}
-    .quick-metric small{display:block;margin-top:3px;font-size:8px;line-height:1.15;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .quick-trend{width:92px;display:flex;flex-direction:column;align-items:flex-end;gap:1px}.quick-delta{font-size:8px;font-weight:800;color:#AAB7C7;white-space:nowrap}.quick-delta.good{color:#52C878}.quick-delta.bad{color:#FF7B72}
-    .quick-spark{width:84px;height:22px;display:block}.quick-spark polyline{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.quick-spark.navy{color:#60A5FA}.quick-spark.green{color:#52C878}.quick-spark.purple{color:#A78BFA}.quick-spark.gray{color:#98A2B3}
-    .quick-summary .margin{background:rgba(31,157,85,.38)}.quick-summary .revenue{background:rgba(47,85,151,.42)}.quick-summary .projects{background:rgba(47,85,151,.42)}.quick-summary .vendors{background:rgba(31,157,85,.38)}.quick-summary .quality{background:rgba(31,157,85,.38)}.quick-summary .open-invoices{background:rgba(183,121,31,.42)}.quick-summary .csat{background:rgba(124,92,191,.36)}
-    @media(max-width:1100px){.quick-metric{grid-template-columns:28px minmax(0,1fr)}.quick-trend{display:none}}
-    @media(max-width:900px){.quick-summary{display:none}}
-  `;
-  document.head.appendChild(style);
-
+  const sidebar=document.querySelector('.sidebar'), summary=document.querySelector('.summary-panel');
+  if(!sidebar||!summary)return;
   const money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number(v)||0);
-  const monthKeys=Array.from({length:12},(_,i)=>`2026-${String(i+1).padStart(2,'0')}`);
-  const monthLabel=k=>new Date(Number(k.slice(0,4)),Number(k.slice(5,7))-1,1).toLocaleString('en-US',{month:'short'});
+  const spark=values=>{const nums=values.map(Number).filter(Number.isFinite);if(nums.length<2)return '<svg class="quick-spark gray" viewBox="0 0 84 22"><polyline points="2,18 42,18 82,18"></polyline></svg>';const min=Math.min(...nums),max=Math.max(...nums),r=(max-min)||1;return `<svg class="quick-spark" viewBox="0 0 84 22"><polyline points="${values.map((v,i)=>Number.isFinite(Number(v))?`${2+i*80/(values.length-1)},${19-((Number(v)-min)/r)*15}`:null).filter(Boolean).join(' ')}"></polyline></svg>`};
+  const css=document.createElement('style');css.textContent=`
+  .sidebar{height:100vh!important;max-height:100vh!important;overflow-y:auto!important;overflow-x:hidden!important;position:sticky!important;top:0!important;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.32) transparent}.sidebar::-webkit-scrollbar{width:7px}.sidebar::-webkit-scrollbar-track{background:transparent}.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.28);border-radius:8px}.sidebar::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.42)}
+  .quick-summary{margin-top:10px;padding:12px 10px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:#17365D!important;color:#fff}.quick-summary-title{font-size:13px;font-weight:800;margin:0 8px 9px}.quick-metric{display:grid;grid-template-columns:28px minmax(0,1fr) 92px;gap:8px;align-items:center;padding:9px 6px;border-top:1px solid rgba(255,255,255,.09)}.quick-icon{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900}.quick-label{font-size:9px;color:rgba(255,255,255,.78);font-weight:700}.quick-metric strong{display:block;font-size:18px;line-height:1.05;color:#fff;margin-top:2px;white-space:nowrap}.quick-metric small{display:block;margin-top:3px;font-size:8px;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.quick-trend{width:92px;display:flex;flex-direction:column;align-items:flex-end}.quick-delta{font-size:8px;font-weight:800;color:#AAB7C7}.quick-delta.good{color:#52C878}.quick-delta.bad{color:#FF7B72}.quick-spark{width:84px;height:22px;display:block;color:#60A5FA}.quick-spark polyline{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.quick-summary .margin,.quick-summary .vendors,.quick-summary .quality{background:rgba(31,157,85,.38)}.quick-summary .revenue,.quick-summary .projects{background:rgba(47,85,151,.42)}.quick-summary .open-invoices{background:rgba(183,121,31,.42)}.quick-summary .csat{background:rgba(124,92,191,.36)}
+  .exec-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}.exec-metric-card{position:relative;padding:13px 12px;border:1px solid #D9E1EA;border-radius:10px;background:#fff;box-shadow:0 2px 8px rgba(16,24,40,.04)}.exec-card-head{display:flex;align-items:center;gap:7px;color:#17365D;font-size:11px;font-weight:800}.exec-icon{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:900}.exec-metric-card strong{display:block;color:#1F2937;font-size:23px;line-height:1.05;margin-top:9px}.exec-metric-card small{display:block;color:#667085;font-size:9px;margin-top:5px;padding-right:82px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.exec-spark{position:absolute;right:10px;bottom:11px;width:74px;height:24px}.exec-spark polyline{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.exec-icon.margin,.exec-icon.vendors,.exec-icon.quality{background:#1F9D55}.exec-icon.revenue,.exec-icon.projects{background:#2F5597}.exec-icon.invoices{background:#B7791F}.exec-icon.csat{background:#7C5CBF}.exec-spark.margin,.exec-spark.vendors,.exec-spark.quality{color:#1F9D55}.exec-spark.revenue,.exec-spark.projects{color:#2F5597}.exec-spark.invoices,.exec-spark.csat{color:#7C5CBF}@media(max-width:1200px){.exec-kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:900px){.exec-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-summary{display:none}.sidebar{position:static!important;height:auto!important;max-height:none!important}}@media(max-width:620px){.exec-kpi-grid{grid-template-columns:1fr}}
+  `;document.head.appendChild(css);
 
-  function sparkline(values, cls='navy'){
-    const nums=values.filter(v=>Number.isFinite(v));
-    if(nums.length<2) return '<svg class="quick-spark gray" viewBox="0 0 84 22" aria-hidden="true"><polyline points="2,18 42,18 82,18"></polyline></svg>';
-    const min=Math.min(...nums), max=Math.max(...nums), range=(max-min)||1;
-    let points=[]; let idx=0;
-    values.forEach((v,i)=>{ if(Number.isFinite(v)){ const x=2 + (i/(values.length-1))*80; const y=19 - ((v-min)/range)*15; points.push(`${x.toFixed(1)},${y.toFixed(1)}`); idx++; }});
-    return `<svg class="quick-spark ${cls}" viewBox="0 0 84 22" aria-hidden="true"><polyline points="${points.join(' ')}"></polyline></svg>`;
-  }
+  const nav=sidebar.querySelector('.side-nav'),old=sidebar.querySelector('.quick-summary');if(old)old.remove();
+  const side=document.createElement('section');side.className='quick-summary';side.innerHTML=`<div class="quick-summary-title">Quick Summary</div>
+  ${[['margin','%','Installation Margin','quickMargin'],['revenue','$','Revenue Invoiced','quickRevenue'],['projects','P','Active Projects','quickProjects'],['vendors','V','Vendors Active','quickVendors'],['quality','Q','Avg Vendor Quality Score','quickQuality'],['open-invoices','$','Open Customer Invoices','quickOpenInvoices'],['csat','★','Customer CSAT','quickCsat']].map(([c,i,l,id])=>`<div class="quick-metric"><span class="quick-icon ${c}">${i}</span><div><div class="quick-label">${l}</div><strong id="${id}">—</strong><small id="${id}Detail">Selected period</small></div><div class="quick-trend"><span id="${id}Delta" class="quick-delta">—</span><span id="${id}Spark"></span></div></div>`).join('')}`;if(nav)nav.after(side);else sidebar.appendChild(side);
 
-  function deltaText(current, previous, kind='pct'){
-    if(!Number.isFinite(current) || !Number.isFinite(previous)) return {text:'— vs Jul', cls:''};
-    if(previous===0){ if(current===0) return {text:'0.0% vs Jul',cls:''}; return {text:'New vs Jul',cls:'good'}; }
-    const delta=((current-previous)/Math.abs(previous))*100;
-    return {text:`${delta>=0?'+':''}${delta.toFixed(1)}% vs Jul`,cls:delta>=0?'good':'bad'};
-  }
+  const eg=document.createElement('div');eg.className='exec-kpi-grid';eg.innerHTML=[['margin','%','Installation Margin','execMargin'],['revenue','$','Revenue Invoiced','execRevenue'],['projects','P','Active Projects','execProjects'],['vendors','V','Vendors Active','execVendors'],['quality','Q','Avg Vendor Quality Score','execQuality'],['invoices','$','Open Customer Invoices','execOpenInvoices'],['csat','★','Customer CSAT','execCsat']].map(([c,i,l,id])=>`<article class="exec-metric-card"><div class="exec-card-head"><span class="exec-icon ${c}">${i}</span><span>${l}</span></div><strong id="${id}">—</strong><small id="${id}Detail">Selected period</small><svg class="exec-spark ${c}" viewBox="0 0 96 28"><polyline points="1,22 9,19 17,21 25,14 33,17 41,9 49,14 57,7 65,13 73,6 82,12 95,8"></polyline></svg></article>`).join('');summary.appendChild(eg);
 
-  const paint=()=>{
-    const payload=window.__clickUpFinancePayload;
-    const select=document.getElementById('reportMonthSummary');
-    if(!payload||!select) return;
-    const [countRaw,endRaw]=String(select.value||'1|8').split('|');
-    const count=Number(countRaw)||1; const end=Number(endRaw)||8; const start=Math.max(1,end-count+1);
-    const keys=Array.from({length:end-start+1},(_,i)=>`2026-${String(start+i).padStart(2,'0')}`);
-    const allCustomer=payload.customerInvoices||[];
-    const allVendor=payload.invoices||[];
-    const revenueSeries=monthKeys.map(k=>allCustomer.filter(r=>r.month===k).reduce((s,r)=>s+Number(r.amount||0),0));
-    const vendorSeries=monthKeys.map(k=>allVendor.filter(r=>r.month===k).reduce((s,r)=>s+Number(r.amount||0),0));
-    const marginPctSeries=monthKeys.map((k,i)=>revenueSeries[i]>0?((revenueSeries[i]-vendorSeries[i])/revenueSeries[i])*100:null);
-    const invoiceCountSeries=monthKeys.map(k=>allCustomer.filter(r=>r.month===k).length);
-    const customerRows=allCustomer.filter(r=>keys.includes(r.month));
-    const vendorRows=allVendor.filter(r=>keys.includes(r.month));
-    const revenue=customerRows.reduce((s,r)=>s+Number(r.amount||0),0);
-    const vendor=vendorRows.reduce((s,r)=>s+Number(r.amount||0),0);
-    const margin=revenue-vendor; const pct=revenue?(margin/revenue*100):null;
-    const score=Object.values(payload.scores||{}).map(Number).filter(Number.isFinite);
-    const avg=score.length?score.reduce((a,b)=>a+b,0)/score.length:null;
-    const currentMonthKey=`2026-${String(end).padStart(2,'0')}`;
-    const previousMonthNumber=Math.max(1,end-1);
-    const previousMonthKey=`2026-${String(previousMonthNumber).padStart(2,'0')}`;
-    const prevRevenue=revenueSeries[previousMonthNumber-1]||0;
-    const prevVendor=vendorSeries[previousMonthNumber-1]||0;
-    const prevMarginPct=marginPctSeries[previousMonthNumber-1];
-    const prevInvoiceCount=invoiceCountSeries[previousMonthNumber-1]||0;
-
-    document.getElementById('quickMarginPct').textContent=pct==null?'—':`${pct.toFixed(1)}%`;
-    document.getElementById('quickMarginPctDetail').textContent=`${money(margin)} gross margin • ${monthLabel(currentMonthKey)}`;
-    const md=deltaText(pct,prevMarginPct); const mdEl=document.getElementById('quickMarginDelta'); mdEl.textContent=md.text; mdEl.className=`quick-delta ${md.cls}`; document.getElementById('quickMarginSpark').innerHTML=sparkline(marginPctSeries,'green');
-
-    document.getElementById('quickRevenue').textContent=money(revenue);
-    document.getElementById('quickRevenueDetail').textContent=`${customerRows.length} Customer Invoice record${customerRows.length===1?'':'s'} • ${monthLabel(currentMonthKey)}`;
-    const rd=deltaText(revenue,prevRevenue); const rdEl=document.getElementById('quickRevenueDelta'); rdEl.textContent=rd.text; rdEl.className=`quick-delta ${rd.cls}`; document.getElementById('quickRevenueSpark').innerHTML=sparkline(revenueSeries,'navy');
-
-    const projectCount=12; document.getElementById('quickProjects').textContent=String(projectCount); document.getElementById('quickProjectsDelta').textContent='— vs Jul'; document.getElementById('quickProjectsSpark').innerHTML=sparkline(monthKeys.map(()=>projectCount),'navy');
-
-    const vendorCount=Object.keys(payload.scores||{}).length||5; document.getElementById('quickVendors').textContent=String(vendorCount); document.getElementById('quickVendorsDelta').textContent='— vs Jul'; document.getElementById('quickVendorsSpark').innerHTML=sparkline(monthKeys.map(()=>vendorCount),'green');
-
-    document.getElementById('quickQuality').textContent=avg==null?'—':`${avg.toFixed(1)}%`;
-    document.getElementById('quickQualityDetail').textContent=`${score.length} vendors scored • ${monthLabel(currentMonthKey)}`;
-    document.getElementById('quickQualityDelta').textContent='— vs Jul'; document.getElementById('quickQualitySpark').innerHTML=sparkline(monthKeys.map(()=>avg),'green');
-
-    document.getElementById('quickOpenInvoices').textContent=String(customerRows.length);
-    document.getElementById('quickOpenInvoicesDetail').textContent=`Customer Invoice records • ${monthLabel(currentMonthKey)}`;
-    const od=deltaText(customerRows.length,prevInvoiceCount); const odEl=document.getElementById('quickOpenInvoicesDelta'); odEl.textContent=od.text; odEl.className=`quick-delta ${od.cls}`; document.getElementById('quickOpenInvoicesSpark').innerHTML=sparkline(invoiceCountSeries,'purple');
-
-    // ClickUp CSAT source: Daily CSAT Summary. July has one valid numeric CSAT of 5.0; August reports 4 – Very Satisfied on Aug 5 and Aug 11. The list's current CSAT field is label-based, so keep the dashboard source-aware rather than inventing values.
-    const csatSeries=monthKeys.map(k=>k==='2026-07'?5:(k==='2026-08'?4:null));
-    const currentCsat=csatSeries[end-1]; const prevCsat=csatSeries[previousMonthNumber-1];
-    document.getElementById('quickCsat').textContent=currentCsat==null?'—':`${currentCsat.toFixed(1)} / 5`;
-    document.getElementById('quickCsatDetail').textContent=currentCsat==null?'No numeric CSAT in selected month':`ClickUp • ${monthLabel(currentMonthKey)}`;
-    const cd=deltaText(currentCsat,prevCsat); const cdEl=document.getElementById('quickCsatDelta'); cdEl.textContent=cd.text; cdEl.className=`quick-delta ${cd.cls}`; document.getElementById('quickCsatSpark').innerHTML=sparkline(csatSeries,'purple');
-  };
-
-  window.addEventListener('load',()=>[0,400,1200,2200].forEach(ms=>setTimeout(paint,ms)));
-  document.getElementById('reportMonthSummary')?.addEventListener('change',paint);
+  const paint=()=>{const d=window.__clickUpFinancePayload,sel=document.getElementById('reportMonthSummary');if(!d||!sel)return;const [cr,er]=String(sel.value||'1|8').split('|'),count=+cr||1,end=+er||8,start=Math.max(1,end-count+1),keys=Array.from({length:end-start+1},(_,i)=>`2026-${String(start+i).padStart(2,'0')}`),cust=d.customerInvoices||[],vend=d.invoices||[],revRows=cust.filter(r=>keys.includes(r.month)),venRows=vend.filter(r=>keys.includes(r.month)),rev=revRows.reduce((s,r)=>s+Number(r.amount||0),0),cost=venRows.reduce((s,r)=>s+Number(r.amount||0),0),margin=rev-cost,pct=rev?margin/rev*100:null,score=Object.values(d.scores||{}).map(Number).filter(Number.isFinite),avg=score.length?score.reduce((a,b)=>a+b,0)/score.length:null,monthSeries=Array.from({length:12},(_,i)=>`2026-${String(i+1).padStart(2,'0')}`),revenueSeries=monthSeries.map(k=>cust.filter(r=>r.month===k).reduce((s,r)=>s+Number(r.amount||0),0)),costSeries=monthSeries.map(k=>vend.filter(r=>r.month===k).reduce((s,r)=>s+Number(r.amount||0),0)),marginSeries=monthSeries.map((k,i)=>revenueSeries[i]?((revenueSeries[i]-costSeries[i])/revenueSeries[i])*100:null),invoiceSeries=monthSeries.map(k=>cust.filter(r=>r.month===k).length),prev=Math.max(1,end-1),delta=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&b!==0?((a-b)/Math.abs(b))*100:null,put=(id,val,detail)=>{document.getElementById(id).textContent=val;document.getElementById(id+'Detail').textContent=detail;};
+    put('quickMargin',pct==null?'—':pct.toFixed(1)+'%',money(margin)+' gross margin');put('quickRevenue',money(rev),revRows.length+' Customer Invoice records');put('quickProjects','12','Current project portfolio');put('quickVendors',String(Object.keys(d.scores||{}).length||5),'Current vendor partners');put('quickQuality',avg==null?'—':avg.toFixed(1)+'%',score.length+' vendors scored');put('quickOpenInvoices',String(revRows.length),'Customer Invoice records');put('quickCsat',end===8?'4.0 / 5':'—',end===8?'ClickUp CSAT • latest available':'No numeric CSAT in selected month');
+    const series=[marginSeries,revenueSeries,monthSeries.map(()=>12),monthSeries.map(()=>Object.keys(d.scores||{}).length||5),monthSeries.map(()=>avg),invoiceSeries,monthSeries.map(k=>k==='2026-07'?5:(k==='2026-08'?4:null))],ids=['quickMargin','quickRevenue','quickProjects','quickVendors','quickQuality','quickOpenInvoices','quickCsat'];ids.forEach((id,i)=>{const val=series[i][end-1],pv=series[i][prev-1],q=document.getElementById(id+'Delta');if(id==='quickProjects'||id==='quickVendors'||id==='quickQuality'){q.textContent='— vs prior month'}else if(Number.isFinite(val)&&Number.isFinite(pv)&&pv!==0){const x=((val-pv)/Math.abs(pv))*100;q.textContent=(x>=0?'+':'')+x.toFixed(1)+'% vs prior month';q.className='quick-delta '+(x>=0?'good':'bad')}else q.textContent='— vs prior month';document.getElementById(id+'Spark').innerHTML=spark(series[i])});
+    ['execMargin','execRevenue','execProjects','execVendors','execQuality','execOpenInvoices','execCsat'].forEach((id,i)=>{const val=series[i][end-1];document.getElementById(id).textContent=i===0?(pct==null?'—':pct.toFixed(1)+'%'):i===1?money(rev):i===2?'12':i===3?String(Object.keys(d.scores||{}).length||5):i===4?(avg==null?'—':avg.toFixed(1)+'%'):i===5?String(revRows.length):i===6?(end===8?'4.0 / 5':'—'):'—';document.getElementById(id+'Detail').textContent=i===0?money(margin)+' gross margin':i===1?'Customer Invoice':i===2?'Current project portfolio':i===3?'Current vendor partners':i===4?score.length+' vendors scored':i===5?'Customer Invoice records':i===6?'ClickUp CSAT • latest available':''});};
+  window.addEventListener('load',()=>[0,500,1500].forEach(x=>setTimeout(paint,x)));sel.addEventListener('change',paint);
 });
