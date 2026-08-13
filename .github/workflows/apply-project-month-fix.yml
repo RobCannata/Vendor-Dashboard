@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/patch-project-month-binding.mjs'
+      - '.github/workflows/apply-project-month-fix.yml'
   workflow_dispatch:
 
 permissions:
