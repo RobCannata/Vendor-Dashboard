@@ -1,0 +1,1 @@
+Project month binding fix: remove legacy 2025 override and use 2026 monthlyActiveProjects from ClickUp.
