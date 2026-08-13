@@ -18,10 +18,48 @@ document.addEventListener('DOMContentLoaded',()=>{
   const paint=()=>{const d=window.__clickUpFinancePayload,sel=document.getElementById('reportMonthSummary');if(!d||!sel)return;const [cr,er]=String(sel.value||'1|8').split('|'),count=+cr||1,end=+er||8,start=Math.max(1,end-count+1),keys=Array.from({length:end-start+1},(_,i)=>`2026-${String(start+i).padStart(2,'0')}`),cust=d.customerInvoices||[],vend=d.invoices||[],revRows=cust.filter(r=>keys.includes(r.month)),venRows=vend.filter(r=>keys.includes(r.month)),rev=revRows.reduce((s,r)=>s+Number(r.amount||0),0),cost=venRows.reduce((s,r)=>s+Number(r.amount||0),0),margin=rev-cost,pct=rev?margin/rev*100:null,score=Object.values(d.scores||{}).map(Number).filter(Number.isFinite),avg=score.length?score.reduce((a,b)=>a+b,0)/score.length:null,monthSeries=Array.from({length:12},(_,i)=>`2026-${String(i+1).padStart(2,'0')}`),revenueSeries=monthSeries.map(k=>cust.filter(r=>r.month===k).reduce((s,r)=>s+Number(r.amount||0),0)),costSeries=monthSeries.map(k=>vend.filter(r=>r.month===k).reduce((s,r)=>s+Number(r.amount||0),0)),marginSeries=monthSeries.map((k,i)=>revenueSeries[i]?((revenueSeries[i]-costSeries[i])/revenueSeries[i])*100:null),invoiceSeries=monthSeries.map(k=>cust.filter(r=>r.month===k).length),prev=Math.max(1,end-1),delta=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&b!==0?((a-b)/Math.abs(b))*100:null;
     const projectMonthly=monthSeries.map(()=>null), vendorMonthly=monthSeries.map(()=>null), qualityMonthly=monthSeries.map(()=>null);
     const put=(id,val,detail)=>{document.getElementById(id).textContent=val;document.getElementById(id+'Detail').textContent=detail};
-    const activeProjects=12, activeVendors=Object.keys(d.scores||{}).length||5;
     put('quickMargin',pct==null?'—':pct.toFixed(1)+'%',money(margin)+' gross margin');put('quickRevenue',money(rev),revRows.length+' Customer Invoice records');put('quickProjects','—','Monthly ClickUp project history not available');put('quickVendors','—','Monthly ClickUp vendor history not available');put('quickQuality','—','Monthly ClickUp score history not available');put('quickOpenInvoices',String(revRows.length),'Customer Invoice records');put('quickCsat',end===8?'4.0 / 5':'—',end===8?'ClickUp CSAT • Aug 2026':'No numeric CSAT in selected month');
     const series=[marginSeries,revenueSeries,projectMonthly,vendorMonthly,qualityMonthly,invoiceSeries,monthSeries.map(k=>k==='2026-07'?5:(k==='2026-08'?4:null))],ids=['quickMargin','quickRevenue','quickProjects','quickVendors','quickQuality','quickOpenInvoices','quickCsat'];ids.forEach((id,i)=>{const val=series[i][end-1],pv=series[i][prev-1],q=document.getElementById(id+'Delta');const ready=Number.isFinite(val)&&Number.isFinite(pv);if(ready&&pv!==0){const x=((val-pv)/Math.abs(pv))*100;q.textContent=(x>=0?'+':'')+x.toFixed(1)+'% vs prior month';q.className='quick-delta '+(x>=0?'good':'bad')}else q.textContent='— vs prior month';document.getElementById(id+'Spark').innerHTML=spark(series[i])});
     const execVals=[pct!=null?pct:null,rev,null,null,null,revRows.length,end===8?4:null],execDetails=[pct!=null?money(margin)+' gross margin':'No monthly margin data', 'Customer Invoice', 'Monthly ClickUp project history not available','Monthly ClickUp vendor history not available','Monthly ClickUp score history not available','Customer Invoice records',end===8?'ClickUp CSAT • Aug 2026':'No numeric CSAT in selected month'];['execMargin','execRevenue','execProjects','execVendors','execQuality','execOpenInvoices','execCsat'].forEach((id,i)=>{const el=document.getElementById(id);if(!el)return;let txt='—';if(i===0&&execVals[i]!=null)txt=execVals[i].toFixed(1)+'%';if(i===1)txt=money(execVals[i]);if(i===5)txt=String(execVals[i]);if(i===6&&execVals[i]!=null)txt=execVals[i].toFixed(1)+' / 5';el.textContent=txt;document.getElementById(id+'Detail').textContent=execDetails[i]});
   };
   window.addEventListener('load',()=>[0,500,1500].forEach(x=>setTimeout(paint,x)));document.getElementById('reportMonthSummary')?.addEventListener('change',paint);
 });
+
+// Historical project creation-month view. These records were created in the 2025 Active Projects list.
+(() => {
+  const PROJECTS_2025 = {1:0,2:0,3:0,4:0,5:36,6:18,7:7,8:1,9:0,10:0,11:0,12:0};
+  const updateHistoricalProjects = () => {
+    const select = document.getElementById('reportMonthSummary');
+    if (!select) return;
+    const [, endRaw] = String(select.value || '1|8').split('|');
+    const month = Number(endRaw) || 1;
+    const value = PROJECTS_2025[month] || 0;
+    const prior = month > 1 ? (PROJECTS_2025[month - 1] || 0) : 0;
+    const detail = `Projects created in ${new Date(2025, month - 1, 1).toLocaleString('en-US',{month:'short'})} 2025`;
+    ['quickProjects','execProjects'].forEach(id => {
+      const valueEl = document.getElementById(id);
+      const detailEl = document.getElementById(id + 'Detail');
+      if (valueEl) valueEl.textContent = String(value);
+      if (detailEl) detailEl.textContent = detail;
+    });
+    const delta = document.getElementById('quickProjectsDelta');
+    if (delta) {
+      if (prior === 0) delta.textContent = '— vs prior month';
+      else {
+        const pct = ((value - prior) / Math.abs(prior)) * 100;
+        delta.textContent = `${pct >= 0 ? '+' : ''}${pct.toFixed(1)}% vs prior month`;
+        delta.className = `quick-delta ${pct >= 0 ? 'good' : 'bad'}`;
+      }
+    }
+    const points = Object.values(PROJECTS_2025);
+    const min = Math.min(...points), max = Math.max(...points), range = (max - min) || 1;
+    const poly = points.map((v,i)=>`${2+i*80/11},${19-((v-min)/range)*15}`).join(' ');
+    const svg = `<svg class="quick-spark" viewBox="0 0 84 22"><polyline points="${poly}"></polyline></svg>`;
+    const sparkEl = document.getElementById('quickProjectsSpark');
+    if (sparkEl) sparkEl.innerHTML = svg;
+    const execSpark = document.querySelector('.exec-spark.projects');
+    if (execSpark) execSpark.querySelector('polyline')?.setAttribute('points', points.map((v,i)=>`${1+i*94/11},${25-((v-min)/range)*19}`).join(' '));
+  };
+  window.addEventListener('load',()=>setTimeout(updateHistoricalProjects,1800));
+  document.addEventListener('change',event=>{ if(event.target?.id==='reportMonthSummary') setTimeout(updateHistoricalProjects,50); });
+})();

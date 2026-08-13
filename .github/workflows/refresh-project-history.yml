@@ -1,0 +1,43 @@
+name: Refresh 2026 project history
+
+on:
+  push:
+    branches: [fix/monthly-active-projects]
+    paths:
+      - 'scripts/refresh-project-history.mjs'
+      - '.github/workflows/refresh-project-history.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '27 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: clickup-project-history-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Refresh 2026 project history
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+        run: node scripts/refresh-project-history.mjs
+      - name: Commit project history
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add clickup-scores.json
+          if git diff --cached --quiet; then
+            echo "No project history changes."
+            exit 0
+          fi
+          git commit -m "Refresh 2026 project history"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
