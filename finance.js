@@ -101,7 +101,7 @@ function refreshReportingSelector() {
     select.appendChild(six);
     select.value = [...select.options].some(o => o.value === current) ? current : `1|${new Date().getMonth() + 1}`;
   });
-  selects.forEach(select => { select.onchange = () => { selects.forEach(other => { if (other !== select) other.value = select.value; }); window.__refreshRevenue?.(); }; });
+  selects.forEach(select => { select.onchange = () => { selects.forEach(other => { if (other !== select) other.value = select.value; }); window.__refreshRevenue?.(); window.__refreshMonthView?.(window.__clickUpFinancePayload, select.value); }; });
 }
 
 function calculateMatchedMargin(payload, periodValue) {
@@ -129,10 +129,104 @@ function calculateMatchedMargin(payload, periodValue) {
   return { customerRows, vendorRows, revenue, vendorCost, matchedRows, margin, marginPct };
 }
 
+function currentScoreSnapshot(payload, periodValue) {
+  const keys = periodKeys(periodValue);
+  const endKey = keys[keys.length - 1];
+  const currentKey = String(payload?.updatedAt || '').slice(0, 7);
+  if (endKey === currentKey) return { scores: payload?.scores || {}, projectScores: payload?.projectScores || {}, available: true, label: endKey };
+  const monthly = payload?.monthlyScores?.[endKey];
+  if (monthly) return { scores: monthly.scores || {}, projectScores: monthly.projectScores || {}, available: true, label: endKey };
+  return { scores: {}, projectScores: {}, available: false, label: endKey };
+}
+
+function updateVendorScoreCards(payload, periodValue) {
+  const snapshot = currentScoreSnapshot(payload, periodValue);
+  const cards = [...document.querySelectorAll('.vendor-card')];
+  cards.forEach(card => {
+    const vendor = card.querySelector('.vendor-name')?.textContent?.trim();
+    if (!vendor) return;
+    const score = Number(snapshot.scores?.[vendor]);
+    if (typeof applyScore === 'function') applyScore(card, snapshot.available && Number.isFinite(score) ? score : null);
+    const vendorMeta = card.querySelector('.vendor-meta');
+    if (vendorMeta) vendorMeta.textContent = snapshot.available ? 'ClickUp scorecard snapshot' : 'No monthly score snapshot';
+  });
+  const rows = [...document.querySelectorAll('.project-row')];
+  rows.forEach(row => {
+    const name = row.querySelector('.project-name')?.textContent?.trim();
+    const strong = row.querySelector('.project-result strong');
+    const status = row.querySelector('.project-status');
+    if (!strong) return;
+    const score = Number(snapshot.projectScores?.[name]);
+    if (snapshot.available && Number.isFinite(score)) {
+      strong.textContent = `${score}%`;
+      if (status) status.textContent = score >= 90 ? 'Strong' : score >= 80 ? 'Watch' : 'At risk';
+    } else {
+      strong.textContent = '—';
+      if (status) status.textContent = 'No monthly snapshot';
+    }
+  });
+  const values = Object.values(snapshot.scores || {}).map(Number).filter(Number.isFinite);
+  const avg = values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : null;
+  const kpi = document.getElementById('installationQualityScore');
+  if (kpi) kpi.textContent = snapshot.available ? (avg == null ? '—' : `${avg}%`) : '—';
+  const detail = document.getElementById('installationQualityDetail');
+  if (detail) detail.textContent = snapshot.available ? `${values.length} vendor scorecards • ${periodLabel(periodValue)}` : `No ClickUp score snapshot for ${periodLabel(periodValue)}`;
+  const qualityPanel = document.getElementById('qualityByVendor');
+  if (qualityPanel) {
+    if (!snapshot.available) qualityPanel.innerHTML = `<div class="quality-note">No ClickUp vendor score snapshot for ${periodLabel(periodValue)}.</div>`;
+    else qualityPanel.innerHTML = vendors.map(v => { const score = Number(snapshot.scores?.[v]); const shown = Number.isFinite(score) ? `${score}%` : '—'; const width = Number.isFinite(score) ? score : 0; const band = typeof scoreBand === 'function' ? scoreBand(score) : ''; return `<div class="quality-row"><div><div class="qname">${v}</div><div class="qtrack"><span class="${band}" style="width:${width}%"></span></div></div><div class="qscore ${band}">${shown}</div></div>`; }).join('');
+  }
+}
+
+function syncPeriodKpis(payload, periodValue, financials) {
+  const label = periodLabel(periodValue);
+  const { revenue, vendorCost, margin, marginPct } = financials;
+  const endKey = periodKeys(periodValue).slice(-1)[0];
+  const scoreSnapshot = currentScoreSnapshot(payload, periodValue);
+  const scoreValues = Object.values(scoreSnapshot.scores || {}).map(Number).filter(Number.isFinite);
+  const avgQuality = scoreValues.length ? scoreValues.reduce((a,b)=>a+b,0)/scoreValues.length : null;
+  const hasCurrentOps = scoreSnapshot.available;
+  const projectValue = document.getElementById('execProjects');
+  const vendorValue = document.getElementById('execVendors');
+  const qualityValue = document.getElementById('execQuality');
+  const openValue = document.getElementById('execOpenInvoices');
+  if (projectValue) projectValue.textContent = hasCurrentOps ? '12' : '—';
+  if (vendorValue) vendorValue.textContent = hasCurrentOps ? String(Object.keys(scoreSnapshot.scores || {}).length || 5) : '—';
+  if (qualityValue) qualityValue.textContent = hasCurrentOps && avgQuality != null ? `${avgQuality.toFixed(1)}%` : '—';
+  if (openValue) openValue.textContent = String(financials.customerRows.length);
+  const set = (id, value, detail) => { const el=document.getElementById(id); const d=document.getElementById(id+'Detail'); if(el) el.textContent=value; if(d) d.textContent=detail; };
+  set('execMargin', marginPct == null ? '—' : `${marginPct.toFixed(1)}%`, `${money(margin)} gross margin • ${label}`);
+  set('execRevenue', money(revenue), `${financials.customerRows.length} Customer Invoice record${financials.customerRows.length===1?'':'s'} • ${label}`);
+  set('execProjects', hasCurrentOps ? '12' : '—', hasCurrentOps ? `Current portfolio • ${label}` : `No monthly project snapshot • ${label}`);
+  set('execVendors', hasCurrentOps ? String(Object.keys(scoreSnapshot.scores || {}).length || 5) : '—', hasCurrentOps ? `Current vendor partners • ${label}` : `No monthly vendor snapshot • ${label}`);
+  set('execQuality', hasCurrentOps && avgQuality != null ? `${avgQuality.toFixed(1)}%` : '—', hasCurrentOps ? `${scoreValues.length} vendor scorecards • ${label}` : `No monthly score snapshot • ${label}`);
+  set('execOpenInvoices', String(financials.customerRows.length), `Customer Invoice records • ${label}`);
+  const csat = endKey === '2026-08' ? '4.0 / 5' : endKey === '2026-07' ? '5.0 / 5' : '—';
+  set('execCsat', csat, csat === '—' ? `No numeric ClickUp CSAT snapshot • ${label}` : `ClickUp CSAT • ${label}`);
+  const quick = (id,val,detail) => { const el=document.getElementById(id); const d=document.getElementById(id+'Detail'); if(el) el.textContent=val; if(d) d.textContent=detail; };
+  quick('quickMargin', marginPct == null ? '—' : `${marginPct.toFixed(1)}%`, `${money(margin)} gross margin • ${label}`);
+  quick('quickRevenue', money(revenue), `${financials.customerRows.length} Customer Invoice record${financials.customerRows.length===1?'':'s'} • ${label}`);
+  quick('quickProjects', hasCurrentOps ? '12' : '—', hasCurrentOps ? `Current portfolio • ${label}` : `No monthly project snapshot • ${label}`);
+  quick('quickVendors', hasCurrentOps ? String(Object.keys(scoreSnapshot.scores || {}).length || 5) : '—', hasCurrentOps ? `Current vendor partners • ${label}` : `No monthly vendor snapshot • ${label}`);
+  quick('quickQuality', hasCurrentOps && avgQuality != null ? `${avgQuality.toFixed(1)}%` : '—', hasCurrentOps ? `${scoreValues.length} vendors scored • ${label}` : `No monthly score snapshot • ${label}`);
+  quick('quickOpenInvoices', String(financials.customerRows.length), `Customer Invoice records • ${label}`);
+  quick('quickCsat', csat, csat === '—' ? `No numeric ClickUp CSAT snapshot • ${label}` : `ClickUp CSAT • ${label}`);
+}
+
+window.__refreshMonthView = function(payload, periodValue) {
+  if (!payload) return;
+  const financials = calculateMatchedMargin(payload, periodValue);
+  renderRevenue(payload, periodValue);
+  renderInvoicePeriod(payload, periodValue);
+  updateVendorScoreCards(payload, periodValue);
+  syncPeriodKpis(payload, periodValue, financials);
+};
+
 function renderRevenue(payload, periodValue) {
   ensureCustomerInvoiceCard();
   renameGrossMarginKpi();
-  const { customerRows, vendorRows, revenue, vendorCost, matchedRows, margin, marginPct } = calculateMatchedMargin(payload, periodValue);
+  const financials = calculateMatchedMargin(payload, periodValue);
+  const { customerRows, vendorRows, revenue, vendorCost, matchedRows, margin, marginPct } = financials;
   const label = periodLabel(periodValue);
   const grossValue = document.getElementById('serviceRevenueValue');
   const grossDetail = document.getElementById('serviceRevenueDetail');
@@ -164,10 +258,10 @@ async function loadRevenue() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
     window.__clickUpFinancePayload = payload;
-    const refresh = () => renderRevenue(payload, getPeriodSelection());
+    const refresh = () => window.__refreshMonthView?.(payload, getPeriodSelection());
     window.__refreshRevenue = refresh;
     refreshReportingSelector();
-    refresh();
+    window.__refreshMonthView?.(payload, getPeriodSelection());
     [250, 1000, 2000].forEach(delay => setTimeout(refresh, delay));
   } catch (error) { console.error('Unable to load Customer Invoice revenue:', error); }
 }
