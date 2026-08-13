@@ -5,7 +5,7 @@ const API_BASE = 'https://api.clickup.com/api/v2';
 const OUTPUT = 'clickup-scores.json';
 const YEAR = 2026;
 const SCORECARD_LIST = '901217460327';
-const INSTALLATION_LISTS = ['901201686156', '901210415855'];
+const INSTALLATION_LISTS = ['901201686156', '901210415855', '170218462'];
 
 if (!TOKEN) throw new Error('Missing CLICKUP_TOKEN.');
 
@@ -98,6 +98,7 @@ async function getListFields(listId) {
 const scores = {};
 const projectScores = {};
 const invoices = [];
+const customerInvoices = [];
 
 let page = 0;
 while (true) {
@@ -137,17 +138,13 @@ for (const [project, taskId] of Object.entries(PROJECT_TASKS)) {
   }
 }
 
-// Pull the actual ClickUp Vendor Invoice custom field from installation tasks.
 for (const listId of INSTALLATION_LISTS) {
   const listFields = await getListFields(listId);
   const vendorInvoiceField = customFieldByName(listFields, ['Vendor Invoice']);
+  const customerInvoiceField = customFieldByName(listFields, ['Customer Invoice']);
   const vendorField = customFieldByName(listFields, ['Vendor', 'Vendor Name', 'Vendor Company']);
 
-  if (!vendorInvoiceField) {
-    console.warn(`List ${listId}: Vendor Invoice custom field was not found.`);
-  } else {
-    console.log(`List ${listId}: Vendor Invoice field ${vendorInvoiceField.id}`);
-  }
+  console.log(`List ${listId}: Vendor Invoice field ${vendorInvoiceField?.id || 'not found'}; Customer Invoice field ${customerInvoiceField?.id || 'not found'}`);
 
   let invoicePage = 0;
   while (true) {
@@ -160,22 +157,22 @@ for (const listId of INSTALLATION_LISTS) {
 
       const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
       const invoiceField = vendorInvoiceField ? fields.find((f) => String(f?.id) === String(vendorInvoiceField.id)) : null;
-      const amount = amountFromField(invoiceField);
-      if (amount == null || amount <= 0) continue;
+      const customerField = customerInvoiceField ? fields.find((f) => String(f?.id) === String(customerInvoiceField.id)) : null;
+      const vendorAmount = amountFromField(invoiceField);
+      const customerAmount = amountFromField(customerField);
 
       const vendorValue = vendorField ? fields.find((f) => String(f?.id) === String(vendorField.id)) : null;
       const vendor = vendorValue ? String(vendorValue.value?.label || vendorValue.value?.name || vendorValue.value?.text || vendorValue.value || '').trim() : '';
 
-      invoices.push({
-        taskId: task.id,
-        task: task.name || 'Untitled',
-        vendor: vendor || null,
-        month,
-        amount,
-        sourceField: 'Vendor Invoice',
-        url: task.url || `https://app.clickup.com/t/${task.id}`,
-        createdAt: task.date_created,
-      });
+      if (vendorAmount != null && vendorAmount > 0) {
+        invoices.push({ taskId: task.id, task: task.name || 'Untitled', vendor: vendor || null, month, amount: vendorAmount, sourceField: 'Vendor Invoice', url: task.url || `https://app.clickup.com/t/${task.id}`, createdAt: task.date_created });
+      }
+
+      if (customerAmount != null && customerAmount > 0) {
+        const grossMargin = vendorAmount != null ? customerAmount - vendorAmount : null;
+        const grossMarginPct = customerAmount > 0 && grossMargin != null ? (grossMargin / customerAmount) * 100 : null;
+        customerInvoices.push({ taskId: task.id, task: task.name || 'Untitled', vendor: vendor || null, month, amount: customerAmount, vendorCost: vendorAmount, grossMargin, grossMarginPct, sourceField: 'Customer Invoice', url: task.url || `https://app.clickup.com/t/${task.id}`, createdAt: task.date_created });
+      }
     }
 
     if (tasks.length < 100) break;
@@ -184,31 +181,56 @@ for (const listId of INSTALLATION_LISTS) {
 }
 
 const invoiceMonthly = {};
-for (const invoice of invoices) {
-  invoiceMonthly[invoice.month] = (invoiceMonthly[invoice.month] || 0) + invoice.amount;
-}
+for (const invoice of invoices) invoiceMonthly[invoice.month] = (invoiceMonthly[invoice.month] || 0) + invoice.amount;
 
 const invoiceByVendor = {};
 for (const invoice of invoices) {
   const vendor = invoice.vendor || 'Unassigned';
-  if (!invoiceByVendor[vendor]) invoiceByVendor[vendor] = 0;
-  invoiceByVendor[vendor] += invoice.amount;
+  invoiceByVendor[vendor] = (invoiceByVendor[vendor] || 0) + invoice.amount;
+}
+
+const revenueMonthly = {};
+const revenueByVendor = {};
+let totalRevenue = 0;
+let totalVendorCost = 0;
+let totalGrossMargin = 0;
+let marginRecords = 0;
+for (const invoice of customerInvoices) {
+  revenueMonthly[invoice.month] = (revenueMonthly[invoice.month] || 0) + invoice.amount;
+  const vendor = invoice.vendor || 'Unassigned';
+  revenueByVendor[vendor] = (revenueByVendor[vendor] || 0) + invoice.amount;
+  totalRevenue += invoice.amount;
+  if (invoice.vendorCost != null) {
+    totalVendorCost += invoice.vendorCost;
+    totalGrossMargin += invoice.grossMargin;
+    marginRecords += 1;
+  }
 }
 
 const payload = {
   source: 'ClickUp Field / Vendor Scorecards / Scorecards',
   field: 'Avg Final Score % / Final Score (%)',
   invoiceField: 'Vendor Invoice',
+  revenueField: 'Customer Invoice',
   updatedAt: new Date().toISOString(),
   scores,
   projectScores,
   invoices,
   invoiceMonthly,
   invoiceByVendor,
+  customerInvoices,
+  revenueMonthly,
+  revenueByVendor,
+  totalRevenue,
+  totalVendorCost,
+  totalGrossMargin,
+  marginRecords,
+  totalMarginPct: totalRevenue > 0 && marginRecords > 0 ? (totalGrossMargin / totalRevenue) * 100 : null,
 };
 
 await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n', 'utf8');
 console.log(`Updated vendor scores: ${JSON.stringify(scores)}`);
 console.log(`Updated project scores: ${JSON.stringify(projectScores)}`);
 console.log(`Extracted ${invoices.length} Vendor Invoice field records; monthly totals: ${JSON.stringify(invoiceMonthly)}`);
-console.log(`Invoice totals by vendor: ${JSON.stringify(invoiceByVendor)}`);
+console.log(`Extracted ${customerInvoices.length} Customer Invoice field records; monthly revenue: ${JSON.stringify(revenueMonthly)}`);
+console.log(`Revenue totals: ${JSON.stringify({ totalRevenue, totalVendorCost, totalGrossMargin, totalMarginPct: payload.totalMarginPct })}`);
