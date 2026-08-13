@@ -2,7 +2,8 @@
   "source": "ClickUp Field / Vendor Scorecards / Scorecards",
   "field": "Avg Final Score % / Final Score (%)",
   "invoiceField": "Vendor Invoice",
-  "updatedAt": "2026-08-13T09:50:24.593Z",
+  "revenueField": "Customer Invoice",
+  "updatedAt": "2026-08-13T11:37:27.556Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
@@ -344,5 +345,99 @@
   },
   "invoiceByVendor": {
     "Unassigned": 200085.23
-  }
+  },
+  "customerInvoices": [
+    {
+      "taskId": "869eg9jqq",
+      "task": "Southeast Ace - Elgin",
+      "vendor": null,
+      "month": "2026-08",
+      "amount": 32204,
+      "vendorCost": null,
+      "grossMargin": null,
+      "grossMarginPct": null,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869eg9jqq",
+      "createdAt": "1786368944387"
+    },
+    {
+      "taskId": "869d0b9fw",
+      "task": "Harrison Paint Monroe",
+      "vendor": null,
+      "month": "2026-04",
+      "amount": 1500,
+      "vendorCost": 3600,
+      "grossMargin": -2100,
+      "grossMarginPct": -140,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869d0b9fw",
+      "createdAt": "1776798703556"
+    },
+    {
+      "taskId": "869c4rgh6",
+      "task": "UAP Traction - Sault Ste.Marie",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 2000,
+      "vendorCost": 1414.64,
+      "grossMargin": 585.3599999999999,
+      "grossMarginPct": 29.267999999999994,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869c4rgh6",
+      "createdAt": "1771009575078"
+    },
+    {
+      "taskId": "869c1uq26",
+      "task": "UAP Napa - 1635 - Taber Autoparts",
+      "vendor": null,
+      "month": "2026-02",
+      "amount": 2000,
+      "vendorCost": 870,
+      "grossMargin": 1130,
+      "grossMarginPct": 56.49999999999999,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869c1uq26",
+      "createdAt": "1770320746393"
+    },
+    {
+      "taskId": "869bt9433",
+      "task": "Charter 4292 - Butte Montana",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 750,
+      "vendorCost": 525,
+      "grossMargin": 225,
+      "grossMarginPct": 30,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869bt9433",
+      "createdAt": "1768412530115"
+    },
+    {
+      "taskId": "869bpdcc0",
+      "task": "NAPA Lac La Biche - 188-7275",
+      "vendor": null,
+      "month": "2026-01",
+      "amount": 350,
+      "vendorCost": 1220,
+      "grossMargin": -870,
+      "grossMarginPct": -248.57142857142858,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869bpdcc0",
+      "createdAt": "1767814662341"
+    }
+  ],
+  "revenueMonthly": {
+    "2026-08": 32204,
+    "2026-04": 1500,
+    "2026-02": 4000,
+    "2026-01": 1100
+  },
+  "revenueByVendor": {
+    "Unassigned": 38804
+  },
+  "totalRevenue": 38804,
+  "totalVendorCost": 7629.64,
+  "totalGrossMargin": -1029.64,
+  "marginRecords": 5,
+  "totalMarginPct": -2.6534377899185655
 }
