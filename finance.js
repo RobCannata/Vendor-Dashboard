@@ -57,9 +57,7 @@ function renameGrossMarginKpi() {
   const kpi = document.getElementById('serviceRevenueValue')?.closest('.kpi');
   if (!kpi) return;
   const label = kpi.querySelector('.kpi-label');
-  const detail = document.getElementById('serviceRevenueDetail');
   if (label) label.innerHTML = '<span class="icon">%</span>Gross Margin';
-  if (detail) detail.dataset.originalLabel = 'Gross margin for selected period';
 }
 
 function setupSectionIdsAndNav() {
@@ -91,39 +89,79 @@ function getPeriodSelection() {
   return document.getElementById('reportMonthSummary')?.value || '1|1';
 }
 
+const MANUAL_PROJECT_COST_MAP = { 'Southeast Ace - Elgin': 8975 };
+
+function refreshReportingSelector() {
+  const select = document.getElementById('reportMonthSummary');
+  if (!select) return;
+  const current = select.value || `1|${new Date().getMonth() + 1}`;
+  const monthly = document.createElement('optgroup');
+  monthly.label = 'Monthly';
+  for (let month = 1; month <= 12; month += 1) {
+    const option = document.createElement('option');
+    option.value = `1|${month}`;
+    option.textContent = new Date(FINANCE_YEAR, month - 1, 1).toLocaleString('en-US', { month: 'long', year: 'numeric' });
+    monthly.appendChild(option);
+  }
+  const six = document.createElement('optgroup');
+  six.label = '6-Month Periods';
+  for (let endMonth = 6; endMonth <= 12; endMonth += 1) {
+    const startMonth = endMonth - 5;
+    const start = new Date(FINANCE_YEAR, startMonth - 1, 1);
+    const end = new Date(FINANCE_YEAR, endMonth - 1, 1);
+    const option = document.createElement('option');
+    option.value = `6|${endMonth}`;
+    option.textContent = `${start.toLocaleString('en-US', { month: 'short' })}–${end.toLocaleString('en-US', { month: 'short', year: 'numeric' })}`;
+    six.appendChild(option);
+  }
+  select.innerHTML = '';
+  select.appendChild(monthly);
+  select.appendChild(six);
+  select.value = [...select.options].some(o => o.value === current) ? current : `1|${new Date().getMonth() + 1}`;
+}
+
+function calculateMatchedMargin(payload, periodValue) {
+  const keys = periodKeys(periodValue);
+  const customerRows = (payload?.customerInvoices || []).filter(row => keys.includes(row.month));
+  let revenue = 0;
+  let vendorCost = 0;
+  let matchedRows = 0;
+  customerRows.forEach(row => {
+    const amount = Number(row.amount);
+    if (!Number.isFinite(amount)) return;
+    revenue += amount;
+    let cost = Number(row.vendorCost);
+    if (!Number.isFinite(cost)) cost = MANUAL_PROJECT_COST_MAP[row.task] ?? null;
+    if (Number.isFinite(cost)) { vendorCost += cost; matchedRows += 1; }
+  });
+  const margin = matchedRows ? revenue - vendorCost : 0;
+  const marginPct = revenue > 0 && matchedRows ? (margin / revenue) * 100 : null;
+  return { customerRows, revenue, vendorCost, matchedRows, margin, marginPct };
+}
+
 function renderRevenue(payload, periodValue) {
   ensureCustomerInvoiceCard();
   renameGrossMarginKpi();
-
-  const keys = periodKeys(periodValue);
-  const rows = (payload?.customerInvoices || []).filter(item => keys.includes(item.month));
-  const revenue = rows.reduce((sum, row) => sum + Number(row.amount || 0), 0);
-  const vendorCost = rows.reduce((sum, row) => sum + (Number.isFinite(Number(row.vendorCost)) ? Number(row.vendorCost) : 0), 0);
-  const margin = rows.reduce((sum, row) => sum + (Number.isFinite(Number(row.grossMargin)) ? Number(row.grossMargin) : (Number.isFinite(Number(row.amount)) && Number.isFinite(Number(row.vendorCost)) ? Number(row.amount) - Number(row.vendorCost) : 0)), 0);
-  const marginPct = revenue > 0 ? (margin / revenue) * 100 : null;
+  const { customerRows, revenue, vendorCost, matchedRows, margin, marginPct } = calculateMatchedMargin(payload, periodValue);
   const label = periodLabel(periodValue);
-
   const grossValue = document.getElementById('serviceRevenueValue');
   const grossDetail = document.getElementById('serviceRevenueDetail');
-  if (grossValue) grossValue.textContent = money(margin);
-  if (grossDetail) grossDetail.textContent = `${rows.length} matched invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
-
+  if (grossValue) grossValue.textContent = matchedRows ? money(margin) : '—';
+  if (grossDetail) grossDetail.textContent = matchedRows ? `${matchedRows} matched project record${matchedRows === 1 ? '' : 's'} • ${label}` : `No matched project invoice records • ${label}`;
   const customerValue = document.getElementById('customerInvoiceValue');
   const customerDetail = document.getElementById('customerInvoiceDetail');
   if (customerValue) customerValue.textContent = money(revenue);
-  if (customerDetail) customerDetail.textContent = `${rows.length} customer invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
-
+  if (customerDetail) customerDetail.textContent = `${customerRows.length} customer invoice record${customerRows.length === 1 ? '' : 's'} • ${label}`;
   const panelValue = document.getElementById('serviceRevenuePanel');
   const panelCaption = document.getElementById('serviceRevenueCaption');
   const cost = document.getElementById('serviceVendorCost');
   const gross = document.getElementById('serviceGrossMargin');
   const pct = document.getElementById('serviceMarginPct');
   if (panelValue) panelValue.textContent = money(revenue);
-  if (panelCaption) panelCaption.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} for ${label}.`;
-  if (cost) cost.textContent = money(vendorCost);
-  if (gross) gross.textContent = money(margin);
+  if (panelCaption) panelCaption.textContent = `${label} • Revenue = Customer Invoice; Gross Margin = Customer Invoice − matched Vendor Invoice.`;
+  if (cost) cost.textContent = matchedRows ? money(vendorCost) : '—';
+  if (gross) gross.textContent = matchedRows ? money(margin) : '—';
   if (pct) pct.textContent = marginPct != null ? `${marginPct.toFixed(1)}%` : '—';
-
   const revenuePanel = document.querySelector('.revenue-panel .panel-head h4');
   const revenueEyebrow = document.querySelector('.revenue-panel .panel-head .eyebrow');
   if (revenueEyebrow) revenueEyebrow.textContent = 'FINANCIAL PERFORMANCE';
@@ -135,7 +173,9 @@ async function loadRevenue() {
     const response = await fetch(`clickup-scores.json?v=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
+    window.__clickUpFinancePayload = payload;
     const refresh = () => renderRevenue(payload, getPeriodSelection());
+    setTimeout(refreshReportingSelector, 100);
     refresh();
     document.getElementById('reportMonthSummary')?.addEventListener('change', refresh);
     [250, 1000, 2000].forEach(delay => setTimeout(refresh, delay));
