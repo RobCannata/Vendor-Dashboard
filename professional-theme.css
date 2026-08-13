@@ -29,3 +29,4 @@ body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif!important}
 .summary-period select,.summary-period select:focus,.summary-period select:active,.reporting-toolbar select,.reporting-toolbar select:focus,.reporting-toolbar select:active{appearance:auto!important;-webkit-appearance:auto!important;color-scheme:light!important;background-color:#FFFFFF!important;background:#FFFFFF!important;color:#17365D!important;border:1px solid #B8C4D1!important;box-shadow:none!important;text-shadow:none!important;outline:none!important}
 .summary-period select option,.summary-period select optgroup,.reporting-toolbar select option,.reporting-toolbar select optgroup{background:#FFFFFF!important;background-color:#FFFFFF!important;color:#17365D!important}
 .summary-period select option:checked,.reporting-toolbar select option:checked{background:#E9EEF4!important;color:#17365D!important}
+.control-grid > .panel:first-child { display: none !important; }
