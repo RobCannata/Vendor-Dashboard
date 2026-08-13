@@ -25,41 +25,43 @@ document.addEventListener('DOMContentLoaded',()=>{
   window.addEventListener('load',()=>[0,500,1500].forEach(x=>setTimeout(paint,x)));document.getElementById('reportMonthSummary')?.addEventListener('change',paint);
 });
 
-// Historical project creation-month view. These records were created in the 2025 Active Projects list.
+// 2026 project creation-month view
 (() => {
-  const PROJECTS_2025 = {1:0,2:0,3:0,4:0,5:36,6:18,7:7,8:1,9:0,10:0,11:0,12:0};
-  const updateHistoricalProjects = () => {
+  const render = () => {
     const select = document.getElementById('reportMonthSummary');
-    if (!select) return;
-    const [, endRaw] = String(select.value || '1|8').split('|');
-    const month = Number(endRaw) || 1;
-    const value = PROJECTS_2025[month] || 0;
-    const prior = month > 1 ? (PROJECTS_2025[month - 1] || 0) : 0;
-    const detail = `Projects created in ${new Date(2025, month - 1, 1).toLocaleString('en-US',{month:'short'})} 2025`;
+    const payload = window.__clickUpFinancePayload;
+    if (!select || !payload || !payload.monthlyActiveProjects) return;
+    const parts = String(select.value || '1|8').split('|');
+    const month = Number(parts[1]) || 1;
+    const key = '2026-' + String(month).padStart(2, '0');
+    const value = Number(payload.monthlyActiveProjects[key] || 0);
+    const priorKey = '2026-' + String(Math.max(1, month - 1)).padStart(2, '0');
+    const prior = Number(payload.monthlyActiveProjects[priorKey] || 0);
+    const label = new Date(2026, month - 1, 1).toLocaleString('en-US', { month: 'short', year: 'numeric' });
     ['quickProjects','execProjects'].forEach(id => {
-      const valueEl = document.getElementById(id);
-      const detailEl = document.getElementById(id + 'Detail');
-      if (valueEl) valueEl.textContent = String(value);
-      if (detailEl) detailEl.textContent = detail;
+      const v = document.getElementById(id);
+      const d = document.getElementById(id + 'Detail');
+      if (v) v.textContent = String(value);
+      if (d) d.textContent = value + ' projects created in ' + label;
     });
     const delta = document.getElementById('quickProjectsDelta');
     if (delta) {
       if (prior === 0) delta.textContent = '— vs prior month';
       else {
         const pct = ((value - prior) / Math.abs(prior)) * 100;
-        delta.textContent = `${pct >= 0 ? '+' : ''}${pct.toFixed(1)}% vs prior month`;
-        delta.className = `quick-delta ${pct >= 0 ? 'good' : 'bad'}`;
+        delta.textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '% vs prior month';
+        delta.className = 'quick-delta ' + (pct >= 0 ? 'good' : 'bad');
       }
     }
-    const points = Object.values(PROJECTS_2025);
-    const min = Math.min(...points), max = Math.max(...points), range = (max - min) || 1;
-    const poly = points.map((v,i)=>`${2+i*80/11},${19-((v-min)/range)*15}`).join(' ');
-    const svg = `<svg class="quick-spark" viewBox="0 0 84 22"><polyline points="${poly}"></polyline></svg>`;
-    const sparkEl = document.getElementById('quickProjectsSpark');
-    if (sparkEl) sparkEl.innerHTML = svg;
-    const execSpark = document.querySelector('.exec-spark.projects');
-    if (execSpark) execSpark.querySelector('polyline')?.setAttribute('points', points.map((v,i)=>`${1+i*94/11},${25-((v-min)/range)*19}`).join(' '));
+    const series = Array.from({length:12}, (_, i) => Number(payload.monthlyActiveProjects['2026-' + String(i + 1).padStart(2, '0')] || 0));
+    const min = Math.min(...series), max = Math.max(...series), range = (max - min) || 1;
+    const quickPoints = series.map((v, i) => (2 + i * 80 / 11) + ',' + (19 - ((v - min) / range) * 15)).join(' ');
+    const execPoints = series.map((v, i) => (1 + i * 94 / 11) + ',' + (25 - ((v - min) / range) * 19)).join(' ');
+    const qs = document.getElementById('quickProjectsSpark');
+    if (qs) qs.innerHTML = '<svg class="quick-spark" viewBox="0 0 84 22"><polyline points="' + quickPoints + '"></polyline></svg>';
+    const es = document.querySelector('.exec-spark.projects polyline');
+    if (es) es.setAttribute('points', execPoints);
   };
-  window.addEventListener('load',()=>setTimeout(updateHistoricalProjects,1800));
-  document.addEventListener('change',event=>{ if(event.target?.id==='reportMonthSummary') setTimeout(updateHistoricalProjects,50); });
+  window.addEventListener('load', () => [100, 1000, 2500].forEach(t => setTimeout(render, t)));
+  document.addEventListener('change', e => { if (e.target && (e.target.id === 'reportMonthSummary' || e.target.id === 'reportMonth')) setTimeout(render, 25); });
 })();
