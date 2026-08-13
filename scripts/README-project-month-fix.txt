@@ -1,0 +1,1 @@
+This branch updates the project month binding patch to remove the legacy 2025 override and keep the dashboard on 2026 ClickUp monthly project creation history.
