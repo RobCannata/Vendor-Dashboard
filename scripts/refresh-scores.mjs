@@ -118,7 +118,7 @@ while (true) {
 
 let activeProjectPage = 0;
 while (true) {
-  const data = await getJson(`${API_BASE}/list/${ACTIVE_PROJECTS_LIST}/task?page=${activeProjectPage}&subtasks=false&include_closed=false&order_by=created&reverse=false`);
+  const data = await getJson(`${API_BASE}/list/${ACTIVE_PROJECTS_LIST}/task?page=${activeProjectPage}&subtasks=false&include_closed=true&order_by=created&reverse=false`);
   const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
   for (const task of tasks) {
     const month = monthKey(task?.date_created);
@@ -128,7 +128,7 @@ while (true) {
     activeProjectDetails[month].push({
       taskId: task.id,
       task: task.name || 'Untitled',
-      status: task.status?.status || task.status || 'Active',
+      status: task.status?.status || task.status || 'Unknown',
       url: task.url || `https://app.clickup.com/t/${task.id}`,
       createdAt: task.date_created,
     });
@@ -243,6 +243,7 @@ const payload = {
   invoiceField: 'Vendor Invoice',
   revenueField: 'Customer Invoice',
   activeProjectsList: ACTIVE_PROJECTS_LIST,
+  projectHistorySource: 'ClickUp Active Projects list; open + closed tasks grouped by creation month',
   updatedAt: new Date().toISOString(),
   scores,
   projectScores,
@@ -264,7 +265,7 @@ const payload = {
 await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n', 'utf8');
 console.log(`Updated vendor scores: ${JSON.stringify(scores)}`);
 console.log(`Updated project scores: ${JSON.stringify(projectScores)}`);
-console.log(`Monthly active projects: ${JSON.stringify(monthlyActiveProjects)}`);
+console.log(`Projects by creation month: ${JSON.stringify(monthlyActiveProjects)}`);
 console.log(`Extracted ${invoices.length} Vendor Invoice field records; monthly totals: ${JSON.stringify(invoiceMonthly)}`);
 console.log(`Extracted ${customerInvoices.length} Customer Invoice field records; monthly revenue: ${JSON.stringify(revenueMonthly)}`);
 console.log(`Revenue totals: ${JSON.stringify({ totalRevenue, totalVendorCost, totalGrossMargin, totalMarginPct: payload.totalMarginPct })}`);
