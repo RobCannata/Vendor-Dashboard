@@ -6,9 +6,7 @@ function periodKeys(periodValue) {
   const endMonth = Number(endRaw) || 1;
   const startMonth = Math.max(1, endMonth - count + 1);
   const keys = [];
-  for (let month = startMonth; month <= endMonth; month += 1) {
-    keys.push(`${FINANCE_YEAR}-${String(month).padStart(2, '0')}`);
-  }
+  for (let month = startMonth; month <= endMonth; month += 1) keys.push(`${FINANCE_YEAR}-${String(month).padStart(2, '0')}`);
   return keys;
 }
 
@@ -41,7 +39,6 @@ function setupSectionIdsAndNav() {
 
   const sidebar = document.querySelector('.sidebar');
   if (!sidebar || sidebar.querySelector('.side-nav')) return;
-
   const nav = document.createElement('nav');
   nav.className = 'side-nav';
   nav.setAttribute('aria-label', 'Dashboard sections');
@@ -52,8 +49,7 @@ function setupSectionIdsAndNav() {
     <a href="#financial-execution">Financial &amp; Execution</a>
     <a href="#work-queue">Installation Work Queue</a>
   `;
-  const brand = sidebar.querySelector('.brand');
-  brand?.after(nav);
+  sidebar.querySelector('.brand')?.after(nav);
 }
 
 function getPeriodSelection() {
@@ -70,38 +66,27 @@ function renderRevenue(payload, periodValue) {
   const marginPct = revenue > 0 && marginRows.length ? (margin / revenue) * 100 : null;
   const label = periodLabel(periodValue);
 
-  const summaryKpi = document.querySelector('.summary-kpi-grid .kpi:nth-child(3)');
-  if (summaryKpi) {
-    const value = summaryKpi.querySelector('.value');
-    const detail = summaryKpi.querySelector('.detail');
-    if (value) value.textContent = money(revenue);
-    if (detail) detail.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
-    detail?.classList.remove('warn');
+  const value = document.getElementById('serviceRevenueValue');
+  const detail = document.getElementById('serviceRevenueDetail');
+  if (value) value.textContent = money(revenue);
+  if (detail) {
+    detail.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
+    detail.classList.remove('warn');
   }
 
-  const panel = document.querySelector('.revenue-panel');
-  if (panel) {
-    const value = panel.querySelector('.revenue-value');
-    const caption = panel.querySelector('.revenue-caption');
-    const metrics = panel.querySelectorAll('.metric-row strong');
-    if (value) value.textContent = money(revenue);
-    if (caption) caption.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} for ${label}.`;
-    if (metrics[0]) metrics[0].textContent = 'Customer Invoice';
-    if (metrics[1]) metrics[1].textContent = money(vendorCost);
-    if (metrics[2]) metrics[2].textContent = marginRows.length ? `${money(margin)} (${marginPct.toFixed(1)}%)` : '—';
-  }
+  const panelValue = document.getElementById('serviceRevenuePanel');
+  const panelCaption = document.getElementById('serviceRevenueCaption');
+  const cost = document.getElementById('serviceVendorCost');
+  const gross = document.getElementById('serviceGrossMargin');
+  const pct = document.getElementById('serviceMarginPct');
+  if (panelValue) panelValue.textContent = money(revenue);
+  if (panelCaption) panelCaption.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} for ${label}.`;
+  if (cost) cost.textContent = money(vendorCost);
+  if (gross) gross.textContent = marginRows.length ? money(margin) : '—';
+  if (pct) pct.textContent = marginPct != null ? `${marginPct.toFixed(1)}%` : '—';
 
-  let marginLabel = document.querySelector('.revenue-panel .margin-live-label');
-  if (!marginLabel && panel) {
-    marginLabel = document.createElement('div');
-    marginLabel.className = 'margin-live-label';
-    marginLabel.innerHTML = `<span>Gross margin</span><strong></strong>`;
-    panel.querySelector('.panel-head')?.after(marginLabel);
-  }
-  if (marginLabel) {
-    const strong = marginLabel.querySelector('strong');
-    if (strong) strong.textContent = marginRows.length ? `${money(margin)} (${marginPct.toFixed(1)}%)` : 'No matched Vendor Invoice records';
-  }
+  const marginLive = document.querySelector('.margin-live-label strong');
+  if (marginLive) marginLive.textContent = marginRows.length ? `${money(margin)} (${marginPct.toFixed(1)}%)` : 'No matched Vendor Invoice records';
 }
 
 async function loadRevenue() {
@@ -110,9 +95,7 @@ async function loadRevenue() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
     renderRevenue(payload, getPeriodSelection());
-
-    const select = document.getElementById('reportMonthSummary');
-    select?.addEventListener('change', () => renderRevenue(payload, getPeriodSelection()));
+    document.getElementById('reportMonthSummary')?.addEventListener('change', () => renderRevenue(payload, getPeriodSelection()));
   } catch (error) {
     console.error('Unable to load Customer Invoice revenue:', error);
   }
