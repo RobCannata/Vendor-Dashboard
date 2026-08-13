@@ -34,6 +34,22 @@ function ensureCustomerInvoiceCard() {
   card.className = 'kpi customer-invoice-kpi';
   card.innerHTML = '<div class="kpi-label"><span class="icon">$</span>Customer Invoices</div><div class="value" id="customerInvoiceValue">—</div><div class="detail" id="customerInvoiceDetail">Loading Customer Invoice data…</div>';
   grid.insertBefore(card, grid.querySelector('[id="invoiceMonthTotal"]')?.closest('.kpi') || null);
+
+  if (!document.getElementById('customer-invoice-inline-style')) {
+    const style = document.createElement('style');
+    style.id = 'customer-invoice-inline-style';
+    style.textContent = `
+      .summary-kpi-grid{grid-template-columns:repeat(5,minmax(0,1fr)) !important}
+      .customer-invoice-kpi{min-width:0;background:#fff !important;border:1px solid #D9E1EA !important}
+      .customer-invoice-kpi .kpi-label{color:#17365D !important}
+      .customer-invoice-kpi .value{color:#1F2937 !important}
+      .customer-invoice-kpi .detail{color:#667085 !important}
+      @media(max-width:1200px){.summary-kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important}}
+      @media(max-width:900px){.summary-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important}}
+      @media(max-width:620px){.summary-kpi-grid{grid-template-columns:1fr !important}}
+    `;
+    document.head.appendChild(style);
+  }
 }
 
 function setupSectionIdsAndNav() {
