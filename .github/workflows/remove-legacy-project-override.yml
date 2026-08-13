@@ -1,0 +1,33 @@
+name: Remove legacy project override
+
+on:
+  push:
+    branches: [fix/remove-legacy-project-override-v12]
+    paths:
+      - 'scripts/remove-legacy-project-override.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Remove legacy 2025 project override
+        run: node scripts/remove-legacy-project-override.mjs
+      - name: Commit patched dashboard
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add quick-summary.js
+          if git diff --cached --quiet; then
+            echo "No legacy override found."
+            exit 0
+          fi
+          git commit -m "Use 2026 monthly project history only"
+          git push origin HEAD:${GITHUB_REF_NAME}
