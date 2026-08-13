@@ -5,7 +5,6 @@ const API_BASE = 'https://api.clickup.com/api/v2';
 const OUTPUT = 'clickup-scores.json';
 const YEAR = 2026;
 const PROJECT_LISTS = ['901201686156', '901210415855', '170218462'];
-const SCORECARD_LIST = '901217460327';
 
 if (!TOKEN) throw new Error('Missing CLICKUP_TOKEN.');
 
@@ -22,6 +21,7 @@ function numeric(value) {
     if ('text' in value) return numeric(value.text);
     if ('name' in value) return numeric(value.name);
     if ('number' in value) return numeric(value.number);
+    if ('label' in value) return numeric(value.label);
   }
   const n = Number(String(value).replace(/[,$\s]/g, ''));
   return Number.isFinite(n) ? n : null;
@@ -29,7 +29,10 @@ function numeric(value) {
 
 function csatFromTask(task) {
   const fields = Array.isArray(task?.custom_fields) ? task.custom_fields : [];
-  const target = fields.find((field) => String(field?.name || '').trim().toLowerCase() === 'csat (customer satisfaction) 1-4 rating');
+  const target = fields.find((field) => {
+    const name = String(field?.name || '').trim().toLowerCase();
+    return name === 'csat (customer satisfaction) 1-4 rating' || (name.includes('csat') && name.includes('customer satisfaction'));
+  });
   if (!target) return null;
   const candidates = [target.value, target.value?.value, target.value?.label, target.value?.name, target.value?.number, target.value?.text];
   for (const candidate of candidates) {
@@ -51,9 +54,7 @@ const byId = new Map();
 for (const listId of PROJECT_LISTS) {
   let page = 0;
   while (true) {
-    const data = await getJson(
-      `${API_BASE}/list/${listId}/task?page=${page}&subtasks=false&include_closed=true&order_by=created&reverse=false`
-    );
+    const data = await getJson(`${API_BASE}/list/${listId}/task?page=${page}&subtasks=false&include_closed=true&order_by=created&reverse=false`);
     const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
     for (const task of tasks) {
       if (!task?.id || task?.parent) continue;
@@ -92,14 +93,16 @@ for (let month = 1; month <= 12; month += 1) {
 
 const monthlyCsatValues = {};
 const monthlyCsatDetails = {};
+const fetchedTaskIds = new Set();
 let csatRecords = 0;
-let scorecardPage = 0;
-while (true) {
-  const data = await getJson(
-    `${API_BASE}/list/${SCORECARD_LIST}/task?page=${scorecardPage}&subtasks=true&include_closed=true&order_by=created&reverse=false`
-  );
-  const tasks = Array.isArray(data?.tasks) ? data.tasks : [];
-  for (const task of tasks) {
+let csatTaskFetches = 0;
+
+for (const project of byId.values()) {
+  if (fetchedTaskIds.has(project.taskId)) continue;
+  fetchedTaskIds.add(project.taskId);
+  try {
+    const task = await getJson(`${API_BASE}/task/${project.taskId}?include_subtasks=true`);
+    csatTaskFetches += 1;
     const candidates = [task, ...(Array.isArray(task?.subtasks) ? task.subtasks : [])];
     for (const item of candidates) {
       const value = csatFromTask(item);
@@ -109,12 +112,21 @@ while (true) {
       if (!monthlyCsatValues[createdMonth]) monthlyCsatValues[createdMonth] = [];
       monthlyCsatValues[createdMonth].push(value);
       if (!monthlyCsatDetails[createdMonth]) monthlyCsatDetails[createdMonth] = [];
-      monthlyCsatDetails[createdMonth].push({ taskId: item.id, task: item.name || 'Untitled', value, createdAt: item.date_created, updatedAt: item.date_updated, url: item.url || `https://app.clickup.com/t/${item.id}` });
+      monthlyCsatDetails[createdMonth].push({
+        taskId: item.id,
+        task: item.name || 'Untitled',
+        value,
+        createdAt: item.date_created,
+        updatedAt: item.date_updated,
+        url: item.url || `https://app.clickup.com/t/${item.id}`,
+        listId: item.list?.id || project.listId,
+        taskType: item.task_type || null,
+      });
       csatRecords += 1;
     }
+  } catch (error) {
+    console.warn(`CSAT fetch failed for ${project.taskId}: ${error.message}`);
   }
-  if (tasks.length < 100) break;
-  scorecardPage += 1;
 }
 
 const monthlyCsat = {};
@@ -133,8 +145,9 @@ payload.activeProjectDetails = projectDetails;
 payload.monthlyCsat = monthlyCsat;
 payload.monthlyCsatDetails = monthlyCsatDetails;
 payload.csatField = 'CSAT (Customer Satisfaction) 1–4 rating';
-payload.csatSource = 'ClickUp Scorecards; current custom-field values grouped by scorecard creation month in 2026';
+payload.csatSource = 'ClickUp installation/project tracker tasks; direct task custom-field values grouped by form-response task creation month in 2026';
 payload.csatRecordCount = csatRecords;
+payload.csatTaskFetches = csatTaskFetches;
 payload.projectHistorySource = 'ClickUp installation/project tracker lists; top-level tasks only; open + closed; creation month in 2026';
 payload.projectHistoryLists = PROJECT_LISTS;
 payload.projectHistoryUpdatedAt = new Date().toISOString();
@@ -142,5 +155,6 @@ payload.projectHistoryUpdatedAt = new Date().toISOString();
 await fs.writeFile(OUTPUT, JSON.stringify(payload, null, 2) + '\n', 'utf8');
 console.log(`2026 project history records: ${byId.size}`);
 console.log(`2026 projects by creation month: ${JSON.stringify(monthlyProjects)}`);
+console.log(`2026 CSAT direct task fetches: ${csatTaskFetches}`);
 console.log(`2026 CSAT records found: ${csatRecords}`);
-console.log(`2026 CSAT by scorecard creation month: ${JSON.stringify(monthlyCsat)}`);
+console.log(`2026 CSAT by task creation month: ${JSON.stringify(monthlyCsat)}`);
