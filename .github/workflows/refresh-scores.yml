@@ -50,8 +50,8 @@ jobs:
           import re
           p = Path('index.html')
           s = p.read_text()
-          s = s.replace('quick-summary.js?v=20260813-1045', 'quick-summary.js?v=20260813-1229')
-          s = s.replace('finance.js?v=20260813-1115', 'finance.js?v=20260813-1229')
+          s = s.replace('quick-summary.js?v=20260813-1045', 'quick-summary.js?v=20260813-1235')
+          s = s.replace('finance.js?v=20260813-1115', 'finance.js?v=20260813-1235')
           s = re.sub(r'\n\s*<script>\s*\(\(\) => \{\s*const YEAR=2026;[\s\S]*?\}\)\(\);\s*</script>', '', s, count=1)
           p.write_text(s)
           PY
