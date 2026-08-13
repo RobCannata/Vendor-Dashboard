@@ -3,7 +3,9 @@
   "field": "Avg Final Score % / Final Score (%)",
   "invoiceField": "Vendor Invoice",
   "revenueField": "Customer Invoice",
-  "updatedAt": "2026-08-13T14:35:15.451Z",
+  "activeProjectsList": "901210155082",
+  "projectHistorySource": "ClickUp Active Projects list; open + closed tasks grouped by creation month",
+  "updatedAt": "2026-08-13T15:44:38.112Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
@@ -20,6 +22,34 @@
     "Ace Elgin": 76,
     "Dufry": 100,
     "Oxxo Revisits": 76
+  },
+  "monthlyActiveProjects": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "activeProjectDetails": {
+    "2026-01": [],
+    "2026-02": [],
+    "2026-03": [],
+    "2026-04": [],
+    "2026-05": [],
+    "2026-06": [],
+    "2026-07": [],
+    "2026-08": [],
+    "2026-09": [],
+    "2026-10": [],
+    "2026-11": [],
+    "2026-12": []
   },
   "invoices": [
     {
