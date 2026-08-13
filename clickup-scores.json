@@ -1191,5 +1191,36 @@
     "901210415855",
     "170218462"
   ],
-  "projectHistoryUpdatedAt": "2026-08-13T16:04:55.479Z"
+  "projectHistoryUpdatedAt": "2026-08-13T17:36:58.695Z",
+  "monthlyCsat": {
+    "2026-01": null,
+    "2026-02": null,
+    "2026-03": null,
+    "2026-04": null,
+    "2026-05": null,
+    "2026-06": null,
+    "2026-07": null,
+    "2026-08": null,
+    "2026-09": null,
+    "2026-10": null,
+    "2026-11": null,
+    "2026-12": null
+  },
+  "monthlyCsatDetails": {
+    "2026-01": [],
+    "2026-02": [],
+    "2026-03": [],
+    "2026-04": [],
+    "2026-05": [],
+    "2026-06": [],
+    "2026-07": [],
+    "2026-08": [],
+    "2026-09": [],
+    "2026-10": [],
+    "2026-11": [],
+    "2026-12": []
+  },
+  "csatField": "CSAT (Customer Satisfaction) 1–4 rating",
+  "csatSource": "ClickUp Scorecards; current custom-field values grouped by scorecard creation month in 2026",
+  "csatRecordCount": 0
 }
