@@ -5,6 +5,7 @@ on:
     branches: [fix/monthly-active-projects]
     paths:
       - 'scripts/refresh-project-history.mjs'
+      - 'scripts/extract-2026-csat.mjs'
       - '.github/workflows/refresh-project-history.yml'
   workflow_dispatch:
   schedule:
@@ -25,6 +26,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Search all 2026 installation tracker CSAT
+        env:
+          CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
+        run: node scripts/extract-2026-csat.mjs
       - name: Refresh 2026 project history
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
