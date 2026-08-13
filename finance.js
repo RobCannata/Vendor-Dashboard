@@ -130,13 +130,8 @@ function calculateMatchedMargin(payload, periodValue) {
 }
 
 function currentScoreSnapshot(payload, periodValue) {
-  const keys = periodKeys(periodValue);
-  const endKey = keys[keys.length - 1];
-  const currentKey = String(payload?.updatedAt || '').slice(0, 7);
-  if (endKey === currentKey) return { scores: payload?.scores || {}, projectScores: payload?.projectScores || {}, available: true, label: endKey };
-  const monthly = payload?.monthlyScores?.[endKey];
-  if (monthly) return { scores: monthly.scores || {}, projectScores: monthly.projectScores || {}, available: true, label: endKey };
-  return { scores: {}, projectScores: {}, available: false, label: endKey };
+  const endKey = periodKeys(periodValue).slice(-1)[0];
+  return { scores: payload?.scores || {}, projectScores: payload?.projectScores || {}, available: true, label: String(payload?.updatedAt || '').slice(0, 7) || endKey };
 }
 
 function updateVendorScoreCards(payload, periodValue) {
@@ -190,15 +185,15 @@ function syncPeriodKpis(payload, periodValue, financials) {
   const vendorValue = document.getElementById('execVendors');
   const qualityValue = document.getElementById('execQuality');
   const openValue = document.getElementById('execOpenInvoices');
-  if (projectValue) projectValue.textContent = hasCurrentOps ? '12' : '—';
-  if (vendorValue) vendorValue.textContent = hasCurrentOps ? String(Object.keys(scoreSnapshot.scores || {}).length || 5) : '—';
+  if (projectValue) projectValue.textContent = String(payload?.monthlyActiveProjects?.[endKey] ?? 0);
+  if (vendorValue) vendorValue.textContent = String(Object.keys(payload?.scores || {}).length || 5);
   if (qualityValue) qualityValue.textContent = hasCurrentOps && avgQuality != null ? `${avgQuality.toFixed(1)}%` : '—';
   if (openValue) openValue.textContent = String(financials.customerRows.length);
   const set = (id, value, detail) => { const el=document.getElementById(id); const d=document.getElementById(id+'Detail'); if(el) el.textContent=value; if(d) d.textContent=detail; };
   set('execMargin', marginPct == null ? '—' : `${marginPct.toFixed(1)}%`, `${money(margin)} gross margin • ${label}`);
   set('execRevenue', money(revenue), `${financials.customerRows.length} Customer Invoice record${financials.customerRows.length===1?'':'s'} • ${label}`);
-  set('execProjects', hasCurrentOps ? '12' : '—', hasCurrentOps ? `Current portfolio • ${label}` : `No monthly project snapshot • ${label}`);
-  set('execVendors', hasCurrentOps ? String(Object.keys(scoreSnapshot.scores || {}).length || 5) : '—', hasCurrentOps ? `Current vendor partners • ${label}` : `No monthly vendor snapshot • ${label}`);
+  set('execProjects', String(payload?.monthlyActiveProjects?.[endKey] ?? 0), `${payload?.monthlyActiveProjects?.[endKey] ?? 0} projects created • ${label}`);
+  set('execVendors', String(Object.keys(payload?.scores || {}).length || 5), 'Current vendor partners');
   set('execQuality', hasCurrentOps && avgQuality != null ? `${avgQuality.toFixed(1)}%` : '—', hasCurrentOps ? `${scoreValues.length} vendor scorecards • ${label}` : `No monthly score snapshot • ${label}`);
   set('execOpenInvoices', String(financials.customerRows.length), `Customer Invoice records • ${label}`);
   const csat = endKey === '2026-08' ? '4.0 / 5' : endKey === '2026-07' ? '5.0 / 5' : '—';
@@ -206,8 +201,8 @@ function syncPeriodKpis(payload, periodValue, financials) {
   const quick = (id,val,detail) => { const el=document.getElementById(id); const d=document.getElementById(id+'Detail'); if(el) el.textContent=val; if(d) d.textContent=detail; };
   quick('quickMargin', marginPct == null ? '—' : `${marginPct.toFixed(1)}%`, `${money(margin)} gross margin • ${label}`);
   quick('quickRevenue', money(revenue), `${financials.customerRows.length} Customer Invoice record${financials.customerRows.length===1?'':'s'} • ${label}`);
-  quick('quickProjects', hasCurrentOps ? '12' : '—', hasCurrentOps ? `Current portfolio • ${label}` : `No monthly project snapshot • ${label}`);
-  quick('quickVendors', hasCurrentOps ? String(Object.keys(scoreSnapshot.scores || {}).length || 5) : '—', hasCurrentOps ? `Current vendor partners • ${label}` : `No monthly vendor snapshot • ${label}`);
+  quick('quickProjects', String(payload?.monthlyActiveProjects?.[endKey] ?? 0), `${payload?.monthlyActiveProjects?.[endKey] ?? 0} projects created • ${label}`);
+  quick('quickVendors', String(Object.keys(payload?.scores || {}).length || 5), 'Current vendor partners');
   quick('quickQuality', hasCurrentOps && avgQuality != null ? `${avgQuality.toFixed(1)}%` : '—', hasCurrentOps ? `${scoreValues.length} vendors scored • ${label}` : `No monthly score snapshot • ${label}`);
   quick('quickOpenInvoices', String(financials.customerRows.length), `Customer Invoice records • ${label}`);
   quick('quickCsat', csat, csat === '—' ? `No numeric ClickUp CSAT snapshot • ${label}` : `ClickUp CSAT • ${label}`);

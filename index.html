@@ -11,9 +11,9 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="professional-theme.css?v=2">
   <script src="app.js?v=20260812-1702" defer></script>
-  <script src="finance.js?v=20260813-1115" defer></script>
+  <script src="finance.js?v=20260813-1235" defer></script>
   <script src="move-financial.js?v=20260813-0820" defer></script>
-  <script src="quick-summary.js?v=20260813-1045" defer></script>
+  <script src="quick-summary.js?v=20260813-1235" defer></script>
 </head>
 <body>
   <div class="shell">
@@ -61,15 +61,5 @@
       <footer>Field Operations Monthly Business Review. Vendor scorecards and invoice amounts are updated from ClickUp.</footer>
     </main>
   </div>
-  <script>
-  (() => {
-    const YEAR=2026;
-    const monthLabel=m=>new Date(YEAR,m-1,1).toLocaleString('en-US',{month:'short',year:'numeric'});
-    const points=values=>{const nums=values.map(Number);if(nums.length<2||nums.some(v=>!Number.isFinite(v)))return '1,22 95,22';const min=Math.min(...nums),max=Math.max(...nums),range=(max-min)||1;return nums.map((v,i)=>`${1+i*94/(nums.length-1)},${25-((v-min)/range)*19}`).join(' ')};
-    const refresh=()=>{const d=window.__clickUpFinancePayload;if(!d?.monthlyActiveProjects)return;const value=document.getElementById('reportMonthSummary')?.value||document.getElementById('reportMonth')?.value||'1|8';const [countRaw,endRaw]=String(value).split('|');const count=Number(countRaw)||1,end=Number(endRaw)||8;const keys=Array.from({length:count},(_,i)=>`${YEAR}-${String(Math.max(1,end-count+1+i)).padStart(2,'0')}`);const series=Array.from({length:12},(_,i)=>Number(d.monthlyActiveProjects?.[`${YEAR}-${String(i+1).padStart(2,'0')}`]??0));const selected=Number(d.monthlyActiveProjects?.[`${YEAR}-${String(end).padStart(2,'0')}`]??0);const detail=keys.length===1?`${selected} active project${selected===1?'':'s'} • ${monthLabel(end)}`:`${keys.reduce((s,k)=>s+Number(d.monthlyActiveProjects?.[k]||0),0)} active projects • ${monthLabel(end-keys.length+1)}–${monthLabel(end)}`;['quickProjects','execProjects'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=String(selected);const de=document.getElementById(id+'Detail');if(de)de.textContent=detail});const prior=end>1?Number(d.monthlyActiveProjects?.[`${YEAR}-${String(end-1).padStart(2,'0')}`]??0):0;const deltaEl=document.getElementById('quickProjectsDelta');if(deltaEl){if(prior===0)deltaEl.textContent='— vs prior month';else{const delta=((selected-prior)/Math.abs(prior))*100;deltaEl.textContent=`${delta>=0?'+':''}${delta.toFixed(1)}% vs prior month`;deltaEl.className=`quick-delta ${delta>=0?'good':'bad'}`}}const qs=document.getElementById('quickProjectsSpark');if(qs)qs.innerHTML=`<svg class="quick-spark" viewBox="0 0 84 22"><polyline points="${points(series)}"></polyline></svg>`;const es=document.querySelector('.exec-spark.projects');if(es)es.querySelector('polyline')?.setAttribute('points',points(series));};
-    const wire=()=>{['reportMonth','reportMonthSummary'].forEach(id=>document.getElementById(id)?.addEventListener('change',()=>setTimeout(refresh,75)));[0,500,1500,3000].forEach(ms=>setTimeout(refresh,ms));};
-    document.addEventListener('DOMContentLoaded',wire);
-  })();
-  </script>
 </body>
 </html>

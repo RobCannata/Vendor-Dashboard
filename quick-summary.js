@@ -27,25 +27,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   window.addEventListener('load',()=>[0,500,1500].forEach(x=>setTimeout(paint,x)));document.getElementById('reportMonthSummary')?.addEventListener('change',paint);
 });
-
-// 2026 project creation-month view
-(() => {
-  const render = () => {
-    const select = document.getElementById('reportMonthSummary');
-    const payload = window.__clickUpFinancePayload;
-    if (!select || !payload || !payload.monthlyActiveProjects) return;
-    const parts = String(select.value || '1|8').split('|');
-    const month = Number(parts[1]) || 1;
-    const key = '2026-' + String(month).padStart(2, '0');
-    const value = Number(payload.monthlyActiveProjects[key] || 0);
-    const label = new Date(2026, month - 1, 1).toLocaleString('en-US', { month: 'short', year: 'numeric' });
-    ['quickProjects','execProjects'].forEach(id => {
-      const v = document.getElementById(id);
-      const d = document.getElementById(id + 'Detail');
-      if (v) v.textContent = String(value);
-      if (d) d.textContent = value + ' projects created in ' + label;
-    });
-  };
-  window.addEventListener('load', () => [100, 1000, 2500].forEach(t => setTimeout(render, t)));
-  document.addEventListener('change', e => { if (e.target && (e.target.id === 'reportMonthSummary' || e.target.id === 'reportMonth')) setTimeout(render, 25); });
-})();
