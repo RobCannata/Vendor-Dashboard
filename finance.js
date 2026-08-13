@@ -27,6 +27,15 @@ function money(value) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value));
 }
 
+function ensureCustomerInvoiceCard() {
+  const grid = document.querySelector('.summary-kpi-grid');
+  if (!grid || grid.querySelector('.customer-invoice-kpi')) return;
+  const card = document.createElement('article');
+  card.className = 'kpi customer-invoice-kpi';
+  card.innerHTML = '<div class="kpi-label"><span class="icon">$</span>Customer Invoices</div><div class="value" id="customerInvoiceValue">—</div><div class="detail" id="customerInvoiceDetail">Loading Customer Invoice data…</div>';
+  grid.insertBefore(card, grid.querySelector('[id="invoiceMonthTotal"]')?.closest('.kpi') || null);
+}
+
 function setupSectionIdsAndNav() {
   const summary = document.querySelector('.summary-panel');
   const vendorGrid = document.querySelector('.vendor-grid');
@@ -57,6 +66,7 @@ function getPeriodSelection() {
 }
 
 function renderRevenue(payload, periodValue) {
+  ensureCustomerInvoiceCard();
   const keys = periodKeys(periodValue);
   const rows = (payload?.customerInvoices || []).filter(item => keys.includes(item.month));
   const revenue = rows.reduce((sum, row) => sum + Number(row.amount || 0), 0);
@@ -73,6 +83,11 @@ function renderRevenue(payload, periodValue) {
     detail.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
     detail.classList.remove('warn');
   }
+
+  const customerValue = document.getElementById('customerInvoiceValue');
+  const customerDetail = document.getElementById('customerInvoiceDetail');
+  if (customerValue) customerValue.textContent = money(revenue);
+  if (customerDetail) customerDetail.textContent = `${rows.length} invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
 
   const panelValue = document.getElementById('serviceRevenuePanel');
   const panelCaption = document.getElementById('serviceRevenueCaption');
@@ -105,5 +120,6 @@ async function loadRevenue() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupSectionIdsAndNav();
+  ensureCustomerInvoiceCard();
   loadRevenue();
 });
