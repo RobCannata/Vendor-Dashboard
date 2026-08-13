@@ -2,13 +2,15 @@ name: Refresh ClickUp vendor scores
 
 on:
   push:
-    branches: [main, fix/monthly-active-projects]
+    branches: [main, fix/monthly-active-projects, fix/live-vendor-scorecards-merge]
     paths:
       - 'scripts/refresh-scores.mjs'
       - 'scripts/refresh-project-history.mjs'
+      - 'scripts/repair-dashboard-state.mjs'
       - 'index.html'
       - 'style.css'
       - 'app.js'
+      - 'finance.js'
       - 'quick-summary.js'
       - '.github/workflows/refresh-scores.yml'
   schedule:
@@ -38,15 +40,30 @@ jobs:
         env:
           CLICKUP_TOKEN: ${{ secrets.CLICKUP_TOKEN }}
         run: node scripts/refresh-project-history.mjs
-      - name: Commit ClickUp snapshot
+      - name: Repair dashboard state
+        run: node scripts/repair-dashboard-state.mjs
+      - name: Remove duplicate inline project renderer and bump script cache
+        run: |
+          set -e
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path('index.html')
+          s = p.read_text()
+          s = s.replace('quick-summary.js?v=20260813-1045', 'quick-summary.js?v=20260813-1235')
+          s = s.replace('finance.js?v=20260813-1115', 'finance.js?v=20260813-1235')
+          s = re.sub(r'\n\s*<script>\s*\(\(\) => \{\s*const YEAR=2026;[\s\S]*?\}\)\(\);\s*</script>', '', s, count=1)
+          p.write_text(s)
+          PY
+      - name: Commit repaired snapshot
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add clickup-scores.json
+          git add clickup-scores.json finance.js quick-summary.js index.html
           if git diff --cached --quiet; then
-            echo "No ClickUp snapshot changes."
+            echo "No dashboard changes."
             exit 0
           fi
-          git commit -m "Refresh ClickUp dashboard snapshot"
+          git commit -m "Repair live vendor scorecards and KPI rendering"
           git push origin "HEAD:${GITHUB_REF_NAME}"
