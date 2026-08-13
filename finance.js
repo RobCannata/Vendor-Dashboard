@@ -33,7 +33,8 @@ function ensureCustomerInvoiceCard() {
   const card = document.createElement('article');
   card.className = 'kpi customer-invoice-kpi';
   card.innerHTML = '<div class="kpi-label"><span class="icon">$</span>Customer Invoices</div><div class="value" id="customerInvoiceValue">—</div><div class="detail" id="customerInvoiceDetail">Loading Customer Invoice data…</div>';
-  grid.insertBefore(card, grid.querySelector('[id="invoiceMonthTotal"]')?.closest('.kpi') || null);
+  const vendorInvoiceCard = document.getElementById('invoiceMonthTotal')?.closest('.kpi');
+  grid.insertBefore(card, vendorInvoiceCard || null);
 
   if (!document.getElementById('customer-invoice-inline-style')) {
     const style = document.createElement('style');
@@ -50,6 +51,15 @@ function ensureCustomerInvoiceCard() {
     `;
     document.head.appendChild(style);
   }
+}
+
+function renameGrossMarginKpi() {
+  const kpi = document.getElementById('serviceRevenueValue')?.closest('.kpi');
+  if (!kpi) return;
+  const label = kpi.querySelector('.kpi-label');
+  const detail = document.getElementById('serviceRevenueDetail');
+  if (label) label.innerHTML = '<span class="icon">%</span>Gross Margin';
+  if (detail) detail.dataset.originalLabel = 'Gross margin for selected period';
 }
 
 function setupSectionIdsAndNav() {
@@ -83,27 +93,25 @@ function getPeriodSelection() {
 
 function renderRevenue(payload, periodValue) {
   ensureCustomerInvoiceCard();
+  renameGrossMarginKpi();
+
   const keys = periodKeys(periodValue);
   const rows = (payload?.customerInvoices || []).filter(item => keys.includes(item.month));
   const revenue = rows.reduce((sum, row) => sum + Number(row.amount || 0), 0);
   const vendorCost = rows.reduce((sum, row) => sum + (Number.isFinite(Number(row.vendorCost)) ? Number(row.vendorCost) : 0), 0);
-  const marginRows = rows.filter(row => Number.isFinite(Number(row.grossMargin)));
-  const margin = marginRows.reduce((sum, row) => sum + Number(row.grossMargin), 0);
-  const marginPct = revenue > 0 && marginRows.length ? (margin / revenue) * 100 : null;
+  const margin = rows.reduce((sum, row) => sum + (Number.isFinite(Number(row.grossMargin)) ? Number(row.grossMargin) : (Number.isFinite(Number(row.amount)) && Number.isFinite(Number(row.vendorCost)) ? Number(row.amount) - Number(row.vendorCost) : 0)), 0);
+  const marginPct = revenue > 0 ? (margin / revenue) * 100 : null;
   const label = periodLabel(periodValue);
 
-  const value = document.getElementById('serviceRevenueValue');
-  const detail = document.getElementById('serviceRevenueDetail');
-  if (value) value.textContent = money(revenue);
-  if (detail) {
-    detail.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
-    detail.classList.remove('warn');
-  }
+  const grossValue = document.getElementById('serviceRevenueValue');
+  const grossDetail = document.getElementById('serviceRevenueDetail');
+  if (grossValue) grossValue.textContent = money(margin);
+  if (grossDetail) grossDetail.textContent = `${rows.length} matched invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
 
   const customerValue = document.getElementById('customerInvoiceValue');
   const customerDetail = document.getElementById('customerInvoiceDetail');
   if (customerValue) customerValue.textContent = money(revenue);
-  if (customerDetail) customerDetail.textContent = `${rows.length} invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
+  if (customerDetail) customerDetail.textContent = `${rows.length} customer invoice record${rows.length === 1 ? '' : 's'} • ${label}`;
 
   const panelValue = document.getElementById('serviceRevenuePanel');
   const panelCaption = document.getElementById('serviceRevenueCaption');
@@ -113,11 +121,13 @@ function renderRevenue(payload, periodValue) {
   if (panelValue) panelValue.textContent = money(revenue);
   if (panelCaption) panelCaption.textContent = `${rows.length} Customer Invoice record${rows.length === 1 ? '' : 's'} for ${label}.`;
   if (cost) cost.textContent = money(vendorCost);
-  if (gross) gross.textContent = marginRows.length ? money(margin) : '—';
+  if (gross) gross.textContent = money(margin);
   if (pct) pct.textContent = marginPct != null ? `${marginPct.toFixed(1)}%` : '—';
 
-  const marginLive = document.querySelector('.margin-live-label strong');
-  if (marginLive) marginLive.textContent = marginRows.length ? `${money(margin)} (${marginPct.toFixed(1)}%)` : 'No matched Vendor Invoice records';
+  const revenuePanel = document.querySelector('.revenue-panel .panel-head h4');
+  const revenueEyebrow = document.querySelector('.revenue-panel .panel-head .eyebrow');
+  if (revenueEyebrow) revenueEyebrow.textContent = 'FINANCIAL PERFORMANCE';
+  if (revenuePanel) revenuePanel.textContent = 'Revenue & Gross Margin';
 }
 
 async function loadRevenue() {
@@ -137,5 +147,6 @@ async function loadRevenue() {
 document.addEventListener('DOMContentLoaded', () => {
   setupSectionIdsAndNav();
   ensureCustomerInvoiceCard();
+  renameGrossMarginKpi();
   loadRevenue();
 });
