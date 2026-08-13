@@ -94,8 +94,10 @@ async function loadRevenue() {
     const response = await fetch(`clickup-scores.json?v=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
-    renderRevenue(payload, getPeriodSelection());
-    document.getElementById('reportMonthSummary')?.addEventListener('change', () => renderRevenue(payload, getPeriodSelection()));
+    const refresh = () => renderRevenue(payload, getPeriodSelection());
+    refresh();
+    document.getElementById('reportMonthSummary')?.addEventListener('change', refresh);
+    [250, 1000, 2000].forEach(delay => setTimeout(refresh, delay));
   } catch (error) {
     console.error('Unable to load Customer Invoice revenue:', error);
   }
