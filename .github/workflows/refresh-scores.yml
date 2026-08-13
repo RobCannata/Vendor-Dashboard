@@ -2,7 +2,7 @@ name: Refresh ClickUp vendor scores
 
 on:
   push:
-    branches: [main]
+    branches: [main, fix/monthly-active-projects]
     paths:
       - 'scripts/refresh-scores.mjs'
       - 'index.html'
@@ -38,8 +38,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           cp clickup-scores.json /tmp/clickup-scores.json
-          git fetch origin main
-          git reset --hard origin/main
+          git fetch origin "${GITHUB_REF_NAME}"
+          git reset --hard "origin/${GITHUB_REF_NAME}"
           cp /tmp/clickup-scores.json clickup-scores.json
           git add clickup-scores.json
           if git diff --cached --quiet; then
@@ -47,4 +47,4 @@ jobs:
             exit 0
           fi
           git commit -m "Refresh ClickUp vendor scores"
-          git push origin HEAD:main
+          git push origin "HEAD:${GITHUB_REF_NAME}"
