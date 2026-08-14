@@ -5,7 +5,7 @@
   "revenueField": "Customer Invoice",
   "activeProjectsList": "901210155082",
   "projectHistorySource": "ClickUp installation/project tracker lists; top-level tasks only; open + closed; creation month in 2026",
-  "updatedAt": "2026-08-14T12:32:03.703Z",
+  "updatedAt": "2026-08-14T16:08:51.358Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
@@ -491,6 +491,16 @@
       "createdAt": "1781005305202"
     },
     {
+      "taskId": "869dkzpw6",
+      "task": "Diamond Home Improvement (Grants Pass ,OR)",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 3888.4,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869dkzpw6",
+      "createdAt": "1780948888330"
+    },
+    {
       "taskId": "869dkqxjb",
       "task": "Fresh Thyme 3D Scan",
       "vendor": null,
@@ -511,6 +521,16 @@
       "createdAt": "1778692090266"
     },
     {
+      "taskId": "869d9t1h1",
+      "task": "NAPA TERRACE",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 3070.9,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d9t1h1",
+      "createdAt": "1778688991774"
+    },
+    {
       "taskId": "869d95bgh",
       "task": "Kohl's Core Appliance (24 Stores)",
       "vendor": null,
@@ -519,6 +539,16 @@
       "sourceField": "Vendor Invoice",
       "url": "https://app.clickup.com/t/869d95bgh",
       "createdAt": "1778602641238"
+    },
+    {
+      "taskId": "869d760v6",
+      "task": "Homes Alive Pets Sherwood",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 3056.6,
+      "sourceField": "Vendor Invoice",
+      "url": "https://app.clickup.com/t/869d760v6",
+      "createdAt": "1778179109529"
     },
     {
       "taskId": "869d6h7za",
@@ -734,15 +764,15 @@
   "invoiceMonthly": {
     "2026-08": 8975,
     "2026-07": 3750,
-    "2026-06": 13070,
-    "2026-05": 38965.81,
+    "2026-06": 16958.4,
+    "2026-05": 45093.31,
     "2026-04": 17264.85,
     "2026-03": 17850,
     "2026-02": 96349.84,
     "2026-01": 3859.73
   },
   "invoiceByVendor": {
-    "Unassigned": 200085.23
+    "Unassigned": 210101.13000000003
   },
   "customerInvoices": [
     {
@@ -757,6 +787,45 @@
       "sourceField": "Customer Invoice",
       "url": "https://app.clickup.com/t/869eg9jqq",
       "createdAt": "1786368944387"
+    },
+    {
+      "taskId": "869dkzpw6",
+      "task": "Diamond Home Improvement (Grants Pass ,OR)",
+      "vendor": null,
+      "month": "2026-06",
+      "amount": 4760,
+      "vendorCost": 3888.4,
+      "grossMargin": 871.5999999999999,
+      "grossMarginPct": 18.310924369747898,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869dkzpw6",
+      "createdAt": "1780948888330"
+    },
+    {
+      "taskId": "869d9t1h1",
+      "task": "NAPA TERRACE",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 2000,
+      "vendorCost": 3070.9,
+      "grossMargin": -1070.9,
+      "grossMarginPct": -53.54500000000001,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869d9t1h1",
+      "createdAt": "1778688991774"
+    },
+    {
+      "taskId": "869d760v6",
+      "task": "Homes Alive Pets Sherwood",
+      "vendor": null,
+      "month": "2026-05",
+      "amount": 2028.69,
+      "vendorCost": 3056.6,
+      "grossMargin": -1027.9099999999999,
+      "grossMarginPct": -50.66865809956178,
+      "sourceField": "Customer Invoice",
+      "url": "https://app.clickup.com/t/869d760v6",
+      "createdAt": "1778179109529"
     },
     {
       "taskId": "869d0b9fw",
@@ -826,18 +895,20 @@
   ],
   "revenueMonthly": {
     "2026-08": 32204,
+    "2026-06": 4760,
+    "2026-05": 4028.69,
     "2026-04": 1500,
     "2026-02": 4000,
     "2026-01": 1100
   },
   "revenueByVendor": {
-    "Unassigned": 38804
+    "Unassigned": 47592.69
   },
-  "totalRevenue": 38804,
-  "totalVendorCost": 7629.64,
-  "totalGrossMargin": -1029.64,
-  "marginRecords": 5,
-  "totalMarginPct": -2.6534377899185655,
+  "totalRevenue": 47592.69,
+  "totalVendorCost": 17645.54,
+  "totalGrossMargin": -2256.8500000000004,
+  "marginRecords": 8,
+  "totalMarginPct": -4.742009749816622,
   "monthlyProjects": {
     "2026-08": 4,
     "2026-07": 4,
@@ -1239,5 +1310,5 @@
     "901210415855",
     "170218462"
   ],
-  "projectHistoryUpdatedAt": "2026-08-14T14:28:33.665Z"
+  "projectHistoryUpdatedAt": "2026-08-14T16:09:17.608Z"
 }
