@@ -26,8 +26,8 @@
   "monthlyActiveProjects": {
     "2026-08": 4,
     "2026-07": 4,
-    "2026-06": 6,
-    "2026-05": 4,
+    "2026-06": 7,
+    "2026-05": 6,
     "2026-04": 7,
     "2026-03": 3,
     "2026-02": 7,
@@ -116,6 +116,14 @@
         "listId": "901210415855"
       },
       {
+        "taskId": "869dkzpw6",
+        "task": "Diamond Home Improvement (Grants Pass ,OR)",
+        "status": "completed",
+        "url": "https://app.clickup.com/t/869dkzpw6",
+        "createdAt": "1780948888330",
+        "listId": "901210415855"
+      },
+      {
         "taskId": "869dm9jkg",
         "task": "PetSmart site Survey",
         "status": "completed",
@@ -174,11 +182,27 @@
         "listId": "901210415855"
       },
       {
+        "taskId": "869d760v6",
+        "task": "Homes Alive Pets Sherwood",
+        "status": "completed",
+        "url": "https://app.clickup.com/t/869d760v6",
+        "createdAt": "1778179109529",
+        "listId": "901210415855"
+      },
+      {
         "taskId": "869d95bgh",
         "task": "Kohl's Core Appliance (24 Stores)",
         "status": "completed",
         "url": "https://app.clickup.com/t/869d95bgh",
         "createdAt": "1778602641238",
+        "listId": "901210415855"
+      },
+      {
+        "taskId": "869d9t1h1",
+        "task": "NAPA TERRACE",
+        "status": "completed",
+        "url": "https://app.clickup.com/t/869d9t1h1",
+        "createdAt": "1778688991774",
         "listId": "901210415855"
       },
       {
@@ -817,8 +841,8 @@
   "monthlyProjects": {
     "2026-08": 4,
     "2026-07": 4,
-    "2026-06": 6,
-    "2026-05": 4,
+    "2026-06": 7,
+    "2026-05": 6,
     "2026-04": 7,
     "2026-03": 3,
     "2026-02": 7,
@@ -907,6 +931,14 @@
         "listId": "901210415855"
       },
       {
+        "taskId": "869dkzpw6",
+        "task": "Diamond Home Improvement (Grants Pass ,OR)",
+        "status": "completed",
+        "url": "https://app.clickup.com/t/869dkzpw6",
+        "createdAt": "1780948888330",
+        "listId": "901210415855"
+      },
+      {
         "taskId": "869dm9jkg",
         "task": "PetSmart site Survey",
         "status": "completed",
@@ -965,11 +997,27 @@
         "listId": "901210415855"
       },
       {
+        "taskId": "869d760v6",
+        "task": "Homes Alive Pets Sherwood",
+        "status": "completed",
+        "url": "https://app.clickup.com/t/869d760v6",
+        "createdAt": "1778179109529",
+        "listId": "901210415855"
+      },
+      {
         "taskId": "869d95bgh",
         "task": "Kohl's Core Appliance (24 Stores)",
         "status": "completed",
         "url": "https://app.clickup.com/t/869d95bgh",
         "createdAt": "1778602641238",
+        "listId": "901210415855"
+      },
+      {
+        "taskId": "869d9t1h1",
+        "task": "NAPA TERRACE",
+        "status": "completed",
+        "url": "https://app.clickup.com/t/869d9t1h1",
+        "createdAt": "1778688991774",
         "listId": "901210415855"
       },
       {
@@ -1191,5 +1239,5 @@
     "901210415855",
     "170218462"
   ],
-  "projectHistoryUpdatedAt": "2026-08-14T12:32:28.023Z"
+  "projectHistoryUpdatedAt": "2026-08-14T14:28:33.665Z"
 }
