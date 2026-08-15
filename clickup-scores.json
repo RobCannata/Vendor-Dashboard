@@ -5,7 +5,7 @@
   "revenueField": "Customer Invoice",
   "activeProjectsList": "901210155082",
   "projectHistorySource": "ClickUp installation/project tracker lists; top-level tasks only; open + closed; creation month in 2026",
-  "updatedAt": "2026-08-14T23:59:19.497Z",
+  "updatedAt": "2026-08-15T03:08:32.199Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
@@ -24,7 +24,7 @@
     "Oxxo Revisits": 76
   },
   "monthlyActiveProjects": {
-    "2026-08": 4,
+    "2026-08": 5,
     "2026-07": 4,
     "2026-06": 7,
     "2026-05": 6,
@@ -69,6 +69,14 @@
         "status": "completed",
         "url": "https://app.clickup.com/t/869eh8h6p",
         "createdAt": "1786539523009",
+        "listId": "901210415855"
+      },
+      {
+        "taskId": "869ej9by8",
+        "task": "Field Applications Engineering",
+        "status": "prospective project",
+        "url": "https://app.clickup.com/t/869ej9by8",
+        "createdAt": "1786754385324",
         "listId": "901210415855"
       }
     ],
@@ -910,7 +918,7 @@
   "marginRecords": 8,
   "totalMarginPct": -4.742009749816622,
   "monthlyProjects": {
-    "2026-08": 4,
+    "2026-08": 5,
     "2026-07": 4,
     "2026-06": 7,
     "2026-05": 6,
@@ -955,6 +963,14 @@
         "status": "completed",
         "url": "https://app.clickup.com/t/869eh8h6p",
         "createdAt": "1786539523009",
+        "listId": "901210415855"
+      },
+      {
+        "taskId": "869ej9by8",
+        "task": "Field Applications Engineering",
+        "status": "prospective project",
+        "url": "https://app.clickup.com/t/869ej9by8",
+        "createdAt": "1786754385324",
         "listId": "901210415855"
       }
     ],
@@ -1310,5 +1326,5 @@
     "901210415855",
     "170218462"
   ],
-  "projectHistoryUpdatedAt": "2026-08-15T00:02:17.933Z"
+  "projectHistoryUpdatedAt": "2026-08-15T03:08:52.079Z"
 }
