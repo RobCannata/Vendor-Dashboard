@@ -5,7 +5,7 @@
   "revenueField": "Customer Invoice",
   "activeProjectsList": "901210155082",
   "projectHistorySource": "ClickUp installation/project tracker lists; top-level tasks only; open + closed; creation month in 2026",
-  "updatedAt": "2026-08-17T08:10:49.874Z",
+  "updatedAt": "2026-08-17T10:07:29.275Z",
   "scores": {
     "Channel Partners": 92,
     "Anderson": 81,
@@ -1326,5 +1326,5 @@
     "901210415855",
     "170218462"
   ],
-  "projectHistoryUpdatedAt": "2026-08-17T08:26:49.352Z"
+  "projectHistoryUpdatedAt": "2026-08-17T10:07:50.997Z"
 }
